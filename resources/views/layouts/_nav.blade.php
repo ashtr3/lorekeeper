@@ -12,114 +12,114 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     @if (Auth::check() && Auth::user()->is_news_unread && config('lorekeeper.extensions.navbar_news_notif'))
-                        <a class="nav-link d-flex text-warning" href="{{ url('news') }}"><strong>News</strong><i class="fas fa-bell"></i></a>
+                        <a class="nav-link d-flex text-warning" href="{{ url('news') }}"><strong>{{ __('nav.news') }}</strong><i class="fas fa-bell"></i></a>
                     @else
-                        <a class="nav-link" href="{{ url('news') }}">News</a>
+                        <a class="nav-link" href="{{ url('news') }}">{{ __('nav.news') }}</a>
                     @endif
                 </li>
                 <li class="nav-item">
                     @if (Auth::check() && Auth::user()->is_sales_unread && config('lorekeeper.extensions.navbar_news_notif'))
-                        <a class="nav-link d-flex text-warning" href="{{ url('sales') }}"><strong>Sales</strong><i class="fas fa-bell"></i></a>
+                        <a class="nav-link d-flex text-warning" href="{{ url('sales') }}"><strong>{{ __('nav.sales') }}</strong><i class="fas fa-bell"></i></a>
                     @else
-                        <a class="nav-link" href="{{ url('sales') }}">Sales</a>
+                        <a class="nav-link" href="{{ url('sales') }}">{{ __('nav.sales') }}</a>
                     @endif
                 </li>
                 @if (Auth::check())
                     <li class="nav-item dropdown">
                         <a id="inventoryDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            Home
+                            {{ __('nav.home') }}
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="inventoryDropdown">
                             <a class="dropdown-item" href="{{ url('characters') }}">
-                                My Characters
+                                {{ __('nav.character_list') }}
                             </a>
                             <a class="dropdown-item" href="{{ url('characters/myos') }}">
-                                My MYO Slots
+                                {{ __('nav.myo_list') }}
                             </a>
                             <a class="dropdown-item" href="{{ url('inventory') }}">
-                                Inventory
+                                {{ __('nav.inventory') }}
                             </a>
                             <a class="dropdown-item" href="{{ url('bank') }}">
-                                Bank
+                                {{ __('nav.bank') }}
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('comments/liked') }}">
-                                Liked Comments
+                                {{ __('nav.comments') }}
                             </a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
                         <a id="queueDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            Activity
+                            {{ __('nav.activity') }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="queueDropdown">
                             <a class="dropdown-item" href="{{ url('submissions') }}">
-                                Prompt Submissions
+                                {{ __('nav.submissions') }}
                             </a>
                             <a class="dropdown-item" href="{{ url('claims') }}">
-                                Claims
+                                {{ __('nav.claims') }}
                             </a>
                             <a class="dropdown-item" href="{{ url('reports') }}">
-                                Reports
+                                {{ __('nav.reports') }}
                             </a>
                             <a class="dropdown-item" href="{{ url('designs') }}">
-                                Design Approvals
+                                {{ __('nav.designs') }}
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('characters/transfers/incoming') }}">
-                                Character Transfers
+                                {{ __('nav.transfers') }}
                             </a>
                             <a class="dropdown-item" href="{{ url('trades/open') }}">
-                                Trades
+                                {{ __('nav.trades') }}
                             </a>
                         </div>
                     </li>
                 @endif
                 <li class="nav-item dropdown">
                     <a id="browseDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        Browse
+                        {{ __('nav.browse') }}
                     </a>
 
                     <div class="dropdown-menu" aria-labelledby="browseDropdown">
                         <a class="dropdown-item" href="{{ url('users') }}">
-                            Users
+                            {{ __('nav.users') }}
                         </a>
                         <a class="dropdown-item" href="{{ url('masterlist') }}">
-                            Character Masterlist
+                            {{ __('nav.character_masterlist') }}
                         </a>
                         <a class="dropdown-item" href="{{ url('myos') }}">
-                            MYO Slot Masterlist
+                            {{ __('nav.myo_masterlist') }}
                         </a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ url('raffles') }}">
-                            Raffles
+                            {{ __('nav.raffles') }}
                         </a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ url('reports/bug-reports') }}">
-                            Bug Reports
+                            {{ __('nav.bugs') }}
                         </a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a id="loreDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        World
+                        {{ __('nav.world') }}
                     </a>
 
                     <div class="dropdown-menu" aria-labelledby="loreDropdown">
                         <a class="dropdown-item" href="{{ url('world') }}">
-                            Encyclopedia
+                            {{ __('nav.encyclopedia') }}
                         </a>
                         <a class="dropdown-item" href="{{ url('prompts/prompts') }}">
-                            Prompts
+                            {{ __('nav.prompts') }}
                         </a>
                         <a class="dropdown-item" href="{{ url('shops') }}">
-                            Shops
+                            {{ __('nav.shops') }}
                         </a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('gallery') }}">Gallery</a>
+                    <a class="nav-link" href="{{ url('gallery') }}">{{ __('nav.gallery') }}</a>
                 </li>
             </ul>
 
