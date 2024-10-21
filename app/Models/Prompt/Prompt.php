@@ -4,6 +4,7 @@ namespace App\Models\Prompt;
 
 use App\Models\Model;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class Prompt extends Model {
     /**
@@ -264,7 +265,7 @@ class Prompt extends Model {
      * @return string
      */
     public function getImagePathAttribute() {
-        return public_path($this->imageDirectory);
+        return Storage::url($this->imageDirectory);
     }
 
     /**
@@ -277,7 +278,7 @@ class Prompt extends Model {
             return null;
         }
 
-        return asset($this->imageDirectory.'/'.$this->imageFileName);
+        return Storage::url($this->imageDirectory.'/'.$this->imageFileName);
     }
 
     /**

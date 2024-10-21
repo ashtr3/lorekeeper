@@ -44,7 +44,7 @@ class SpeciesService extends Service {
             $species = Species::create($data);
 
             if ($image) {
-                $this->handleImage($image, $species->speciesImagePath, $species->speciesImageFileName);
+                $this->handleImage($image, $species->imageDirectory, $species->speciesImageFileName);
             }
 
             return $this->commitReturn($species);
@@ -86,7 +86,7 @@ class SpeciesService extends Service {
             $species->update($data);
 
             if ($species) {
-                $this->handleImage($image, $species->speciesImagePath, $species->speciesImageFileName);
+                $this->handleImage($image, $species->imageDirectory, $species->speciesImageFileName);
             }
 
             return $this->commitReturn($species);
@@ -179,7 +179,7 @@ class SpeciesService extends Service {
             $subtype = Subtype::create($data);
 
             if ($image) {
-                $this->handleImage($image, $subtype->subtypeImagePath, $subtype->subtypeImageFileName);
+                $this->handleImage($image, $subtype->imageDirectory, $subtype->subtypeImageFileName);
             }
 
             return $this->commitReturn($subtype);
@@ -216,7 +216,7 @@ class SpeciesService extends Service {
             $subtype->update($data);
 
             if ($subtype) {
-                $this->handleImage($image, $subtype->subtypeImagePath, $subtype->subtypeImageFileName);
+                $this->handleImage($image, $subtype->imageDirectory, $subtype->subtypeImageFileName);
             }
 
             return $this->commitReturn($subtype);

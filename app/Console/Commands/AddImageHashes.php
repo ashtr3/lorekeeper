@@ -17,6 +17,7 @@ use App\Models\Species\Subtype;
 use App\Services\FeatureService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class AddImageHashes extends Command {
     /**
@@ -66,10 +67,10 @@ class AddImageHashes extends Command {
                 $image->hash = randomString(10);
                 // Any service works, I can't use the abstract one
                 if (
-                    File::exists(public_path($image->imageDirectory).'/'.$oldName) &&
+                    Storage::exists($image->imageDirectory.'/'.$oldName) &&
                     (new FeatureService)->handleImage(
                         null,
-                        public_path($image->imageDirectory),
+                        $image->imageDirectory,
                         $image->hash.$image->id.'-image.png',
                         $oldName
                     )
@@ -83,10 +84,10 @@ class AddImageHashes extends Command {
                 if ($image instanceof Currency) {
                     $oldName = $image->id.'-icon.png';
                     if (
-                        File::exists(public_path($image->imageDirectory).'/'.$oldName) &&
+                        Storage::exists($image->imageDirectory.'/'.$oldName) &&
                         (new FeatureService)->handleImage(
                             null,
-                            public_path($image->imageDirectory),
+                            $image->imageDirectory,
                             $image->hash.$image->id.'-icon.png',
                             $oldName
                         )

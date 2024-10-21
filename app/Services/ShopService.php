@@ -48,7 +48,7 @@ class ShopService extends Service {
             $shop = Shop::create($data);
 
             if ($image) {
-                $this->handleImage($image, $shop->shopImagePath, $shop->shopImageFileName);
+                $this->handleImage($image, $shop->imageDirectory, $shop->shopImageFileName);
             }
 
             return $this->commitReturn($shop);
@@ -90,7 +90,7 @@ class ShopService extends Service {
             $shop->update($data);
 
             if ($shop) {
-                $this->handleImage($image, $shop->shopImagePath, $shop->shopImageFileName);
+                $this->handleImage($image, $shop->imageDirectory, $shop->shopImageFileName);
             }
 
             return $this->commitReturn($shop);

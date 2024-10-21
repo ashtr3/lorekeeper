@@ -6,6 +6,7 @@ use App\Models\Model;
 use App\Models\Prompt\Prompt;
 use App\Models\Shop\Shop;
 use App\Models\User\User;
+use Illuminate\Support\Facades\Storage;
 
 class Item extends Model {
     /**
@@ -196,7 +197,7 @@ class Item extends Model {
      * @return string
      */
     public function getImagePathAttribute() {
-        return public_path($this->imageDirectory);
+        return Storage::url($this->imageDirectory);
     }
 
     /**
@@ -209,7 +210,7 @@ class Item extends Model {
             return null;
         }
 
-        return asset($this->imageDirectory.'/'.$this->imageFileName);
+        return Storage::url($this->imageDirectory.'/'.$this->imageFileName);
     }
 
     /**

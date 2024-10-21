@@ -3,6 +3,7 @@
 namespace App\Models\Species;
 
 use App\Models\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Subtype extends Model {
     /**
@@ -136,7 +137,7 @@ class Subtype extends Model {
      * @return string
      */
     public function getSubtypeImagePathAttribute() {
-        return public_path($this->imageDirectory);
+        return Storage::url($this->imageDirectory);
     }
 
     /**
@@ -149,7 +150,7 @@ class Subtype extends Model {
             return null;
         }
 
-        return asset($this->imageDirectory.'/'.$this->subtypeImageFileName);
+        return Storage::url($this->imageDirectory.'/'.$this->subtypeImageFileName);
     }
 
     /**

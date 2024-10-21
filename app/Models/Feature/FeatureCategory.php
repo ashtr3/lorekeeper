@@ -3,6 +3,7 @@
 namespace App\Models\Feature;
 
 use App\Models\Model;
+use Illuminate\Support\Facades\Storage;
 
 class FeatureCategory extends Model {
     /**
@@ -104,7 +105,7 @@ class FeatureCategory extends Model {
      * @return string
      */
     public function getCategoryImagePathAttribute() {
-        return public_path($this->imageDirectory);
+        return Storage::url($this->imageDirectory);
     }
 
     /**
@@ -117,7 +118,7 @@ class FeatureCategory extends Model {
             return null;
         }
 
-        return asset($this->imageDirectory.'/'.$this->categoryImageFileName);
+        return Storage::url($this->imageDirectory.'/'.$this->categoryImageFileName);
     }
 
     /**

@@ -7,7 +7,8 @@ use App\Models\AdminLog;
 use App\Models\Currency\Currency;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\MessageBag;
 
 abstract class Service {
@@ -121,6 +122,8 @@ abstract class Service {
     //    (old image may or may not exist)
     // 3. Nothing happens (no changes required)
     public function handleImage($image, $dir, $name, $oldName = null, $copy = false) {
+        Log::debug([$dir, $name, $image]);
+
         if (!$oldName && !$image) {
             return true;
         }
@@ -145,7 +148,7 @@ abstract class Service {
     }
 
     public function deleteImage($dir, $name) {
-        unlink($dir.'/'.$name);
+        Storage::delete("$dir/$name");
     }
 
     /**
@@ -305,32 +308,30 @@ abstract class Service {
     // Moves an old image within the same directory.
     private function moveImage($dir, $name, $oldName, $copy = false) {
         if ($copy) {
-            File::copy($dir.'/'.$oldName, $dir.'/'.$name);
+            Storage::copy("$dir/$oldName", "$dir/$name");
         } else {
-            File::move($dir.'/'.$oldName, $dir.'/'.$name);
+            Storage::move("$dir/$oldName", "$dir/$name");
         }
 
         return true;
     }
 
     // Moves an uploaded image into a directory, checking if it exists.
-    private function saveImage($image, $dir, $name, $copy = false) {
-        if (!file_exists($dir)) {
+    private function saveImage($image, $dir, $name) {
+        if (!Storage::exists($dir)) {
             // Create the directory.
-            if (!mkdir($dir, 0755, true)) {
+            if (!Storage::makeDirectory($dir)) {
                 $this->setError('error', 'Failed to create image directory.');
-
                 return false;
             }
-            chmod($dir, 0755);
         }
-        if ($copy) {
-            File::copy($image, $dir.'/'.$name);
-        } else {
-            File::move($image, $dir.'/'.$name);
+        
+        $content = file_get_contents($image);
+        
+        if (!Storage::put("$dir/$name", $content)) {
+            $this->setError('error', 'Failed to save image.');
+            return false;
         }
-        chmod($dir.'/'.$name, 0755);
-
         return true;
     }
 }

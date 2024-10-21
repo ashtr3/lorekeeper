@@ -61,10 +61,10 @@ class CurrencyService extends Service {
             }
 
             if ($icon) {
-                $this->handleImage($icon, $currency->currencyIconPath, $currency->currencyIconFileName);
+                $this->handleImage($icon, $currency->imageDirectory, $currency->currencyIconFileName);
             }
             if ($image) {
-                $this->handleImage($image, $currency->currencyImagePath, $currency->currencyImageFileName);
+                $this->handleImage($image, $currency->imageDirectory, $currency->currencyImageFileName);
             }
 
             return $this->commitReturn($currency);
@@ -122,10 +122,10 @@ class CurrencyService extends Service {
             }
 
             if ($icon) {
-                $this->handleImage($icon, $currency->currencyIconPath, $currency->currencyIconFileName);
+                $this->handleImage($icon, $currency->imageDirectory, $currency->currencyIconFileName);
             }
             if ($image) {
-                $this->handleImage($image, $currency->currencyImagePath, $currency->currencyImageFileName);
+                $this->handleImage($image, $currency->imageDirectory, $currency->currencyImageFileName);
             }
 
             return $this->commitReturn($currency);

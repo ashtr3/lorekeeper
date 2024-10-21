@@ -5,6 +5,7 @@ namespace App\Models\Species;
 use App\Models\Character\Sublist;
 use App\Models\Feature\Feature;
 use App\Models\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Species extends Model {
     /**
@@ -132,7 +133,7 @@ class Species extends Model {
      * @return string
      */
     public function getSpeciesImagePathAttribute() {
-        return public_path($this->imageDirectory);
+        return Storage::url($this->imageDirectory);
     }
 
     /**
@@ -145,7 +146,7 @@ class Species extends Model {
             return null;
         }
 
-        return asset($this->imageDirectory.'/'.$this->speciesImageFileName);
+        return Storage::url($this->imageDirectory.'/'.$this->speciesImageFileName);
     }
 
     /**

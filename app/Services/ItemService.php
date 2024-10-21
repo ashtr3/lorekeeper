@@ -54,7 +54,7 @@ class ItemService extends Service {
             }
 
             if ($image) {
-                $this->handleImage($image, $category->categoryImagePath, $category->categoryImageFileName);
+                $this->handleImage($image, $category->imageDirectory, $category->categoryImageFileName);
             }
 
             return $this->commitReturn($category);
@@ -100,7 +100,7 @@ class ItemService extends Service {
             }
 
             if ($category) {
-                $this->handleImage($image, $category->categoryImagePath, $category->categoryImageFileName);
+                $this->handleImage($image, $category->imageDirectory, $category->categoryImageFileName);
             }
 
             return $this->commitReturn($category);
@@ -225,7 +225,7 @@ class ItemService extends Service {
             ]);
 
             if ($image) {
-                $this->handleImage($image, $item->imagePath, $item->imageFileName);
+                $this->handleImage($image, $item->imageDirectory, $item->imageFileName);
             }
 
             return $this->commitReturn($item);
@@ -288,7 +288,7 @@ class ItemService extends Service {
             ]);
 
             if ($item) {
-                $this->handleImage($image, $item->imagePath, $item->imageFileName);
+                $this->handleImage($image, $item->imageDirectory, $item->imageFileName);
             }
 
             return $this->commitReturn($item);

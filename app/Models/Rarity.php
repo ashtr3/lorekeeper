@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Storage;
+
 class Rarity extends Model {
     /**
      * The attributes that are mass assignable.
@@ -81,7 +83,7 @@ class Rarity extends Model {
      * @return string
      */
     public function getRarityImagePathAttribute() {
-        return public_path($this->imageDirectory);
+        return Storage::url($this->imageDirectory);
     }
 
     /**
@@ -94,7 +96,7 @@ class Rarity extends Model {
             return null;
         }
 
-        return asset($this->imageDirectory.'/'.$this->rarityImageFileName);
+        return Storage::url($this->imageDirectory.'/'.$this->rarityImageFileName);
     }
 
     /**

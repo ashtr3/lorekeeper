@@ -44,7 +44,7 @@ class RarityService extends Service {
             $rarity = Rarity::create($data);
 
             if ($image) {
-                $this->handleImage($image, $rarity->rarityImagePath, $rarity->rarityImageFileName);
+                $this->handleImage($image, $rarity->imageDirectory, $rarity->rarityImageFileName);
             }
 
             return $this->commitReturn($rarity);
@@ -86,7 +86,7 @@ class RarityService extends Service {
             $rarity->update($data);
 
             if ($rarity) {
-                $this->handleImage($image, $rarity->rarityImagePath, $rarity->rarityImageFileName);
+                $this->handleImage($image, $rarity->imageDirectory, $rarity->rarityImageFileName);
             }
 
             return $this->commitReturn($rarity);

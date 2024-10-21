@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 
 class CopyDefaultImages extends Command {
     /**
@@ -38,13 +39,13 @@ class CopyDefaultImages extends Command {
         $this->info('***********************'."\n");
 
         $images = config('lorekeeper.image_files');
-
         $sourceDir = base_path().'/data/images/';
-        $destDir = public_path().'/images/';
 
         foreach ($images as $image) {
             $this->line('Copying image: '.$image['filename']."\n");
-            copy($sourceDir.$image['filename'], $destDir.$image['filename']);
+            $path = 'images/'.$image['filename'];
+            $content = file_get_contents($sourceDir.$image['filename']);
+            Storage::put($path, $content);
         }
         $this->line('Done!');
     }

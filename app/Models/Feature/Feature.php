@@ -7,6 +7,7 @@ use App\Models\Rarity;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class Feature extends Model {
     /**
@@ -238,7 +239,7 @@ class Feature extends Model {
      * @return string
      */
     public function getImagePathAttribute() {
-        return public_path($this->imageDirectory);
+        return Storage::url($this->imageDirectory);
     }
 
     /**
@@ -251,7 +252,7 @@ class Feature extends Model {
             return null;
         }
 
-        return asset($this->imageDirectory.'/'.$this->imageFileName);
+        return Storage::url($this->imageDirectory.'/'.$this->imageFileName);
     }
 
     /**

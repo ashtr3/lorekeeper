@@ -24,6 +24,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail {
@@ -391,13 +392,19 @@ class User extends Authenticatable implements MustVerifyEmail {
             $headers = @get_headers($url);
 
             if (!preg_match('|200|', $headers[0])) {
-                return url('images/avatars/default.jpg');
+                return Storage::url('images/avatars/default.jpg');
             } else {
-                return 'https://www.gravatar.com/avatar/'.$hash.'?d=mm&s=200';
+                return $url;
             }
         }
 
-        return url('images/avatars/'.$this->avatar.'?v='.filemtime(public_path('images/avatars/'.$this->avatar)));
+        $avatarPath = "images/avatars/$this->avatar";
+        if (Storage::exists($avatarPath)) {
+            $timestamp = Storage::lastModified($avatarPath);
+            return Storage::url($avatarPath).'?v='.$timestamp;
+        } else {
+            return Storage::url('images/avatars/default.jpg');
+        }
     }
 
     /**

@@ -12,7 +12,7 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-body text-center">
-                    <img src="{{ asset('images/inventory.png') }}" alt="Prompts" />
+                    <img src="{{ Storage::url('images/inventory.png') }}" alt="Prompts" />
                     <h5 class="card-title">Prompts</h5>
                 </div>
                 <ul class="list-group list-group-flush">

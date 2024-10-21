@@ -47,7 +47,7 @@ class CharacterCategoryService extends Service {
             }
 
             if ($image) {
-                $this->handleImage($image, $category->categoryImagePath, $category->categoryImageFileName);
+                $this->handleImage($image, $category->imageDirectory, $category->categoryImageFileName);
             }
 
             return $this->commitReturn($category);
@@ -95,7 +95,7 @@ class CharacterCategoryService extends Service {
             }
 
             if ($category) {
-                $this->handleImage($image, $category->categoryImagePath, $category->categoryImageFileName);
+                $this->handleImage($image, $category->imageDirectory, $category->categoryImageFileName);
             }
 
             return $this->commitReturn($category);

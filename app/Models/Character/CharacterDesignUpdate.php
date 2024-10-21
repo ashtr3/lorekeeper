@@ -9,6 +9,7 @@ use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class CharacterDesignUpdate extends Model {
     use SoftDeletes;
@@ -284,7 +285,7 @@ class CharacterDesignUpdate extends Model {
      * @return string
      */
     public function getImagePathAttribute() {
-        return public_path($this->imageDirectory);
+        return Storage::url($this->imageDirectory);
     }
 
     /**
@@ -293,7 +294,7 @@ class CharacterDesignUpdate extends Model {
      * @return string
      */
     public function getImageUrlAttribute() {
-        return asset($this->imageDirectory.'/'.$this->imageFileName);
+        return Storage::url($this->imageDirectory.'/'.$this->imageFileName);
     }
 
     /**
@@ -320,7 +321,7 @@ class CharacterDesignUpdate extends Model {
      * @return string
      */
     public function getThumbnailUrlAttribute() {
-        return asset($this->imageDirectory.'/'.$this->thumbnailFileName);
+        return Storage::url($this->imageDirectory.'/'.$this->thumbnailFileName);
     }
 
     /**

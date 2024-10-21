@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
 class DesignUpdateManager extends Service {
@@ -596,12 +597,12 @@ class DesignUpdateManager extends Service {
             }
 
             // Move the image file to the new image
-            File::move($request->imagePath.'/'.$request->imageFileName, $image->imagePath.'/'.$image->imageFileName);
+            Storage::move("$request->imagePath/$request->imageFileName", "$image->imagePath/$image->imageFileName");
             // Process and save the image
             (new CharacterManager)->processImage($image);
 
             // The thumbnail is already generated, so it can just be moved without processing
-            File::move($request->thumbnailPath.'/'.$request->thumbnailFileName, $image->thumbnailPath.'/'.$image->thumbnailFileName);
+            Storage::move("$request->thumbnailPath/$request->thumbnailFileName", "$image->thumbnailPath/$image->thumbnailFileName");
 
             // Set character data and other info such as cooldown time, resell cost and terms etc.
             // since those might be updated with the new design update

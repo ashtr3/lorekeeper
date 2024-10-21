@@ -9,6 +9,7 @@ use App\Models\Prompt\Prompt;
 use App\Models\Submission\Submission;
 use App\Models\User\User;
 use App\Traits\Commentable;
+use Illuminate\Support\Facades\Storage;
 
 class GallerySubmission extends Model {
     use Commentable;
@@ -271,7 +272,7 @@ class GallerySubmission extends Model {
      * @return string
      */
     public function getImagePathAttribute() {
-        return public_path($this->imageDirectory);
+        return Storage::url($this->imageDirectory);
     }
 
     /**
@@ -284,7 +285,7 @@ class GallerySubmission extends Model {
             return null;
         }
 
-        return asset($this->imageDirectory.'/'.$this->imageFileName);
+        return Storage::url($this->imageDirectory.'/'.$this->imageFileName);
     }
 
     /**
@@ -315,7 +316,7 @@ class GallerySubmission extends Model {
             return null;
         }
 
-        return asset($this->imageDirectory.'/'.$this->thumbnailFileName);
+        return Storage::url($this->imageDirectory.'/'.$this->thumbnailFileName);
     }
 
     /**

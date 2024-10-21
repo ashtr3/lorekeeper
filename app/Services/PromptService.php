@@ -52,7 +52,7 @@ class PromptService extends Service {
             $category = PromptCategory::create($data);
 
             if ($image) {
-                $this->handleImage($image, $category->categoryImagePath, $category->categoryImageFileName);
+                $this->handleImage($image, $category->imageDirectory, $category->categoryImageFileName);
             }
 
             return $this->commitReturn($category);
@@ -94,7 +94,7 @@ class PromptService extends Service {
             $category->update($data);
 
             if ($category) {
-                $this->handleImage($image, $category->categoryImagePath, $category->categoryImageFileName);
+                $this->handleImage($image, $category->imageDirectory, $category->categoryImageFileName);
             }
 
             return $this->commitReturn($category);
@@ -205,7 +205,7 @@ class PromptService extends Service {
             $prompt = Prompt::create(Arr::only($data, ['prompt_category_id', 'name', 'summary', 'description', 'parsed_description', 'is_active', 'start_at', 'end_at', 'hide_before_start', 'hide_after_end', 'has_image', 'prefix', 'hide_submissions', 'staff_only', 'hash']));
 
             if ($image) {
-                $this->handleImage($image, $prompt->imagePath, $prompt->imageFileName);
+                $this->handleImage($image, $prompt->imageDirectory, $prompt->imageFileName);
             }
 
             $this->populateRewards(Arr::only($data, ['rewardable_type', 'rewardable_id', 'quantity']), $prompt);
@@ -263,7 +263,7 @@ class PromptService extends Service {
             $prompt->update(Arr::only($data, ['prompt_category_id', 'name', 'summary', 'description', 'parsed_description', 'is_active', 'start_at', 'end_at', 'hide_before_start', 'hide_after_end', 'has_image', 'prefix', 'hide_submissions', 'staff_only', 'hash']));
 
             if ($prompt) {
-                $this->handleImage($image, $prompt->imagePath, $prompt->imageFileName);
+                $this->handleImage($image, $prompt->imageDirectory, $prompt->imageFileName);
             }
 
             $this->populateRewards(Arr::only($data, ['rewardable_type', 'rewardable_id', 'quantity']), $prompt);

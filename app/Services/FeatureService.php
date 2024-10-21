@@ -55,7 +55,7 @@ class FeatureService extends Service {
             }
 
             if ($image) {
-                $this->handleImage($image, $category->categoryImagePath, $category->categoryImageFileName);
+                $this->handleImage($image, $category->imageDirectory, $category->categoryImageFileName);
             }
 
             return $this->commitReturn($category);
@@ -105,7 +105,7 @@ class FeatureService extends Service {
             }
 
             if ($category) {
-                $this->handleImage($image, $category->categoryImagePath, $category->categoryImageFileName);
+                $this->handleImage($image, $category->imageDirectory, $category->categoryImageFileName);
             }
 
             return $this->commitReturn($category);
@@ -239,7 +239,7 @@ class FeatureService extends Service {
             }
 
             if ($image) {
-                $this->handleImage($image, $feature->imagePath, $feature->imageFileName);
+                $this->handleImage($image, $feature->imageDirectory, $feature->imageFileName);
             }
 
             return $this->commitReturn($feature);
@@ -310,7 +310,7 @@ class FeatureService extends Service {
             }
 
             if ($feature) {
-                $this->handleImage($image, $feature->imagePath, $feature->imageFileName);
+                $this->handleImage($image, $feature->imageDirectory, $feature->imageFileName);
             }
 
             return $this->commitReturn($feature);
