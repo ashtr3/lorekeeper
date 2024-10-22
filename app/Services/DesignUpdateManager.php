@@ -9,7 +9,6 @@ use App\Models\Character\CharacterFeature;
 use App\Models\Character\CharacterImage;
 use App\Models\Currency\Currency;
 use App\Models\Feature\Feature;
-use App\Models\Rarity;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use App\Models\User\User;
@@ -61,7 +60,6 @@ class DesignUpdateManager extends Service {
                 'update_type'   => $character->is_myo_slot ? 'MYO' : 'Character',
 
                 // Set some data based on the character's existing stats
-                'rarity_id'     => $character->image->rarity_id,
                 'species_id'    => $character->image->species_id,
                 'subtype_id'    => $character->image->subtype_id,
             ];
@@ -357,19 +355,12 @@ class DesignUpdateManager extends Service {
             if (!($request->character->is_myo_slot && $request->character->image->species_id) && !isset($data['species_id'])) {
                 throw new \Exception('Please select a species.');
             }
-            if (!($request->character->is_myo_slot && $request->character->image->rarity_id) && !isset($data['rarity_id'])) {
-                throw new \Exception('Please select a rarity.');
-            }
 
-            $rarity = ($request->character->is_myo_slot && $request->character->image->rarity_id) ? $request->character->image->rarity : Rarity::find($data['rarity_id']);
             $species = ($request->character->is_myo_slot && $request->character->image->species_id) ? $request->character->image->species : Species::find($data['species_id']);
             if (isset($data['subtype_id']) && $data['subtype_id']) {
                 $subtype = ($request->character->is_myo_slot && $request->character->image->subtype_id) ? $request->character->image->subtype : Subtype::find($data['subtype_id']);
             } else {
                 $subtype = null;
-            }
-            if (!$rarity) {
-                throw new \Exception('Invalid rarity selected.');
             }
             if (!$species) {
                 throw new \Exception('Invalid species selected.');
@@ -384,16 +375,12 @@ class DesignUpdateManager extends Service {
             // Attach features
             // We'll do the compulsory ones at the time of approval.
 
-            $features = Feature::whereIn('id', $data['feature_id'])->with('rarity')->get()->keyBy('id');
+            $features = Feature::whereIn('id', $data['feature_id'])->get()->keyBy('id');
 
             foreach ($data['feature_id'] as $key => $featureId) {
                 if (!$featureId) {
                     continue;
                 }
-
-                // Skip the feature if the rarity is too high.
-                // Comment out this check if rarities should have more berth for traits choice.
-                //if($features[$featureId]->rarity->sort > $rarity->sort) continue;
 
                 // Skip the feature if it's not the correct species.
                 if ($features[$featureId]->species_id && $features[$featureId]->species_id != $species->id) {
@@ -405,7 +392,6 @@ class DesignUpdateManager extends Service {
 
             // Update other stats
             $request->species_id = $species->id;
-            $request->rarity_id = $rarity->id;
             $request->subtype_id = $subtype ? $subtype->id : null;
             $request->has_features = 1;
             $request->save();
@@ -566,7 +552,6 @@ class DesignUpdateManager extends Service {
                 'y1'            => $request->y1,
                 'species_id'    => $request->species_id,
                 'subtype_id'    => ($request->character->is_myo_slot && isset($request->character->image->subtype_id)) ? $request->character->image->subtype_id : $request->subtype_id,
-                'rarity_id'     => $request->rarity_id,
                 'sort'          => 0,
             ]);
 
@@ -611,7 +596,6 @@ class DesignUpdateManager extends Service {
             $request->character->character_category_id = $data['character_category_id'];
             $request->character->number = $data['number'];
             $request->character->slug = $data['slug'];
-            $request->character->rarity_id = $request->rarity_id;
 
             $request->character->description = $data['description'];
             $request->character->parsed_description = parse($data['description']);

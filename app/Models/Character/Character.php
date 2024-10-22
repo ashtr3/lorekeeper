@@ -9,7 +9,6 @@ use App\Models\Gallery\GalleryCharacter;
 use App\Models\Item\Item;
 use App\Models\Item\ItemLog;
 use App\Models\Model;
-use App\Models\Rarity;
 use App\Models\Submission\Submission;
 use App\Models\Submission\SubmissionCharacter;
 use App\Models\Trade;
@@ -27,7 +26,7 @@ class Character extends Model {
      * @var array
      */
     protected $fillable = [
-        'character_image_id', 'character_category_id', 'rarity_id', 'user_id',
+        'character_image_id', 'character_category_id', 'user_id',
         'owner_alias', 'number', 'slug', 'description', 'parsed_description',
         'is_sellable', 'is_tradeable', 'is_giftable',
         'sale_value', 'transferrable_at', 'is_visible',
@@ -72,7 +71,6 @@ class Character extends Model {
      */
     public static $createRules = [
         'character_category_id' => 'required',
-        'rarity_id'             => 'required',
         'user_id'               => 'nullable',
         'number'                => 'required',
         'slug'                  => 'required|alpha_dash',
@@ -104,7 +102,6 @@ class Character extends Model {
      * @var array
      */
     public static $myoRules = [
-        'rarity_id'   => 'nullable',
         'user_id'     => 'nullable',
         'number'      => 'nullable',
         'slug'        => 'nullable',
@@ -170,13 +167,6 @@ class Character extends Model {
      */
     public function trade() {
         return $this->belongsTo(Trade::class, 'trade_id');
-    }
-
-    /**
-     * Get the rarity of this character.
-     */
-    public function rarity() {
-        return $this->belongsTo(Rarity::class, 'rarity_id');
     }
 
     /**

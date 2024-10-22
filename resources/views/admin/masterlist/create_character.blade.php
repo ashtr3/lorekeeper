@@ -232,16 +232,9 @@
         </div>
 
         <div class="form-group">
-            {!! Form::label('Character Rarity') !!} @if ($isMyo)
-                {!! add_help('This will lock the slot into a particular rarity. Leave it blank if you would like to give the user more choices.') !!}
-            @endif
-            {!! Form::select('rarity_id', $rarities, old('rarity_id'), ['class' => 'form-control']) !!}
-        </div>
-
-        <div class="form-group">
             {!! Form::label('Traits') !!} @if ($isMyo)
                 {!! add_help(
-                    'These traits will be listed as required traits for the slot. The user will still be able to add on more traits, but not be able to remove these. This is allowed to conflict with the rarity above; you may add traits above the character\'s specified rarity.',
+                    'These traits will be listed as required traits for the slot. The user will still be able to add on more traits, but not be able to remove these.',
                 ) !!}
             @endif
             <div><a href="#" class="btn btn-primary mb-2" id="add-feature">Add Trait</a></div>

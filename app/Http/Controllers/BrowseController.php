@@ -9,7 +9,6 @@ use App\Models\Character\CharacterImage;
 use App\Models\Character\Sublist;
 use App\Models\Feature\Feature;
 use App\Models\Rank\Rank;
-use App\Models\Rarity;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use App\Models\User\User;
@@ -147,8 +146,8 @@ class BrowseController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getCharacters(Request $request) {
-        $query = Character::with('user.rank')->with('image.features')->with('rarity')->with('image.species')->myo(0);
-        $imageQuery = CharacterImage::images(Auth::check() ? Auth::user() : null)->with('features')->with('rarity')->with('species')->with('features');
+        $query = Character::with('user.rank')->with('image.features')->with('image.species')->myo(0);
+        $imageQuery = CharacterImage::images(Auth::check() ? Auth::user() : null)->with('features')->with('species')->with('features');
 
         if ($sublists = Sublist::where('show_main', 0)->get()) {
             $subCategories = [];
@@ -166,9 +165,6 @@ class BrowseController extends Controller {
             $query->where(function ($query) use ($request) {
                 $query->where('characters.name', 'LIKE', '%'.$request->get('name').'%')->orWhere('characters.slug', 'LIKE', '%'.$request->get('name').'%');
             });
-        }
-        if ($request->get('rarity_id')) {
-            $query->where('rarity_id', $request->get('rarity_id'));
         }
         if ($request->get('character_category_id')) {
             $query->where('character_category_id', $request->get('character_category_id'));
@@ -315,7 +311,6 @@ class BrowseController extends Controller {
             'categories'  => [0 => 'Any Category'] + CharacterCategory::whereNotIn('id', $subCategories)->visible(Auth::check() ? Auth::user() : null)->orderBy('character_categories.sort', 'DESC')->pluck('name', 'id')->toArray(),
             'specieses'   => [0 => 'Any Species'] + Species::whereNotIn('id', $subSpecies)->visible(Auth::check() ? Auth::user() : null)->orderBy('specieses.sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes'    => [0 => 'Any Subtype'] + Subtype::visible(Auth::check() ? Auth::user() : null)->orderBy('subtypes.sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'rarities'    => [0 => 'Any Rarity'] + Rarity::orderBy('rarities.sort', 'DESC')->pluck('name', 'id')->toArray(),
             'features'    => Feature::getDropdownItems(),
             'sublists'    => Sublist::orderBy('sort', 'DESC')->get(),
             'userOptions' => User::query()->orderBy('name')->pluck('name', 'id')->toArray(),
@@ -328,17 +323,14 @@ class BrowseController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getMyos(Request $request) {
-        $query = Character::with('user.rank')->with('image.features')->with('rarity')->with('image.species')->myo(1);
+        $query = Character::with('user.rank')->with('image.features')->with('image.species')->myo(1);
 
-        $imageQuery = CharacterImage::images(Auth::check() ? Auth::user() : null)->with('features')->with('rarity')->with('species')->with('features');
+        $imageQuery = CharacterImage::images(Auth::check() ? Auth::user() : null)->with('features')->with('species')->with('features');
 
         if ($request->get('name')) {
             $query->where(function ($query) use ($request) {
                 $query->where('characters.name', 'LIKE', '%'.$request->get('name').'%')->orWhere('characters.slug', 'LIKE', '%'.$request->get('name').'%');
             });
-        }
-        if ($request->get('rarity_id')) {
-            $query->where('rarity_id', $request->get('rarity_id'));
         }
 
         if ($request->get('sale_value_min')) {
@@ -444,7 +436,6 @@ class BrowseController extends Controller {
             'isMyo'       => true,
             'slots'       => $query->paginate(30)->appends($request->query()),
             'specieses'   => [0 => 'Any Species'] + Species::visible(Auth::check() ? Auth::user() : null)->orderBy('specieses.sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'rarities'    => [0 => 'Any Rarity'] + Rarity::orderBy('rarities.sort', 'DESC')->pluck('name', 'id')->toArray(),
             'features'    => Feature::getDropdownItems(),
             'sublists'    => Sublist::orderBy('sort', 'DESC')->get(),
             'userOptions' => User::query()->orderBy('name')->pluck('name', 'id')->toArray(),
@@ -459,8 +450,8 @@ class BrowseController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getSublist(Request $request, $key) {
-        $query = Character::with('user.rank')->with('image.features')->with('rarity')->with('image.species')->myo(0);
-        $imageQuery = CharacterImage::with('features')->with('rarity')->with('species')->with('features');
+        $query = Character::with('user.rank')->with('image.features')->with('image.species')->myo(0);
+        $imageQuery = CharacterImage::with('features')->with('species')->with('features');
 
         $sublist = Sublist::where('key', $key)->first();
         if (!$sublist) {
@@ -480,9 +471,6 @@ class BrowseController extends Controller {
             $query->where(function ($query) use ($request) {
                 $query->where('characters.name', 'LIKE', '%'.$request->get('name').'%')->orWhere('characters.slug', 'LIKE', '%'.$request->get('name').'%');
             });
-        }
-        if ($request->get('rarity_id')) {
-            $query->where('rarity_id', $request->get('rarity_id'));
         }
         if ($request->get('character_category_id')) {
             $query->where('character_category_id', $request->get('character_category_id'));
@@ -637,7 +625,6 @@ class BrowseController extends Controller {
             'categories'  => [0 => 'Any Category'] + $subCategory,
             'specieses'   => [0 => 'Any Species'] + $subSpecies,
             'subtypes'    => [0 => 'Any Subtype'] + Subtype::visible(Auth::check() ? Auth::user() : null)->orderBy('subtypes.sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'rarities'    => [0 => 'Any Rarity'] + Rarity::orderBy('rarities.sort', 'DESC')->pluck('name', 'id')->toArray(),
             'features'    => Feature::getDropdownItems(),
             'sublist'     => $sublist,
             'sublists'    => Sublist::orderBy('sort', 'DESC')->get(),

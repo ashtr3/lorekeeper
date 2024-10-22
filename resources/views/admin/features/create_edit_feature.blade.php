@@ -18,16 +18,10 @@
     <h3>Basic Information</h3>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
                 {!! Form::label('Name') !!}
                 {!! Form::text('name', $feature->name, ['class' => 'form-control']) !!}
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                {!! Form::label('Rarity') !!}
-                {!! Form::select('rarity_id', $rarities, $feature->rarity_id, ['class' => 'form-control']) !!}
             </div>
         </div>
     </div>

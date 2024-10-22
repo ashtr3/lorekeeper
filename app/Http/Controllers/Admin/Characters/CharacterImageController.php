@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Character\Character;
 use App\Models\Character\CharacterImage;
 use App\Models\Feature\Feature;
-use App\Models\Rarity;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use App\Models\User\User;
@@ -39,7 +38,6 @@ class CharacterImageController extends Controller {
 
         return view('character.admin.upload_image', [
             'character' => $this->character,
-            'rarities'  => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'specieses' => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes'  => ['0' => 'Select Subtype'] + Subtype::where('species_id', '=', $this->character->image->species_id)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'users'     => User::query()->orderBy('name')->pluck('name', 'id')->toArray(),
@@ -73,7 +71,7 @@ class CharacterImageController extends Controller {
      */
     public function postNewImage(Request $request, CharacterManager $service, $slug) {
         $request->validate(CharacterImage::$createRules);
-        $data = $request->only(['image', 'thumbnail', 'x0', 'x1', 'y0', 'y1', 'use_cropper', 'artist_url', 'artist_id', 'designer_url', 'designer_id', 'species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data', 'is_valid', 'is_visible']);
+        $data = $request->only(['image', 'thumbnail', 'x0', 'x1', 'y0', 'y1', 'use_cropper', 'artist_url', 'artist_id', 'designer_url', 'designer_id', 'species_id', 'subtype_id', 'feature_id', 'feature_data', 'is_valid', 'is_visible']);
         $this->character = Character::where('slug', $slug)->first();
         if (!$this->character) {
             abort(404);
@@ -103,7 +101,6 @@ class CharacterImageController extends Controller {
 
         return view('character.admin._edit_features_modal', [
             'image'     => $image,
-            'rarities'  => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'specieses' => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes'  => ['0' => 'Select Subtype'] + Subtype::where('species_id', '=', $image->species_id)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'features'  => Feature::getDropdownItems(1),
@@ -119,7 +116,7 @@ class CharacterImageController extends Controller {
      * @return \Illuminate\Http\RedirectResponse
      */
     public function postEditImageFeatures(Request $request, CharacterManager $service, $id) {
-        $data = $request->only(['species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data']);
+        $data = $request->only(['species_id', 'subtype_id', 'feature_id', 'feature_data']);
         $image = CharacterImage::find($id);
         if (!$image) {
             abort(404);

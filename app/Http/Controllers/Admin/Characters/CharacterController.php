@@ -8,7 +8,6 @@ use App\Models\Character\Character;
 use App\Models\Character\CharacterCategory;
 use App\Models\Character\CharacterTransfer;
 use App\Models\Feature\Feature;
-use App\Models\Rarity;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use App\Models\Trade;
@@ -49,7 +48,6 @@ class CharacterController extends Controller {
         return view('admin.masterlist.create_character', [
             'categories'  => CharacterCategory::orderBy('sort')->get(),
             'userOptions' => User::query()->orderBy('name')->pluck('name', 'id')->toArray(),
-            'rarities'    => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'specieses'   => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes'    => ['0' => 'Pick a Species First'],
             'features'    => Feature::getDropdownItems(1),
@@ -65,7 +63,6 @@ class CharacterController extends Controller {
     public function getCreateMyo() {
         return view('admin.masterlist.create_character', [
             'userOptions' => User::query()->orderBy('name')->pluck('name', 'id')->toArray(),
-            'rarities'    => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'specieses'   => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes'    => ['0' => 'Pick a Species First'],
             'features'    => Feature::getDropdownItems(1),
@@ -103,7 +100,7 @@ class CharacterController extends Controller {
             'x0', 'x1', 'y0', 'y1',
             'designer_id', 'designer_url',
             'artist_id', 'artist_url',
-            'species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data',
+            'species_id', 'subtype_id', 'feature_id', 'feature_data',
             'image', 'thumbnail', 'image_description',
         ]);
         if ($character = $service->createCharacter($data, Auth::user())) {
@@ -135,7 +132,7 @@ class CharacterController extends Controller {
             'x0', 'x1', 'y0', 'y1',
             'designer_id', 'designer_url',
             'artist_id', 'artist_url',
-            'species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data',
+            'species_id', 'subtype_id', 'feature_id', 'feature_data',
             'image', 'thumbnail',
         ]);
         if ($character = $service->createCharacter($data, Auth::user(), true)) {

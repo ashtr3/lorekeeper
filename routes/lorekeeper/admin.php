@@ -108,16 +108,6 @@ Route::group(['prefix' => 'data', 'namespace' => 'Data', 'middleware' => 'power:
     Route::post('currencies/delete/{id}', 'CurrencyController@postDeleteCurrency');
     Route::post('currencies/sort/{type}', 'CurrencyController@postSortCurrency')->where('type', 'user|character');
 
-    // RARITIES
-    Route::get('rarities', 'RarityController@getIndex');
-    Route::get('rarities/create', 'RarityController@getCreateRarity');
-    Route::get('rarities/edit/{id}', 'RarityController@getEditRarity');
-    Route::get('rarities/delete/{id}', 'RarityController@getDeleteRarity');
-    Route::post('rarities/create', 'RarityController@postCreateEditRarity');
-    Route::post('rarities/edit/{id?}', 'RarityController@postCreateEditRarity');
-    Route::post('rarities/delete/{id}', 'RarityController@postDeleteRarity');
-    Route::post('rarities/sort', 'RarityController@postSortRarity');
-
     // SPECIES
     Route::get('species', 'SpeciesController@getIndex');
     Route::get('species/create', 'SpeciesController@getCreateSpecies');

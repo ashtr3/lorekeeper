@@ -100,7 +100,6 @@ Route::group(['prefix' => 'world'], function () {
     Route::get('/', 'WorldController@getIndex');
 
     Route::get('currencies', 'WorldController@getCurrencies');
-    Route::get('rarities', 'WorldController@getRarities');
     Route::get('species', 'WorldController@getSpecieses');
     Route::get('subtypes', 'WorldController@getSubtypes');
     Route::get('species/{id}/traits', 'WorldController@getSpeciesFeatures');

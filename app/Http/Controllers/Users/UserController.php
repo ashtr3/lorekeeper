@@ -106,7 +106,7 @@ class UserController extends Controller {
      */
     public function getUserCharacters($name) {
         $query = Character::myo(0)->where('user_id', $this->user->id);
-        $imageQuery = CharacterImage::images(Auth::check() ? Auth::user() : null)->with('features')->with('rarity')->with('species')->with('features');
+        $imageQuery = CharacterImage::images(Auth::check() ? Auth::user() : null)->with('features')->with('species')->with('features');
 
         if ($sublists = Sublist::where('show_main', 0)->get()) {
             $subCategories = [];
@@ -142,7 +142,7 @@ class UserController extends Controller {
      */
     public function getUserSublist($name, $key) {
         $query = Character::myo(0)->where('user_id', $this->user->id);
-        $imageQuery = CharacterImage::images(Auth::check() ? Auth::user() : null)->with('features')->with('rarity')->with('species')->with('features');
+        $imageQuery = CharacterImage::images(Auth::check() ? Auth::user() : null)->with('features')->with('species')->with('features');
 
         $sublist = Sublist::where('key', $key)->first();
         if (!$sublist) {

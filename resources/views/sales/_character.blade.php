@@ -10,7 +10,7 @@
                         {{ $character->displayType }}: <a href="{{ $character->character->url }}">{!! $character->character->slug !!}</a> ・ <span
                             class="{{ $character->is_open && $character->sales->is_open ? 'text-success' : '' }}">[{{ $character->is_open && $character->sales->is_open ? 'Open' : 'Closed' }}]</span><br />
                         <small>
-                            {!! $character->image->species->displayName !!} ・ {!! $character->image->rarity->displayName !!}<br />
+                            {!! $character->image->species->displayName !!}<br />
                         </small>
                     </h5>
 

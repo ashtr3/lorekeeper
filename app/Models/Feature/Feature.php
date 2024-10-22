@@ -3,7 +3,6 @@
 namespace App\Models\Feature;
 
 use App\Models\Model;
-use App\Models\Rarity;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +14,7 @@ class Feature extends Model {
      * @var array
      */
     protected $fillable = [
-        'feature_category_id', 'species_id', 'subtype_id', 'rarity_id', 'name', 'has_image', 'description', 'parsed_description', 'is_visible', 'hash',
+        'feature_category_id', 'species_id', 'subtype_id', 'name', 'has_image', 'description', 'parsed_description', 'is_visible', 'hash',
     ];
 
     /**
@@ -33,7 +32,6 @@ class Feature extends Model {
         'feature_category_id' => 'nullable',
         'species_id'          => 'nullable',
         'subtype_id'          => 'nullable',
-        'rarity_id'           => 'required|exists:rarities,id',
         'name'                => 'required|unique:features|between:3,100',
         'description'         => 'nullable',
         'image'               => 'mimes:png',
@@ -48,7 +46,6 @@ class Feature extends Model {
         'feature_category_id' => 'nullable',
         'species_id'          => 'nullable',
         'subtype_id'          => 'nullable',
-        'rarity_id'           => 'required|exists:rarities,id',
         'name'                => 'required|between:3,100',
         'description'         => 'nullable',
         'image'               => 'mimes:png',
@@ -59,13 +56,6 @@ class Feature extends Model {
         RELATIONS
 
     **********************************************************************************************/
-
-    /**
-     * Get the rarity of this feature.
-     */
-    public function rarity() {
-        return $this->belongsTo(Rarity::class);
-    }
 
     /**
      * Get the species the feature belongs to.
@@ -148,20 +138,6 @@ class Feature extends Model {
     }
 
     /**
-     * Scope a query to sort features in rarity order.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param bool                                  $reverse
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeSortRarity($query, $reverse = false) {
-        $ids = Rarity::orderBy('sort', $reverse ? 'ASC' : 'DESC')->pluck('id')->toArray();
-
-        return count($ids) ? $query->orderBy(DB::raw('FIELD(rarity_id, '.implode(',', $ids).')')) : $query;
-    }
-
-    /**
      * Scope a query to sort features by newest first.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
@@ -211,7 +187,7 @@ class Feature extends Model {
      * @return string
      */
     public function getDisplayNameAttribute() {
-        return '<a href="'.$this->url.'" class="display-trait">'.$this->name.'</a>'.($this->rarity ? ' ('.$this->rarity->displayName.')' : '');
+        return '<a href="'.$this->url.'" class="display-trait">'.$this->name.'</a>';
     }
 
     /**

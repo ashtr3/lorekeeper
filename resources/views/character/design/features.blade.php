@@ -40,15 +40,6 @@
         </div>
 
         <div class="form-group">
-            {!! Form::label('rarity_id', 'Character Rarity') !!}
-            @if ($request->character->is_myo_slot && $request->character->image->rarity_id)
-                <div class="alert alert-secondary">{!! $request->character->image->rarity->displayName !!}</div>
-            @else
-                {!! Form::select('rarity_id', $rarities, $request->rarity_id, ['class' => 'form-control', 'id' => 'rarity']) !!}
-            @endif
-        </div>
-
-        <div class="form-group">
             {!! Form::label('Traits') !!}
             <div><a href="#" class="btn btn-primary mb-2" id="add-feature">Add Trait</a></div>
             <div id="featureList">
@@ -106,12 +97,6 @@
                     </div>
                 </div>
             @endif
-            <div class="row">
-                <div class="col-md-2 col-4">
-                    <h5>Rarity</h5>
-                </div>
-                <div class="col-md-10 col-8">{!! $request->rarity ? $request->rarity->displayName : 'None Selected' !!}</div>
-            </div>
         </div>
         <h5>Traits</h5>
         <div>

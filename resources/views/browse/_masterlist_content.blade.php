@@ -5,9 +5,6 @@
             {!! Form::label('name', 'Character Name/Code: ', ['class' => 'mr-2']) !!}
             {!! Form::text('name', Request::get('name'), ['class' => 'form-control']) !!}
         </div>
-        <div class="form-group mb-3 mr-1">
-            {!! Form::select('rarity_id', $rarities, Request::get('rarity_id'), ['class' => 'form-control mr-2']) !!}
-        </div>
         <div class="form-group mb-3">
             {!! Form::select('species_id', $specieses, Request::get('species_id'), ['class' => 'form-control']) !!}
         </div>
@@ -164,7 +161,7 @@
                         </a>
                     </div>
                     <div class="small">
-                        {!! $character->image->species_id ? $character->image->species->displayName : 'No Species' !!} ・ {!! $character->image->rarity_id ? $character->image->rarity->displayName : 'No Rarity' !!} ・ {!! $character->displayOwner !!}
+                        {!! $character->image->species_id ? $character->image->species->displayName : 'No Species' !!} ・ {!! $character->displayOwner !!}
                     </div>
                 </div>
             @endforeach
@@ -177,7 +174,6 @@
             <tr>
                 <th>Owner</th>
                 <th>Name</th>
-                <th>Rarity</th>
                 <th>Species</th>
                 <th>Created</th>
             </tr>
@@ -191,7 +187,6 @@
                             <i class="fas fa-eye-slash"></i>
                         @endif {!! $character->displayName !!}
                     </td>
-                    <td>{!! $character->image->rarity_id ? $character->image->rarity->displayName : 'None' !!}</td>
                     <td>{!! $character->image->species_id ? $character->image->species->displayName : 'None' !!}</td>
                     <td>{!! format_date($character->created_at) !!}</td>
                 </tr>

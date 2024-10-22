@@ -159,10 +159,6 @@ return [
                 'url'  => 'admin/data/sublists',
             ],
             [
-                'name' => 'Rarities',
-                'url'  => 'admin/data/rarities',
-            ],
-            [
                 'name' => 'Species',
                 'url'  => 'admin/data/species',
             ],

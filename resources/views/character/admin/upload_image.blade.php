@@ -118,11 +118,6 @@
     </div>
 
     <div class="form-group">
-        {!! Form::label('Character Rarity') !!}
-        {!! Form::select('rarity_id', $rarities, old('rarity_id') ?: $character->image->rarity_id, ['class' => 'form-control']) !!}
-    </div>
-
-    <div class="form-group">
         {!! Form::label('Traits') !!}
         <div><a href="#" class="btn btn-primary mb-2" id="add-feature">Add Trait</a></div>
         <div id="featureList">

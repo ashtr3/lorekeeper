@@ -10,7 +10,6 @@ use App\Models\Item\Item;
 use App\Models\Item\ItemCategory;
 use App\Models\Prompt\Prompt;
 use App\Models\Prompt\PromptCategory;
-use App\Models\Rarity;
 use App\Models\Shop\Shop;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
@@ -54,7 +53,6 @@ class AddImageHashes extends Command {
         $images = $images->concat(ItemCategory::where('has_image', 1)->whereNull('hash')->get());
         $images = $images->concat(Prompt::where('has_image', 1)->whereNull('hash')->get());
         $images = $images->concat(PromptCategory::where('has_image', 1)->whereNull('hash')->get());
-        $images = $images->concat(Rarity::where('has_image', 1)->whereNull('hash')->get());
         $images = $images->concat(Shop::where('has_image', 1)->whereNull('hash')->get());
         $images = $images->concat(Species::where('has_image', 1)->whereNull('hash')->get());
         $images = $images->concat(Subtype::where('has_image', 1)->whereNull('hash')->get());

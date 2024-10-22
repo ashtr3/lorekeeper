@@ -28,9 +28,6 @@
             {!! Form::select('subtype_id', $subtypes, Request::get('subtype_id'), ['class' => 'form-control']) !!}
         </div>
         <div class="form-group mr-3 mb-3">
-            {!! Form::select('rarity_id', $rarities, Request::get('rarity_id'), ['class' => 'form-control']) !!}
-        </div>
-        <div class="form-group mr-3 mb-3">
             {!! Form::select('feature_category_id', $categories, Request::get('feature_category_id'), ['class' => 'form-control']) !!}
         </div>
         <div class="form-group mb-3">
@@ -48,9 +45,6 @@
                 <div class="row">
                     <div class="col-12 col-md-3">
                         <div class="logs-table-cell">Name</div>
-                    </div>
-                    <div class="col-6 col-md-2">
-                        <div class="logs-table-cell">Rarity</div>
                     </div>
                     <div class="col-6 col-md-2">
                         <div class="logs-table-cell">Category</div>
@@ -74,9 +68,6 @@
                                     @endif
                                     {{ $feature->name }}
                                 </div>
-                            </div>
-                            <div class="col-6 col-md-2">
-                                <div class="logs-table-cell">{!! $feature->rarity->displayName !!}</div>
                             </div>
                             <div class="col-6 col-md-2">
                                 <div class="logs-table-cell">{{ $feature->category ? $feature->category->name : '---' }}</div>

@@ -4,7 +4,6 @@ namespace App\Models\Character;
 
 use App\Models\Currency\Currency;
 use App\Models\Model;
-use App\Models\Rarity;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use App\Models\User\User;
@@ -22,7 +21,7 @@ class CharacterDesignUpdate extends Model {
         'character_id', 'status', 'user_id', 'staff_id',
         'comments', 'staff_comments', 'data', 'extension',
         'use_cropper', 'x0', 'x1', 'y0', 'y1',
-        'hash', 'species_id', 'subtype_id', 'rarity_id',
+        'hash', 'species_id', 'subtype_id',
         'has_comments', 'has_image', 'has_addons', 'has_features',
         'submitted_at', 'update_type', 'fullsize_hash',
         'approval_votes', 'rejection_votes',
@@ -102,13 +101,6 @@ class CharacterDesignUpdate extends Model {
      */
     public function subtype() {
         return $this->belongsTo(Subtype::class, 'subtype_id');
-    }
-
-    /**
-     * Get the rarity of the design update.
-     */
-    public function rarity() {
-        return $this->belongsTo(Rarity::class, 'rarity_id');
     }
 
     /**

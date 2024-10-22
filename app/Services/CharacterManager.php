@@ -92,9 +92,6 @@ class CharacterManager extends Service {
                 if (!(isset($data['species_id']) && $data['species_id'])) {
                     throw new \Exception('Characters require a species.');
                 }
-                if (!(isset($data['rarity_id']) && $data['rarity_id'])) {
-                    throw new \Exception('Characters require a rarity.');
-                }
             }
             if (isset($data['subtype_id']) && $data['subtype_id']) {
                 $subtype = Subtype::find($data['subtype_id']);
@@ -543,9 +540,6 @@ class CharacterManager extends Service {
                 if (!(isset($data['species_id']) && $data['species_id'])) {
                     throw new \Exception('Characters require a species.');
                 }
-                if (!(isset($data['rarity_id']) && $data['rarity_id'])) {
-                    throw new \Exception('Characters require a rarity.');
-                }
             }
             if (isset($data['subtype_id']) && $data['subtype_id']) {
                 $subtype = Subtype::find($data['subtype_id']);
@@ -634,7 +628,6 @@ class CharacterManager extends Service {
             $old['features'] = $this->generateFeatureList($image);
             $old['species'] = $image->species_id ? $image->species->displayName : null;
             $old['subtype'] = $image->subtype_id ? $image->subtype->displayName : null;
-            $old['rarity'] = $image->rarity_id ? $image->rarity->displayName : null;
 
             // Clear old features
             $image->features()->delete();
@@ -649,17 +642,14 @@ class CharacterManager extends Service {
             // Update other stats
             $image->species_id = $data['species_id'];
             $image->subtype_id = $data['subtype_id'] ?: null;
-            $image->rarity_id = $data['rarity_id'];
             $image->save();
 
             $new = [];
             $new['features'] = $this->generateFeatureList($image);
             $new['species'] = $image->species_id ? $image->species->displayName : null;
             $new['subtype'] = $image->subtype_id ? $image->subtype->displayName : null;
-            $new['rarity'] = $image->rarity_id ? $image->rarity->displayName : null;
 
             // Character also keeps track of these features
-            $image->character->rarity_id = $image->rarity_id;
             $image->character->save();
 
             // Add a log for the character
@@ -1848,11 +1838,10 @@ class CharacterManager extends Service {
                 $data['slug'] = null;
                 $data['species_id'] = isset($data['species_id']) && $data['species_id'] ? $data['species_id'] : null;
                 $data['subtype_id'] = isset($data['subtype_id']) && $data['subtype_id'] ? $data['subtype_id'] : null;
-                $data['rarity_id'] = isset($data['rarity_id']) && $data['rarity_id'] ? $data['rarity_id'] : null;
             }
 
             $characterData = Arr::only($data, [
-                'character_category_id', 'rarity_id', 'user_id',
+                'character_category_id', 'user_id',
                 'number', 'slug', 'description',
                 'sale_value', 'transferrable_at', 'is_visible',
             ]);
@@ -1900,7 +1889,6 @@ class CharacterManager extends Service {
             if ($isMyo) {
                 $data['species_id'] = (isset($data['species_id']) && $data['species_id']) ? $data['species_id'] : null;
                 $data['subtype_id'] = isset($data['subtype_id']) && $data['subtype_id'] ? $data['subtype_id'] : null;
-                $data['rarity_id'] = (isset($data['rarity_id']) && $data['rarity_id']) ? $data['rarity_id'] : null;
 
                 // Use default images for MYO slots without an image provided
                 if (!isset($data['image'])) {
@@ -1913,7 +1901,7 @@ class CharacterManager extends Service {
                 }
             }
             $imageData = Arr::only($data, [
-                'species_id', 'subtype_id', 'rarity_id', 'use_cropper',
+                'species_id', 'subtype_id', 'use_cropper',
                 'x0', 'x1', 'y0', 'y1',
             ]);
             $imageData['use_cropper'] = isset($data['use_cropper']);

@@ -21,9 +21,6 @@
                 {!! Form::select('subtype_id', $subtypes, Request::get('subtype_id'), ['class' => 'form-control']) !!}
             </div>
             <div class="form-group ml-3 mb-3">
-                {!! Form::select('rarity_id', $rarities, Request::get('rarity_id'), ['class' => 'form-control']) !!}
-            </div>
-            <div class="form-group ml-3 mb-3">
                 {!! Form::select('feature_category_id', $categories, Request::get('feature_category_id'), ['class' => 'form-control']) !!}
             </div>
         </div>
@@ -35,8 +32,6 @@
                         'alpha' => 'Sort Alphabetically (A-Z)',
                         'alpha-reverse' => 'Sort Alphabetically (Z-A)',
                         'category' => 'Sort by Category',
-                        'rarity-reverse' => 'Sort by Rarity (Common to Rare)',
-                        'rarity' => 'Sort by Rarity (Rare to Common)',
                         'species' => 'Sort by Species',
                         'subtypes' => 'Sort by Subtype',
                         'newest' => 'Newest First',

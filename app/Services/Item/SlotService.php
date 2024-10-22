@@ -3,7 +3,6 @@
 namespace App\Services\Item;
 
 use App\Models\Item\Item;
-use App\Models\Rarity;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use App\Models\User\User;
@@ -29,7 +28,6 @@ class SlotService extends Service {
      */
     public function getEditData() {
         return [
-            'rarities'  => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'specieses' => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes'  => ['0' => 'Select Subtype'] + Subtype::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'isMyo'     => true,
@@ -48,7 +46,6 @@ class SlotService extends Service {
         $characterData['name'] = $tag->data['name'] ?? null;
         $characterData['species_id'] = isset($tag->data['species_id']) && $tag->data['species_id'] ? $tag->data['species_id'] : null;
         $characterData['subtype_id'] = isset($tag->data['subtype_id']) && $tag->data['subtype_id'] ? $tag->data['subtype_id'] : null;
-        $characterData['rarity_id'] = isset($tag->data['rarity_id']) && $tag->data['rarity_id'] ? $tag->data['rarity_id'] : null;
         $characterData['description'] = isset($tag->data['description']) && $tag->data['description'] ? $tag->data['description'] : null;
         $characterData['parsed_description'] = parse($characterData['description']);
         $characterData['sale_value'] = $tag->data['sale_value'] ?? 0;
@@ -90,7 +87,6 @@ class SlotService extends Service {
         $characterData['name'] = $data['name'] ?? null;
         $characterData['species_id'] = isset($data['species_id']) && $data['species_id'] ? $data['species_id'] : null;
         $characterData['subtype_id'] = isset($data['subtype_id']) && $data['subtype_id'] ? $data['subtype_id'] : null;
-        $characterData['rarity_id'] = isset($data['rarity_id']) && $data['rarity_id'] ? $data['rarity_id'] : null;
         $characterData['description'] = isset($data['description']) && $data['description'] ? $data['description'] : null;
         $characterData['parsed_description'] = parse($characterData['description']);
         $characterData['sale_value'] = $data['sale_value'] ?? 0;
