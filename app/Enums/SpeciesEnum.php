@@ -3,17 +3,14 @@
 namespace App\Enums;
 
 enum SpeciesEnum: int {
-    case SPECIES = 1;
-
-    public function getValues(): array
-    {
+    public function getValues(): array {
         return match ($this) {
             self::SPECIES => ['name' => 'Species'],
         };
     }
 
-    public function getPattern(): Pattern | null
-    {
+    public function getPattern(): ?Pattern {
         return Pattern::SPECIES;
     }
+    case SPECIES = 1;
 }

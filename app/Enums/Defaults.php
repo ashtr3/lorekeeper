@@ -2,8 +2,7 @@
 
 namespace App\Enums;
 
-class Defaults
-{
+class Defaults {
     public const CATEGORY = CharacterCategoryEnum::PLAYER_OWNED;
     public const SPECIES = SpeciesEnum::SPECIES;
     public const SUBTYPE = SubtypeEnum::SUBTYPE;

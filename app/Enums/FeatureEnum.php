@@ -3,33 +3,28 @@
 namespace App\Enums;
 
 enum FeatureEnum: int {
-    case TRAIT = 1;
-
-    public function getValues(): array
-    {
+    public function getValues(): array {
         return match ($this) {
             self::TRAIT => ['name' => 'Trait'],
         };
     }
 
-    public function getCategory(): FeatureCategoryEnum | null
-    {
+    public function getCategory(): ?FeatureCategoryEnum {
         return match ($this) {
             self::TRAIT => FeatureCategoryEnum::CATEGORY,
         };
     }
 
-    public function getRarity(): RarityEnum
-    {
+    public function getRarity(): RarityEnum {
         return match ($this) {
             self::TRAIT => RarityEnum::COMMON,
         };
     }
 
-    public function getPattern(): Pattern | null
-    {
+    public function getPattern(): ?Pattern {
         return match ($this) {
             self::TRAIT => Pattern::TRAIT_A,
         };
     }
+    case TRAIT = 1;
 }

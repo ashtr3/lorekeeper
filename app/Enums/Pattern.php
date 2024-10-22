@@ -9,6 +9,6 @@ enum Pattern: string {
     case SUBTYPE = '/Type:\s*(\w+)/';
     case OWNER = '/Owner:\s*(\S+)/';
     case DESIGNER = '/Design by:\s*(\S+)/';
-    
+
     case TRAIT_A = '/(Trait)/';
 }
