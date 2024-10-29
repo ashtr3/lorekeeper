@@ -13,14 +13,14 @@ return [
     */
 
     'player_owned' => [
-        'code' => 'P',
-        'name' => 'Player-Owned',
-        'pattern' => 'category'
+        'code'    => 'P',
+        'name'    => 'Player-Owned',
+        'pattern' => 'category',
     ],
     'starter' => [
-        'code' => 'S',
-        'name' => 'Starters',
-        'pattern' => 'category'
-    ]
+        'code'    => 'S',
+        'name'    => 'Starters',
+        'pattern' => 'category',
+    ],
 
 ];

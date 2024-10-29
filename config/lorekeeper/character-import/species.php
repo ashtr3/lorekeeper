@@ -13,8 +13,8 @@ return [
     */
 
     'species' => [
-        'name' => 'Species',
-        'pattern' => 'species'
-    ]
+        'name'    => 'Species',
+        'pattern' => 'species',
+    ],
 
 ];

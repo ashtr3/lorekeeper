@@ -13,9 +13,9 @@ return [
     */
 
     'subtype' => [
-        'name' => 'Subtype',
+        'name'    => 'Subtype',
         'species' => 'species',
-        'pattern' => 'subtype'
-    ]
+        'pattern' => 'subtype',
+    ],
 
 ];

@@ -13,10 +13,10 @@ return [
     */
 
     'category' => '/(Category)/',
-    'rarity' => '/(Rarity)/',
-    'species' => '/Species:\s*(\w+)/',
-    'subtype' => '/Type:\s*(\w+)/',
-    'owner' => '/Owner:\s*(\S+)/',
+    'rarity'   => '/(Rarity)/',
+    'species'  => '/Species:\s*(\w+)/',
+    'subtype'  => '/Type:\s*(\w+)/',
+    'owner'    => '/Owner:\s*(\S+)/',
     'designer' => '/Design by:\s*(\S+)/',
 
     // Traits

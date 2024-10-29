@@ -13,10 +13,10 @@ return [
     */
 
     'trait' => [
-        'name' => 'Trait',
+        'name'     => 'Trait',
         'category' => 'category',
-        'rarity' => 'common',
-        'pattern' => 'trait_a'
-    ]
+        'rarity'   => 'common',
+        'pattern'  => 'trait_a',
+    ],
 
 ];

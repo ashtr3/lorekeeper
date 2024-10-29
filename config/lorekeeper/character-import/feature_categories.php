@@ -13,7 +13,7 @@ return [
     */
 
     'category' => [
-        'name' => 'Category'
-    ]
+        'name' => 'Category',
+    ],
 
 ];

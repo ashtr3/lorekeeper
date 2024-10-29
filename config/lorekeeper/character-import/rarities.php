@@ -13,16 +13,16 @@ return [
     */
 
     'common' => [
-        'name' => 'Common',
-        'pattern' => 'rarity'
+        'name'    => 'Common',
+        'pattern' => 'rarity',
     ],
     'uncommon' => [
-        'name' => 'Uncommon',
-        'pattern' => 'rarity'
+        'name'    => 'Uncommon',
+        'pattern' => 'rarity',
     ],
     'rare' => [
-        'name' => 'Rare',
-        'pattern' => 'rarity'
-    ]
+        'name'    => 'Rare',
+        'pattern' => 'rarity',
+    ],
 
 ];

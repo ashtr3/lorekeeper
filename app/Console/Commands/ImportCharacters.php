@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Enums\CharacterCategoryEnum;
 use App\Enums\Defaults;
-use App\Enums\FeatureCategoryEnum;
 use App\Enums\FeatureEnum;
 use App\Enums\Pattern;
 use App\Enums\RarityEnum;
@@ -66,7 +65,7 @@ class ImportCharacters extends Command {
         $featureCategories = $this->createFeatureCategories();
         $features = $this->createFeatures($featureCategories, $rarities);
 
-        $file_name = $this->ask("Enter the output file name (exclude extension, must be in /data/tsv)");
+        $file_name = $this->ask('Enter the output file name (exclude extension, must be in /data/tsv)');
 
         $csv = $this->getCSV($file_name);
         while (($row = $this->getRow($csv)) !== false) {
@@ -232,9 +231,9 @@ class ImportCharacters extends Command {
     protected function handleCharacter($data): Character {
         try {
             $characterData = array_intersect_key($data, array_flip([
-                'character_category_id', 
+                'character_category_id',
                 'rarity_id', 'species_id', 'subtype_id', 'owner_url',
-                'name', 'number', 'slug', 'description'
+                'name', 'number', 'slug', 'description',
             ]));
             $characterData['parsed_description'] = parse($data['description']);
 
@@ -245,6 +244,7 @@ class ImportCharacters extends Command {
             if ($character) {
                 $this->line('Created: '.$data['slug'].': '.$data['name']);
             }
+
             return $character;
         } catch (Exception $e) {
             $this->error('Error creating character.');
@@ -258,10 +258,11 @@ class ImportCharacters extends Command {
             foreach ($data['features'] as $feature) {
                 $characterFeature = CharacterFeature::create([
                     'character_id' => $character->id,
-                    'feature_id' => $feature->id
+                    'feature_id'   => $feature->id,
                 ]);
                 $features[] = $characterFeature->id;
             }
+
             return $features;
         } catch (Exception $e) {
             $this->error('Error creating character features.');
@@ -271,7 +272,7 @@ class ImportCharacters extends Command {
     protected function handleCharacterImage($data, $character): CharacterImage {
         try {
             $imageData = array_intersect_key($data, array_flip([
-                'use_cropper', 'x0', 'x1', 'y0', 'y1'
+                'use_cropper', 'x0', 'x1', 'y0', 'y1',
             ]));
             $imageData['description'] = $data['image_description'];
             $imageData['parsed_description'] = parse($imageData['description']);
@@ -299,7 +300,7 @@ class ImportCharacters extends Command {
                     'character_image_id' => $image->id,
                     'type'               => 'Designer',
                     'url'                => $data['designer_url'],
-                    'user_id'            => null
+                    'user_id'            => null,
                 ]);
             }
         } catch (Exception $e) {
@@ -386,7 +387,7 @@ class ImportCharacters extends Command {
     **********************************************************************************************/
 
     protected function getCSV($file_name) {
-        $filePath = base_path() . "/data/tsv/{$file_name}.tsv";
+        $filePath = base_path()."/data/tsv/{$file_name}.tsv";
 
         if (!file_exists($filePath)) {
             $this->error("File does not exist: /data/tsv/{$file_name}.tsv");
@@ -430,16 +431,19 @@ class ImportCharacters extends Command {
             // Create the directory.
             if (!Storage::makeDirectory($dir)) {
                 $this->error('Failed to create image directory.');
+
                 return false;
             }
         }
 
         $content = file_get_contents($image);
 
-        if (!Storage::put("$dir/$name", $content)) {
+        if (!Storage::put("{$dir}/{$name}", $content)) {
             $this->error('Failed to save image.');
+
             return false;
-        }        
+        }
+
         return true;
     }
 
@@ -455,7 +459,7 @@ class ImportCharacters extends Command {
             $image->resize(config('lorekeeper.settings.masterlist_thumbnails.width'), config('lorekeeper.settings.masterlist_thumbnails.height'));
             $image->encode(config('lorekeeper.settings.masterlist_image_format'), 100);
 
-            Storage::put("$characterImage->imageDirectory/$characterImage->thumbnailFileName", $image);
+            Storage::put("{$characterImage->imageDirectory}/{$characterImage->thumbnailFileName}", $image);
         } catch (\Exception $e) {
             $this->error('Failed to create thumbnail.');
         }
