@@ -25,6 +25,9 @@ Route::post('register/{driver}', 'Auth\RegisterController@postRegisterWithDriver
 // BROWSE
 require_once __DIR__.'/lorekeeper/browse.php';
 
+// IMPORTER
+require_once __DIR__.'/lorekeeper/importer.php';
+
 Route::feeds('feeds');
 
 /**************************************************************************************************
