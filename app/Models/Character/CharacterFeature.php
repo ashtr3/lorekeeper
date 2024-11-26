@@ -12,7 +12,7 @@ class CharacterFeature extends Model {
      * @var array
      */
     protected $fillable = [
-        'character_image_id', 'feature_id', 'data', 'character_type',
+        'character_id', 'feature_id', 'data', 'character_type',
     ];
 
     /**
@@ -36,10 +36,10 @@ class CharacterFeature extends Model {
     **********************************************************************************************/
 
     /**
-     * Get the image associated with this record.
+     * Get the character associated with this record.
      */
-    public function image() {
-        return $this->belongsTo(CharacterImage::class, 'character_image_id');
+    public function character() {
+        return $this->belongsTo(Character::class, 'character_id');
     }
 
     /**

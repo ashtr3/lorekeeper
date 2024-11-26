@@ -3,9 +3,6 @@
 namespace App\Models\Character;
 
 use App\Models\Model;
-use App\Models\Rarity;
-use App\Models\Species\Species;
-use App\Models\Species\Subtype;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -18,7 +15,7 @@ class CharacterImage extends Model {
      * @var array
      */
     protected $fillable = [
-        'character_id', 'user_id', 'species_id', 'subtype_id', 'rarity_id', 'url',
+        'character_id', 'user_id', 'url',
         'extension', 'use_cropper', 'hash', 'fullsize_hash', 'fullsize_extension', 'sort',
         'x0', 'x1', 'y0', 'y1',
         'description', 'parsed_description',
@@ -45,8 +42,6 @@ class CharacterImage extends Model {
      * @var array
      */
     public static $createRules = [
-        'species_id' => 'required',
-        'rarity_id'  => 'required',
         'image'      => 'required|mimes:jpeg,jpg,gif,png,webp|max:2048',
         'thumbnail'  => 'nullable|mimes:jpeg,jpg,gif,png,webp|max:2048',
     ];
@@ -59,8 +54,6 @@ class CharacterImage extends Model {
     public static $updateRules = [
         'character_id' => 'required',
         'user_id'      => 'required',
-        'species_id'   => 'required',
-        'rarity_id'    => 'required',
         'description'  => 'nullable',
         'image'        => 'mimes:jpeg,jpg,gif,png,webp|max:2048',
         'thumbnail'    => 'nullable|mimes:jpeg,jpg,gif,png,webp|max:2048',
@@ -84,40 +77,6 @@ class CharacterImage extends Model {
      */
     public function user() {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    /**
-     * Get the species of the character image.
-     */
-    public function species() {
-        return $this->belongsTo(Species::class, 'species_id');
-    }
-
-    /**
-     * Get the subtype of the character image.
-     */
-    public function subtype() {
-        return $this->belongsTo(Subtype::class, 'subtype_id');
-    }
-
-    /**
-     * Get the rarity of the character image.
-     */
-    public function rarity() {
-        return $this->belongsTo(Rarity::class, 'rarity_id');
-    }
-
-    /**
-     * Get the features (traits) attached to the character image, ordered by display order.
-     */
-    public function features() {
-        $query = $this
-            ->hasMany(CharacterFeature::class, 'character_image_id')->where('character_features.character_type', 'Character')
-            ->join('features', 'features.id', '=', 'character_features.feature_id')
-            ->leftJoin('feature_categories', 'feature_categories.id', '=', 'features.feature_category_id')
-            ->select(['character_features.*', 'features.*', 'character_features.id AS character_feature_id', 'feature_categories.sort']);
-
-        return $query->orderByDesc('sort');
     }
 
     /**
