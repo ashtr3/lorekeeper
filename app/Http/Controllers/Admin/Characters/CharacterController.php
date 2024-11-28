@@ -98,7 +98,7 @@ class CharacterController extends Controller {
 
         return view('character.admin._edit_features_subtype', [
             'subtype_id' => $subtype_id,
-            'subtypes' => ['0', 'Select Subtype'] + Subtype::where('species_id', '=', $species)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'subtypes' => ['0' => 'Select Subtype'] + Subtype::where('species_id', '=', $species)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
         ]);
     }
 
@@ -183,6 +183,7 @@ class CharacterController extends Controller {
             'character' => $this->character,
             'specieses' => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes'  => ['0' => 'Select Subtype'] + Subtype::where('species_id', '=', $this->character->species_id)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'rarities'  => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'features'  => Feature::getDropdownItems(1),
             'isMyo'     => false,
         ]);
@@ -205,6 +206,7 @@ class CharacterController extends Controller {
             'character' => $this->character,
             'specieses' => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes'  => ['0' => 'Select Subtype'] + Subtype::where('species_id', '=', $this->character->species_id)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'rarities'  => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'features'  => Feature::getDropdownItems(1),
             'isMyo'     => true,
         ]);
@@ -219,7 +221,7 @@ class CharacterController extends Controller {
      * @return \Illuminate\Http\RedirectResponse
      */
     public function postEditCharacterFeatures(Request $request, CharacterManager $service, $slug) {
-        $data = $request->only(['species_id', 'subtype_id', 'feature_id', 'feature_data']);
+        $data = $request->only(['species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data']);
         $this->character = Character::where('slug', $slug)->first();
         if (!$this->character) {
             abort(404);
