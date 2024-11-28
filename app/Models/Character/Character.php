@@ -29,8 +29,8 @@ class Character extends Model {
      * @var array
      */
     protected $fillable = [
-        'character_image_id', 'character_category_id', 
-        'species_id', 'subtype_id', 'rarity_id', 
+        'character_image_id', 'character_category_id',
+        'species_id', 'subtype_id', 'rarity_id',
         'user_id', 'owner_alias', 'number', 'slug', 'description', 'parsed_description',
         'is_sellable', 'is_tradeable', 'is_giftable',
         'sale_value', 'transferrable_at', 'is_visible',
