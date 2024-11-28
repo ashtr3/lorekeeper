@@ -91,7 +91,7 @@ class CharacterController extends Controller {
 
     /**
      * Shows the edit image subtype portion of the modal.
-     * 
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getEditCharacterSubtype(Request $request) {
@@ -100,7 +100,7 @@ class CharacterController extends Controller {
 
         return view('character.admin._edit_features_subtype', [
             'subtype_id' => $subtype_id,
-            'subtypes' => ['0' => 'Select Subtype'] + Subtype::where('species_id', '=', $species)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'subtypes'   => ['0' => 'Select Subtype'] + Subtype::where('species_id', '=', $species)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
         ]);
     }
 
@@ -171,9 +171,9 @@ class CharacterController extends Controller {
 
     /**
      * Shows the edit character features modal.
-     * 
-     * @param int $id
-     * 
+     *
+     * @param mixed $slug
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getEditCharacterFeatures($slug) {
@@ -221,7 +221,7 @@ class CharacterController extends Controller {
      * Edits the features of a character.
      *
      * @param App\Services\CharacterManager $service
-     * @param int                           $id
+     * @param mixed                         $slug
      *
      * @return \Illuminate\Http\RedirectResponse
      */

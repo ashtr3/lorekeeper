@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use App\Models\Character\Character;
-use App\Models\Character\CharacterImage;
 use App\Models\Character\Sublist;
 use App\Models\Currency\Currency;
 use App\Models\Gallery\Gallery;

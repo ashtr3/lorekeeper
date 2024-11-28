@@ -590,9 +590,9 @@ class CharacterManager extends Service {
     /**
      * Updates a character image.
      *
-     * @param array                                $data
-     * @param \App\Models\Character\CharacterImage $image
-     * @param \App\Models\User\User                $user
+     * @param array                 $data
+     * @param \App\Models\User\User $user
+     * @param mixed                 $character
      *
      * @return bool
      */
@@ -1846,7 +1846,7 @@ class CharacterManager extends Service {
             }
 
             $characterData = Arr::only($data, [
-                'character_category_id', 'rarity_id', 
+                'character_category_id', 'rarity_id',
                 'species_id', 'subtype_id', 'user_id',
                 'number', 'slug', 'description',
                 'sex', 'mp', 'fertility', 'genotype',
@@ -1884,16 +1884,16 @@ class CharacterManager extends Service {
 
     /**
      * Handles character features.
-     * 
+     *
      * @param array $data
      * @param mixed $character
-     * 
+     *
      * @return array|bool
      */
     private function handleCharacterFeatures($data, $character) {
         try {
             $features = [];
-            
+
             // Attach features
             foreach ($data['feature_id'] as $key => $featureId) {
                 if ($featureId) {
@@ -1906,6 +1906,7 @@ class CharacterManager extends Service {
         } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
+
         return false;
     }
 

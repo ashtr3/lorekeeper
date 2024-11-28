@@ -31,14 +31,14 @@ class Character extends Model {
      * @var array
      */
     protected $fillable = [
-        'character_image_id', 'character_category_id', 
-        'species_id', 'subtype_id', 'rarity_id', 
+        'character_image_id', 'character_category_id',
+        'species_id', 'subtype_id', 'rarity_id',
         'user_id', 'owner_alias', 'number', 'slug', 'description', 'parsed_description',
         'is_sellable', 'is_tradeable', 'is_giftable',
         'sale_value', 'transferrable_at', 'is_visible',
         'is_gift_art_allowed', 'is_gift_writing_allowed', 'is_trading', 'sort',
         'is_myo_slot', 'name', 'trade_id', 'owner_url',
-        'sex', 'custom_sex', 'genotype', 'mp', 'fertility'
+        'sex', 'custom_sex', 'genotype', 'mp', 'fertility',
     ];
 
     /**
@@ -395,7 +395,7 @@ class Character extends Model {
 
     /**
      * Gets the character's rank.
-     * 
+     *
      * @return string
      */
     public function getRankAttribute() {
@@ -408,7 +408,7 @@ class Character extends Model {
 
     /**
      * Gets the character's fertility score.
-     * 
+     *
      * @return string
      */
     public function getDisplayFertilityAttribute() {
@@ -425,9 +425,9 @@ class Character extends Model {
     public function getDisplaySexAttribute() {
         if ($this->sex === 'other') {
             $sex = $this->custom_sex ?? 'Unspecified';
-            return ucwords($sex) . ' ' . add_help("Characters of this sex are unable to breed.");
-        }
-        else {
+
+            return ucwords($sex).' '.add_help('Characters of this sex are unable to breed.');
+        } else {
             return ucwords($this->sex);
         }
     }
