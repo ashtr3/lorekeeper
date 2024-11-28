@@ -136,7 +136,11 @@ class CharacterController extends Controller {
         $request->validate(Character::$myoRules);
         $data = $request->only([
             'user_id', 'owner_url', 'name',
-            'description', 'is_visible', 'is_giftable', 'is_tradeable', 'is_sellable',
+            'description', 'ancestor_sire', 'ancestor_dam', 
+            'ancestor_ss', 'ancestor_sd', 'ancestor_ds', 'ancestor_dd',
+            'ancestor_sss', 'ancestor_ssd', 'ancestor_sds', 'ancestor_sdd', 
+            'ancestor_dss', 'ancestor_dsd', 'ancestor_dds', 'ancestor_ddd',
+            'is_visible', 'is_giftable', 'is_tradeable', 'is_sellable',
             'sale_value', 'transferrable_at', 'use_cropper',
             'x0', 'x1', 'y0', 'y1',
             'designer_id', 'designer_url',
@@ -386,7 +390,7 @@ class CharacterController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getEditMyoLineage($id) {
-        $this->character = Character::where('slug', $slug)->first();
+        $this->character = Character::where('is_myo_slot', 1)->where('id', $id)->first();
         if (!$this->character) {
             abort(404);
         }

@@ -133,7 +133,7 @@ class CharacterManager extends Service {
 
             // Create character ancestors
             $lineage = $this->handleCharacterAncestors($data, $character);
-            if (!$lineage) {
+            if (!is_array($lineage) || $lineage === false) {
                 throw new \Exception('Error happened while trying to create character lineage.');
             }
 
