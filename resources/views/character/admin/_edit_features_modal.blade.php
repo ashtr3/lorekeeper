@@ -14,6 +14,41 @@
     {!! Form::select('rarity_id', $rarities, $character->rarity_id, ['class' => 'form-control']) !!}
 </div>
 
+<div class="row">
+    <div class="col-12 col-md-4">
+        <div class="form-group">
+            {!! Form::label('Sex') !!}
+            {!! Form::select('sex', $sexes, $character->sex, ['class' => 'form-control', 'id' => 'sex']) !!}
+        </div>
+    </div>
+    <div class="col-12 col-md-4 @if($character->sex != 'other') d-none @endif" id="customSex">
+        <div class="form-group">
+            {!! Form::label('Custom Sex') !!}
+            {!! Form::text('custom_sex', $character->custom_sex, ['class' => 'form-control']) !!}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-md-4">
+        <div class="form-group">
+            {!! Form::label('Merit Points (MP)') !!}
+            {!! Form::number('mp', $character->mp, ['class' => 'form-control', 'min' => 0]) !!}
+        </div>
+    </div>
+    <div class="col-12 col-md-4">
+        <div class="form-group">
+            {!! Form::label('Fertility (%)') !!}
+            {!! Form::number('fertility', $character->fertility, ['class' => 'form-control', 'min' => 0, 'max' => 100]) !!}
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    {!! Form::label('Genotype (Optional)') !!}
+    {!! Form::text('genotype', $character->genotype, ['class' => 'form-control']) !!}
+</div>
+
 <div class="form-group">
     {!! Form::label('Traits') !!}
     <div><a href="#" class="btn btn-primary mb-2" id="add-feature">Add Trait</a></div>
@@ -106,4 +141,12 @@
             alert("AJAX call failed: " + textStatus + ", " + errorThrown);
         });
     };
+
+    $("#sex").change(function() {
+        if ($(this).val() === 'other') {
+            $("#customSex").removeClass('d-none');
+        } else {
+            $("#customSex").addClass('d-none');
+        }
+    });
 </script>

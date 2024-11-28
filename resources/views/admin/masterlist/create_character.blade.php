@@ -238,6 +238,38 @@
             {!! Form::select('rarity_id', $rarities, old('rarity_id'), ['class' => 'form-control']) !!}
         </div>
 
+        <div class="row">
+            <div class="col-12 col-lg-6 col-xl-3">
+                <div class="form-group">
+                    {!! Form::label('Sex') !!}
+                    {!! Form::select('sex', $sexes, old('sex'), ['class' => 'form-control', 'id' => 'sex']) !!}
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-xl-3 d-none" id="customSex">
+                <div class="form-group">
+                    {!! Form::label('Custom Sex') !!}
+                    {!! Form::text('custom_sex', old('custom_sex'), ['class' => 'form-control']) !!}
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-xl-2">
+                <div class="form-group">
+                    {!! Form::label('Merit Points (MP)') !!}
+                    {!! Form::number('mp', old('mp', 0), ['class' => 'form-control', 'min' => 0]) !!}
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-xl-2">
+                <div class="form-group">
+                    {!! Form::label('Fertility (%)') !!}
+                    {!! Form::number('fertility', old('fertility', 100), ['class' => 'form-control', 'min' => 0, 'max' => 100]) !!}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            {!! Form::label('Genotype (Optional)') !!}
+            {!! Form::text('genotype', old('genotype'), ['class' => 'form-control']) !!}
+        </div>
+
         <div class="form-group">
             {!! Form::label('Traits') !!} @if ($isMyo)
                 {!! add_help(
@@ -284,6 +316,13 @@
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 alert("AJAX call failed: " + textStatus + ", " + errorThrown);
             });
+        });
+        $("#sex").change(function() {
+            if ($(this).val() === 'other') {
+                $("#customSex").removeClass('d-none');
+            } else {
+                $("#customSex").addClass('d-none');
+            }
         });
     </script>
 @endsection

@@ -55,11 +55,40 @@
                             <div class="col-lg-8 col-7 pl-1">{!! $character->subtype_id ? $character->subtype->displayName : 'None' !!}</div>
                         </div>
                     @endif
+
                     <div class="row no-gutters">
                         <div class="col-lg-4 col-5">
                             <h5>Rarity</h5>
                         </div>
                         <div class="col-lg-8 col-7 pl-1">{!! $character->rarity_id ? $character->rarity->displayName : 'None' !!}</div>
+                    </div>
+
+                    <div class="row no-gutters">
+                        <div class="col-lg-4 col-5">
+                            <h5>Rank</h5>
+                        </div>
+                        <div class="col-lg-8 col-7 pl-1">{!! ucwords($character->rank) !!}</div>
+                    </div>
+
+                    <div class="row no-gutters">
+                        <div class="col-lg-4 col-5">
+                            <h5>Sex</h5>
+                        </div>
+                        <div class="col-lg-8 col-7 pl-1">{!! $character->displaySex !!}</div>
+                    </div>
+
+                    <div class="row no-gutters">
+                        <div class="col-lg-4 col-5">
+                            <h5>Fertility</h5>
+                        </div>
+                        <div class="col-lg-8 col-7 pl-1">{!! ucwords($character->displayFertility) !!}</div>
+                    </div>
+
+                    <div class="row no-gutters">
+                        <div class="col-lg-4 col-5">
+                            <h5>Genotype</h5>
+                        </div>
+                        <div class="col-lg-8 col-7 pl-1">{!! $character->genotype ?? 'None' !!}</div>
                     </div>
 
                     <div class="mb-3">
