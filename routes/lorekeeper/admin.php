@@ -354,6 +354,9 @@ Route::group(['prefix' => 'character', 'namespace' => 'Characters', 'middleware'
     Route::get('{slug}/description', 'CharacterController@getEditCharacterDescription');
     Route::post('{slug}/description', 'CharacterController@postEditCharacterDescription');
 
+    Route::get('{slug}/lineage', 'CharacterController@getEditCharacterLineage');
+    Route::post('{slug}/lineage', 'CharacterController@postEditCharacterLineage');
+
     Route::get('{slug}/profile', 'CharacterController@getEditCharacterProfile');
     Route::post('{slug}/profile', 'CharacterController@postEditCharacterProfile');
 
@@ -372,6 +375,9 @@ Route::group(['prefix' => 'myo', 'namespace' => 'Characters', 'middleware' => 'p
 
     Route::get('{id}/description', 'CharacterController@getEditMyoDescription');
     Route::post('{id}/description', 'CharacterController@postEditMyoDescription');
+
+    Route::get('{id}/lineage', 'CharacterController@getEditMyoLineage');
+    Route::post('{id}/lineage', 'CharacterController@postEditMyoLineage');
 
     Route::get('{id}/profile', 'CharacterController@getEditMyoProfile');
     Route::post('{id}/profile', 'CharacterController@postEditMyoProfile');

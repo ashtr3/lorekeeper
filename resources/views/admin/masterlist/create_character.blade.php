@@ -93,6 +93,113 @@
             ) !!}
         </div>
 
+        <h3>Lineage</h3>
+
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    {!! Form::label('Sire') !!}
+                    {!! Form::select('ancestor_sire', $characters, old('ancestor_sire'), ['class' => 'form-control', 'placeholder' => 'Select Sire', 'id' => 'ancestorSire']) !!}
+                </div>    
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    {!! Form::label('Dam') !!}
+                    {!! Form::select('ancestor_dam', $characters, old('ancestor_dam'), ['class' => 'form-control', 'placeholder' => 'Select Dam', 'id' => 'ancestorDam']) !!}
+                </div>    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    {!! Form::label('SS') !!}
+                    {!! add_help('This ancestor is the Sire\'s Sire.') !!}
+                    {!! Form::select('ancestor_ss', $characters, old('ancestor_ss'), ['class' => 'form-control', 'placeholder' => 'Select SS', 'id' => 'ancestorSS']) !!}
+                </div>    
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    {!! Form::label('SD') !!}
+                    {!! add_help('This ancestor is the Sire\'s Dam.') !!}
+                    {!! Form::select('ancestor_sd', $characters, old('ancestor_sd'), ['class' => 'form-control', 'placeholder' => 'Select SD', 'id' => 'ancestorSD']) !!}
+                </div>    
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    {!! Form::label('DS') !!}
+                    {!! add_help('This ancestor is the Dam\'s Sire.') !!}
+                    {!! Form::select('ancestor_ds', $characters, old('ancestor_ds'), ['class' => 'form-control', 'placeholder' => 'Select DS', 'id' => 'ancestorDS']) !!}
+                </div>    
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    {!! Form::label('DD') !!}
+                    {!! add_help('This ancestor is the Dam\'s Dam.') !!}
+                    {!! Form::select('ancestor_dd', $characters, old('ancestor_dd'), ['class' => 'form-control', 'placeholder' => 'Select DD', 'id' => 'ancestorDD']) !!}
+                </div>    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    {!! Form::label('SSS') !!}
+                    {!! add_help('This ancestor is the Sire\'s Sire\'s Sire.') !!}
+                    {!! Form::select('ancestor_sss', $characters, old('ancestor_sss'), ['class' => 'form-control', 'placeholder' => 'Select SSS', 'id' => 'ancestorSSS']) !!}
+                </div>    
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    {!! Form::label('SSD') !!}
+                    {!! add_help('This ancestor is the Sire\'s Sire\'s Dam.') !!}
+                    {!! Form::select('ancestor_ssd', $characters, old('ancestor_ssd'), ['class' => 'form-control', 'placeholder' => 'Select SSD', 'id' => 'ancestorSSD']) !!}
+                </div>    
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    {!! Form::label('SDS') !!}
+                    {!! add_help('This ancestor is the Sire\'s Dam\'s Sire.') !!}
+                    {!! Form::select('ancestor_sds', $characters, old('ancestor_sds'), ['class' => 'form-control', 'placeholder' => 'Select SDS', 'id' => 'ancestorSDS']) !!}
+                </div>    
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    {!! Form::label('SDD') !!}
+                    {!! add_help('This ancestor is the Sire\'s Dam\'s Dam.') !!}
+                    {!! Form::select('ancestor_sdd', $characters, old('ancestor_sdd'), ['class' => 'form-control', 'placeholder' => 'Select SDD', 'id' => 'ancestorSDD']) !!}
+                </div>    
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    {!! Form::label('DSS') !!}
+                    {!! add_help('This ancestor is the Dam\'s Sire\'s Sire.') !!}
+                    {!! Form::select('ancestor_dss', $characters, old('ancestor_dss'), ['class' => 'form-control', 'placeholder' => 'Select DSS', 'id' => 'ancestorDSS']) !!}
+                </div>    
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    {!! Form::label('DSD') !!}
+                    {!! add_help('This ancestor is the Dam\'s Sire\'s Dam.') !!}
+                    {!! Form::select('ancestor_dsd', $characters, old('ancestor_dsd'), ['class' => 'form-control', 'placeholder' => 'Select DSD', 'id' => 'ancestorDSD']) !!}
+                </div>    
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    {!! Form::label('DDS') !!}
+                    {!! add_help('This ancestor is the Dam\'s Dam\'s Sire.') !!}
+                    {!! Form::select('ancestor_dds', $characters, old('ancestor_dds'), ['class' => 'form-control', 'placeholder' => 'Select DDS', 'id' => 'ancestorDDS']) !!}
+                </div>    
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="form-group">
+                    {!! Form::label('DDD') !!}
+                    {!! add_help('This ancestor is the Dam\'s Dam\'s Dam.') !!}
+                    {!! Form::select('ancestor_ddd', $characters, old('ancestor_ddd'), ['class' => 'form-control', 'placeholder' => 'Select DDD', 'id' => 'ancestorDDD']) !!}
+                </div>    
+            </div>
+        </div>
+
         <h3>Transfer Information</h3>
 
         <div class="alert alert-info">

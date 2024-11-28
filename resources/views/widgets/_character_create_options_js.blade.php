@@ -1,6 +1,24 @@
 <script>
     $(document).ready(function() {
         $('#userSelect').selectize();
+
+        $('#ancestorSire').selectize();
+        $('#ancestorDam').selectize();
+
+        $('#ancestorSS').selectize();
+        $('#ancestorSD').selectize();
+        $('#ancestorDS').selectize();
+        $('#ancestorDD').selectize();
+        
+        $('#ancestorSSS').selectize();
+        $('#ancestorSSD').selectize();
+        $('#ancestorSDS').selectize();
+        $('#ancestorSDD').selectize();
+        $('#ancestorDSS').selectize();
+        $('#ancestorDSD').selectize();
+        $('#ancestorDDS').selectize();
+        $('#ancestorDDD').selectize();
+
         // Resell options /////////////////////////////////////////////////////////////////////////////
 
         var $resellable = $('#resellable');
