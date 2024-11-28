@@ -621,6 +621,11 @@ class CharacterManager extends Service {
             $old['species'] = $character->species_id ? $character->species->displayName : null;
             $old['subtype'] = $character->subtype_id ? $character->subtype->displayName : null;
             $old['rarity'] = $character->rarity_id ? $character->rarity->displayName : null;
+            $old['sex'] = $character->sex;
+            $old['custom_sex'] = $character->custom_sex;
+            $old['mp'] = $character->mp;
+            $old['fertility'] = $character->fertility;
+            $old['genotype'] = $character->genotype;
 
             // Clear old features
             $character->features()->delete();
@@ -636,6 +641,11 @@ class CharacterManager extends Service {
             $character->species_id = $data['species_id'];
             $character->subtype_id = $data['subtype_id'] ?: null;
             $character->rarity_id = $data['rarity_id'];
+            $character->sex = $data['sex'];
+            $character->custom_sex = $data['sex'] === 'other' ? $data['custom_sex'] : null;
+            $character->mp = $data['mp'];
+            $character->fertility = $data['fertility'];
+            $character->genotype = $data['genotype'];
             $character->save();
 
             $new = [];
@@ -643,6 +653,11 @@ class CharacterManager extends Service {
             $new['species'] = $character->species_id ? $character->species->displayName : null;
             $new['subtype'] = $character->subtype_id ? $character->subtype->displayName : null;
             $new['rarity'] = $character->rarity_id ? $character->rarity->displayName : null;
+            $new['sex'] = $character->sex;
+            $new['custom_sex'] = $character->custom_sex;
+            $new['mp'] = $character->mp;
+            $new['fertility'] = $character->fertility;
+            $new['genotype'] = $character->genotype;
 
             // Add a log for the character
             // This logs all the updates made to the character
@@ -1834,11 +1849,13 @@ class CharacterManager extends Service {
                 'character_category_id', 'rarity_id', 
                 'species_id', 'subtype_id', 'user_id',
                 'number', 'slug', 'description',
+                'sex', 'mp', 'fertility', 'genotype',
                 'sale_value', 'transferrable_at', 'is_visible',
             ]);
 
             $characterData['name'] = ($isMyo && isset($data['name'])) ? $data['name'] : null;
             $characterData['owner_url'] = isset($characterData['user_id']) ? null : $data['owner_url'];
+            $characterData['custom_sex'] = $characterData['sex'] === 'other' && isset($data['custom_sex']) ? $data['custom_sex'] : null;
             $characterData['is_sellable'] = isset($data['is_sellable']);
             $characterData['is_tradeable'] = isset($data['is_tradeable']);
             $characterData['is_giftable'] = isset($data['is_giftable']);
