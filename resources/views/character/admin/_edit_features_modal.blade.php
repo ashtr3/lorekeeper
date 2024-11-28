@@ -1,24 +1,24 @@
-{!! Form::open(['url' => 'admin/character/image/' . $image->id . '/traits']) !!}
+{!! Form::open(['url' => $isMyo ? 'admin/myo/' . $character->id . '/traits' : 'admin/character/' . $character->slug .'/traits']) !!}
 <div class="form-group">
     {!! Form::label('Species') !!}
-    {!! Form::select('species_id', $specieses, $image->species_id, ['class' => 'form-control', 'id' => 'species']) !!}
+    {!! Form::select('species_id', $specieses, $character->species_id, ['class' => 'form-control', 'id' => 'species']) !!}
 </div>
 
 <div class="form-group" id="subtypes">
     {!! Form::label('Subtype (Optional)') !!}
-    {!! Form::select('subtype_id', $subtypes, $image->subtype_id, ['class' => 'form-control', 'id' => 'subtype']) !!}
+    {!! Form::select('subtype_id', $subtypes, $character->subtype_id, ['class' => 'form-control', 'id' => 'subtype']) !!}
 </div>
 
 <div class="form-group">
     {!! Form::label('Character Rarity') !!}
-    {!! Form::select('rarity_id', $rarities, $image->rarity_id, ['class' => 'form-control']) !!}
+    {!! Form::select('rarity_id', $rarities, $character->rarity_id, ['class' => 'form-control']) !!}
 </div>
 
 <div class="form-group">
     {!! Form::label('Traits') !!}
     <div><a href="#" class="btn btn-primary mb-2" id="add-feature">Add Trait</a></div>
     <div id="featureList">
-        @foreach ($image->features as $feature)
+        @foreach ($character->features as $feature)
             <div class="d-flex mb-2">
                 {!! Form::select('feature_id[]', $features, $feature->feature_id, ['class' => 'form-control mr-2 feature-select original', 'placeholder' => 'Select Trait']) !!}
                 {!! Form::text('feature_data[]', $feature->data, ['class' => 'form-control mr-2', 'placeholder' => 'Extra Info (Optional)']) !!}
@@ -95,16 +95,15 @@
 
     function refreshSubtype() {
         var species = $('#species').val();
-        var id = '<?php echo $image->id; ?>';
+        var subtype_id = {{ $character->subtype_id ?: 'null' }};
         $.ajax({
             type: "GET",
-            url: "{{ url('admin/character/image/traits/subtype') }}?species=" + species + "&id=" + id,
+            url: "{{ url('admin/character/traits/check-subtype') }}?species=" + species + "&subtype_id=" + subtype_id,
             dataType: "text"
         }).done(function(res) {
             $("#subtypes").html(res);
         }).fail(function(jqXHR, textStatus, errorThrown) {
             alert("AJAX call failed: " + textStatus + ", " + errorThrown);
         });
-
     };
 </script>

@@ -10,7 +10,7 @@
                         {{ $character->displayType }}: <a href="{{ $character->character->url }}">{!! $character->character->slug !!}</a> ・ <span
                             class="{{ $character->is_open && $character->sales->is_open ? 'text-success' : '' }}">[{{ $character->is_open && $character->sales->is_open ? 'Open' : 'Closed' }}]</span><br />
                         <small>
-                            {!! $character->image->species->displayName !!} ・ {!! $character->image->rarity->displayName !!}<br />
+                            {!! $character->species->displayName !!} ・ {!! $character->rarity->displayName !!}<br />
                         </small>
                     </h5>
 
@@ -19,12 +19,12 @@
                             @if (config('lorekeeper.extensions.traits_by_category'))
                                 <div>
                                     @php
-                                        $traitgroup = $character->image
+                                        $traitgroup = $character
                                             ->features()
                                             ->get()
                                             ->groupBy('feature_category_id');
                                     @endphp
-                                    @if ($character->image->features()->count())
+                                    @if ($character->features()->count())
                                         @foreach ($traitgroup as $key => $group)
                                             <div>
                                                 @if ($group->count() > 1)
@@ -51,7 +51,7 @@
                                 </div>
                             @else
                                 <div>
-                                    <?php $features = $character->image
+                                    <?php $features = $character
                                         ->features()
                                         ->with('feature.category')
                                         ->get(); ?>

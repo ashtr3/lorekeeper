@@ -102,47 +102,6 @@
         {!! Form::textarea('image_description', old('image_description'), ['class' => 'form-control wysiwyg']) !!}
     </div>
 
-    <h3>
-        {{-- <div class="float-right"><a href="#" class="btn btn-info btn-sm" data-toggle="tooltip" title="This will fill the below fields with the same data as the character's current image. Note that this will overwrite any changes made below.">Fill Data</a></div> --}}
-        Traits
-    </h3>
-
-    <div class="form-group">
-        {!! Form::label('Species') !!}
-        {!! Form::select('species_id', $specieses, old('species_id') ?: $character->image->species_id, ['class' => 'form-control', 'id' => 'species']) !!}
-    </div>
-
-    <div class="form-group" id="subtypes">
-        {!! Form::label('Subtype (Optional)') !!}
-        {!! Form::select('subtype_id', $subtypes, old('subtype_id') ?: $character->image->subtype_id, ['class' => 'form-control', 'id' => 'subtype']) !!}
-    </div>
-
-    <div class="form-group">
-        {!! Form::label('Character Rarity') !!}
-        {!! Form::select('rarity_id', $rarities, old('rarity_id') ?: $character->image->rarity_id, ['class' => 'form-control']) !!}
-    </div>
-
-    <div class="form-group">
-        {!! Form::label('Traits') !!}
-        <div><a href="#" class="btn btn-primary mb-2" id="add-feature">Add Trait</a></div>
-        <div id="featureList">
-            @if (config('lorekeeper.extensions.autopopulate_image_features'))
-                @foreach ($character->image->features as $feature)
-                    <div class="d-flex mb-2">
-                        {!! Form::select('feature_id[]', $features, $feature->feature_id, ['class' => 'form-control mr-2 feature-select original', 'placeholder' => 'Select Trait']) !!}
-                        {!! Form::text('feature_data[]', $feature->data, ['class' => 'form-control mr-2', 'placeholder' => 'Extra Info (Optional)']) !!}
-                        <a href="#" class="remove-feature btn btn-danger mb-2">×</a>
-                    </div>
-                @endforeach
-            @endif
-        </div>
-        <div class="feature-row hide mb-2">
-            {!! Form::select('feature_id[]', $features, null, ['class' => 'form-control mr-2 feature-select', 'placeholder' => 'Select Trait']) !!}
-            {!! Form::text('feature_data[]', null, ['class' => 'form-control mr-2', 'placeholder' => 'Extra Info (Optional)']) !!}
-            <a href="#" class="remove-feature btn btn-danger mb-2">×</a>
-        </div>
-    </div>
-
     <div class="text-right">
         {!! Form::submit('Create Image', ['class' => 'btn btn-primary']) !!}
     </div>
@@ -224,45 +183,6 @@
                 });
             }
 
-            // Traits /////////////////////////////////////////////////////////////////////////////////////
-
-            $('#add-feature').on('click', function(e) {
-                e.preventDefault();
-                addFeatureRow();
-            });
-            $('.remove-feature').on('click', function(e) {
-                e.preventDefault();
-                removeFeatureRow($(this));
-            })
-
-            function addFeatureRow() {
-                var $clone = $('.feature-row').clone();
-                $('#featureList').append($clone);
-                $clone.removeClass('hide feature-row');
-                $clone.addClass('d-flex');
-                $clone.find('.remove-feature').on('click', function(e) {
-                    e.preventDefault();
-                    removeFeatureRow($(this));
-                })
-                @if (config('lorekeeper.extensions.organised_traits_dropdown'))
-                    $clone.find('.feature-select').selectize({
-                        render: {
-                            item: featureSelectedRender
-                        }
-                    });
-                @else
-                    $clone.find('.feature-select').selectize();
-                @endif
-            }
-
-            function removeFeatureRow($trigger) {
-                $trigger.parent().remove();
-            }
-
-            function featureSelectedRender(item, escape) {
-                return '<div><span>' + escape(item["text"].trim()) + ' (' + escape(item["optgroup"].trim()) + ')' + '</span></div>';
-            }
-
             // Croppie ////////////////////////////////////////////////////////////////////////////////////
 
             var thumbnailWidth = {{ config('lorekeeper.settings.masterlist_thumbnails.width') }};
@@ -312,25 +232,6 @@
                 $x1.val(values.points[2]);
                 $y1.val(values.points[3]);
             }
-
-
-        });
-
-
-
-        $("#species").change(function() {
-            var species = $('#species').val();
-            var id = '<?php echo $character->image->id; ?>';
-            $.ajax({
-                type: "GET",
-                url: "{{ url('admin/character/image/subtype') }}?species=" + species + "&id=" + id,
-                dataType: "text"
-            }).done(function(res) {
-                $("#subtypes").html(res);
-            }).fail(function(jqXHR, textStatus, errorThrown) {
-                alert("AJAX call failed: " + textStatus + ", " + errorThrown);
-            });
-
         });
     </script>
 @endsection
