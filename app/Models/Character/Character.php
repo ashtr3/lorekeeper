@@ -194,137 +194,137 @@ class Character extends Model {
     }
 
     /**
-     * Get the character's ancestors
+     * Get the character's ancestors.
      */
     public function ancestors() {
         return $this->hasMany(CharacterAncestor::class, 'character_id')
-                    ->with('ancestor');
+            ->with('ancestor');
     }
 
     /**
-     * Get the character's sire
+     * Get the character's sire.
      */
     public function sire() {
         return $this->hasOne(CharacterAncestor::class, 'character_id')
-                    ->where('type', 'sire')
-                    ->with('ancestor');
+            ->where('type', 'sire')
+            ->with('ancestor');
     }
 
     /**
-     * Get the character's dam
+     * Get the character's dam.
      */
     public function dam() {
         return $this->hasOne(CharacterAncestor::class, 'character_id')
-                    ->where('type', 'dam')
-                    ->with('ancestor');
+            ->where('type', 'dam')
+            ->with('ancestor');
     }
 
     /**
-     * Get the character's ss (sire's sire)
+     * Get the character's ss (sire's sire).
      */
     public function ss() {
         return $this->hasOne(CharacterAncestor::class, 'character_id')
-                    ->where('type', 'ss')
-                    ->with('ancestor');
+            ->where('type', 'ss')
+            ->with('ancestor');
     }
 
     /**
-     * Get the character's sd (sire's dam)
+     * Get the character's sd (sire's dam).
      */
     public function sd() {
         return $this->hasOne(CharacterAncestor::class, 'character_id')
-                    ->where('type', 'sd')
-                    ->with('ancestor');
+            ->where('type', 'sd')
+            ->with('ancestor');
     }
 
     /**
-     * Get the character's ds (dam's sire)
+     * Get the character's ds (dam's sire).
      */
     public function ds() {
         return $this->hasOne(CharacterAncestor::class, 'character_id')
-                    ->where('type', 'ds')
-                    ->with('ancestor');
+            ->where('type', 'ds')
+            ->with('ancestor');
     }
 
     /**
-     * Get the character's dd (dam's dam)
+     * Get the character's dd (dam's dam).
      */
     public function dd() {
         return $this->hasOne(CharacterAncestor::class, 'character_id')
-                    ->where('type', 'dd')
-                    ->with('ancestor');
+            ->where('type', 'dd')
+            ->with('ancestor');
     }
 
     /**
-     * Get the character's sss (sire's sire's sire)
+     * Get the character's sss (sire's sire's sire).
      */
     public function sss() {
         return $this->hasOne(CharacterAncestor::class, 'character_id')
-                    ->where('type', 'sss')
-                    ->with('ancestor');
+            ->where('type', 'sss')
+            ->with('ancestor');
     }
 
     /**
-     * Get the character's ssd (sire's sire's dam)
+     * Get the character's ssd (sire's sire's dam).
      */
     public function ssd() {
         return $this->hasOne(CharacterAncestor::class, 'character_id')
-                    ->where('type', 'ssd')
-                    ->with('ancestor');
+            ->where('type', 'ssd')
+            ->with('ancestor');
     }
 
     /**
-     * Get the character's sds (sire's dam's sire)
+     * Get the character's sds (sire's dam's sire).
      */
     public function sds() {
         return $this->hasOne(CharacterAncestor::class, 'character_id')
-                    ->where('type', 'sds')
-                    ->with('ancestor');
+            ->where('type', 'sds')
+            ->with('ancestor');
     }
 
     /**
-     * Get the character's sdd (sire's dam's dam)
+     * Get the character's sdd (sire's dam's dam).
      */
     public function sdd() {
         return $this->hasOne(CharacterAncestor::class, 'character_id')
-                    ->where('type', 'sdd')
-                    ->with('ancestor');
+            ->where('type', 'sdd')
+            ->with('ancestor');
     }
 
     /**
-     * Get the character's dss (dam's sire's sire)
+     * Get the character's dss (dam's sire's sire).
      */
     public function dss() {
         return $this->hasOne(CharacterAncestor::class, 'character_id')
-                    ->where('type', 'dss')
-                    ->with('ancestor');
+            ->where('type', 'dss')
+            ->with('ancestor');
     }
 
     /**
-     * Get the character's dsd (dam's sire's dam)
+     * Get the character's dsd (dam's sire's dam).
      */
     public function dsd() {
         return $this->hasOne(CharacterAncestor::class, 'character_id')
-                    ->where('type', 'dsd')
-                    ->with('ancestor');
+            ->where('type', 'dsd')
+            ->with('ancestor');
     }
 
     /**
-     * Get the character's dds (dam's dam's sire)
+     * Get the character's dds (dam's dam's sire).
      */
     public function dds() {
         return $this->hasOne(CharacterAncestor::class, 'character_id')
-                    ->where('type', 'dds')
-                    ->with('ancestor');
+            ->where('type', 'dds')
+            ->with('ancestor');
     }
 
     /**
-     * Get the character's ddd (dam's dam's dam)
+     * Get the character's ddd (dam's dam's dam).
      */
     public function ddd() {
         return $this->hasOne(CharacterAncestor::class, 'character_id')
-                    ->where('type', 'ddd')
-                    ->with('ancestor');
+            ->where('type', 'ddd')
+            ->with('ancestor');
     }
 
     /**********************************************************************************************
@@ -495,26 +495,26 @@ class Character extends Model {
     }
 
     /**
-     * Gets the character's ancestor ids
-     * 
+     * Gets the character's ancestor ids.
+     *
      * @return array
      */
     public function getAncestorListAttribute() {
         return [
             'ancestor_sire' => $this->sire->ancestor_id ?? null,
-            'ancestor_dam' => $this->dam->ancestor_id ?? null,
-            'ancestor_ss' => $this->ss->ancestor_id ?? null,
-            'ancestor_sd' => $this->sd->ancestor_id ?? null,
-            'ancestor_ds' => $this->ds->ancestor_id ?? null,
-            'ancestor_dd' => $this->dd->ancestor_id ?? null,
-            'ancestor_sss' => $this->sss->ancestor_id ?? null,
-            'ancestor_ssd' => $this->ssd->ancestor_id ?? null,
-            'ancestor_sds' => $this->sds->ancestor_id ?? null,
-            'ancestor_sdd' => $this->sdd->ancestor_id ?? null,
-            'ancestor_dss' => $this->dss->ancestor_id ?? null,
-            'ancestor_dsd' => $this->dsd->ancestor_id ?? null,
-            'ancestor_dds' => $this->dds->ancestor_id ?? null,
-            'ancestor_ddd' => $this->ddd->ancestor_id ?? null
+            'ancestor_dam'  => $this->dam->ancestor_id ?? null,
+            'ancestor_ss'   => $this->ss->ancestor_id ?? null,
+            'ancestor_sd'   => $this->sd->ancestor_id ?? null,
+            'ancestor_ds'   => $this->ds->ancestor_id ?? null,
+            'ancestor_dd'   => $this->dd->ancestor_id ?? null,
+            'ancestor_sss'  => $this->sss->ancestor_id ?? null,
+            'ancestor_ssd'  => $this->ssd->ancestor_id ?? null,
+            'ancestor_sds'  => $this->sds->ancestor_id ?? null,
+            'ancestor_sdd'  => $this->sdd->ancestor_id ?? null,
+            'ancestor_dss'  => $this->dss->ancestor_id ?? null,
+            'ancestor_dsd'  => $this->dsd->ancestor_id ?? null,
+            'ancestor_dds'  => $this->dds->ancestor_id ?? null,
+            'ancestor_ddd'  => $this->ddd->ancestor_id ?? null,
         ];
     }
 

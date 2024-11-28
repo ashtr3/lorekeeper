@@ -1225,11 +1225,11 @@ class CharacterManager extends Service {
 
     /**
      * Updates a character's lineage.
-     * 
+     *
      * @param array                           $data
      * @param \App\Models\Character\Character $character
      * @param \App\Models\User\User           $user
-     * 
+     *
      * @return bool
      */
     public function updateCharacterLineage($data, $character, $user) {
@@ -1925,10 +1925,10 @@ class CharacterManager extends Service {
 
     /**
      * Handles character ancestors data.
-     * 
+     *
      * @param array                           $data
      * @param \App\Models\Character\Character $character
-     * 
+     *
      * @return array|bool
      */
     private function handleCharacterAncestors($data, $character) {
@@ -1937,85 +1937,85 @@ class CharacterManager extends Service {
 
             if (isset($data['ancestor_sire']) && $data['ancestor_sire']) {
                 $lineageData['sire'] = $this->handleCharacterAncestor($character, $data['ancestor_sire'], 'sire');
-            } else if ($character->sire) {
+            } elseif ($character->sire) {
                 $character->sire->delete();
             }
 
             if (isset($data['ancestor_dam']) && $data['ancestor_dam']) {
                 $lineageData['dam'] = $this->handleCharacterAncestor($character, $data['ancestor_dam'], 'dam');
-            } else if ($character->dam) {
+            } elseif ($character->dam) {
                 $character->dam->delete();
             }
 
             if (isset($data['ancestor_ss']) && $data['ancestor_ss']) {
                 $lineageData['ss'] = $this->handleCharacterAncestor($character, $data['ancestor_ss'], 'ss');
-            } else if ($character->ss) {
+            } elseif ($character->ss) {
                 $character->ss->delete();
             }
 
             if (isset($data['ancestor_sd']) && $data['ancestor_sd']) {
                 $lineageData['sd'] = $this->handleCharacterAncestor($character, $data['ancestor_sd'], 'sd');
-            } else if ($character->sd) {
+            } elseif ($character->sd) {
                 $character->sd->delete();
             }
-            
+
             if (isset($data['ancestor_ds']) && $data['ancestor_ds']) {
                 $lineageData['ds'] = $this->handleCharacterAncestor($character, $data['ancestor_ds'], 'ds');
-            } else if ($character->ds) {
+            } elseif ($character->ds) {
                 $character->ds->delete();
             }
 
             if (isset($data['ancestor_dd']) && $data['ancestor_dd']) {
                 $lineageData['dd'] = $this->handleCharacterAncestor($character, $data['ancestor_dd'], 'dd');
-            } else if ($character->dd) {
+            } elseif ($character->dd) {
                 $character->dd->delete();
             }
 
             if (isset($data['ancestor_sss']) && $data['ancestor_sss']) {
                 $lineageData['sss'] = $this->handleCharacterAncestor($character, $data['ancestor_sss'], 'sss');
-            } else if ($character->sss) {
+            } elseif ($character->sss) {
                 $character->sss->delete();
             }
 
             if (isset($data['ancestor_ssd']) && $data['ancestor_ssd']) {
                 $lineageData['ssd'] = $this->handleCharacterAncestor($character, $data['ancestor_ssd'], 'ssd');
-            } else if ($character->ssd) {
+            } elseif ($character->ssd) {
                 $character->ssd->delete();
             }
 
             if (isset($data['ancestor_sds']) && $data['ancestor_sds']) {
                 $lineageData['sds'] = $this->handleCharacterAncestor($character, $data['ancestor_sds'], 'sds');
-            } else if ($character->sds) {
+            } elseif ($character->sds) {
                 $character->sds->delete();
             }
 
             if (isset($data['ancestor_sdd']) && $data['ancestor_sdd']) {
                 $lineageData['sdd'] = $this->handleCharacterAncestor($character, $data['ancestor_sdd'], 'sdd');
-            } else if ($character->sdd) {
+            } elseif ($character->sdd) {
                 $character->sdd->delete();
             }
 
             if (isset($data['ancestor_dss']) && $data['ancestor_dss']) {
                 $lineageData['dss'] = $this->handleCharacterAncestor($character, $data['ancestor_dss'], 'dss');
-            } else if ($character->dss) {
+            } elseif ($character->dss) {
                 $character->dss->delete();
             }
 
             if (isset($data['ancestor_dsd']) && $data['ancestor_dsd']) {
                 $lineageData['dsd'] = $this->handleCharacterAncestor($character, $data['ancestor_dsd'], 'dsd');
-            } else if ($character->dsd) {
+            } elseif ($character->dsd) {
                 $character->dsd->delete();
             }
 
             if (isset($data['ancestor_dds']) && $data['ancestor_dds']) {
                 $lineageData['dds'] = $this->handleCharacterAncestor($character, $data['ancestor_dds'], 'dds');
-            } else if ($character->dds) {
+            } elseif ($character->dds) {
                 $character->dds->delete();
             }
 
             if (isset($data['ancestor_ddd']) && $data['ancestor_ddd']) {
                 $lineageData['ddd'] = $this->handleCharacterAncestor($character, $data['ancestor_dd'], 'ddd');
-            } else if ($character->ddd) {
+            } elseif ($character->ddd) {
                 $character->ddd->delete();
             }
 
@@ -2023,16 +2023,17 @@ class CharacterManager extends Service {
         } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
+
         return false;
     }
 
     /**
      * Handles character ancestor data.
-     * 
+     *
      * @param \App\Models\Character\Character $character
      * @param int                             $ancestorId
-     * @param string                          $type 
-     * 
+     * @param string                          $type
+     *
      * @return \App\Models\Character\CharacterAncestor
      */
     private function handleCharacterAncestor($character, $ancestorId, $type) {
@@ -2044,8 +2045,8 @@ class CharacterManager extends Service {
             } else {
                 $ancestor = CharacterAncestor::create([
                     'character_id' => $character->id,
-                    'ancestor_id' => $ancestorId,
-                    'type' => $type
+                    'ancestor_id'  => $ancestorId,
+                    'type'         => $type,
                 ]);
             }
 
@@ -2057,6 +2058,7 @@ class CharacterManager extends Service {
         } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
+
         return false;
     }
 

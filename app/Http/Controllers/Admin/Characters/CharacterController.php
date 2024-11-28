@@ -100,9 +100,9 @@ class CharacterController extends Controller {
         $request->validate(Character::$createRules);
         $data = $request->only([
             'user_id', 'owner_url', 'character_category_id', 'number', 'slug',
-            'description', 'ancestor_sire', 'ancestor_dam', 
+            'description', 'ancestor_sire', 'ancestor_dam',
             'ancestor_ss', 'ancestor_sd', 'ancestor_ds', 'ancestor_dd',
-            'ancestor_sss', 'ancestor_ssd', 'ancestor_sds', 'ancestor_sdd', 
+            'ancestor_sss', 'ancestor_ssd', 'ancestor_sds', 'ancestor_sdd',
             'ancestor_dss', 'ancestor_dsd', 'ancestor_dds', 'ancestor_ddd',
             'is_visible', 'is_giftable', 'is_tradeable', 'is_sellable',
             'sale_value', 'transferrable_at', 'use_cropper',
@@ -136,9 +136,9 @@ class CharacterController extends Controller {
         $request->validate(Character::$myoRules);
         $data = $request->only([
             'user_id', 'owner_url', 'name',
-            'description', 'ancestor_sire', 'ancestor_dam', 
+            'description', 'ancestor_sire', 'ancestor_dam',
             'ancestor_ss', 'ancestor_sd', 'ancestor_ds', 'ancestor_dd',
-            'ancestor_sss', 'ancestor_ssd', 'ancestor_sds', 'ancestor_sdd', 
+            'ancestor_sss', 'ancestor_ssd', 'ancestor_sds', 'ancestor_sdd',
             'ancestor_dss', 'ancestor_dsd', 'ancestor_dds', 'ancestor_ddd',
             'is_visible', 'is_giftable', 'is_tradeable', 'is_sellable',
             'sale_value', 'transferrable_at', 'use_cropper',
@@ -363,11 +363,11 @@ class CharacterController extends Controller {
         return redirect()->back()->withInput();
     }
 
-    /** 
+    /**
      * Shows the edit character lineage modal.
-     * 
+     *
      * @param string $slug
-     * 
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getEditCharacterLineage($slug) {
@@ -375,18 +375,19 @@ class CharacterController extends Controller {
         if (!$this->character) {
             abort(404);
         }
+
         return view('character.admin._edit_lineage_modal', [
             'character'       => $this->character,
             'ancestorOptions' => Character::myo(false)->orderBy('id')->pluck('slug', 'id'),
-            'isMyo'           => false
+            'isMyo'           => false,
         ]);
     }
 
-    /** 
+    /**
      * Shows the edit MYO slot lineage modal.
-     * 
-     * @param string $slug
-     * 
+     *
+     * @param mixed $id
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getEditMyoLineage($id) {
@@ -394,10 +395,11 @@ class CharacterController extends Controller {
         if (!$this->character) {
             abort(404);
         }
+
         return view('character.admin._edit_lineage_modal', [
             'character'       => $this->character,
             'ancestorOptions' => Character::myo(false)->orderBy('id')->pluck('slug', 'id'),
-            'isMyo'           => true
+            'isMyo'           => true,
         ]);
     }
 
@@ -405,7 +407,7 @@ class CharacterController extends Controller {
      * Edits a character's lineage.
      *
      * @param App\Services\CharacterManager $service
-     * @param int                           $id
+     * @param mixed                         $slug
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -414,9 +416,9 @@ class CharacterController extends Controller {
             'ancestor_sire', 'ancestor_dam',
             'ancestor_ss', 'ancestor_sd', 'ancestor_ds', 'ancestor_dd',
             'ancestor_sss', 'ancestor_ssd', 'ancestor_sds', 'ancestor_sdd',
-            'ancestor_dss', 'ancestor_dsd', 'ancestor_dds', 'ancestor_ddd'
+            'ancestor_dss', 'ancestor_dsd', 'ancestor_dds', 'ancestor_ddd',
         ]);
-        
+
         $this->character = Character::where('slug', $slug)->first();
         if (!$this->character) {
             abort(404);
@@ -447,9 +449,9 @@ class CharacterController extends Controller {
             'ancestor_sire', 'ancestor_dam',
             'ancestor_ss', 'ancestor_sd', 'ancestor_ds', 'ancestor_dd',
             'ancestor_sss', 'ancestor_ssd', 'ancestor_sds', 'ancestor_sdd',
-            'ancestor_dss', 'ancestor_dsd', 'ancestor_dds', 'ancestor_ddd'
+            'ancestor_dss', 'ancestor_dsd', 'ancestor_dds', 'ancestor_ddd',
         ]);
-        
+
         $this->character = Character::where('is_myo_slot', 1)->where('id', $id)->first();
         if (!$this->character) {
             abort(404);
