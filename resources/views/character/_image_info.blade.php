@@ -125,7 +125,8 @@
 
                     @if (Auth::check() && Auth::user()->hasPower('manage_characters'))
                         <div class="mt-3">
-                            <a href="#" class="btn btn-outline-info btn-sm edit-features" data-{{ $character->is_myo_slot ? 'id' : 'slug' }}="{{ $character->is_myo_slot ? $character->id : $character->slug }}"><i class="fas fa-cog"></i> Edit</a>
+                            <a href="#" class="btn btn-outline-info btn-sm edit-features" data-{{ $character->is_myo_slot ? 'id' : 'slug' }}="{{ $character->is_myo_slot ? $character->id : $character->slug }}"><i class="fas fa-cog"></i>
+                                Edit</a>
                         </div>
                     @endif
                 </div>
@@ -148,7 +149,7 @@
             @endif
 
             {{-- Image credits --}}
-            <div class="tab-pane fade @if(!isset($isCharacterPage)) show active @endif" id="credits-{{ $image->id }}">
+            <div class="tab-pane fade @if (!isset($isCharacterPage)) show active @endif" id="credits-{{ $image->id }}">
 
                 <div class="row no-gutters mb-2">
                     <div class="col-lg-4 col-4">

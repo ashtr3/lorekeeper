@@ -106,7 +106,6 @@
         {!! Form::submit('Create Image', ['class' => 'btn btn-primary']) !!}
     </div>
     {!! Form::close() !!}
-
 @endsection
 
 @section('scripts')

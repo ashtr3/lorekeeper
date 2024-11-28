@@ -1,4 +1,4 @@
-{!! Form::open(['url' => $isMyo ? 'admin/myo/' . $character->id . '/traits' : 'admin/character/' . $character->slug .'/traits']) !!}
+{!! Form::open(['url' => $isMyo ? 'admin/myo/' . $character->id . '/traits' : 'admin/character/' . $character->slug . '/traits']) !!}
 <div class="form-group">
     {!! Form::label('Species') !!}
     {!! Form::select('species_id', $specieses, $character->species_id, ['class' => 'form-control', 'id' => 'species']) !!}
