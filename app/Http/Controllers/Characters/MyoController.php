@@ -61,7 +61,8 @@ class MyoController extends Controller {
      */
     public function getCharacter($id) {
         return view('character.myo.character', [
-            'character' => $this->character,
+            'character'         => $this->character,
+            'isCharacterPage'   => true,
         ]);
     }
 

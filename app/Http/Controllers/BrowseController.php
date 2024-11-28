@@ -147,8 +147,8 @@ class BrowseController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getCharacters(Request $request) {
-        $query = Character::with('user.rank')->with('image.features')->with('rarity')->with('image.species')->myo(0);
-        $imageQuery = CharacterImage::images(Auth::check() ? Auth::user() : null)->with('features')->with('rarity')->with('species')->with('features');
+        $query = Character::with('user.rank')->with('features')->with('rarity')->with('species')->with('image')->myo(0);
+        $imageQuery = CharacterImage::images(Auth::check() ? Auth::user() : null);
 
         if ($sublists = Sublist::where('show_main', 0)->get()) {
             $subCategories = [];
@@ -160,7 +160,7 @@ class BrowseController extends Controller {
         }
 
         $query->whereNotIn('character_category_id', $subCategories);
-        $imageQuery->whereNotIn('species_id', $subSpecies);
+        $query->whereNotIn('species_id', $subSpecies);
 
         if ($request->get('name')) {
             $query->where(function ($query) use ($request) {
@@ -170,8 +170,22 @@ class BrowseController extends Controller {
         if ($request->get('rarity_id')) {
             $query->where('rarity_id', $request->get('rarity_id'));
         }
+        if ($request->get('species_id')) {
+            $query->where('species_id', $request->get('species_id'));
+        }
+        if ($request->get('subtype_id')) {
+            $query->where('subtype_id', $request->get('subtype_id'));
+        }
         if ($request->get('character_category_id')) {
             $query->where('character_category_id', $request->get('character_category_id'));
+        }
+        if ($request->get('feature_id')) {
+            $featureIds = $request->get('feature_id');
+            foreach ($featureIds as $featureId) {
+                $query->whereHas('features', function ($query) use ($featureId) {
+                    $query->where('feature_id', $featureId);
+                });
+            }
         }
 
         if ($request->get('sale_value_min')) {
@@ -213,20 +227,6 @@ class BrowseController extends Controller {
         }
 
         // Searching on image properties
-        if ($request->get('species_id')) {
-            $imageQuery->where('species_id', $request->get('species_id'));
-        }
-        if ($request->get('subtype_id')) {
-            $imageQuery->where('subtype_id', $request->get('subtype_id'));
-        }
-        if ($request->get('feature_id')) {
-            $featureIds = $request->get('feature_id');
-            foreach ($featureIds as $featureId) {
-                $imageQuery->whereHas('features', function ($query) use ($featureId) {
-                    $query->where('feature_id', $featureId);
-                });
-            }
-        }
         if ($request->get('artist')) {
             $artist = User::find($request->get('artist'));
             $imageQuery->whereHas('artists', function ($query) use ($artist) {
@@ -328,17 +328,28 @@ class BrowseController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getMyos(Request $request) {
-        $query = Character::with('user.rank')->with('image.features')->with('rarity')->with('image.species')->myo(1);
+        $query = Character::with('user.rank')->with('features')->with('rarity')->with('species')->with('image')->myo(1);
 
-        $imageQuery = CharacterImage::images(Auth::check() ? Auth::user() : null)->with('features')->with('rarity')->with('species')->with('features');
+        $imageQuery = CharacterImage::images(Auth::check() ? Auth::user() : null);
 
         if ($request->get('name')) {
             $query->where(function ($query) use ($request) {
                 $query->where('characters.name', 'LIKE', '%'.$request->get('name').'%')->orWhere('characters.slug', 'LIKE', '%'.$request->get('name').'%');
             });
         }
+        if ($request->get('species_id')) {
+            $query->where('species_id', $request->get('species_id'));
+        }
         if ($request->get('rarity_id')) {
             $query->where('rarity_id', $request->get('rarity_id'));
+        }
+        if ($request->get('feature_id')) {
+            $featureIds = $request->get('feature_id');
+            foreach ($featureIds as $featureId) {
+                $query->whereHas('features', function ($query) use ($featureId) {
+                    $query->where('feature_id', $featureId);
+                });
+            }
         }
 
         if ($request->get('sale_value_min')) {
@@ -380,9 +391,6 @@ class BrowseController extends Controller {
         }
 
         // Searching on image properties
-        if ($request->get('species_id')) {
-            $imageQuery->where('species_id', $request->get('species_id'));
-        }
         if ($request->get('artist')) {
             $artist = User::find($request->get('artist'));
             $imageQuery->whereHas('artists', function ($query) use ($artist) {
@@ -406,14 +414,6 @@ class BrowseController extends Controller {
             $imageQuery->whereHas('designers', function ($query) use ($designerUrl) {
                 $query->where('url', 'LIKE', '%'.$designerUrl.'%');
             });
-        }
-        if ($request->get('feature_id')) {
-            $featureIds = $request->get('feature_id');
-            foreach ($featureIds as $featureId) {
-                $imageQuery->whereHas('features', function ($query) use ($featureId) {
-                    $query->where('feature_id', $featureId);
-                });
-            }
         }
 
         $query->whereIn('id', $imageQuery->pluck('character_id')->toArray());
@@ -459,8 +459,8 @@ class BrowseController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getSublist(Request $request, $key) {
-        $query = Character::with('user.rank')->with('image.features')->with('rarity')->with('image.species')->myo(0);
-        $imageQuery = CharacterImage::with('features')->with('rarity')->with('species')->with('features');
+        $query = Character::with('user.rank')->with('features')->with('rarity')->with('species')->with('image')->myo(0);
+        $imageQuery = CharacterImage::images(Auth::check() ? Auth::user() : null);
 
         $sublist = Sublist::where('key', $key)->first();
         if (!$sublist) {
@@ -473,7 +473,7 @@ class BrowseController extends Controller {
             $query->whereIn('character_category_id', $subCategories);
         }
         if ($subSpecies) {
-            $imageQuery->whereIn('species_id', $subSpecies);
+            $query->whereIn('species_id', $subSpecies);
         }
 
         if ($request->get('name')) {
@@ -481,11 +481,25 @@ class BrowseController extends Controller {
                 $query->where('characters.name', 'LIKE', '%'.$request->get('name').'%')->orWhere('characters.slug', 'LIKE', '%'.$request->get('name').'%');
             });
         }
+        if ($request->get('species_id')) {
+            $query->where('species_id', $request->get('species_id'));
+        }
+        if ($request->get('subtype_id')) {
+            $query->where('subtype_id', $request->get('subtype_id'));
+        }
         if ($request->get('rarity_id')) {
             $query->where('rarity_id', $request->get('rarity_id'));
         }
         if ($request->get('character_category_id')) {
             $query->where('character_category_id', $request->get('character_category_id'));
+        }
+        if ($request->get('feature_id')) {
+            $featureIds = $request->get('feature_id');
+            foreach ($featureIds as $featureId) {
+                $query->whereHas('features', function ($query) use ($featureId) {
+                    $query->where('feature_id', $featureId);
+                });
+            }
         }
 
         if ($request->get('sale_value_min')) {
@@ -553,20 +567,6 @@ class BrowseController extends Controller {
         }
 
         // Searching on image properties
-        if ($request->get('species_id')) {
-            $imageQuery->where('species_id', $request->get('species_id'));
-        }
-        if ($request->get('subtype_id')) {
-            $imageQuery->where('subtype_id', $request->get('subtype_id'));
-        }
-        if ($request->get('feature_id')) {
-            $featureIds = $request->get('feature_id');
-            foreach ($featureIds as $featureId) {
-                $imageQuery->whereHas('features', function ($query) use ($featureId) {
-                    $query->where('feature_id', $featureId);
-                });
-            }
-        }
         if ($request->get('artist')) {
             $artist = User::find($request->get('artist'));
             $imageQuery->whereHas('artists', function ($query) use ($artist) {

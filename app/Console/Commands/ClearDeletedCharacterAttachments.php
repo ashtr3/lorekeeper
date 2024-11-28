@@ -45,11 +45,8 @@ class ClearDeletedCharacterAttachments extends Command {
 
         // Delete their character images
         CharacterImage::whereIn('character_id', $deletedCharacterIds)->delete();
-
-        // Get all deleted character images
-        $deletedImageIds = DB::table('character_images')->whereNotNull('deleted_at')->pluck('id');
-
+        
         // Delete their features
-        CharacterFeature::whereIn('character_image_id', $deletedImageIds)->delete();
+        CharacterFeature::whereIn('character_id', $deletedCharacterIds)->delete();
     }
 }

@@ -12,6 +12,8 @@ use App\Models\Item\Item;
 use App\Models\Item\ItemLog;
 use App\Models\Model;
 use App\Models\Rarity;
+use App\Models\Species\Species;
+use App\Models\Species\Subtype;
 use App\Models\Submission\Submission;
 use App\Models\Submission\SubmissionCharacter;
 use App\Models\Trade;
@@ -29,8 +31,9 @@ class Character extends Model {
      * @var array
      */
     protected $fillable = [
-        'character_image_id', 'character_category_id', 'rarity_id', 'user_id',
-        'owner_alias', 'number', 'slug', 'description', 'parsed_description',
+        'character_image_id', 'character_category_id', 
+        'species_id', 'subtype_id', 'rarity_id', 
+        'user_id', 'owner_alias', 'number', 'slug', 'description', 'parsed_description',
         'is_sellable', 'is_tradeable', 'is_giftable',
         'sale_value', 'transferrable_at', 'is_visible',
         'is_gift_art_allowed', 'is_gift_writing_allowed', 'is_trading', 'sort',
@@ -75,6 +78,8 @@ class Character extends Model {
      */
     public static $createRules = [
         'character_category_id' => 'required',
+        'species_id'            => 'required',
+        'subtype_id'            => 'nullable',
         'rarity_id'             => 'required',
         'user_id'               => 'nullable',
         'number'                => 'required',
@@ -98,6 +103,8 @@ class Character extends Model {
      */
     public static $updateRules = [
         'character_category_id' => 'required',
+        'species_id'            => 'required',
+        'subtype_id'            => 'nullable',
         'number'                => 'required',
         'slug'                  => 'required',
         'sex'                   => 'required',
@@ -118,6 +125,8 @@ class Character extends Model {
      */
     public static $myoRules = [
         'rarity_id'   => 'nullable',
+        'species_id'  => 'required',
+        'subtype_id'  => 'nullable',
         'user_id'     => 'nullable',
         'number'      => 'nullable',
         'slug'        => 'nullable',
@@ -154,6 +163,20 @@ class Character extends Model {
     }
 
     /**
+     * Get the species of the character.
+     */
+    public function species() {
+        return $this->belongsTo(Species::class, 'species_id');
+    }
+
+    /**
+     * Get the subtype of the character.
+     */
+    public function subtype() {
+        return $this->belongsTo(Subtype::class, 'subtype_id');
+    }
+
+    /**
      * Get the masterlist image of the character.
      */
     public function image() {
@@ -167,6 +190,16 @@ class Character extends Model {
      */
     public function images($user = null) {
         return $this->hasMany(CharacterImage::class, 'character_id')->images($user);
+    }
+
+    public function features() {
+        $query = $this
+            ->hasMany(CharacterFeature::class, 'character_id')->where('character_features.character_type', 'Character')
+            ->join('features', 'features.id', '=', 'character_features.feature_id')
+            ->leftJoin('feature_categories', 'feature_categories.id', '=', 'features.feature_category_id')
+            ->select(['character_features.*', 'features.*', 'character_features.id AS character_feature_id', 'feature_categories.sort']);
+
+        return $query->orderByDesc('sort');
     }
 
     /**

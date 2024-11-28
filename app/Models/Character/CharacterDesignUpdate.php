@@ -4,9 +4,6 @@ namespace App\Models\Character;
 
 use App\Models\Currency\Currency;
 use App\Models\Model;
-use App\Models\Rarity;
-use App\Models\Species\Species;
-use App\Models\Species\Subtype;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -21,9 +18,8 @@ class CharacterDesignUpdate extends Model {
     protected $fillable = [
         'character_id', 'status', 'user_id', 'staff_id',
         'comments', 'staff_comments', 'data', 'extension',
-        'use_cropper', 'x0', 'x1', 'y0', 'y1',
-        'hash', 'species_id', 'subtype_id', 'rarity_id',
-        'has_comments', 'has_image', 'has_addons', 'has_features',
+        'use_cropper', 'x0', 'x1', 'y0', 'y1', 'hash',
+        'has_comments', 'has_image', 'has_addons',
         'submitted_at', 'update_type', 'fullsize_hash',
         'approval_votes', 'rejection_votes',
     ];
@@ -88,47 +84,6 @@ class CharacterDesignUpdate extends Model {
      */
     public function staff() {
         return $this->belongsTo(User::class, 'staff_id');
-    }
-
-    /**
-     * Get the species of the design update.
-     */
-    public function species() {
-        return $this->belongsTo(Species::class, 'species_id');
-    }
-
-    /**
-     * Get the subtype of the design update.
-     */
-    public function subtype() {
-        return $this->belongsTo(Subtype::class, 'subtype_id');
-    }
-
-    /**
-     * Get the rarity of the design update.
-     */
-    public function rarity() {
-        return $this->belongsTo(Rarity::class, 'rarity_id');
-    }
-
-    /**
-     * Get the features (traits) attached to the design update, ordered by display order.
-     */
-    public function features() {
-        $query = $this
-            ->hasMany(CharacterFeature::class, 'character_image_id')->where('character_features.character_type', 'Update')
-            ->join('features', 'features.id', '=', 'character_features.feature_id')
-            ->leftJoin('feature_categories', 'feature_categories.id', '=', 'features.feature_category_id')
-            ->select(['character_features.*', 'features.*', 'character_features.id AS character_feature_id', 'feature_categories.sort']);
-
-        return $query->orderByDesc('sort');
-    }
-
-    /**
-     * Get the features (traits) attached to the design update with no extra sorting.
-     */
-    public function rawFeatures() {
-        return $this->hasMany(CharacterFeature::class, 'character_image_id')->where('character_features.character_type', 'Update');
     }
 
     /**
@@ -257,7 +212,7 @@ class CharacterDesignUpdate extends Model {
      * @return bool
      */
     public function getIsCompleteAttribute() {
-        return $this->has_comments && $this->has_image && $this->has_addons && $this->has_features;
+        return $this->has_comments && $this->has_image && $this->has_addons;
     }
 
     /**

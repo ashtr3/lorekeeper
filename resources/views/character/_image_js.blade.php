@@ -2,7 +2,7 @@
     $(document).ready(function() {
         $('.edit-features').on('click', function(e) {
             e.preventDefault();
-            loadModal("{{ url('admin/character/image') }}/" + $(this).data('id') + "/traits", 'Edit Traits');
+            loadModal("{{ url($character->is_myo_slot ? 'admin/myo/' : 'admin/character/') }}/" + $(this).data('{{ $character->is_myo_slot ? 'id' : 'slug' }}') + "/traits", 'Edit Traits');
         });
         $('.edit-notes').on('click', function(e) {
             e.preventDefault();

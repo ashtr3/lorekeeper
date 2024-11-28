@@ -322,11 +322,6 @@ Route::group(['prefix' => 'character', 'namespace' => 'Characters', 'middleware'
     // IMAGES
     Route::get('{slug}/image', 'CharacterImageController@getNewImage');
     Route::post('{slug}/image', 'CharacterImageController@postNewImage');
-    Route::get('image/subtype', 'CharacterImageController@getNewImageSubtype');
-
-    Route::get('image/{id}/traits', 'CharacterImageController@getEditImageFeatures');
-    Route::post('image/{id}/traits', 'CharacterImageController@postEditImageFeatures');
-    Route::get('image/traits/subtype', 'CharacterImageController@getEditImageSubtype');
 
     Route::get('image/{id}/notes', 'CharacterImageController@getEditImageNotes');
     Route::post('image/{id}/notes', 'CharacterImageController@postEditImageNotes');
@@ -348,6 +343,10 @@ Route::group(['prefix' => 'character', 'namespace' => 'Characters', 'middleware'
     Route::post('{slug}/images/sort', 'CharacterImageController@postSortImages');
 
     // CHARACTER
+    Route::get('{slug}/traits', 'CharacterController@getEditCharacterFeatures');
+    Route::post('{slug}/traits', 'CharacterController@postEditCharacterFeatures');
+    Route::get('traits/check-subtype', 'CharacterController@getEditCharacterSubtype');
+
     Route::get('{slug}/stats', 'CharacterController@getEditCharacterStats');
     Route::post('{slug}/stats', 'CharacterController@postEditCharacterStats');
 
@@ -367,6 +366,9 @@ Route::group(['prefix' => 'character', 'namespace' => 'Characters', 'middleware'
 // Might rewrite these parts eventually so there's less code duplication...
 Route::group(['prefix' => 'myo', 'namespace' => 'Characters', 'middleware' => 'power:manage_characters'], function () {
     // CHARACTER
+    Route::get('{id}/traits', 'CharacterController@getEditMyoFeatures');
+    Route::post('{id}/traits', 'CharacterController@postEditMyoFeatures');
+
     Route::get('{id}/stats', 'CharacterController@getEditMyoStats');
     Route::post('{id}/stats', 'CharacterController@postEditMyoStats');
 

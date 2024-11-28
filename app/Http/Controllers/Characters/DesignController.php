@@ -3,14 +3,9 @@
 namespace App\Http\Controllers\Characters;
 
 use App\Http\Controllers\Controller;
-use App\Models\Character\Character;
 use App\Models\Character\CharacterDesignUpdate;
-use App\Models\Feature\Feature;
 use App\Models\Item\Item;
 use App\Models\Item\ItemCategory;
-use App\Models\Rarity;
-use App\Models\Species\Species;
-use App\Models\Species\Subtype;
 use App\Models\User\User;
 use App\Models\User\UserItem;
 use App\Services\DesignUpdateManager;
@@ -197,71 +192,6 @@ class DesignController extends Controller {
         }
 
         if ($service->saveRequestAddons($request->all(), $r)) {
-            flash('Request edited successfully.')->success();
-        } else {
-            foreach ($service->errors()->getMessages()['error'] as $error) {
-                flash($error)->error();
-            }
-        }
-
-        return redirect()->back();
-    }
-
-    /**
-     * Shows a design update request's features section.
-     *
-     * @param int $id
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function getFeatures($id) {
-        $r = CharacterDesignUpdate::find($id);
-        if (!$r || ($r->user_id != Auth::user()->id && !Auth::user()->hasPower('manage_characters'))) {
-            abort(404);
-        }
-
-        return view('character.design.features', [
-            'request'   => $r,
-            'specieses' => ['0' => 'Select Species'] + Species::visible()->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'subtypes'  => ['0' => 'No Subtype'] + Subtype::visible()->where('species_id', '=', $r->species_id)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'rarities'  => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'features'  => Feature::getDropdownItems(),
-        ]);
-    }
-
-    /**
-     * Shows the edit image subtype portion of the modal.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function getFeaturesSubtype(Request $request) {
-        $species = $request->input('species');
-        $id = $request->input('id');
-
-        return view('character.design._features_subtype', [
-            'subtypes' => ['0' => 'Select Subtype'] + Subtype::visible()->where('species_id', '=', $species)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'subtype'  => $id,
-        ]);
-    }
-
-    /**
-     * Edits a design update request's features section.
-     *
-     * @param App\Services\DesignUpdateManager $service
-     * @param int                              $id
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function postFeatures(Request $request, DesignUpdateManager $service, $id) {
-        $r = CharacterDesignUpdate::find($id);
-        if (!$r) {
-            abort(404);
-        }
-        if ($r->user_id != Auth::user()->id) {
-            abort(404);
-        }
-
-        if ($service->saveRequestFeatures($request->all(), $r)) {
             flash('Request edited successfully.')->success();
         } else {
             foreach ($service->errors()->getMessages()['error'] as $error) {

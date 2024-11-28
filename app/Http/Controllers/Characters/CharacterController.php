@@ -117,7 +117,7 @@ class CharacterController extends Controller {
     public function getCharacter($slug) {
         return view('character.character', [
             'character'             => $this->character,
-            'showMention'           => true,
+            'isCharacterPage'       => true,
             'extPrevAndNextBtnsUrl' => '',
         ]);
     }

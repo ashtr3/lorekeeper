@@ -164,7 +164,7 @@
                         </a>
                     </div>
                     <div class="small">
-                        {!! $character->image->species_id ? $character->image->species->displayName : 'No Species' !!} ・ {!! $character->image->rarity_id ? $character->image->rarity->displayName : 'No Rarity' !!} ・ {!! $character->displayOwner !!}
+                        {!! $character->species_id ? $character->species->displayName : 'No Species' !!} ・ {!! $character->rarity_id ? $character->rarity->displayName : 'No Rarity' !!} ・ {!! $character->displayOwner !!}
                     </div>
                 </div>
             @endforeach
@@ -191,8 +191,8 @@
                             <i class="fas fa-eye-slash"></i>
                         @endif {!! $character->displayName !!}
                     </td>
-                    <td>{!! $character->image->rarity_id ? $character->image->rarity->displayName : 'None' !!}</td>
-                    <td>{!! $character->image->species_id ? $character->image->species->displayName : 'None' !!}</td>
+                    <td>{!! $character->rarity_id ? $character->rarity->displayName : 'None' !!}</td>
+                    <td>{!! $character->species_id ? $character->species->displayName : 'None' !!}</td>
                     <td>{!! format_date($character->created_at) !!}</td>
                 </tr>
             @endforeach
