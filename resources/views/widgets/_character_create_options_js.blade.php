@@ -9,7 +9,7 @@
         $('#ancestorSD').selectize();
         $('#ancestorDS').selectize();
         $('#ancestorDD').selectize();
-        
+
         $('#ancestorSSS').selectize();
         $('#ancestorSSD').selectize();
         $('#ancestorSDS').selectize();
