@@ -21,7 +21,7 @@
             {!! Form::select('sex', $sexes, $character->sex, ['class' => 'form-control', 'id' => 'sex']) !!}
         </div>
     </div>
-    <div class="col-12 col-md-4 @if($character->sex != 'other') d-none @endif" id="customSex">
+    <div class="col-12 col-md-4 @if ($character->sex != 'other') d-none @endif" id="customSex">
         <div class="form-group">
             {!! Form::label('Custom Sex') !!}
             {!! Form::text('custom_sex', $character->custom_sex, ['class' => 'form-control']) !!}
