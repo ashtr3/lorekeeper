@@ -49,6 +49,7 @@ class CharacterController extends Controller {
         return view('admin.masterlist.create_character', [
             'categories'  => CharacterCategory::orderBy('sort')->get(),
             'userOptions' => User::query()->orderBy('name')->pluck('name', 'id')->toArray(),
+            'sexes'       => ['male' => 'Male', 'female' => 'Female', 'intersex' => 'Intersex', 'other' => 'Other'],
             'rarities'    => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'specieses'   => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes'    => ['0' => 'Pick a Species First'],
@@ -65,6 +66,7 @@ class CharacterController extends Controller {
     public function getCreateMyo() {
         return view('admin.masterlist.create_character', [
             'userOptions' => User::query()->orderBy('name')->pluck('name', 'id')->toArray(),
+            'sexes'       => ['male' => 'Male', 'female' => 'Female', 'intersex' => 'Intersex', 'other' => 'Other'],
             'rarities'    => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'specieses'   => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes'    => ['0' => 'Pick a Species First'],
@@ -119,6 +121,7 @@ class CharacterController extends Controller {
             'designer_id', 'designer_url',
             'artist_id', 'artist_url',
             'species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data',
+            'sex', 'custom_sex', 'mp', 'fertility', 'genotype',
             'image', 'thumbnail', 'image_description',
         ]);
         if ($character = $service->createCharacter($data, Auth::user())) {
@@ -181,6 +184,7 @@ class CharacterController extends Controller {
 
         return view('character.admin._edit_features_modal', [
             'character' => $this->character,
+            'sexes'     => ['male' => 'Male', 'female' => 'Female', 'intersex' => 'Intersex', 'other' => 'Other'],
             'specieses' => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes'  => ['0' => 'Select Subtype'] + Subtype::where('species_id', '=', $this->character->species_id)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'rarities'  => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
@@ -204,6 +208,7 @@ class CharacterController extends Controller {
 
         return view('character.admin._edit_features_modal', [
             'character' => $this->character,
+            'sexes'     => ['male' => 'Male', 'female' => 'Female', 'intersex' => 'Intersex', 'other' => 'Other'],
             'specieses' => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes'  => ['0' => 'Select Subtype'] + Subtype::where('species_id', '=', $this->character->species_id)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'rarities'  => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
@@ -221,7 +226,7 @@ class CharacterController extends Controller {
      * @return \Illuminate\Http\RedirectResponse
      */
     public function postEditCharacterFeatures(Request $request, CharacterManager $service, $slug) {
-        $data = $request->only(['species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data']);
+        $data = $request->only(['species_id', 'subtype_id', 'rarity_id', 'sex', 'custom_sex', 'mp', 'fertility', 'genotype', 'feature_id', 'feature_data']);
         $this->character = Character::where('slug', $slug)->first();
         if (!$this->character) {
             abort(404);
@@ -246,7 +251,7 @@ class CharacterController extends Controller {
      * @return \Illuminate\Http\RedirectResponse
      */
     public function postEditMyoFeatures(Request $request, CharacterManager $service, $id) {
-        $data = $request->only(['species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data']);
+        $data = $request->only(['species_id', 'subtype_id', 'rarity_id', 'sex', 'custom_sex', 'mp', 'fertility', 'genotype', 'feature_id', 'feature_data']);
         $this->character = Character::where('is_myo_slot', 1)->where('id', $id)->first();
         if (!$this->character) {
             abort(404);
