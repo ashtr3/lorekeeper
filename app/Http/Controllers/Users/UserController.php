@@ -105,8 +105,7 @@ class UserController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getUserCharacters($name) {
-        $query = Character::myo(0)->where('user_id', $this->user->id);
-        $imageQuery = CharacterImage::images(Auth::check() ? Auth::user() : null)->with('features')->with('rarity')->with('species')->with('features');
+        $query = Character::myo(0)->with('species')->where('user_id', $this->user->id);
 
         if ($sublists = Sublist::where('show_main', 0)->get()) {
             $subCategories = [];
@@ -118,9 +117,7 @@ class UserController extends Controller {
         }
 
         $query->whereNotIn('character_category_id', $subCategories);
-        $imageQuery->whereNotIn('species_id', $subSpecies);
-
-        $query->whereIn('id', $imageQuery->pluck('character_id'));
+        $query->whereNotIn('species_id', $subSpecies);
 
         if (!Auth::check() || !(Auth::check() && Auth::user()->hasPower('manage_characters'))) {
             $query->visible();
@@ -141,8 +138,7 @@ class UserController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getUserSublist($name, $key) {
-        $query = Character::myo(0)->where('user_id', $this->user->id);
-        $imageQuery = CharacterImage::images(Auth::check() ? Auth::user() : null)->with('features')->with('rarity')->with('species')->with('features');
+        $query = Character::myo(0)->with('species')->where('user_id', $this->user->id);
 
         $sublist = Sublist::where('key', $key)->first();
         if (!$sublist) {
@@ -155,10 +151,8 @@ class UserController extends Controller {
             $query->whereIn('character_category_id', $subCategories);
         }
         if ($subSpecies) {
-            $imageQuery->whereIn('species_id', $subSpecies);
+            $query->whereIn('species_id', $subSpecies);
         }
-
-        $query->whereIn('id', $imageQuery->pluck('character_id'));
 
         if (!Auth::check() || !(Auth::check() && Auth::user()->hasPower('manage_characters'))) {
             $query->visible();

@@ -49,10 +49,10 @@ class BookmarkController extends Controller {
                 $query->orderBy('characters.sale_value', 'ASC');
                 break;
             case 'species_asc':
-                $query->orderBy('character_images.species_id', 'ASC');
+                $query->orderBy('characters.species_id', 'ASC');
                 break;
             case 'species_desc':
-                $query->orderBy('character_images.species_id', 'DESC');
+                $query->orderBy('characters.species_id', 'DESC');
                 break;
             case 'trade_asc':
                 $query->orderBy('characters.is_trading', 'ASC');

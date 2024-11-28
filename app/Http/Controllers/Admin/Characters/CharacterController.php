@@ -88,6 +88,21 @@ class CharacterController extends Controller {
     }
 
     /**
+     * Shows the edit image subtype portion of the modal.
+     * 
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getEditCharacterSubtype(Request $request) {
+        $species = $request->input('species');
+        $subtype_id = $request->input('subtype_id');
+
+        return view('character.admin._edit_features_subtype', [
+            'subtype_id' => $subtype_id,
+            'subtypes' => ['0', 'Select Subtype'] + Subtype::where('species_id', '=', $species)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+        ]);
+    }
+
+    /**
      * Creates a character.
      *
      * @param App\Services\CharacterManager $service
@@ -142,6 +157,100 @@ class CharacterController extends Controller {
             flash('MYO slot created successfully.')->success();
 
             return redirect()->to($character->url);
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
+        }
+
+        return redirect()->back()->withInput();
+    }
+
+    /**
+     * Shows the edit character features modal.
+     * 
+     * @param int $id
+     * 
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getEditCharacterFeatures($slug) {
+        $this->character = Character::where('slug', $slug)->first();
+        if (!$this->character) {
+            abort(404);
+        }
+
+        return view('character.admin._edit_features_modal', [
+            'character' => $this->character,
+            'specieses' => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'subtypes'  => ['0' => 'Select Subtype'] + Subtype::where('species_id', '=', $this->character->species_id)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'features'  => Feature::getDropdownItems(1),
+            'isMyo'     => false,
+        ]);
+    }
+
+    /**
+     * Shows the edit character features modal.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getEditMyoFeatures($id) {
+        $this->character = Character::where('is_myo_slot', 1)->where('id', $id)->first();
+        if (!$this->character) {
+            abort(404);
+        }
+
+        return view('character.admin._edit_features_modal', [
+            'character' => $this->character,
+            'specieses' => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'subtypes'  => ['0' => 'Select Subtype'] + Subtype::where('species_id', '=', $this->character->species_id)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'features'  => Feature::getDropdownItems(1),
+            'isMyo'     => true,
+        ]);
+    }
+
+    /**
+     * Edits the features of a character.
+     *
+     * @param App\Services\CharacterManager $service
+     * @param int                           $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postEditCharacterFeatures(Request $request, CharacterManager $service, $slug) {
+        $data = $request->only(['species_id', 'subtype_id', 'feature_id', 'feature_data']);
+        $this->character = Character::where('slug', $slug)->first();
+        if (!$this->character) {
+            abort(404);
+        }
+        if ($service->updateCharacterFeatures($data, $this->character, Auth::user())) {
+            flash('Character traits edited successfully.')->success();
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
+        }
+
+        return redirect()->back()->withInput();
+    }
+
+    /**
+     * Edits the features of a character.
+     *
+     * @param App\Services\CharacterManager $service
+     * @param int                           $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postEditMyoFeatures(Request $request, CharacterManager $service, $id) {
+        $data = $request->only(['feature_id', 'feature_data']);
+        $this->character = Character::where('is_myo_slot', 1)->where('id', $id)->first();
+        if (!$this->character) {
+            abort(404);
+        }
+        if ($service->updateCharacterFeatures($data, $this->character, Auth::user())) {
+            flash('Character traits edited successfully.')->success();
         } else {
             foreach ($service->errors()->getMessages()['error'] as $error) {
                 flash($error)->error();
