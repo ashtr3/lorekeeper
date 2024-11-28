@@ -130,6 +130,12 @@ class CharacterManager extends Service {
                 throw new \Exception('Error happened while trying to create character.');
             }
 
+            // Create character features
+            $features = $this->handleCharacterFeatures($data, $character);
+            if (!is_array($features) && $features === false) {
+                throw new \Exception('Error happened while trying to create character features.');
+            }
+
             // Create character image
             $data['is_valid'] = true; // New image of new characters are always valid
             $image = $this->handleCharacterImage($data, $character, $isMyo);
@@ -539,26 +545,6 @@ class CharacterManager extends Service {
         DB::beginTransaction();
 
         try {
-            if (!$character->is_myo_slot) {
-                if (!(isset($data['species_id']) && $data['species_id'])) {
-                    throw new \Exception('Characters require a species.');
-                }
-                if (!(isset($data['rarity_id']) && $data['rarity_id'])) {
-                    throw new \Exception('Characters require a rarity.');
-                }
-            }
-            if (isset($data['subtype_id']) && $data['subtype_id']) {
-                $subtype = Subtype::find($data['subtype_id']);
-                if (!(isset($data['species_id']) && $data['species_id'])) {
-                    throw new \Exception('Species must be selected to select a subtype.');
-                }
-                if (!$subtype || $subtype->species_id != $data['species_id']) {
-                    throw new \Exception('Selected subtype invalid or does not match species.');
-                }
-            } else {
-                $data['subtype_id'] = null;
-            }
-
             $data['is_visible'] = 1;
 
             // Create character image
@@ -610,7 +596,7 @@ class CharacterManager extends Service {
      *
      * @return bool
      */
-    public function updateImageFeatures($data, $image, $user) {
+    public function updateCharacterFeatures($data, $character, $user) {
         DB::beginTransaction();
 
         try {
@@ -625,46 +611,42 @@ class CharacterManager extends Service {
                 }
             }
 
-            if (!$this->logAdminAction($user, 'Updated Image', 'Updated character image features on <a href="'.$image->character->url.'">#'.$image->id.'</a>')) {
+            if (!$this->logAdminAction($user, 'Updated Character', 'Updated features on '.$character->displayName)) {
                 throw new \Exception('Failed to log admin action.');
             }
 
             // Log old features
             $old = [];
-            $old['features'] = $this->generateFeatureList($image);
-            $old['species'] = $image->species_id ? $image->species->displayName : null;
-            $old['subtype'] = $image->subtype_id ? $image->subtype->displayName : null;
-            $old['rarity'] = $image->rarity_id ? $image->rarity->displayName : null;
+            $old['features'] = $this->generateFeatureList($character);
+            $old['species'] = $character->species_id ? $character->species->displayName : null;
+            $old['subtype'] = $character->subtype_id ? $character->subtype->displayName : null;
+            $old['rarity'] = $character->rarity_id ? $character->rarity->displayName : null;
 
             // Clear old features
-            $image->features()->delete();
+            $character->features()->delete();
 
             // Attach features
             foreach ($data['feature_id'] as $key => $featureId) {
                 if ($featureId) {
-                    $feature = CharacterFeature::create(['character_image_id' => $image->id, 'feature_id' => $featureId, 'data' => $data['feature_data'][$key]]);
+                    CharacterFeature::create(['character_id' => $character->id, 'feature_id' => $featureId, 'data' => $data['feature_data'][$key]]);
                 }
             }
 
             // Update other stats
-            $image->species_id = $data['species_id'];
-            $image->subtype_id = $data['subtype_id'] ?: null;
-            $image->rarity_id = $data['rarity_id'];
-            $image->save();
+            $character->species_id = $data['species_id'];
+            $character->subtype_id = $data['subtype_id'] ?: null;
+            $character->rarity_id = $data['rarity_id'];
+            $character->save();
 
             $new = [];
-            $new['features'] = $this->generateFeatureList($image);
-            $new['species'] = $image->species_id ? $image->species->displayName : null;
-            $new['subtype'] = $image->subtype_id ? $image->subtype->displayName : null;
-            $new['rarity'] = $image->rarity_id ? $image->rarity->displayName : null;
-
-            // Character also keeps track of these features
-            $image->character->rarity_id = $image->rarity_id;
-            $image->character->save();
+            $new['features'] = $this->generateFeatureList($character);
+            $new['species'] = $character->species_id ? $character->species->displayName : null;
+            $new['subtype'] = $character->subtype_id ? $character->subtype->displayName : null;
+            $new['rarity'] = $character->rarity_id ? $character->rarity->displayName : null;
 
             // Add a log for the character
             // This logs all the updates made to the character
-            $this->createLog($user->id, null, null, null, $image->character_id, 'Traits Updated', '#'.$image->id, 'character', true, $old, $new);
+            $this->createLog($user->id, null, null, null, $character->id, 'Traits Updated', '', 'character', true, $old, $new);
 
             return $this->commitReturn(true);
         } catch (\Exception $e) {
@@ -890,8 +872,6 @@ class CharacterManager extends Service {
             if (!$forceDelete && $image->character->character_image_id == $image->id) {
                 throw new \Exception("Cannot delete a character's active image.");
             }
-
-            $image->features()->delete();
 
             $image->delete();
 
@@ -1363,10 +1343,9 @@ class CharacterManager extends Service {
             // Delete associated bookmarks
             CharacterBookmark::where('character_id', $character->id)->delete();
 
-            // Delete associated features and images
+            // Delete associated images
             // Images use soft deletes
             foreach ($character->images as $image) {
-                $image->features()->delete();
                 $image->delete();
             }
 
@@ -1852,7 +1831,8 @@ class CharacterManager extends Service {
             }
 
             $characterData = Arr::only($data, [
-                'character_category_id', 'rarity_id', 'user_id',
+                'character_category_id', 'rarity_id', 
+                'species_id', 'subtype_id', 'user_id',
                 'number', 'slug', 'description',
                 'sale_value', 'transferrable_at', 'is_visible',
             ]);
@@ -1886,6 +1866,33 @@ class CharacterManager extends Service {
     }
 
     /**
+     * Handles character features.
+     * 
+     * @param array $data
+     * @param mixed $character
+     * 
+     * @return array|bool
+     */
+    private function handleCharacterFeatures($data, $character) {
+        try {
+            $features = [];
+            
+            // Attach features
+            foreach ($data['feature_id'] as $key => $featureId) {
+                if ($featureId) {
+                    $feature = CharacterFeature::create(['character_id' => $character->id, 'feature_id' => $featureId, 'data' => $data['feature_data'][$key]]);
+                    $features[] = $feature->id;
+                }
+            }
+
+            return $features;
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+        return false;
+    }
+
+    /**
      * Handles character image data.
      *
      * @param array $data
@@ -1898,10 +1905,6 @@ class CharacterManager extends Service {
     private function handleCharacterImage($data, $character, $isMyo = false) {
         try {
             if ($isMyo) {
-                $data['species_id'] = (isset($data['species_id']) && $data['species_id']) ? $data['species_id'] : null;
-                $data['subtype_id'] = isset($data['subtype_id']) && $data['subtype_id'] ? $data['subtype_id'] : null;
-                $data['rarity_id'] = (isset($data['rarity_id']) && $data['rarity_id']) ? $data['rarity_id'] : null;
-
                 // Use default images for MYO slots without an image provided
                 if (!isset($data['image'])) {
                     $data['image'] = public_path('images/myo.png');
@@ -1913,8 +1916,7 @@ class CharacterManager extends Service {
                 }
             }
             $imageData = Arr::only($data, [
-                'species_id', 'subtype_id', 'rarity_id', 'use_cropper',
-                'x0', 'x1', 'y0', 'y1',
+                'use_cropper', 'x0', 'x1', 'y0', 'y1',
             ]);
             $imageData['use_cropper'] = isset($data['use_cropper']);
             $imageData['description'] = $data['image_description'] ?? null;
@@ -2002,13 +2004,6 @@ class CharacterManager extends Service {
                 $this->processImage($image);
             }
 
-            // Attach features
-            foreach ($data['feature_id'] as $key => $featureId) {
-                if ($featureId) {
-                    $feature = CharacterFeature::create(['character_image_id' => $image->id, 'feature_id' => $featureId, 'data' => $data['feature_data'][$key]]);
-                }
-            }
-
             return $image;
         } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
@@ -2020,13 +2015,13 @@ class CharacterManager extends Service {
     /**
      * Generates a list of features for displaying.
      *
-     * @param \App\Models\Character\CharacterImage $image
+     * @param \App\Models\Character\Character $character
      *
      * @return string
      */
-    private function generateFeatureList($image) {
+    private function generateFeatureList($character) {
         $result = '';
-        foreach ($image->features as $feature) {
+        foreach ($character->features as $feature) {
             $result .= '<div>'.($feature->feature->category ? '<strong>'.$feature->feature->category->displayName.':</strong> ' : '').$feature->feature->displayName.'</div>';
         }
 
