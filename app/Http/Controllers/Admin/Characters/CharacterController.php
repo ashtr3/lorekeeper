@@ -48,6 +48,7 @@ class CharacterController extends Controller {
     public function getCreateCharacter() {
         return view('admin.masterlist.create_character', [
             'categories'  => CharacterCategory::orderBy('sort')->get(),
+            'characters'  => Character::myo(false)->orderBy('id')->pluck('slug', 'id'),
             'userOptions' => User::query()->orderBy('name')->pluck('name', 'id')->toArray(),
             'rarities'    => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'specieses'   => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
@@ -64,6 +65,7 @@ class CharacterController extends Controller {
      */
     public function getCreateMyo() {
         return view('admin.masterlist.create_character', [
+            'characters'  => Character::myo(false)->orderBy('id')->pluck('slug', 'id'),
             'userOptions' => User::query()->orderBy('name')->pluck('name', 'id')->toArray(),
             'rarities'    => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'specieses'   => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
@@ -98,7 +100,11 @@ class CharacterController extends Controller {
         $request->validate(Character::$createRules);
         $data = $request->only([
             'user_id', 'owner_url', 'character_category_id', 'number', 'slug',
-            'description', 'is_visible', 'is_giftable', 'is_tradeable', 'is_sellable',
+            'description', 'ancestor_sire', 'ancestor_dam', 
+            'ancestor_ss', 'ancestor_sd', 'ancestor_ds', 'ancestor_dd',
+            'ancestor_sss', 'ancestor_ssd', 'ancestor_sds', 'ancestor_sdd', 
+            'ancestor_dss', 'ancestor_dsd', 'ancestor_dds', 'ancestor_ddd',
+            'is_visible', 'is_giftable', 'is_tradeable', 'is_sellable',
             'sale_value', 'transferrable_at', 'use_cropper',
             'x0', 'x1', 'y0', 'y1',
             'designer_id', 'designer_url',
@@ -342,6 +348,110 @@ class CharacterController extends Controller {
         }
         if ($service->updateCharacterDescription($data, $this->character, Auth::user())) {
             flash('Character description updated successfully.')->success();
+
+            return redirect()->to($this->character->url);
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
+        }
+
+        return redirect()->back()->withInput();
+    }
+
+    /** 
+     * Shows the edit character lineage modal.
+     * 
+     * @param string $slug
+     * 
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getEditCharacterLineage($slug) {
+        $this->character = Character::where('slug', $slug)->first();
+        if (!$this->character) {
+            abort(404);
+        }
+        return view('character.admin._edit_lineage_modal', [
+            'character'       => $this->character,
+            'ancestorOptions' => Character::myo(false)->orderBy('id')->pluck('slug', 'id'),
+            'isMyo'           => false
+        ]);
+    }
+
+    /** 
+     * Shows the edit MYO slot lineage modal.
+     * 
+     * @param string $slug
+     * 
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getEditMyoLineage($id) {
+        $this->character = Character::where('slug', $slug)->first();
+        if (!$this->character) {
+            abort(404);
+        }
+        return view('character.admin._edit_lineage_modal', [
+            'character'       => $this->character,
+            'ancestorOptions' => Character::myo(false)->orderBy('id')->pluck('slug', 'id'),
+            'isMyo'           => true
+        ]);
+    }
+
+    /**
+     * Edits a character's lineage.
+     *
+     * @param App\Services\CharacterManager $service
+     * @param int                           $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postEditCharacterLineage(Request $request, CharacterManager $service, $slug) {
+        $data = $request->only([
+            'ancestor_sire', 'ancestor_dam',
+            'ancestor_ss', 'ancestor_sd', 'ancestor_ds', 'ancestor_dd',
+            'ancestor_sss', 'ancestor_ssd', 'ancestor_sds', 'ancestor_sdd',
+            'ancestor_dss', 'ancestor_dsd', 'ancestor_dds', 'ancestor_ddd'
+        ]);
+        
+        $this->character = Character::where('slug', $slug)->first();
+        if (!$this->character) {
+            abort(404);
+        }
+        if ($service->updateCharacterLineage($data, $this->character, Auth::user())) {
+            flash('Character lineage updated successfully.')->success();
+
+            return redirect()->to($this->character->url);
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
+        }
+
+        return redirect()->back()->withInput();
+    }
+
+    /**
+     * Edits a MYO slot's lineage.
+     *
+     * @param App\Services\CharacterManager $service
+     * @param int                           $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postEditMyoLineage(Request $request, CharacterManager $service, $id) {
+        $data = $request->only([
+            'ancestor_sire', 'ancestor_dam',
+            'ancestor_ss', 'ancestor_sd', 'ancestor_ds', 'ancestor_dd',
+            'ancestor_sss', 'ancestor_ssd', 'ancestor_sds', 'ancestor_sdd',
+            'ancestor_dss', 'ancestor_dsd', 'ancestor_dds', 'ancestor_ddd'
+        ]);
+        
+        $this->character = Character::where('is_myo_slot', 1)->where('id', $id)->first();
+        if (!$this->character) {
+            abort(404);
+        }
+        if ($service->updateCharacterLineage($data, $this->character, Auth::user())) {
+            flash('Character lineage updated successfully.')->success();
 
             return redirect()->to($this->character->url);
         } else {
