@@ -2,6 +2,8 @@
 
 namespace App\Models\Character;
 
+use App\Enums\Fertility;
+use App\Enums\Rank;
 use App\Facades\Notifications;
 use App\Models\Currency\Currency;
 use App\Models\Currency\CurrencyLog;
@@ -33,6 +35,7 @@ class Character extends Model {
         'sale_value', 'transferrable_at', 'is_visible',
         'is_gift_art_allowed', 'is_gift_writing_allowed', 'is_trading', 'sort',
         'is_myo_slot', 'name', 'trade_id', 'owner_url',
+        'sex', 'custom_sex', 'genotype', 'mp', 'fertility'
     ];
 
     /**
@@ -76,6 +79,11 @@ class Character extends Model {
         'user_id'               => 'nullable',
         'number'                => 'required',
         'slug'                  => 'required|alpha_dash',
+        'sex'                   => 'required',
+        'custom_sex'            => 'nullable',
+        'genotype'              => 'nullable',
+        'mp'                    => 'nullable',
+        'fertility'             => 'nullable',
         'description'           => 'nullable',
         'sale_value'            => 'nullable',
         'image'                 => 'required|mimes:jpeg,jpg,gif,png|max:2048',
@@ -92,6 +100,11 @@ class Character extends Model {
         'character_category_id' => 'required',
         'number'                => 'required',
         'slug'                  => 'required',
+        'sex'                   => 'required',
+        'custom_sex'            => 'nullable',
+        'genotype'              => 'nullable',
+        'mp'                    => 'nullable',
+        'fertility'             => 'nullable',
         'description'           => 'nullable',
         'sale_value'            => 'nullable',
         'image'                 => 'nullable|mimes:jpeg,jpg,gif,png|max:2048',
@@ -108,6 +121,11 @@ class Character extends Model {
         'user_id'     => 'nullable',
         'number'      => 'nullable',
         'slug'        => 'nullable',
+        'sex'         => 'required',
+        'custom_sex'  => 'nullable',
+        'genotype'    => 'nullable',
+        'mp'          => 'nullable',
+        'fertility'   => 'nullable',
         'description' => 'nullable',
         'sale_value'  => 'nullable',
         'name'        => 'required',
@@ -339,6 +357,45 @@ class Character extends Model {
             return url('myo/'.$this->id);
         } else {
             return url('character/'.$this->slug);
+        }
+    }
+
+    /**
+     * Gets the character's rank.
+     * 
+     * @return string
+     */
+    public function getRankAttribute() {
+        foreach (Rank::cases() as $rank) {
+            if ($this->mp >= $rank->getThreshold()) {
+                return $rank->value;
+            }
+        }
+    }
+
+    /**
+     * Gets the character's fertility score.
+     * 
+     * @return string
+     */
+    public function getDisplayFertilityAttribute() {
+        foreach (Fertility::cases() as $fertility) {
+            if ($this->fertility >= $fertility->getThreshold()) {
+                return $fertility->value;
+            }
+        }
+    }
+
+    /**
+     * Displays the character's sex.
+     */
+    public function getDisplaySexAttribute() {
+        if ($this->sex === 'other') {
+            $sex = $this->custom_sex ?? 'Unspecified';
+            return ucwords($sex) . ' ' . add_help("Characters of this sex are unable to breed.");
+        }
+        else {
+            return ucwords($this->sex);
         }
     }
 
