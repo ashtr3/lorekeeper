@@ -2,13 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\CharacterCategoryEnum;
-use App\Enums\Defaults;
-use App\Enums\FeatureEnum;
-use App\Enums\Pattern;
-use App\Enums\RarityEnum;
-use App\Enums\SpeciesEnum;
-use App\Enums\SubtypeEnum;
 use App\Models\Character\Character;
 use App\Models\Character\CharacterCategory;
 use App\Models\Character\CharacterFeature;
@@ -69,8 +62,12 @@ class ImportCharacters extends Command {
 
         $csv = $this->getCSV($file_name);
         while (($row = $this->getRow($csv)) !== false) {
-            $data = $this->getCharacterData($row, $categories, $rarities, $species, $subtypes, $features);
-            $this->info(json_encode($data, JSON_PRETTY_PRINT));
+            if (!$this->doesCharacterExist($row[0])) {
+                $data = $this->getCharacterData($row, $categories, $rarities, $species, $subtypes, $features);
+                $this->createCharacter($data, $user);
+            } else {
+                $this->info("Character ($row[0]) exists.");
+            }            
         }
         fclose($csv);
 
@@ -228,11 +225,41 @@ class ImportCharacters extends Command {
         }
     }
 
+    protected function createCharacter($data, $user) {
+        try {
+            $character = $this->handleCharacter($data);
+            if (!$character) {
+                throw new \Exception('Error happened while trying to create character.');
+            }
+
+            $features = $this->handleCharacterFeatures($data, $character);
+            if (!is_array($features) || $features === false) {
+                throw new \Exception('Error happened while trying to create character features.');
+            }
+
+            $image = $this->handleCharacterImage($data, $character);
+            if (!$image) {
+                throw new \Exception('Error happened while trying to create image.');
+            }
+
+            $this->handleCharacterDesigner($data, $image);
+
+            $this->cropThumbnail($image);
+            $character->character_image_id = $image->id;
+            $character->save();
+
+            $this->createLog($user->id, null, null, $data['owner_url'], $character->id, 'Character Created', 'Initial upload', 'character');
+            $this->createLog($user->id, null, null, $data['owner_url'], $character->id, 'Character Created', 'Initial upload', 'user');
+        } catch (\Exception $e) {
+            $this->error('Error creating character.');
+        }
+    }
+
     protected function handleCharacter($data): Character {
         try {
             $characterData = array_intersect_key($data, array_flip([
                 'character_category_id',
-                'rarity_id', 'species_id', 'subtype_id', 'owner_url',
+                'rarity_id', 'user_id', 'owner_url',
                 'name', 'number', 'slug', 'description',
             ]));
             $characterData['parsed_description'] = parse($data['description']);
@@ -272,6 +299,7 @@ class ImportCharacters extends Command {
     protected function handleCharacterImage($data, $character): CharacterImage {
         try {
             $imageData = array_intersect_key($data, array_flip([
+                'rarity_id', 'species_id', 'subtype_id',
                 'use_cropper', 'x0', 'x1', 'y0', 'y1',
             ]));
             $imageData['description'] = $data['image_description'];
@@ -321,8 +349,7 @@ class ImportCharacters extends Command {
                 'data'          => $data,
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now(),
-            ] + ($logType == 'character' ?
-                [
+            ] + ($logType == 'character' ? [
                     'change_log' => $isUpdate ? json_encode([
                         'old' => $oldData,
                         'new' => $newData,
@@ -358,17 +385,16 @@ class ImportCharacters extends Command {
         }
     }
 
-    protected function doesCharacterExist($slug): bool {
+    protected function doesCharacterExist($id): bool {
         try {
-            $character = Character::where('slug', $slug)->first();
-
+            $character = Character::where('number', $id)->first();
             return $character ? true : false;
         } catch (Exception $e) {
             $this->error('Error getting character ID.');
         }
     }
 
-    protected function getUserIfExists($alias): User|false {
+    protected function getUserIfExists($alias): User|null {
         try {
             $character = User::whereHas('aliases', function ($query) use ($alias) {
                 $query->where('alias', $alias)->where('site', 'deviantart');
@@ -391,7 +417,6 @@ class ImportCharacters extends Command {
 
         if (!file_exists($filePath)) {
             $this->error("File does not exist: /data/tsv/{$file_name}.tsv");
-
             return false;
         }
 
@@ -407,7 +432,7 @@ class ImportCharacters extends Command {
 
     protected function downloadImage($url): UploadedFile {
         $client = new Client([
-            'verify' => false, // Disable SSL certificate verification
+            'verify' => false // Disable SSL certificate verification
         ]);
 
         $response = $client->get($url);
@@ -427,39 +452,34 @@ class ImportCharacters extends Command {
     }
 
     protected function saveImage($image, $dir, $name) {
-        if (!Storage::exists($dir)) {
-            // Create the directory.
-            if (!Storage::makeDirectory($dir)) {
-                $this->error('Failed to create image directory.');
+        $fullDir = public_path($dir);
 
+        if (!file_exists($fullDir)) {
+            if (!mkdir($fullDir, 0755, true)) {
+                $this->error('Failed to create image directory.');
                 return false;
             }
+            chmod($fullDir, 0755);
         }
 
-        $content = file_get_contents($image);
-
-        if (!Storage::put("{$dir}/{$name}", $content)) {
-            $this->error('Failed to save image.');
-
-            return false;
-        }
+        File::move($image, $fullDir.'/'.$name);
+        chmod($fullDir.'/'.$name, 0755);
 
         return true;
     }
 
     protected function cropThumbnail($characterImage) {
         try {
-            $this->info($characterImage->imageUrl);
-            $content = file_get_contents($characterImage->imageUrl);
-            $image = Image::make($content);
+            $fullPath = $characterImage->imagePath.'/'.$characterImage->imageFileName;
+            $this->info($fullPath);
+            $image = Image::make($fullPath);
 
             $canvas = Image::canvas($image->width(), $image->width());
             $image = $canvas->insert($image, 'center');
-
             $image->resize(config('lorekeeper.settings.masterlist_thumbnails.width'), config('lorekeeper.settings.masterlist_thumbnails.height'));
-            $image->encode(config('lorekeeper.settings.masterlist_image_format'), 100);
 
-            Storage::put("{$characterImage->imageDirectory}/{$characterImage->thumbnailFileName}", $image);
+            $thumbPath = $characterImage->thumbnailPath.'/'.$characterImage->thumbnailFileName;
+            $image->save($thumbPath, 100, config('lorekeeper.settings.masterlist_image_format'));
         } catch (\Exception $e) {
             $this->error('Failed to create thumbnail.');
         }
@@ -476,13 +496,30 @@ class ImportCharacters extends Command {
         $name = $row[1];
         $url = $row[2];
         $image = $row[3];
-        $info = $row[4];
-        $info_html = $row[5];
+        $info = str_replace("\xC2\xA0", " ", $row[4]);
+        $info_html = str_replace("\xC2\xA0", " ", $row[5]);
 
         $data = [];
         $data['name'] = $name;
         $data['number'] = $id;
         $data['description'] = $info_html;
+
+        $owner = $this->getOwner($info);
+        $data['user_id'] = $owner instanceof User ? $owner->id : null;
+        $data['owner_url'] = is_string($owner) ? $owner : null;
+
+        $designer = $this->getDesigner($info);
+        $data['designer_id'] = $designer instanceof User ? $designer->id : null;
+        $data['designer_url'] = is_string($designer) ? $designer : null;
+
+        $category = $this->getCharacterCategory($info, $categories);
+        $data['slug'] = $this->getSlug($id, $category->code);
+        $data['character_category_id'] = $category->id ?: null;
+
+        $data['rarity_id'] = $this->getRarity($info, $rarities)->id ?: null;
+        $data['species_id'] = $this->getSpecies($info, $species)->id ?: null;
+        $data['subtype_id'] = $this->getSubtype($info, $subtypes)->id ?: null;
+        $data['features'] = $this->getFeatures($info, $features);
 
         $uploadedFile = $this->downloadImage($image);
         $data['image'] = $uploadedFile;
@@ -498,7 +535,8 @@ class ImportCharacters extends Command {
     }
 
     protected function getOwner($text): User|string|null {
-        if (preg_match(Pattern::OWNER->value, $text, $matches)) {
+        $pattern = config('lorekeeper.character-import.patterns.owner');
+        if (preg_match($pattern, $text, $matches)) {
             $alias = $matches[1];
             $user = $this->getUserIfExists($alias);
             if ($user) {
@@ -512,7 +550,8 @@ class ImportCharacters extends Command {
     }
 
     protected function getDesigner($text): User|string|null {
-        if (preg_match(Pattern::DESIGNER->value, $text, $matches)) {
+        $pattern = config('lorekeeper.character-import.patterns.designer');
+        if (preg_match($pattern, $text, $matches)) {
             $alias = $matches[1];
             $user = $this->getUserIfExists($alias);
             if ($user) {
@@ -526,63 +565,66 @@ class ImportCharacters extends Command {
     }
 
     protected function getCharacterCategory($text, $models): CharacterCategory|false {
-        foreach (CharacterCategoryEnum::cases() as $categoryEnum) {
-            $model = $models[$categoryEnum->value];
-            $pattern = $categoryEnum->getPattern();
-            if ($pattern && preg_match($pattern->value, $text, $matches)) {
+        foreach (config('lorekeeper.character-import.character_categories') as $key => $category) {
+            $model = $models[$key];
+            $pattern = config('lorekeeper.character-import.patterns')[$category['pattern']];
+            if ($pattern && preg_match($pattern, $text, $matches)) {
                 return $model;
             }
         }
 
-        return $models[Defaults::CATEGORY->value];
+        $default_key = config('lorekeeper.character-import.defaults.category');
+        return $models[$default_key];
     }
 
     protected function getRarity($text, $models): Rarity|false {
-        foreach (RarityEnum::cases() as $rarityEnum) {
-            $model = $models[$rarityEnum->value];
-            $pattern = $rarityEnum->getPattern();
-            if ($pattern && preg_match($pattern->value, $text, $matches)) {
+        foreach (config('lorekeeper.character-import.rarities') as $key => $rarity) {
+            $model = $models[$key];
+            $pattern = config('lorekeeper.character-import.patterns')[$rarity['pattern']];
+            if ($pattern && preg_match($pattern, $text, $matches)) {
                 return $model;
             }
         }
 
-        return $models[Defaults::RARITY->value];
+        $default_key = config('lorekeeper.character-import.defaults.rarity');
+        return $models[$default_key];
     }
 
     protected function getSpecies($text, $models): Species|false {
-        foreach (SpeciesEnum::cases() as $speciesEnum) {
-            $model = $models[$speciesEnum->value];
-            $pattern = $speciesEnum->getPattern();
-            if ($pattern && preg_match($pattern->value, $text, $matches)) {
+        foreach (config('lorekeeper.character-import.species') as $key => $species) {
+            $model = $models[$key];
+            $pattern = config('lorekeeper.character-import.patterns')[$species['pattern']];
+            if ($pattern && preg_match($pattern, $text, $matches)) {
                 return $model;
             }
         }
 
-        return $models[Defaults::SPECIES->value];
+        $default_key = config('lorekeeper.character-import.defaults.species');
+        return $models[$default_key];
     }
 
     protected function getSubtype($text, $models): Subtype|false {
-        foreach (SubtypeEnum::cases() as $subtypeEnum) {
-            $model = $models[$subtypeEnum->value];
-            $pattern = $subtypeEnum->getPattern();
-            if ($pattern && preg_match($pattern->value, $text, $matches)) {
+        foreach (config('lorekeeper.character-import.subtypes') as $key => $subtype) {
+            $model = $models[$key];
+            $pattern = config('lorekeeper.character-import.patterns')[$subtype['pattern']];
+            if ($pattern && preg_match($pattern, $text, $matches)) {
                 return $model;
             }
         }
 
-        return $models[Defaults::SUBTYPE->value];
+        $default_key = config('lorekeeper.character-import.defaults.subtype');
+        return $models[$default_key];
     }
 
     protected function getFeatures($text, $models): array {
         $features = [];
-        foreach (FeatureEnum::cases() as $featureEnum) {
-            $model = $models[$featureEnum->value];
-            $pattern = $featureEnum->getPattern();
-            if ($pattern && preg_match($pattern->value, $text, $matches)) {
+        foreach (config('lorekeeper.character-import.features') as $key => $feature) {
+            $model = $models[$key];
+            $pattern = config('lorekeeper.character-import.patterns')[$feature['pattern']];
+            if ($pattern && preg_match($pattern, $text, $matches)) {
                 $features[] = $model;
             }
         }
-
         return $features;
     }
 
