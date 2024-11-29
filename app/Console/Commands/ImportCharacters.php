@@ -19,7 +19,6 @@ use Illuminate\Console\Command;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
 class ImportCharacters extends Command {
@@ -66,8 +65,8 @@ class ImportCharacters extends Command {
                 $data = $this->getCharacterData($row, $categories, $rarities, $species, $subtypes, $features);
                 $this->createCharacter($data, $user);
             } else {
-                $this->info("Character ($row[0]) exists.");
-            }            
+                $this->info("Character ({$row[0]}) exists.");
+            }
         }
         fclose($csv);
 
@@ -350,11 +349,11 @@ class ImportCharacters extends Command {
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now(),
             ] + ($logType == 'character' ? [
-                    'change_log' => $isUpdate ? json_encode([
-                        'old' => $oldData,
-                        'new' => $newData,
-                    ]) : null,
-                ] : [])
+                'change_log' => $isUpdate ? json_encode([
+                    'old' => $oldData,
+                    'new' => $newData,
+                ]) : null,
+            ] : [])
         );
     }
 
@@ -388,13 +387,14 @@ class ImportCharacters extends Command {
     protected function doesCharacterExist($id): bool {
         try {
             $character = Character::where('number', $id)->first();
+
             return $character ? true : false;
         } catch (Exception $e) {
             $this->error('Error getting character ID.');
         }
     }
 
-    protected function getUserIfExists($alias): User|null {
+    protected function getUserIfExists($alias): ?User {
         try {
             $character = User::whereHas('aliases', function ($query) use ($alias) {
                 $query->where('alias', $alias)->where('site', 'deviantart');
@@ -417,6 +417,7 @@ class ImportCharacters extends Command {
 
         if (!file_exists($filePath)) {
             $this->error("File does not exist: /data/tsv/{$file_name}.tsv");
+
             return false;
         }
 
@@ -432,7 +433,7 @@ class ImportCharacters extends Command {
 
     protected function downloadImage($url): UploadedFile {
         $client = new Client([
-            'verify' => false // Disable SSL certificate verification
+            'verify' => false, // Disable SSL certificate verification
         ]);
 
         $response = $client->get($url);
@@ -457,6 +458,7 @@ class ImportCharacters extends Command {
         if (!file_exists($fullDir)) {
             if (!mkdir($fullDir, 0755, true)) {
                 $this->error('Failed to create image directory.');
+
                 return false;
             }
             chmod($fullDir, 0755);
@@ -496,8 +498,8 @@ class ImportCharacters extends Command {
         $name = $row[1];
         $url = $row[2];
         $image = $row[3];
-        $info = str_replace("\xC2\xA0", " ", $row[4]);
-        $info_html = str_replace("\xC2\xA0", " ", $row[5]);
+        $info = str_replace("\xC2\xA0", ' ', $row[4]);
+        $info_html = str_replace("\xC2\xA0", ' ', $row[5]);
 
         $data = [];
         $data['name'] = $name;
@@ -574,6 +576,7 @@ class ImportCharacters extends Command {
         }
 
         $default_key = config('lorekeeper.character-import.defaults.category');
+
         return $models[$default_key];
     }
 
@@ -587,6 +590,7 @@ class ImportCharacters extends Command {
         }
 
         $default_key = config('lorekeeper.character-import.defaults.rarity');
+
         return $models[$default_key];
     }
 
@@ -600,6 +604,7 @@ class ImportCharacters extends Command {
         }
 
         $default_key = config('lorekeeper.character-import.defaults.species');
+
         return $models[$default_key];
     }
 
@@ -613,6 +618,7 @@ class ImportCharacters extends Command {
         }
 
         $default_key = config('lorekeeper.character-import.defaults.subtype');
+
         return $models[$default_key];
     }
 
@@ -625,6 +631,7 @@ class ImportCharacters extends Command {
                 $features[] = $model;
             }
         }
+
         return $features;
     }
 
