@@ -91,7 +91,7 @@ class FeatureAllele extends Model
      * @return string
      */
     public function getDisplayNameAttribute() {
-        return '<a href="'.$this->url.'" class="display-allele">'.$this->name.'</a>';
+        return '<a href="'.$this->url.'" class="display-allele">'.$this->allele.'</a>';
     }
 
     /**
@@ -100,7 +100,7 @@ class FeatureAllele extends Model
      * @return string
      */
     public function getUrlAttribute() {
-        return url('world/trait-alleles?name='.$this->name);
+        return url('world/trait-alleles?name='.$this->allele);
     }
 
     /**

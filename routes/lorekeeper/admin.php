@@ -182,6 +182,22 @@ Route::group(['prefix' => 'data', 'namespace' => 'Data', 'middleware' => 'power:
     Route::post('trait-categories/delete/{id}', 'FeatureController@postDeleteFeatureCategory');
     Route::post('trait-categories/sort', 'FeatureController@postSortFeatureCategory');
 
+    Route::get('trait-loci', 'FeatureController@getFeatureLociIndex');
+    Route::get('trait-loci/create', 'FeatureController@getCreateFeatureLocus');
+    Route::get('trait-loci/edit/{id}', 'FeatureController@getEditFeatureLocus');
+    Route::get('trait-loci/edit/{id}/allele', 'FeatureController@getCreateFeatureAllele');
+    Route::get('trait-loci/edit/{id}/allele/{allele}', 'FeatureController@getEditFeatureAllele');
+    Route::get('trait-loci/edit/{id}/allele/{allele}/delete', 'FeatureController@getDeleteFeatureAllele');
+    Route::get('trait-loci/delete/{id}', 'FeatureController@getDeleteFeatureLocus');
+    Route::post('trait-loci/create', 'FeatureController@postCreateEditFeatureLocus');
+    Route::post('trait-loci/edit/{id?}', 'FeatureController@postCreateEditFeatureLocus');
+    Route::post('trait-loci/edit/{id}/allele/sort', 'FeatureController@postSortFeatureAllele');
+    Route::post('trait-loci/edit/{id}/allele', 'FeatureController@postCreateEditFeatureAllele');
+    Route::post('trait-loci/edit/{id}/allele/{allele?}', 'FeatureController@postCreateEditFeatureAllele');
+    Route::post('trait-loci/edit/{id}/allele/{allele}/delete', 'FeatureController@postDeleteFeatureAllele');
+    Route::post('trait-loci/delete/{id}', 'FeatureController@postDeleteFeatureLocus');
+    Route::post('trait-loci/sort', 'FeatureController@postSortFeatureLocus');
+
     Route::get('traits', 'FeatureController@getFeatureIndex');
     Route::get('traits/create', 'FeatureController@getCreateFeature');
     Route::get('traits/edit/{id}', 'FeatureController@getEditFeature');

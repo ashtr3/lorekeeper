@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Models\Feature\Feature;
+use App\Models\Feature\FeatureAllele;
 use App\Models\Feature\FeatureCategory;
+use App\Models\Feature\FeatureLocus;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use Illuminate\Support\Facades\DB;
@@ -166,6 +168,256 @@ class FeatureService extends Service {
 
             foreach ($sort as $key => $s) {
                 FeatureCategory::where('id', $s)->update(['sort' => $key]);
+            }
+
+            return $this->commitReturn(true);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+
+        return $this->rollbackReturn(false);
+    }
+    
+    /**********************************************************************************************
+
+        FEATURE LOCI
+
+    **********************************************************************************************/
+
+    /**
+     * Create a locus.
+     *
+     * @param array                 $data
+     * @param \App\Models\User\User $user
+     *
+     * @return \App\Models\Feature\FeatureLocus|bool
+     */
+    public function createFeatureLocus($data, $user) {
+        DB::beginTransaction();
+
+        try {
+            $data = $this->populateGeneticData($data);
+
+            $locus = FeatureLocus::create($data);
+
+            if (!$this->logAdminAction($user, 'Created Feature Locus', 'Created '.$locus->displayName)) {
+                throw new \Exception('Failed to log admin action.');
+            }
+
+            return $this->commitReturn($locus);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+
+        return $this->rollbackReturn(false);
+    }
+
+    /**
+     * Update a locus.
+     *
+     * @param \App\Models\Feature\FeatureLocus $locus
+     * @param array                            $data
+     * @param \App\Models\User\User            $user
+     *
+     * @return \App\Models\Feature\FeatureLocus|bool
+     */
+    public function updateFeatureLocus($locus, $data, $user) {
+        DB::beginTransaction();
+
+        try {
+            // More specific validation
+            if (FeatureLocus::where('name', $data['name'])->where('id', '!=', $locus->id)->exists()) {
+                throw new \Exception('The name has already been taken.');
+            }
+
+            $data = $this->populateGeneticData($data);
+
+            $locus->update($data);
+
+            if (!$this->logAdminAction($user, 'Updated Feature Locus', 'Updated '.$locus->displayName)) {
+                throw new \Exception('Failed to log admin action.');
+            }
+
+            return $this->commitReturn($locus);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+
+        return $this->rollbackReturn(false);
+    }
+
+    /**
+     * Delete a locus.
+     *
+     * @param \App\Models\Feature\FeatureLocus $locus
+     * @param mixed                            $user
+     *
+     * @return bool
+     */
+    public function deleteFeatureLocus($locus, $user) {
+        DB::beginTransaction();
+
+        try {
+            // Check first if the category is currently in use
+            if (FeatureAllele::where('feature_locus_id', $locus->id)->exists()) {
+                throw new \Exception('An allele with this locus exists. Please change its locus first.');
+            }
+
+            if (!$this->logAdminAction($user, 'Deleted Feature Locus', 'Deleted '.$locus->name)) {
+                throw new \Exception('Failed to log admin action.');
+            }
+
+            $locus->delete();
+
+            return $this->commitReturn(true);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+
+        return $this->rollbackReturn(false);
+    }
+
+    /**
+     * Sorts category order.
+     *
+     * @param array $data
+     *
+     * @return bool
+     */
+    public function sortFeatureLocus($data) {
+        DB::beginTransaction();
+
+        try {
+            // explode the sort array and reverse it since the order is inverted
+            $sort = array_reverse(explode(',', $data));
+
+            foreach ($sort as $key => $s) {
+                FeatureLocus::where('id', $s)->update(['sort' => $key]);
+            }
+
+            return $this->commitReturn(true);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+
+        return $this->rollbackReturn(false);
+    }
+
+    /**********************************************************************************************
+
+        FEATURE ALLELES
+
+    **********************************************************************************************/
+
+    /**
+     * Create an allele.
+     *
+     * @param array                 $data
+     * @param \App\Models\User\User $user
+     *
+     * @return \App\Models\Feature\FeatureAllele|bool
+     */
+    public function createFeatureAllele($data, $user) {
+        DB::beginTransaction();
+
+        try {
+            $data = $this->populateGeneticData($data);
+
+            $allele = FeatureAllele::create($data);
+
+            if (!$this->logAdminAction($user, 'Created Feature Allele', 'Created '.$allele->displayName)) {
+                throw new \Exception('Failed to log admin action.');
+            }
+
+            return $this->commitReturn($allele);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+
+        return $this->rollbackReturn(false);
+    }
+
+    /**
+     * Update an allele.
+     *
+     * @param \App\Models\Feature\FeatureAllele $allele
+     * @param array                             $data
+     * @param \App\Models\User\User             $user
+     *
+     * @return \App\Models\Feature\FeatureAllele|bool
+     */
+    public function updateFeatureAllele($allele, $data, $user) {
+        DB::beginTransaction();
+
+        try {
+            // More specific validation
+            if (FeatureAllele::where('allele', $data['allele'])->where('id', '!=', $allele->id)->exists()) {
+                throw new \Exception('The allele has already been taken.');
+            }
+
+            $data = $this->populateGeneticData($data);
+
+            $allele->update($data);
+
+            if (!$this->logAdminAction($user, 'Updated Feature Allele', 'Updated '.$allele->displayName)) {
+                throw new \Exception('Failed to log admin action.');
+            }
+
+            return $this->commitReturn($allele);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+
+        return $this->rollbackReturn(false);
+    }
+
+    /**
+     * Delete an allele.
+     *
+     * @param \App\Models\Feature\FeatureAllele $allele
+     * @param mixed                             $user
+     *
+     * @return bool
+     */
+    public function deleteFeatureAllele($allele, $user) {
+        DB::beginTransaction();
+
+        try {
+            // Check first if the category is currently in use
+            // if (FeatureAllele::where('feature_locus_id', $locus->id)->exists()) {
+            //     throw new \Exception('An allele with this locus exists. Please change its locus first.');
+            // }
+
+            if (!$this->logAdminAction($user, 'Deleted Feature Allele', 'Deleted '.$allele->allele)) {
+                throw new \Exception('Failed to log admin action.');
+            }
+
+            $allele->delete();
+
+            return $this->commitReturn(true);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+
+        return $this->rollbackReturn(false);
+    }
+
+    /**
+     * Sorts allele order.
+     *
+     * @param array $data
+     *
+     * @return bool
+     */
+    public function sortFeatureAllele($data) {
+        DB::beginTransaction();
+
+        try {
+            // explode the sort array and reverse it since the order is inverted
+            $sort = array_reverse(explode(',', $data));
+
+            foreach ($sort as $key => $s) {
+                FeatureAllele::where('id', $s)->update(['sort' => $key]);
             }
 
             return $this->commitReturn(true);
@@ -378,6 +630,25 @@ class FeatureService extends Service {
                 $this->deleteImage($category->categoryImagePath, $category->categoryImageFileName);
             }
             unset($data['remove_image']);
+        }
+
+        return $data;
+    }
+
+    /**
+     * Handle locus data.
+     *
+     * @param array $data
+     *
+     * @return array
+     */
+    private function populateGeneticData($data) {
+        if (isset($data['description']) && $data['description']) {
+            $data['parsed_description'] = parse($data['description']);
+        }
+
+        if (!isset($data['is_visible'])) {
+            $data['is_visible'] = 0;
         }
 
         return $data;

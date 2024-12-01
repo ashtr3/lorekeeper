@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin\Data;
 
 use App\Http\Controllers\Controller;
 use App\Models\Feature\Feature;
+use App\Models\Feature\FeatureAllele;
 use App\Models\Feature\FeatureCategory;
+use App\Models\Feature\FeatureLocus;
 use App\Models\Rarity;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
@@ -142,6 +144,260 @@ class FeatureController extends Controller {
     public function postSortFeatureCategory(Request $request, FeatureService $service) {
         if ($service->sortFeatureCategory($request->get('sort'))) {
             flash('Category order updated successfully.')->success();
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
+        }
+
+        return redirect()->back();
+    }
+
+    /**********************************************************************************************
+
+        FEATURE LOCI
+
+    **********************************************************************************************/
+
+    /**
+     * Shows the feature loci index.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getFeatureLociIndex() {
+        return view('admin.features.feature_loci', [
+            'loci' => FeatureLocus::orderBy('sort', 'DESC')->get(),
+        ]);
+    }
+
+    /**
+     * Shows the create feature locus page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getCreateFeatureLocus() {
+        return view('admin.features.create_edit_feature_locus', [
+            'locus' => new FeatureLocus,
+        ]);
+    }
+
+    /**
+     * Shows the edit feature locus page.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getEditFeatureLocus($id) {
+        $locus = FeatureLocus::find($id);
+        if (!$locus) {
+            abort(404);
+        }
+
+        return view('admin.features.create_edit_feature_locus', [
+            'locus' => $locus,
+        ]);
+    }
+
+    /**
+     * Creates or edits a feature locus.
+     *
+     * @param App\Services\FeatureService $service
+     * @param int|null                    $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postCreateEditFeatureLocus(Request $request, FeatureService $service, $id = null) {
+        $id ? $request->validate(FeatureLocus::$updateRules) : $request->validate(FeatureLocus::$createRules);
+        $data = $request->only([
+            'name', 'description', 'is_visible',
+        ]);
+        if ($id && $service->updateFeatureLocus(FeatureLocus::find($id), $data, Auth::user())) {
+            flash('Locus updated successfully.')->success();
+        } elseif (!$id && $locus = $service->createFeatureLocus($data, Auth::user())) {
+            flash('Locus created successfully.')->success();
+
+            return redirect()->to('admin/data/trait-loci/edit/'.$locus->id);
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
+        }
+
+        return redirect()->back();
+    }
+
+    /**
+     * Gets the feature locus deletion modal.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getDeleteFeatureLocus($id) {
+        $locus = FeatureLocus::find($id);
+
+        return view('admin.features._delete_feature_locus', [
+            'locus' => $locus,
+        ]);
+    }
+
+    /**
+     * Deletes a feature locus.
+     *
+     * @param App\Services\FeatureService $service
+     * @param int|null                    $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postDeleteFeatureLocus(Request $request, FeatureService $service, $id) {
+        if ($id && $service->deleteFeatureLocus(FeatureLocus::find($id), Auth::user())) {
+            flash('Locus deleted successfully.')->success();
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
+        }
+
+        return redirect()->to('admin/data/trait-loci');
+    }
+
+    /**
+     * Sorts feature locus.
+     *
+     * @param App\Services\FeatureService $service
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postSortFeatureLocus(Request $request, FeatureService $service) {
+        if ($service->sortFeatureLocus($request->get('sort'))) {
+            flash('Locus order updated successfully.')->success();
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
+        }
+
+        return redirect()->back();
+    }
+
+    /**********************************************************************************************
+
+        FEATURE ALLELES
+
+    **********************************************************************************************/
+
+    /**
+     * Shows the create feature allele modal.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getCreateFeatureAllele($id) {
+        $locus = FeatureLocus::find($id);
+        if (!$locus) {
+            abort(404);
+        }
+
+        return view('admin.features._create_edit_feature_allele', [
+            'allele' => new FeatureAllele,
+            'locus' => $locus,
+        ]);
+    }
+
+    /**
+     * Shows the edit feature allele modal.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getEditFeatureAllele($id, $allele) {
+        $locus = FeatureLocus::find($id);
+        $allele = FeatureAllele::find($allele);
+        if (!$locus || !$allele) {
+            abort(404);
+        }
+
+        $allele->feature_locus_id = $locus->id;
+
+        return view('admin.features._create_edit_feature_allele', [
+            'allele' => $allele,
+            'locus' => $locus,
+        ]);
+    }
+
+    /**
+     * Creates or edits a feature allele.
+     *
+     * @param App\Services\FeatureService $service
+     * @param int|null                    $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postCreateEditFeatureAllele(Request $request, FeatureService $service, $id, $allele = null) {
+        $allele ? $request->validate(FeatureAllele::$updateRules) : $request->validate(FeatureAllele::$createRules);
+        $data = $request->only([
+            'feature_locus_id', 'allele', 'description', 'is_visible',
+        ]);
+
+        if ($allele && $service->updateFeatureAllele(FeatureAllele::find($allele), $data, Auth::user())) {
+            flash('Allele updated successfully.')->success();
+        } elseif (!$allele && $service->createFeatureAllele($data, Auth::user())) {
+            flash('Allele created successfully.')->success();
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
+        }
+
+        return redirect()->back();
+    }
+
+    /**
+     * Gets the feature allele deletion modal.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getDeleteFeatureAllele($allele) {
+        $allele = FeatureAllele::find($allele);
+
+        return view('admin.features._delete_feature_allele', [
+            'allele' => $allele,
+        ]);
+    }
+
+    /**
+     * Deletes a feature allele.
+     *
+     * @param App\Services\FeatureService $service
+     * @param int|null                    $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postDeleteFeatureAllele(Request $request, FeatureService $service, $allele) {
+        if ($allele && $service->deleteFeatureAllele(FeatureAllele::find($allele), Auth::user())) {
+            flash('Allele deleted successfully.')->success();
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
+        }
+
+        return redirect()->back();
+    }
+
+    /**
+     * Sorts feature alleles.
+     *
+     * @param App\Services\FeatureService $service
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postSortFeatureAllele(Request $request, FeatureService $service) {
+        if ($service->sortFeatureAllele($request->get('sort'))) {
+            flash('Allele order updated successfully.')->success();
         } else {
             foreach ($service->errors()->getMessages()['error'] as $error) {
                 flash($error)->error();
