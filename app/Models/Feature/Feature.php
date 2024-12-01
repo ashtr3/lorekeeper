@@ -15,7 +15,7 @@ class Feature extends Model {
      * @var array
      */
     protected $fillable = [
-        'feature_category_id', 'species_id', 'subtype_id', 'rarity_id', 'name', 'has_image', 'description', 'parsed_description', 'is_visible', 'hash',
+        'feature_category_id', 'species_id', 'subtype_id', 'rarity_id', 'name', 'has_image', 'description', 'parsed_description', 'is_visible', 'is_genetic', 'hash',
     ];
 
     /**
@@ -204,6 +204,18 @@ class Feature extends Model {
         }
 
         return $query->where('is_visible', 1);
+    }
+
+    /**
+     * Scope a query to show only genetic features.
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int                                   $isGenetic
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeGenetic($query, $isGenetic = 1) {
+        return $query->where('is_genetic', $isGenetic);
     }
 
     /**********************************************************************************************

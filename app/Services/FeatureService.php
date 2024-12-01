@@ -451,6 +451,8 @@ class FeatureService extends Service {
                 throw new \Exception('The gene requirement already exists.');
             }
 
+            $data = $this->populateGeneticRequirementData($data);
+
             $gene = FeatureGene::create($data);
 
             if (!$this->logAdminAction($user, 'Created Feature Genetic Requirement', 'Created genetic requirement on '.$gene->feature->displayName)) {
@@ -484,6 +486,8 @@ class FeatureService extends Service {
                     throw new \Exception('The gene requirement already exists.');
                 }
             }
+
+            $data = $this->populateGeneticRequirementData($data);
 
             FeatureGene::where('feature_id', $gene->feature_id)
                 ->where('feature_allele_id', $gene->feature_allele_id)
@@ -756,6 +760,27 @@ class FeatureService extends Service {
     }
 
     /**
+     * Handle genetic requirement data.
+     *
+     * @param array $data
+     *
+     * @return array
+     */
+    private function populateGeneticRequirementData($data) {
+        if (!isset($data['allow_homozygous'])) {
+            $data['allow_homozygous'] = 0;
+        }
+        if (!isset($data['allow_heterozygous'])) {
+            $data['allow_heterozygous'] = 0;
+        }
+        if (!isset($data['allow_absent'])) {
+            $data['allow_absent'] = 0;
+        }
+
+        return $data;
+    }
+
+    /**
      * Processes user input for creating/updating a feature.
      *
      * @param array                       $data
@@ -775,6 +800,9 @@ class FeatureService extends Service {
         }
         if (!isset($data['is_visible'])) {
             $data['is_visible'] = 0;
+        }
+        if (!isset($data['is_genetic'])) {
+            $data['is_genetic'] = 0;
         }
         if (isset($data['remove_image'])) {
             if ($feature && $feature->has_image && $data['remove_image']) {

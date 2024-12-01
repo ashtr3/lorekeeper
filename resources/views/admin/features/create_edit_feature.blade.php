@@ -69,9 +69,15 @@
         {!! Form::textarea('description', $feature->description, ['class' => 'form-control wysiwyg']) !!}
     </div>
 
-    <div class="form-group">
-        {!! Form::checkbox('is_visible', 1, $feature->id ? $feature->is_visible : 1, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
-        {!! Form::label('is_visible', 'Is Visible', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned off, the trait will not be visible in the trait list or available for selection in search and design updates. Permissioned staff will still be able to add them to characters, however.') !!}
+    <div class="d-flex">
+        <div class="form-group mr-3">
+            {!! Form::checkbox('is_visible', 1, $feature->id ? $feature->is_visible : 1, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
+            {!! Form::label('is_visible', 'Is Visible', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned off, the trait will not be visible in the trait list or available for selection in search and design updates. Permissioned staff will still be able to add them to characters, however.') !!}
+        </div>
+        <div class="form-group">
+            {!! Form::checkbox('is_genetic', 1, $feature->id ? $feature->is_genetic : 1, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
+            {!! Form::label('is_genetic', 'Is Genetic', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned on, the trait will not be manually assignable. It will automatically be applied to characters meeting the trait\'s genetic requirements.') !!}
+        </div>
     </div>
 
     <div class="text-right">
@@ -80,7 +86,7 @@
 
     {!! Form::close() !!}
 
-    @if ($feature->id)
+    @if ($feature->id && $feature->is_genetic)
         <hr>
         <h3>Genetic Requirements</h3>
         <div class="text-right mb-3"><a class="btn btn-primary create-gene-button" href="#"><i class="fas fa-plus"></i> Create New Gene Requirement</a></div>
