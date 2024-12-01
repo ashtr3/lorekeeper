@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Feature\Feature;
 use App\Models\Feature\FeatureAllele;
 use App\Models\Feature\FeatureCategory;
+use App\Models\Feature\FeatureGene;
 use App\Models\Feature\FeatureLocus;
 use App\Models\Rarity;
 use App\Models\Species\Species;
@@ -398,6 +399,117 @@ class FeatureController extends Controller {
     public function postSortFeatureAllele(Request $request, FeatureService $service) {
         if ($service->sortFeatureAllele($request->get('sort'))) {
             flash('Allele order updated successfully.')->success();
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
+        }
+
+        return redirect()->back();
+    }
+
+    /**********************************************************************************************
+
+        FEATURE GENETICS
+
+    **********************************************************************************************/
+
+    /**
+     * Shows the create feature genetics modal.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getCreateFeatureGenetics($id) {
+        $feature = Feature::find($id);
+        $loci = Feature::with('alleles')->get();
+
+        if (!$feature || !$loci) {
+            abort(404);
+        }
+
+        return view('admin.features._create_edit_feature_genetics', [
+            'feature' => $feature,
+            'allele' => new FeatureAllele,
+            'loci' => $loci,
+        ]);
+    }
+
+    /**
+     * Shows the edit feature genetics modal.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getEditFeatureGenetics($id, $allele) {
+        $feature = Feature::find($id);
+        $allele = FeatureAllele::find($allele);
+        $loci = Feature::with('alleles')->get();
+        if (!$feature || !$allele || !$loci) {
+            abort(404);
+        }
+
+        return view('admin.features._create_edit_feature_genetics', [
+            'feature' => $feature,
+            'allele' => $allele,
+            'loci' => $loci
+        ]);
+    }
+
+    /**
+     * Creates or edits feature genetics.
+     *
+     * @param App\Services\FeatureService $service
+     * @param int|null                    $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postCreateEditFeatureGenetics(Request $request, FeatureService $service, $id, $allele = null) {
+        $allele ? $request->validate(FeatureGene::$updateRules) : $request->validate(FeatureGene::$createRules);
+        $data = $request->only([
+            'feature_id', 'feature_allele_id', 'allow_homozygous', 'allow_heterozygous', 'allow_absent',
+        ]);
+
+        if ($allele && $service->updateFeatureGene(FeatureGene::where('feature_id', $id)->where('feature_allele_id', $allele)->first(), $data, Auth::user())) {
+            flash('Genetic requirement updated successfully.')->success();
+        } elseif (!$allele && $service->createFeatureGene($data, Auth::user())) {
+            flash('Genetic requirement created successfully.')->success();
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
+        }
+
+        return redirect()->back();
+    }
+
+    /**
+     * Gets the feature genetics deletion modal.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getDeleteFeatureGenetics($id, $allele) {
+        $gene = FeatureGene::where('feature_id', $id)->where('feature_allele_id', $allele)->first();
+
+        return view('admin.features._delete_feature_genetics', [
+            'gene' => $gene,
+        ]);
+    }
+
+    /**
+     * Deletes feature genetics.
+     *
+     * @param App\Services\FeatureService $service
+     * @param int|null                    $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postDeleteFeatureGenetics(Request $request, FeatureService $service, $id, $allele) {
+        $gene = FeatureGene::where('feature_id', $id)->where('feature_allele_id', $allele)->first();
+        if ($gene && $service->deleteFeatureGene($gene, Auth::user())) {
+            flash('Genetic requirement deleted successfully.')->success();
         } else {
             foreach ($service->errors()->getMessages()['error'] as $error) {
                 flash($error)->error();

@@ -201,10 +201,15 @@ Route::group(['prefix' => 'data', 'namespace' => 'Data', 'middleware' => 'power:
     Route::get('traits', 'FeatureController@getFeatureIndex');
     Route::get('traits/create', 'FeatureController@getCreateFeature');
     Route::get('traits/edit/{id}', 'FeatureController@getEditFeature');
+    Route::get('traits/edit/{id}/genetics', 'FeatureController@getCreateFeatureGenetics');
+    Route::get('traits/edit/{id}/genetics/{allele}', 'FeatureController@getEditFeatureGenetics');
+    Route::get('traits/edit/{id}/genetics/{allele}/delete', 'FeatureController@getDeleteFeatureGenetics');
     Route::get('traits/delete/{id}', 'FeatureController@getDeleteFeature');
     Route::get('traits/check-subtype', 'FeatureController@getCreateEditFeatureSubtype');
     Route::post('traits/create', 'FeatureController@postCreateEditFeature');
     Route::post('traits/edit/{id?}', 'FeatureController@postCreateEditFeature');
+    Route::post('traits/edit/{id}/genetics/{allele?}', 'FeatureController@postCreateEditFeatureGenetics');
+    Route::post('traits/edit/{id}/genetics/{allele}/delete', 'FeatureController@postDeleteFeatureGenetics');
     Route::post('traits/delete/{id}', 'FeatureController@postDeleteFeature');
 
     // CHARACTER CATEGORIES

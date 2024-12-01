@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Feature\Feature;
 use App\Models\Feature\FeatureAllele;
 use App\Models\Feature\FeatureCategory;
+use App\Models\Feature\FeatureGene;
 use App\Models\Feature\FeatureLocus;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
@@ -419,6 +420,102 @@ class FeatureService extends Service {
             foreach ($sort as $key => $s) {
                 FeatureAllele::where('id', $s)->update(['sort' => $key]);
             }
+
+            return $this->commitReturn(true);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+
+        return $this->rollbackReturn(false);
+    }
+
+    /**********************************************************************************************
+
+        FEATURE GENETICS
+
+    **********************************************************************************************/
+
+    /**
+     * Create a genetic requirement.
+     *
+     * @param array                 $data
+     * @param \App\Models\User\User $user
+     *
+     * @return \App\Models\Feature\FeatureGene|bool
+     */
+    public function createFeatureGene($data, $user) {
+        DB::beginTransaction();
+
+        try {
+            if (FeatureGene::where('feature_id', $data['feature_id'])->where('feature_allele_id', $data['feature_allele_id'])->exists()) {
+                throw new \Exception('The gene requirement already exists.');
+            }
+
+            $gene = FeatureGene::create($data);
+
+            if (!$this->logAdminAction($user, 'Created Feature Genetic Requirement', 'Created genetic requirement on '.$gene->feature->displayName)) {
+                throw new \Exception('Failed to log admin action.');
+            }
+
+            return $this->commitReturn($gene);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+
+        return $this->rollbackReturn(false);
+    }
+
+    /**
+     * Update a genetic requirement.
+     *
+     * @param \App\Models\Feature\FeatureGene $gene
+     * @param array                           $data
+     * @param \App\Models\User\User           $user
+     *
+     * @return \App\Models\Feature\FeatureGene|bool
+     */
+    public function updateFeatureGene($gene, $data, $user) {
+        DB::beginTransaction();
+
+        try {
+            // More specific validation
+            if ($gene->feature_id !== $data['feature_id'] && $gene->feature_allele_id !== $data['feature_allele_id']) {
+                if (FeatureGene::where('feature_id', $data['feature_id'])->where('feature_allele_id', $data['feature_allele_id'])->exists()) {
+                    throw new \Exception('The gene requirement already exists.');
+                }
+            }
+
+            $gene->update($data);
+
+            if (!$this->logAdminAction($user, 'Updated Feature Genetic Requirement', 'Updated genetic requirement on '.$gene->feature->displayName)) {
+                throw new \Exception('Failed to log admin action.');
+            }
+
+            return $this->commitReturn($gene);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+
+        return $this->rollbackReturn(false);
+    }
+
+    /**
+     * Delete a genetic requirement.
+     *
+     * @param \App\Models\Feature\FeatureGene $gene
+     * @param mixed                           $user
+     *
+     * @return bool
+     */
+    public function deleteFeatureGene($gene, $user) {
+        DB::beginTransaction();
+
+        try {
+            if (!$this->logAdminAction($user, 'Deleted Feature Genetic Requirement', 'Deleted genetic requirement on '.$gene->feature->displayName)) {
+                throw new \Exception('Failed to log admin action.');
+            }
+
+            $gene->delete();
 
             return $this->commitReturn(true);
         } catch (\Exception $e) {

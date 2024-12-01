@@ -88,6 +88,13 @@ class Feature extends Model {
         return $this->belongsTo(FeatureCategory::class, 'feature_category_id');
     }
 
+    /**
+     * Get the genetic requirements associated with this feature.
+     */
+    public function genetics() {
+        return $this->hasMany(FeatureGene::class, 'feature_id');
+    }
+
     /**********************************************************************************************
 
         SCOPES
