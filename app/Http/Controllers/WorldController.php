@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Character\CharacterCategory;
 use App\Models\Currency\Currency;
 use App\Models\Feature\Feature;
+use App\Models\Feature\FeatureAllele;
 use App\Models\Feature\FeatureCategory;
+use App\Models\Feature\FeatureLocus;
 use App\Models\Item\Item;
 use App\Models\Item\ItemCategory;
 use App\Models\Rarity;
@@ -138,6 +140,42 @@ class WorldController extends Controller {
 
         return view('world.feature_categories', [
             'categories' => $query->visible(Auth::check() ? Auth::user() : null)->orderBy('sort', 'DESC')->orderBy('id')->paginate(20)->appends($request->query()),
+        ]);
+    }
+
+    /**
+     * Shows the trait loci page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getFeatureLoci(Request $request) {
+        $query = FeatureLocus::query();
+        $name = $request->get('name');
+        if ($name) {
+            $query->where('name', 'LIKE', '%'.$name.'%');
+        }
+
+        return view('world.feature_loci', [
+            'loci' => $query->with(['alleles' => function ($query) {
+                $query->visible(Auth::check() ? Auth::user() : null)->orderBy('sort', 'DESC');
+            }])->visible(Auth::check() ? Auth::user() : null)->orderBy('sort', 'DESC')->orderBy('id')->paginate(20)->appends($request->query()),
+        ]);
+    }
+
+    /**
+     * Shows the trait alleles page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getFeatureAlleles(Request $request) {
+        $query = FeatureAllele::query();
+        $name = $request->get('name');
+        if ($name) {
+            $query->where('allele', 'LIKE', '%'.$name.'%');
+        }
+
+        return view('world.feature_alleles', [
+            'alleles' => $query->with('locus')->visible(Auth::check() ? Auth::user() : null)->orderBy('sort', 'DESC')->orderBy('id')->paginate(20)->appends($request->query()),
         ]);
     }
 

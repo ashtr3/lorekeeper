@@ -54,7 +54,7 @@ class FeatureAllele extends Model
      * Get the locus of this allele.
      */
     public function locus() {
-        return $this->belongsTo(FeatureLocus::class);
+        return $this->belongsTo(FeatureLocus::class, 'feature_locus_id');
     }
 
     /**********************************************************************************************
@@ -109,7 +109,7 @@ class FeatureAllele extends Model
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/data/trait-alleles/edit/'.$this->id);
+        return $this->locus->adminUrl;
     }
 
     /**
