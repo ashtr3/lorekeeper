@@ -41,6 +41,7 @@
     </div>
 
     {!! Form::close() !!}
+    
     @if ($locus->id)
         <hr>
         <h3>Alleles</h3>

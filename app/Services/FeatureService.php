@@ -479,13 +479,15 @@ class FeatureService extends Service {
 
         try {
             // More specific validation
-            if ($gene->feature_id !== $data['feature_id'] && $gene->feature_allele_id !== $data['feature_allele_id']) {
+            if ($gene->feature_id != $data['feature_id'] && $gene->feature_allele_id != $data['feature_allele_id']) {
                 if (FeatureGene::where('feature_id', $data['feature_id'])->where('feature_allele_id', $data['feature_allele_id'])->exists()) {
                     throw new \Exception('The gene requirement already exists.');
                 }
             }
 
-            $gene->update($data);
+            FeatureGene::where('feature_id', $gene->feature_id)
+                ->where('feature_allele_id', $gene->feature_allele_id)
+                ->update($data);
 
             if (!$this->logAdminAction($user, 'Updated Feature Genetic Requirement', 'Updated genetic requirement on '.$gene->feature->displayName)) {
                 throw new \Exception('Failed to log admin action.');
@@ -515,7 +517,9 @@ class FeatureService extends Service {
                 throw new \Exception('Failed to log admin action.');
             }
 
-            $gene->delete();
+            FeatureGene::where('feature_id', $gene->feature_id)
+                ->where('feature_allele_id', $gene->feature_allele_id)
+                ->delete();
 
             return $this->commitReturn(true);
         } catch (\Exception $e) {

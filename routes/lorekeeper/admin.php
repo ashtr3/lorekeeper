@@ -189,6 +189,7 @@ Route::group(['prefix' => 'data', 'namespace' => 'Data', 'middleware' => 'power:
     Route::get('trait-loci/edit/{id}/allele/{allele}', 'FeatureController@getEditFeatureAllele');
     Route::get('trait-loci/edit/{id}/allele/{allele}/delete', 'FeatureController@getDeleteFeatureAllele');
     Route::get('trait-loci/delete/{id}', 'FeatureController@getDeleteFeatureLocus');
+    Route::get('trait-loci/{id}/alleles', 'FeatureController@getLocusAlleles');
     Route::post('trait-loci/create', 'FeatureController@postCreateEditFeatureLocus');
     Route::post('trait-loci/edit/{id?}', 'FeatureController@postCreateEditFeatureLocus');
     Route::post('trait-loci/edit/{id}/allele/sort', 'FeatureController@postSortFeatureAllele');

@@ -81,6 +81,43 @@
     {!! Form::close() !!}
 
     @if ($feature->id)
+        <hr>
+        <h3>Genetic Requirements</h3>
+        <div class="text-right mb-3"><a class="btn btn-primary create-gene-button" href="#"><i class="fas fa-plus"></i> Create New Gene Requirement</a></div>
+        @if (!count($feature->genetics))
+            <p>No genetic requirements found.</p>
+        @else
+            <table class="table table-sm genetics-table">
+                <tbody>
+                    @foreach ($feature->genetics as $gene)
+                        <tr data-id="{{ $gene->feature_allele_id }}">
+                            <td class="p-3">
+                                <h6>{!! $gene->allele->displayNameWithLocus !!}</h6>
+                                <ul class="d-flex list-unstyled mb-0">
+                                    <li class="mr-3">
+                                        <i class="text-{{ $gene->allow_homozygous ? 'success fas fa-check' : 'danger fas fa-times' }} fa-fw mr-2"></i> Homozygous
+                                    </li>
+                                    <li class="mr-3">
+                                        <i class="text-{{ $gene->allow_heterozygous ? 'success fas fa-check' : 'danger fas fa-times' }} fa-fw mr-2"></i> Heterozygous
+                                    </li>
+                                    <li>
+                                        <i class="text-{{ $gene->allow_absent ? 'success fas fa-check' : 'danger fas fa-times' }} fa-fw mr-2"></i> Absent
+                                    </li>
+                                </ul>
+                            </td>
+                            <td class="p-3 text-right">
+                                <a href="#" class="btn btn-outline-primary mr-1 edit-gene-button" data-id="{{ $gene->feature_allele_id }}">Edit</a>
+                                <a href="#" class="btn btn-outline-danger delete-gene-button" data-id="{{ $gene->feature_allele_id }}">Delete</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+        <hr>
+    @endif
+
+    @if ($feature->id)
         <h3>Preview</h3>
         <div class="card mb-3">
             <div class="card-body">
@@ -97,6 +134,18 @@
             $('.delete-feature-button').on('click', function(e) {
                 e.preventDefault();
                 loadModal("{{ url('admin/data/traits/delete') }}/{{ $feature->id }}", 'Delete Trait');
+            });
+            $('.create-gene-button').on('click', function(e) {
+                e.preventDefault();
+                loadModal("{{ url('admin/data/traits/edit') }}/{{ $feature->id }}/genetics", 'Create Gene Requirement');
+            });
+            $('.edit-gene-button').on('click', function(e) {
+                e.preventDefault();
+                loadModal("{{ url('admin/data/traits/edit') }}/{{ $feature->id }}/genetics/" + $(this).data('id'), 'Edit Gene Requirement');
+            });
+            $('.delete-gene-button').on('click', function(e) {
+                e.preventDefault();
+                loadModal("{{ url('admin/data/traits/edit') }}/{{ $feature->id }}/genetics/" + $(this).data('id') + "/delete", 'Delete Gene Requirement');
             });
             refreshSubtype();
         });

@@ -16,6 +16,14 @@ class FeatureGene extends Model
     ];
 
     /**
+     * The primary key associated with the model.
+     * 
+     * @var array
+     */
+    protected $primaryKey = ['feature_id', 'feature_allele_id'];
+    public $incrementing = false; 
+
+    /**
      * The table associated with the model.
      *
      * @var string

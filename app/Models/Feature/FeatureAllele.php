@@ -95,6 +95,15 @@ class FeatureAllele extends Model
     }
 
     /**
+     * Displays the model's name, linked to its encyclopedia page.
+     *
+     * @return string
+     */
+    public function getDisplayNameWithLocusAttribute() {
+        return '<a href="'.$this->url.'" class="display-allele">'.$this->allele.'</a> ('.$this->locus->displayName.' Locus)';
+    }
+
+    /**
      * Gets the URL of the model's encyclopedia page.
      *
      * @return string

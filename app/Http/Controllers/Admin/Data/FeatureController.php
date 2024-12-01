@@ -420,17 +420,12 @@ class FeatureController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getCreateFeatureGenetics($id) {
-        $feature = Feature::find($id);
-        $loci = Feature::with('alleles')->get();
-
-        if (!$feature || !$loci) {
-            abort(404);
-        }
+        $gene = new FeatureGene;
+        $gene->feature_id = $id;
 
         return view('admin.features._create_edit_feature_genetics', [
-            'feature' => $feature,
-            'allele' => new FeatureAllele,
-            'loci' => $loci,
+            'gene' => $gene,
+            'loci' => ['0' => 'Select Locus'] + FeatureLocus::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray()
         ]);
     }
 
@@ -442,18 +437,26 @@ class FeatureController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getEditFeatureGenetics($id, $allele) {
-        $feature = Feature::find($id);
-        $allele = FeatureAllele::find($allele);
-        $loci = Feature::with('alleles')->get();
-        if (!$feature || !$allele || !$loci) {
+        $gene = FeatureGene::where('feature_id', $id)
+            ->where('feature_allele_id', $allele)
+            ->with('allele.locus.alleles')
+            ->first();
+        if (!$gene) {
             abort(404);
         }
 
         return view('admin.features._create_edit_feature_genetics', [
-            'feature' => $feature,
-            'allele' => $allele,
-            'loci' => $loci
+            'gene' => $gene,
+            'loci'    => ['0' => 'Select Locus'] + FeatureLocus::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray()
         ]);
+    }
+
+    public function getLocusAlleles($id) {
+        $alleles = FeatureAllele::where('feature_locus_id', $id)
+            ->orderBy('sort', 'DESC')
+            ->pluck('allele', 'id')
+            ->toArray();
+        return response()->json(['0' => 'Select Allele'] + $alleles);
     }
 
     /**
@@ -491,7 +494,7 @@ class FeatureController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getDeleteFeatureGenetics($id, $allele) {
-        $gene = FeatureGene::where('feature_id', $id)->where('feature_allele_id', $allele)->first();
+        $gene = FeatureGene::with('feature')->with('allele')->where('feature_id', $id)->where('feature_allele_id', $allele)->first();
 
         return view('admin.features._delete_feature_genetics', [
             'gene' => $gene,
