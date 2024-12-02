@@ -535,24 +535,6 @@ class FeatureService extends Service {
         return $this->rollbackReturn(false);
     }
 
-    protected function updateFeatureOnCharacters($feature) {
-        try {
-            // Delete all instances of the feature
-            CharacterFeature::where('feature_id', $feature->id)->delete();
-            
-            // Add feature to all characters meeting genetic requirements
-            foreach (Character::hasGenotype()->with(['genetics', 'image.features'])->get() as $character) {
-                if ($character->canHaveGeneticFeature($feature)) {
-                    $character->image->features()->create([
-                        'feature_id' => $feature->id
-                    ]);
-                }
-            }
-        } catch (\Exception $e) {
-            $this->setError('error', $e->getMessage());
-        }
-    }
-
     /**********************************************************************************************
 
         FEATURES
@@ -730,6 +712,24 @@ class FeatureService extends Service {
         }
 
         return $this->rollbackReturn(false);
+    }
+
+    protected function updateFeatureOnCharacters($feature) {
+        try {
+            // Delete all instances of the feature
+            CharacterFeature::where('feature_id', $feature->id)->delete();
+
+            // Add feature to all characters meeting genetic requirements
+            foreach (Character::hasGenotype()->with(['genetics', 'image.features'])->get() as $character) {
+                if ($character->canHaveGeneticFeature($feature)) {
+                    $character->image->features()->create([
+                        'feature_id' => $feature->id,
+                    ]);
+                }
+            }
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
     }
 
     /**
