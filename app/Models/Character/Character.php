@@ -197,7 +197,7 @@ class Character extends Model {
      * Get the character's genetics.
      */
     public function genetics() {
-        return $this->hasMany(CharacterGene::class, 'character_id')->with('locus')->with('alleles');
+        return $this->hasMany(CharacterGene::class, 'character_id')->with('locus');
     }
 
     /**********************************************************************************************

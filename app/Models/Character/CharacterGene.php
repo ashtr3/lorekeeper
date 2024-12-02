@@ -93,7 +93,7 @@ class CharacterGene extends Model
      * Get the alleles associated with this record.
      */
     public function alleles() {
-        return collect([$this->primary_allele, $this->secondary_allele])->filter()->orderBy('sort', 'DESC');
+        return collect([$this->primary_allele, $this->secondary_allele])->filter()->sortByDesc('sort');
     }
 
     /**********************************************************************************************
