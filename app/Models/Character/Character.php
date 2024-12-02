@@ -5,6 +5,8 @@ namespace App\Models\Character;
 use App\Facades\Notifications;
 use App\Models\Currency\Currency;
 use App\Models\Currency\CurrencyLog;
+use App\Models\Feature\Feature;
+use App\Models\Feature\FeatureGene;
 use App\Models\Gallery\GalleryCharacter;
 use App\Models\Item\Item;
 use App\Models\Item\ItemLog;
@@ -372,6 +374,27 @@ class Character extends Model {
      */
     public function getLogTypeAttribute() {
         return 'Character';
+    }
+
+    /**
+     * Checks if a character's genetics meet a feature's requirements.
+     * 
+     * @return boolean
+     */
+    public function canHaveGeneticFeature(Feature $feature) {
+        $requirements = $feature->genetics()->get();
+        $matches = 0;
+
+        foreach ($requirements as $req) {
+            $geneQuery = $this->genetics();
+            if (($req->allow_homozygous && $geneQuery->homozygous($req->allele)->exists())
+                || ($req->allow_heterozygous && $geneQuery->heterozygous($req->allele)->exists())
+                || ($req->allow_absent && $geneQuery->absent($req->allele)->exists())) {
+                $matches++;
+            }
+        }
+
+        return $matches === $requirements->count();
     }
 
     /**********************************************************************************************

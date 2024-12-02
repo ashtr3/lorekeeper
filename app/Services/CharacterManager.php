@@ -12,6 +12,7 @@ use App\Models\Character\CharacterDesignUpdate;
 use App\Models\Character\CharacterFeature;
 use App\Models\Character\CharacterImage;
 use App\Models\Character\CharacterTransfer;
+use App\Models\Feature\Feature;
 use App\Models\Sales\SalesCharacter;
 use App\Models\Species\Subtype;
 use App\Models\User\User;
@@ -631,13 +632,13 @@ class CharacterManager extends Service {
 
             // Log old features
             $old = [];
-            $old['features'] = $this->generateFeatureList($image);
+            $old['features'] = $this->generateFeatureList($image->features(0));
             $old['species'] = $image->species_id ? $image->species->displayName : null;
             $old['subtype'] = $image->subtype_id ? $image->subtype->displayName : null;
             $old['rarity'] = $image->rarity_id ? $image->rarity->displayName : null;
 
             // Clear old features
-            $image->features()->delete();
+            $image->features(0)->delete();
 
             // Attach features
             foreach ($data['feature_id'] as $key => $featureId) {
@@ -653,7 +654,7 @@ class CharacterManager extends Service {
             $image->save();
 
             $new = [];
-            $new['features'] = $this->generateFeatureList($image);
+            $new['features'] = $this->generateFeatureList($image->features(0));
             $new['species'] = $image->species_id ? $image->species->displayName : null;
             $new['subtype'] = $image->subtype_id ? $image->subtype->displayName : null;
             $new['rarity'] = $image->rarity_id ? $image->rarity->displayName : null;
@@ -674,7 +675,7 @@ class CharacterManager extends Service {
         return $this->rollbackReturn(false);
     }
 
-    public function updateCharacterGenetics($data, $character, $user) {
+    public function updateCharacterGenetics($data, $character, $features, $user) {
         DB::beginTransaction();
 
         try {
@@ -685,9 +686,11 @@ class CharacterManager extends Service {
             // Log old genetics
             $old = [];
             $old['genetics'] = $character->genotype;
+            $old['features'] = $this->generateFeatureList($character->image->features(1));
 
             // Clear old genetics
             $character->genetics()->delete();
+            $character->image->features(1)->delete();
 
             // Attach genetics
             foreach ($data['genetics'] as $key => $gene) {
@@ -700,12 +703,22 @@ class CharacterManager extends Service {
                 }
             }
 
+            // Attach features
+            foreach ($features as $feature) {
+                if ($character->canHaveGeneticFeature($feature)) {
+                    $character->image->features()->create([
+                        'feature_id' => $feature->id
+                    ]);
+                } 
+            }
+
             $new = [];
             $new['genetics'] = $character->genotype;
+            $new['features'] = $this->generateFeatureList($character->image->features(1));
 
             // Add a log for the character
             // This logs all the updates made to the character
-            $this->createLog($user->id, null, null, null, $character->id, 'Genetics Updated', $character->displayName, 'character', true, $old, $new);
+            $this->createLog($user->id, null, null, null, $character->id, 'Genetics Updated', null, 'character', true, $old, $new);
 
             return $this->commitReturn(true);
         } catch (\Exception $e) {
@@ -2065,9 +2078,9 @@ class CharacterManager extends Service {
      *
      * @return string
      */
-    private function generateFeatureList($image) {
+    private function generateFeatureList($features) {
         $result = '';
-        foreach ($image->features as $feature) {
+        foreach ($features as $feature) {
             $result .= '<div>'.($feature->feature->category ? '<strong>'.$feature->feature->category->displayName.':</strong> ' : '').$feature->feature->displayName.'</div>';
         }
 

@@ -150,13 +150,13 @@ class CharacterGene extends Model {
      * @return \Illuminate\Database\Eloquent\Builder $allele
      */
     public function scopeAbsent($query, $allele = null) {
-        $query = $query->whereNull('primary_allele_id')->whereNull('secondary_allele_id');
-
-        if ($allele) {
-            $query->where('locus_id', $allele->feature_locus_id);
+        if (!is_null($allele)) {
+            return $query->where('locus_id', $allele->feature_locus_id)
+                ->where('primary_allele_id', '!=', $allele->id)
+                ->where('secondary_allele_id', '!=', $allele->id);
+        } else {
+            return $query->whereNull('primary_allele_id')->whereNull('secondary_allele_id');
         }
-
-        return $query;
     }
 
     /**********************************************************************************************

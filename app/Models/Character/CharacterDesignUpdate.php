@@ -114,12 +114,16 @@ class CharacterDesignUpdate extends Model {
     /**
      * Get the features (traits) attached to the design update, ordered by display order.
      */
-    public function features() {
+    public function features($isGenetic = null) {
         $query = $this
             ->hasMany(CharacterFeature::class, 'character_image_id')->where('character_features.character_type', 'Update')
             ->join('features', 'features.id', '=', 'character_features.feature_id')
             ->leftJoin('feature_categories', 'feature_categories.id', '=', 'features.feature_category_id')
             ->select(['character_features.*', 'features.*', 'character_features.id AS character_feature_id', 'feature_categories.sort']);
+
+        if (!is_null($isGenetic)) {
+            $query->where('features.is_genetic', $isGenetic);
+        }
 
         return $query->orderByDesc('sort');
     }

@@ -379,7 +379,7 @@ class DesignUpdateManager extends Service {
             }
 
             // Clear old features
-            $request->features()->delete();
+            $request->features(0)->delete();
 
             // Attach features
             // We'll do the compulsory ones at the time of approval.

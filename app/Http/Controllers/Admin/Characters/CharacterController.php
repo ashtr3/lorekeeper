@@ -308,13 +308,14 @@ class CharacterController extends Controller {
      */
     public function postEditCharacterGenetics(Request $request, CharacterManager $service, $slug) {
         $data = $request->only(['genetics']);
+        $features = Feature::genetic()->get();
 
-        $this->character = Character::where('slug', $slug)->first();
+        $this->character = Character::where('slug', $slug)->with(['genetics', 'image.features'])->first();
         if (!$this->character) {
             abort(404);
         }
 
-        if ($service->updateCharacterGenetics($data, $this->character, Auth::user())) {
+        if ($service->updateCharacterGenetics($data, $this->character, $features, Auth::user())) {
             flash('Character genetics updated successfully.')->success();
 
             return redirect()->to($this->character->url);
