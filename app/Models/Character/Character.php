@@ -261,6 +261,17 @@ class Character extends Model {
         });
     }
 
+    /**
+     * Scope a query to only include characters that have a genotype.
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder 
+     */
+    public function scopeHasGenotype($query) {
+        return $query->whereHas('genetics');
+    }
+
     /**********************************************************************************************
 
         ACCESSORS

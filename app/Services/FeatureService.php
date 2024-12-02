@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Character\Character;
+use App\Models\Character\CharacterFeature;
 use App\Models\Feature\Feature;
 use App\Models\Feature\FeatureAllele;
 use App\Models\Feature\FeatureCategory;
@@ -452,14 +454,15 @@ class FeatureService extends Service {
             }
 
             $data = $this->populateGeneticRequirementData($data);
+            $feature = Feature::with(['genetics', 'genetics.allele'])->find($data['feature_id']);
+            $feature->genetics()->create($data);
+            $this->updateFeatureOnCharacters($feature);
 
-            $gene = FeatureGene::create($data);
-
-            if (!$this->logAdminAction($user, 'Created Feature Genetic Requirement', 'Created genetic requirement on '.$gene->feature->displayName)) {
+            if (!$this->logAdminAction($user, 'Created Feature Genetic Requirement', 'Created genetic requirement on '.$feature->displayName)) {
                 throw new \Exception('Failed to log admin action.');
             }
 
-            return $this->commitReturn($gene);
+            return $this->commitReturn(true);
         } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
@@ -488,16 +491,15 @@ class FeatureService extends Service {
             }
 
             $data = $this->populateGeneticRequirementData($data);
+            $feature = Feature::with(['genetics', 'genetics.allele'])->find($gene->feature_id);
+            $feature->genetics()->where('feature_allele_id', $gene->feature_allele_id)->update($data);
+            $this->updateFeatureOnCharacters($feature);
 
-            FeatureGene::where('feature_id', $gene->feature_id)
-                ->where('feature_allele_id', $gene->feature_allele_id)
-                ->update($data);
-
-            if (!$this->logAdminAction($user, 'Updated Feature Genetic Requirement', 'Updated genetic requirement on '.$gene->feature->displayName)) {
+            if (!$this->logAdminAction($user, 'Updated Feature Genetic Requirement', 'Updated genetic requirement on '.$feature->displayName)) {
                 throw new \Exception('Failed to log admin action.');
             }
 
-            return $this->commitReturn($gene);
+            return $this->commitReturn(true);
         } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
@@ -521,9 +523,9 @@ class FeatureService extends Service {
                 throw new \Exception('Failed to log admin action.');
             }
 
-            FeatureGene::where('feature_id', $gene->feature_id)
-                ->where('feature_allele_id', $gene->feature_allele_id)
-                ->delete();
+            $feature = Feature::with(['genetics', 'genetics.allele'])->find($gene->feature_id);
+            $feature->genetics()->where('feature_allele_id', $gene->feature_allele_id)->delete();
+            $this->updateFeatureOnCharacters($feature);
 
             return $this->commitReturn(true);
         } catch (\Exception $e) {
@@ -531,6 +533,24 @@ class FeatureService extends Service {
         }
 
         return $this->rollbackReturn(false);
+    }
+
+    protected function updateFeatureOnCharacters($feature) {
+        try {
+            // Delete all instances of the feature
+            CharacterFeature::where('feature_id', $feature->id)->delete();
+            
+            // Add feature to all characters meeting genetic requirements
+            foreach (Character::hasGenotype()->with(['genetics', 'image.features'])->get() as $character) {
+                if ($character->canHaveGeneticFeature($feature)) {
+                    $character->image->features()->create([
+                        'feature_id' => $feature->id
+                    ]);
+                }
+            }
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
     }
 
     /**********************************************************************************************
