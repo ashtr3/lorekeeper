@@ -10,6 +10,7 @@ use App\Models\Character\CharacterCategory;
 use App\Models\Character\CharacterCurrency;
 use App\Models\Character\CharacterDesignUpdate;
 use App\Models\Character\CharacterFeature;
+use App\Models\Character\CharacterGene;
 use App\Models\Character\CharacterImage;
 use App\Models\Character\CharacterTransfer;
 use App\Models\Sales\SalesCharacter;
@@ -665,6 +666,47 @@ class CharacterManager extends Service {
             // Add a log for the character
             // This logs all the updates made to the character
             $this->createLog($user->id, null, null, null, $image->character_id, 'Traits Updated', '#'.$image->id, 'character', true, $old, $new);
+
+            return $this->commitReturn(true);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+
+        return $this->rollbackReturn(false);
+    }
+
+    public function updateCharacterGenetics($data, $character, $user) {
+        DB::beginTransaction();
+
+        try {
+            if (!$this->logAdminAction($user, 'Updated Genetics', 'Updated character genetics on '.$character->displayName)) {
+                throw new \Exception('Failed to log admin action.');
+            }
+
+            // Log old genetics
+            $old = [];
+            $old['genetics'] = $character->genotype;
+
+            // Clear old genetics
+            $character->genetics()->delete();
+
+            // Attach genetics
+            foreach ($data['genetics'] as $key => $gene) {
+                if ($gene['locus_id']) {
+                    $character->genetics()->create([
+                        'locus_id' => $gene['locus_id'],
+                        'primary_allele_id' => $gene['primary_allele_id'],
+                        'secondary_allele_id' => $gene['secondary_allele_id'],
+                    ]);
+                }
+            }
+
+            $new = [];
+            $new['genetics'] = $character->genotype;
+
+            // Add a log for the character
+            // This logs all the updates made to the character
+            $this->createLog($user->id, null, null, null, $character->id, 'Genetics Updated', $character->displayName, 'character', true, $old, $new);
 
             return $this->commitReturn(true);
         } catch (\Exception $e) {

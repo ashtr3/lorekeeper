@@ -8,6 +8,7 @@ use App\Models\Character\Character;
 use App\Models\Character\CharacterCategory;
 use App\Models\Character\CharacterTransfer;
 use App\Models\Feature\Feature;
+use App\Models\Feature\FeatureLocus;
 use App\Models\Rarity;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
@@ -254,6 +255,100 @@ class CharacterController extends Controller {
             }
         }
 
+        return redirect()->back()->withInput();
+    }
+
+    /**
+     * Shows the edit character genetics modal.
+     *
+     * @param string $slug
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getEditCharacterGenetics($slug) {
+        $this->character = Character::where('slug', $slug)->first();
+        if (!$this->character) {
+            abort(404);
+        }
+
+        return view('character.admin._edit_genetics_modal', [
+            'character' => $this->character,
+            'loci'      => ['0' => 'Select Locus'] + FeatureLocus::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'isMyo'     => false,
+        ]);
+    }
+
+    /**
+     * Shows the edit MYO slot genetics modal.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getEditMyoGenetics($id) {
+        $this->character = Character::where('is_myo_slot', 1)->where('id', $id)->first();
+        if (!$this->character) {
+            abort(404);
+        }
+
+        return view('character.admin._edit_genetics_modal', [
+            'character' => $this->character,
+            'loci'      => ['0' => 'Select Locus'] + FeatureLocus::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'isMyo'     => true,
+        ]);
+    }
+
+    /**
+     * Edits a character's genetics.
+     *
+     * @param App\Services\CharacterManager $service
+     * @param string                        $slug
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postEditCharacterGenetics(Request $request, CharacterManager $service, $slug) {
+        $data = $request->only(['genetics']);
+
+        $this->character = Character::where('slug', $slug)->first();
+        if (!$this->character) {
+            abort(404);
+        }
+
+        if ($service->updateCharacterGenetics($data, $this->character, Auth::user())) {
+            flash('Character genetics updated successfully.')->success();
+            return redirect()->to($this->character->url);
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
+        }
+        return redirect()->back()->withInput();
+    }
+
+    /**
+     * Edits a MYO slot's genetics.
+     *
+     * @param App\Services\CharacterManager $service
+     * @param int                           $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postEditMyoGenetics(Request $request, CharacterManager $service, $id) {
+        $data = $request->only(['genetics']);
+
+        $this->character = Character::where('is_myo_slot', 1)->where('id', $id)->first();
+        if (!$this->character) {
+            abort(404);
+        }
+
+        if ($service->updateCharacterGenetics($data, $this->character, Auth::user())) {
+            flash('Character genetics updated successfully.')->success();
+            return redirect()->to($this->character->url);
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
+        }
         return redirect()->back()->withInput();
     }
 

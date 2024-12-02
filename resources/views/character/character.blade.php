@@ -45,6 +45,9 @@
                     <a class="nav-link active" id="statsTab" data-toggle="tab" href="#stats" role="tab">Stats</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" id="geneticsTab" data-toggle="tab" href="#genetics" role="tab">Genetics</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" id="notesTab" data-toggle="tab" href="#notes" role="tab">Description</a>
                 </li>
                 @if (Auth::check() && Auth::user()->hasPower('manage_characters'))
@@ -58,6 +61,9 @@
             <div class="tab-pane fade show active" id="stats">
                 @include('character._tab_stats', ['character' => $character])
             </div>
+            <div class="tab-pane fade" id="genetics">
+                @include('character._tab_genetics', ['character' => $character])
+            </div>            
             <div class="tab-pane fade" id="notes">
                 @include('character._tab_notes', ['character' => $character])
             </div>

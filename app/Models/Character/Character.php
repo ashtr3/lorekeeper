@@ -193,6 +193,13 @@ class Character extends Model {
         return $this->belongsToMany(Item::class, 'character_items')->withPivot('count', 'data', 'updated_at', 'id')->whereNull('character_items.deleted_at');
     }
 
+    /**
+     * Get the character's genetics.
+     */
+    public function genetics() {
+        return $this->hasMany(CharacterGene::class, 'character_id')->with('locus')->with('alleles');
+    }
+
     /**********************************************************************************************
 
         SCOPES
@@ -327,6 +334,13 @@ class Character extends Model {
         } else {
             return $this->slug.($this->name ? ': '.$this->name : '');
         }
+    }
+
+    /**
+     * Gets the character's genotype.
+     */
+    public function getGenotypeAttribute() {
+        return $this->genetics->pluck('genotype')->implode('/');
     }
 
     /**
