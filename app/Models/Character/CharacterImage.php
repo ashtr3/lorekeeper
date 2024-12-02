@@ -109,6 +109,8 @@ class CharacterImage extends Model {
 
     /**
      * Get the features (traits) attached to the character image, ordered by display order.
+     *
+     * @param mixed|null $isGenetic
      */
     public function features($isGenetic = null) {
         $query = $this

@@ -12,7 +12,6 @@ use App\Models\Character\CharacterDesignUpdate;
 use App\Models\Character\CharacterFeature;
 use App\Models\Character\CharacterImage;
 use App\Models\Character\CharacterTransfer;
-use App\Models\Feature\Feature;
 use App\Models\Sales\SalesCharacter;
 use App\Models\Species\Subtype;
 use App\Models\User\User;
@@ -707,9 +706,9 @@ class CharacterManager extends Service {
             foreach ($features as $feature) {
                 if ($character->canHaveGeneticFeature($feature)) {
                     $character->image->features()->create([
-                        'feature_id' => $feature->id
+                        'feature_id' => $feature->id,
                     ]);
-                } 
+                }
             }
 
             $new = [];
@@ -2074,7 +2073,7 @@ class CharacterManager extends Service {
     /**
      * Generates a list of features for displaying.
      *
-     * @param \App\Models\Character\CharacterImage $image
+     * @param mixed $features
      *
      * @return string
      */

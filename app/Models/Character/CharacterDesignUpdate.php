@@ -113,6 +113,8 @@ class CharacterDesignUpdate extends Model {
 
     /**
      * Get the features (traits) attached to the design update, ordered by display order.
+     *
+     * @param mixed|null $isGenetic
      */
     public function features($isGenetic = null) {
         $query = $this
