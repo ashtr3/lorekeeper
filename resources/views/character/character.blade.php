@@ -63,7 +63,7 @@
             </div>
             <div class="tab-pane fade" id="genetics">
                 @include('character._tab_genetics', ['character' => $character])
-            </div>            
+            </div>
             <div class="tab-pane fade" id="notes">
                 @include('character._tab_notes', ['character' => $character])
             </div>

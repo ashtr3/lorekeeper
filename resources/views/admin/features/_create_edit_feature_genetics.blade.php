@@ -1,27 +1,25 @@
 @if ($gene)
     {!! Form::open(['url' => $gene->feature_allele_id ? 'admin/data/traits/edit/' . $gene->feature_id . '/genetics/' . $gene->feature_allele_id : 'admin/data/traits/edit/' . $gene->feature_id . '/genetics']) !!}
     {!! Form::hidden('feature_id', $gene->feature_id) !!}
-    
+
     <div class="row">
         <div class="col-12 col-md-5">
             <div class="form-group">
                 {!! Form::label('Locus') !!}
-                {!! Form::select('feature_locus_id', $loci, 
-                    $gene->feature_allele_id ? $gene->allele->feature_locus_id : null, 
-                    ['id' => 'locus', 'class' => 'form-control']) !!}
+                {!! Form::select('feature_locus_id', $loci, $gene->feature_allele_id ? $gene->allele->feature_locus_id : null, ['id' => 'locus', 'class' => 'form-control']) !!}
             </div>
         </div>
         <div class="col-12 col-md-7">
             <div class="form-group">
                 {!! Form::label('Allele') !!}
-                {!! Form::select('feature_allele_id', 
-                    ['0' => 'Select Allele'] + ($gene->feature_allele_id ? $gene->allele->locus->alleles->pluck('allele', 'id')->toArray() : []),
-                    $gene->feature_allele_id ? $gene->feature_allele_id : null,
-                    ['id' => 'allele', 'class' => 'form-control']) !!}
+                {!! Form::select('feature_allele_id', ['0' => 'Select Allele'] + ($gene->feature_allele_id ? $gene->allele->locus->alleles->pluck('allele', 'id')->toArray() : []), $gene->feature_allele_id ? $gene->feature_allele_id : null, [
+                    'id' => 'allele',
+                    'class' => 'form-control',
+                ]) !!}
             </div>
         </div>
     </div>
-    
+
     <div class="form-group">
         {!! Form::checkbox('allow_homozygous', 1, $gene->feature_allele_id ? $gene->allow_homozygous : 0, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
         {!! Form::label('allow_homozygous', 'Allow Homozygous', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned on, character genotypes with 2 instances of the given allele can receive the trait.') !!}
