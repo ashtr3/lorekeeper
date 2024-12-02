@@ -398,7 +398,7 @@ class Character extends Model {
         foreach ($requirements as $req) {
             $geneQuery = $this->genetics();
             $matchFound = false;
-            
+
             $homozygous = clone $geneQuery;
             if ($req->allow_homozygous && $homozygous->homozygous($req->allele)->exists()) {
                 $matchFound = true;
