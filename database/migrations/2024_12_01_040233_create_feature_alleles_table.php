@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('feature_alleles', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(FeatureLocus::class, 'feature_locus_id');
-            $table->string('allele');
+            $table->string('allele', 5);
             $table->integer('sort')->default(0);
             $table->text('description')->nullable();
             $table->text('parsed_description')->nullable();

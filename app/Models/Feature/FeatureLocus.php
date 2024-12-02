@@ -12,7 +12,7 @@ class FeatureLocus extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'sort', 'description', 'parsed_description', 'is_visible',
+        'name', 'default_allele', 'sort', 'description', 'parsed_description', 'is_visible',
     ];
     
     /**
@@ -28,8 +28,9 @@ class FeatureLocus extends Model
      * @var array
      */
     public static $createRules = [
-        'name'        => 'required|unique:feature_loci|between:1,100',
-        'description' => 'nullable',
+        'name'           => 'required|unique:feature_loci|between:1,100',
+        'default_allele' => 'required|between:1,5',
+        'description'    => 'nullable',
     ];
 
     /**
@@ -38,8 +39,9 @@ class FeatureLocus extends Model
      * @var array
      */
     public static $updateRules = [
-        'name'        => 'required|between:1,100',
-        'description' => 'nullable',
+        'name'           => 'required|between:1,100',
+        'default_allele' => 'required|between:1,5',
+        'description'    => 'nullable',
     ];
 
     /**********************************************************************************************

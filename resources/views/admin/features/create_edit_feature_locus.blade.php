@@ -27,6 +27,11 @@
     </div>
 
     <div class="form-group">
+        {!! Form::label('Default Allele') !!}
+        {!! Form::text('default_allele', $locus->default_allele ?? 'n', ['class' => 'form-control']) !!}
+    </div>
+
+    <div class="form-group">
         {!! Form::label('Description (Optional)') !!}
         {!! Form::textarea('description', $locus->description, ['class' => 'form-control wysiwyg']) !!}
     </div>
