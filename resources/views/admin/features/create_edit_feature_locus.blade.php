@@ -36,9 +36,15 @@
         {!! Form::textarea('description', $locus->description, ['class' => 'form-control wysiwyg']) !!}
     </div>
 
-    <div class="form-group">
-        {!! Form::checkbox('is_visible', 1, $locus->id ? $locus->is_visible : 1, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
-        {!! Form::label('is_visible', 'Is Visible', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned off, the locus will not be visible in the locus list or available for selection in search. Permissioned staff will still be able to add traits to them, however.') !!}
+    <div class="d-flex">
+        <div class="form-group mr-3">
+            {!! Form::checkbox('default_allele_leads', 1, $locus->id ? $locus->default_allele_leads : 1, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
+            {!! Form::label('default_allele_leads', 'Default Allele Leads', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned on, the default allele will always appear at the front of a heterozygous genotype, otherwise it will be trailing.') !!}
+        </div>
+        <div class="form-group">
+            {!! Form::checkbox('is_visible', 1, $locus->id ? $locus->is_visible : 1, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
+            {!! Form::label('is_visible', 'Is Visible', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned off, the locus will not be visible in the locus list or available for selection in search. Permissioned staff will still be able to add traits to them, however.') !!}
+        </div>
     </div>
 
     <div class="text-right">

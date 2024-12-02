@@ -12,7 +12,7 @@ class FeatureLocus extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'default_allele', 'sort', 'description', 'parsed_description', 'is_visible',
+        'name', 'default_allele', 'sort', 'description', 'parsed_description', 'default_allele_leads', 'is_visible',
     ];
     
     /**

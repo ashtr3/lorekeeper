@@ -172,15 +172,26 @@ class CharacterGene extends Model
      * @return string
      */
     public function getGenotypeAttribute() {
-        $alleles = $this->alleles();
-        $allele1 = $alleles->get(0);
-        $allele2 = $alleles->get(1);
-        
-        return sprintf(
-            '<a href="%s" class="display-locus">%s%s</a>', 
-            $this->locus->url, 
-            $allele1 ? $allele1->allele : $this->locus->default_allele,
-            $allele2 ? $allele2->allele : $this->locus->default_allele
-        );
+        $alleles = $this->alleles()->pluck('allele');
+        switch (count($alleles)) {
+            case 0:
+                return sprintf(
+                    '<a href="%s" class="display-locus">%s</a>',
+                    $this->locus->url,
+                    $this->locus->default_allele . $this->locus->default_allele
+                );
+            case 1:
+                return sprintf(
+                    '<a href="%s" class="display-locus">%s</a>',
+                    $this->locus->url,
+                    $this->locus->default_allele_leads ? $this->locus->default_allele . $alleles->implode('') : $alleles->implode('') . $this->locus->default_allele
+                );
+            default:
+                return sprintf(
+                    '<a href="%s" class="display-locus">%s</a>',
+                    $this->locus->url,
+                    $alleles->implode('')
+                );
+        }
     }
 }

@@ -197,7 +197,7 @@ class FeatureService extends Service {
         DB::beginTransaction();
 
         try {
-            $data = $this->populateGeneticData($data);
+            $data = $this->populateLocusData($data);
 
             $locus = FeatureLocus::create($data);
 
@@ -231,7 +231,7 @@ class FeatureService extends Service {
                 throw new \Exception('The name has already been taken.');
             }
 
-            $data = $this->populateGeneticData($data);
+            $data = $this->populateLocusData($data);
 
             $locus->update($data);
 
@@ -322,7 +322,7 @@ class FeatureService extends Service {
         DB::beginTransaction();
 
         try {
-            $data = $this->populateGeneticData($data);
+            $data = $this->populateAlleleData($data);
 
             $allele = FeatureAllele::create($data);
 
@@ -356,7 +356,7 @@ class FeatureService extends Service {
                 throw new \Exception('The allele has already been taken.');
             }
 
-            $data = $this->populateGeneticData($data);
+            $data = $this->populateAlleleData($data);
 
             $allele->update($data);
 
@@ -747,7 +747,30 @@ class FeatureService extends Service {
      *
      * @return array
      */
-    private function populateGeneticData($data) {
+    private function populateLocusData($data) {
+        if (isset($data['description']) && $data['description']) {
+            $data['parsed_description'] = parse($data['description']);
+        }
+
+        if (!isset($data['default_allele_leads'])) {
+            $data['default_allele_leads'] = 0;
+        }
+
+        if (!isset($data['is_visible'])) {
+            $data['is_visible'] = 0;
+        }
+
+        return $data;
+    }
+
+    /**
+     * Handle allele data.
+     *
+     * @param array $data
+     *
+     * @return array
+     */
+    private function populateAlleleData($data) {
         if (isset($data['description']) && $data['description']) {
             $data['parsed_description'] = parse($data['description']);
         }
