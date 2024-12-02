@@ -6,7 +6,6 @@ use App\Facades\Notifications;
 use App\Models\Currency\Currency;
 use App\Models\Currency\CurrencyLog;
 use App\Models\Feature\Feature;
-use App\Models\Feature\FeatureGene;
 use App\Models\Gallery\GalleryCharacter;
 use App\Models\Item\Item;
 use App\Models\Item\ItemLog;
@@ -378,8 +377,8 @@ class Character extends Model {
 
     /**
      * Checks if a character's genetics meet a feature's requirements.
-     * 
-     * @return boolean
+     *
+     * @return bool
      */
     public function canHaveGeneticFeature(Feature $feature) {
         $requirements = $feature->genetics()->get();
