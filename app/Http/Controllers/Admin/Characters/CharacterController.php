@@ -316,12 +316,14 @@ class CharacterController extends Controller {
 
         if ($service->updateCharacterGenetics($data, $this->character, Auth::user())) {
             flash('Character genetics updated successfully.')->success();
+
             return redirect()->to($this->character->url);
         } else {
             foreach ($service->errors()->getMessages()['error'] as $error) {
                 flash($error)->error();
             }
         }
+
         return redirect()->back()->withInput();
     }
 
@@ -343,12 +345,14 @@ class CharacterController extends Controller {
 
         if ($service->updateCharacterGenetics($data, $this->character, Auth::user())) {
             flash('Character genetics updated successfully.')->success();
+
             return redirect()->to($this->character->url);
         } else {
             foreach ($service->errors()->getMessages()['error'] as $error) {
                 flash($error)->error();
             }
         }
+
         return redirect()->back()->withInput();
     }
 

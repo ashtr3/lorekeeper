@@ -208,10 +208,10 @@ class Feature extends Model {
 
     /**
      * Scope a query to show only genetic features.
-     * 
+     *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param int                                   $isGenetic
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeGenetic($query, $isGenetic = 1) {

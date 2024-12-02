@@ -178,7 +178,7 @@ class FeatureService extends Service {
 
         return $this->rollbackReturn(false);
     }
-    
+
     /**********************************************************************************************
 
         FEATURE LOCI

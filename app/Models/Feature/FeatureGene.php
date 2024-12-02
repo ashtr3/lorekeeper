@@ -4,8 +4,7 @@ namespace App\Models\Feature;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FeatureGene extends Model
-{
+class FeatureGene extends Model {
     /**
      * The attributes that are mass assignable.
      *
@@ -17,11 +16,10 @@ class FeatureGene extends Model
 
     /**
      * The primary key associated with the model.
-     * 
+     *
      * @var array
      */
     protected $primaryKey = ['feature_id', 'feature_allele_id'];
-    public $incrementing = false; 
 
     /**
      * The table associated with the model.
@@ -29,6 +27,7 @@ class FeatureGene extends Model
      * @var string
      */
     protected $table = 'feature_genetics';
+    public $incrementing = false;
 
     /**
      * Validation rules for creation.
@@ -40,7 +39,7 @@ class FeatureGene extends Model
         'feature_allele_id'  => 'required|exists:feature_alleles,id',
         'allow_homozygous'   => 'nullable',
         'allow_heterozygous' => 'nullable',
-        'allow_absent'       => 'nullable'
+        'allow_absent'       => 'nullable',
     ];
 
     /**
@@ -53,7 +52,7 @@ class FeatureGene extends Model
         'feature_allele_id'  => 'required|exists:feature_alleles,id',
         'allow_homozygous'   => 'nullable',
         'allow_heterozygous' => 'nullable',
-        'allow_absent'       => 'nullable'
+        'allow_absent'       => 'nullable',
     ];
 
     /**********************************************************************************************

@@ -4,8 +4,7 @@ namespace App\Models\Feature;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FeatureAllele extends Model
-{
+class FeatureAllele extends Model {
     /**
      * The attributes that are mass assignable.
      *

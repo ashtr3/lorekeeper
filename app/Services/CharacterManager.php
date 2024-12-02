@@ -10,7 +10,6 @@ use App\Models\Character\CharacterCategory;
 use App\Models\Character\CharacterCurrency;
 use App\Models\Character\CharacterDesignUpdate;
 use App\Models\Character\CharacterFeature;
-use App\Models\Character\CharacterGene;
 use App\Models\Character\CharacterImage;
 use App\Models\Character\CharacterTransfer;
 use App\Models\Sales\SalesCharacter;
@@ -694,8 +693,8 @@ class CharacterManager extends Service {
             foreach ($data['genetics'] as $key => $gene) {
                 if ($gene['locus_id']) {
                     $character->genetics()->create([
-                        'locus_id' => $gene['locus_id'],
-                        'primary_allele_id' => $gene['primary_allele_id'],
+                        'locus_id'            => $gene['locus_id'],
+                        'primary_allele_id'   => $gene['primary_allele_id'],
                         'secondary_allele_id' => $gene['secondary_allele_id'],
                     ]);
                 }
