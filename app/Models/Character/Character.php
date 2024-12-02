@@ -387,9 +387,24 @@ class Character extends Model {
 
         foreach ($requirements as $req) {
             $geneQuery = $this->genetics();
-            if (($req->allow_homozygous && $geneQuery->homozygous($req->allele)->exists())
-                || ($req->allow_heterozygous && $geneQuery->heterozygous($req->allele)->exists())
-                || ($req->allow_absent && $geneQuery->absent($req->allele)->exists())) {
+            $matchFound = false;
+            
+            $homozygous = clone $geneQuery;
+            if ($req->allow_homozygous && $homozygous->homozygous($req->allele)->exists()) {
+                $matchFound = true;
+            }
+
+            $heterozygous = clone $geneQuery;
+            if ($req->allow_heterozygous && $heterozygous->heterozygous($req->allele)->exists()) {
+                $matchFound = true;
+            }
+
+            $absent = clone $geneQuery;
+            if ($req->allow_absent && $absent->absent($req->allele)->exists()) {
+                $matchFound = true;
+            }
+
+            if ($matchFound) {
                 $matches++;
             }
         }
