@@ -6,13 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
+    public function up(): void {
         Schema::create('feature_genetics', function (Blueprint $table) {
             $table->foreignIdFor(Feature::class, 'feature_id');
             $table->foreignIdFor(FeatureAllele::class, 'feature_allele_id');
@@ -30,8 +28,7 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
+    public function down(): void {
         Schema::table('feature_genetics', function (Blueprint $table) {
             $table->dropPrimary(['feature_id', 'feature_allele_id']);
         });

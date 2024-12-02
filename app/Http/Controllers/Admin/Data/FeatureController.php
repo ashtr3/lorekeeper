@@ -291,6 +291,8 @@ class FeatureController extends Controller {
     /**
      * Shows the create feature allele modal.
      *
+     * @param mixed $id
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getCreateFeatureAllele($id) {
@@ -301,14 +303,15 @@ class FeatureController extends Controller {
 
         return view('admin.features._create_edit_feature_allele', [
             'allele' => new FeatureAllele,
-            'locus' => $locus,
+            'locus'  => $locus,
         ]);
     }
 
     /**
      * Shows the edit feature allele modal.
      *
-     * @param int $id
+     * @param int   $id
+     * @param mixed $allele
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -323,7 +326,7 @@ class FeatureController extends Controller {
 
         return view('admin.features._create_edit_feature_allele', [
             'allele' => $allele,
-            'locus' => $locus,
+            'locus'  => $locus,
         ]);
     }
 
@@ -332,6 +335,7 @@ class FeatureController extends Controller {
      *
      * @param App\Services\FeatureService $service
      * @param int|null                    $id
+     * @param mixed|null                  $allele
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -357,7 +361,7 @@ class FeatureController extends Controller {
     /**
      * Gets the feature allele deletion modal.
      *
-     * @param int $id
+     * @param mixed $allele
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -373,7 +377,7 @@ class FeatureController extends Controller {
      * Deletes a feature allele.
      *
      * @param App\Services\FeatureService $service
-     * @param int|null                    $id
+     * @param mixed                       $allele
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -417,6 +421,8 @@ class FeatureController extends Controller {
     /**
      * Shows the create feature genetics modal.
      *
+     * @param mixed $id
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getCreateFeatureGenetics($id) {
@@ -425,14 +431,15 @@ class FeatureController extends Controller {
 
         return view('admin.features._create_edit_feature_genetics', [
             'gene' => $gene,
-            'loci' => ['0' => 'Select Locus'] + FeatureLocus::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray()
+            'loci' => ['0' => 'Select Locus'] + FeatureLocus::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
         ]);
     }
 
     /**
      * Shows the edit feature genetics modal.
      *
-     * @param int $id
+     * @param int   $id
+     * @param mixed $allele
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -446,8 +453,8 @@ class FeatureController extends Controller {
         }
 
         return view('admin.features._create_edit_feature_genetics', [
-            'gene' => $gene,
-            'loci'    => ['0' => 'Select Locus'] + FeatureLocus::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray()
+            'gene'    => $gene,
+            'loci'    => ['0' => 'Select Locus'] + FeatureLocus::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
         ]);
     }
 
@@ -456,6 +463,7 @@ class FeatureController extends Controller {
             ->orderBy('sort', 'DESC')
             ->pluck('allele', 'id')
             ->toArray();
+
         return response()->json(['0' => 'Select Allele'] + $alleles);
     }
 
@@ -464,6 +472,7 @@ class FeatureController extends Controller {
      *
      * @param App\Services\FeatureService $service
      * @param int|null                    $id
+     * @param mixed|null                  $allele
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -489,7 +498,8 @@ class FeatureController extends Controller {
     /**
      * Gets the feature genetics deletion modal.
      *
-     * @param int $id
+     * @param int   $id
+     * @param mixed $allele
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -506,6 +516,7 @@ class FeatureController extends Controller {
      *
      * @param App\Services\FeatureService $service
      * @param int|null                    $id
+     * @param mixed                       $allele
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -609,7 +620,7 @@ class FeatureController extends Controller {
     public function postCreateEditFeature(Request $request, FeatureService $service, $id = null) {
         $id ? $request->validate(Feature::$updateRules) : $request->validate(Feature::$createRules);
         $data = $request->only([
-            'name', 'species_id', 'subtype_id', 'rarity_id', 'feature_category_id', 'description', 'image', 'remove_image', 'is_visible', 'is_genetic'
+            'name', 'species_id', 'subtype_id', 'rarity_id', 'feature_category_id', 'description', 'image', 'remove_image', 'is_visible', 'is_genetic',
         ]);
         if ($id && $service->updateFeature(Feature::find($id), $data, Auth::user())) {
             flash('Trait updated successfully.')->success();

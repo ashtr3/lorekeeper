@@ -12,7 +12,7 @@
     </thead>
     <tbody>
         @if (!count($character->genetics))
-            @include('widgets._character_gene_entry', ['index' => 0, 'gene' => null, 'loci' => $loci, 'count' => 1])        
+            @include('widgets._character_gene_entry', ['index' => 0, 'gene' => null, 'loci' => $loci, 'count' => 1])
         @else
             @foreach ($character->genetics as $index => $gene)
                 @include('widgets._character_gene_entry', ['index' => $index, 'gene' => $gene, 'loci' => $loci, 'count' => count($character->genetics)])
@@ -28,8 +28,8 @@
 {!! Form::close() !!}
 
 <script>
-    $(document).ready(function () {
-        $('.add-gene-button').click(function (e) {
+    $(document).ready(function() {
+        $('.add-gene-button').click(function(e) {
             e.preventDefault();
 
             const newRow = $('.gene-row:last').clone();
@@ -49,7 +49,7 @@
             const count = $('.gene-row').length;
             toggleDeleteButtons(count > 1);
         });
-        $('tbody').on('click', '.delete-gene-button', function (e) {
+        $('tbody').on('click', '.delete-gene-button', function(e) {
             e.preventDefault();
             $(this).closest('tr').remove();
 

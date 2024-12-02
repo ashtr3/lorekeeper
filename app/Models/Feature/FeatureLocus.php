@@ -4,8 +4,7 @@ namespace App\Models\Feature;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FeatureLocus extends Model
-{
+class FeatureLocus extends Model {
     /**
      * The attributes that are mass assignable.
      *
@@ -14,7 +13,7 @@ class FeatureLocus extends Model
     protected $fillable = [
         'name', 'default_allele', 'sort', 'description', 'parsed_description', 'default_allele_leads', 'is_visible',
     ];
-    
+
     /**
      * The table associated with the model.
      *

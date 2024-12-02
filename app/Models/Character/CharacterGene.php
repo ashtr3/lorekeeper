@@ -6,15 +6,14 @@ use App\Models\Feature\FeatureAllele;
 use App\Models\Feature\FeatureLocus;
 use Illuminate\Database\Eloquent\Model;
 
-class CharacterGene extends Model
-{
+class CharacterGene extends Model {
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'character_id', 'locus_id', 'primary_allele_id', 'secondary_allele_id'
+        'character_id', 'locus_id', 'primary_allele_id', 'secondary_allele_id',
     ];
 
     /**
@@ -104,17 +103,17 @@ class CharacterGene extends Model
 
     /**
      * Scope a query to show only homozygous character genes.
-     * 
+     *
      * @param \Illuminate\Database\Eloquent\Builder  $query
      * @param \App\Models\Feature\FeatureAllele|null $allele
-     * 
-     * @return \Illuminate\Database\Eloquent\Builder                            $allele
+     *
+     * @return \Illuminate\Database\Eloquent\Builder $allele
      */
     public function scopeHomozygous($query, $allele = null) {
         $query = $query->whereNotNull('primary_allele_id')->whereNotNull('secondary_allele_id')->whereColumn('primary_allele_id', 'secondary_allele_id');
 
         if ($allele) {
-            $query->where(function($query) use ($allele) {
+            $query->where(function ($query) use ($allele) {
                 $query->where('primary_allele_id', $allele->id)->orWhere('secondary_allele_id', $allele->id);
             });
         }
@@ -124,17 +123,17 @@ class CharacterGene extends Model
 
     /**
      * Scope a query to show only heterozygous character genes.
-     * 
+     *
      * @param \Illuminate\Database\Eloquent\Builder  $query
      * @param \App\Models\Feature\FeatureAllele|null $allele
-     * 
-     * @return \Illuminate\Database\Eloquent\Builder                            $allele
+     *
+     * @return \Illuminate\Database\Eloquent\Builder $allele
      */
     public function scopeHeterozygous($query, $allele = null) {
         $query = $query->whereColumn('primary_allele_id', '!=', 'secondary_allele_id');
 
         if ($allele) {
-            $query->where(function($query) use ($allele) {
+            $query->where(function ($query) use ($allele) {
                 $query->where('primary_allele_id', $allele->id)->orWhere('secondary_allele_id', $allele->id);
             });
         }
@@ -144,11 +143,11 @@ class CharacterGene extends Model
 
     /**
      * Scope a query to show only absent character genes.
-     * 
+     *
      * @param \Illuminate\Database\Eloquent\Builder  $query
      * @param \App\Models\Feature\FeatureAllele|null $allele
-     * 
-     * @return \Illuminate\Database\Eloquent\Builder                            $allele
+     *
+     * @return \Illuminate\Database\Eloquent\Builder $allele
      */
     public function scopeAbsent($query, $allele = null) {
         $query = $query->whereNull('primary_allele_id')->whereNull('secondary_allele_id');

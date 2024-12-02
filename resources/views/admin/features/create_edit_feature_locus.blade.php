@@ -52,7 +52,7 @@
     </div>
 
     {!! Form::close() !!}
-    
+
     @if ($locus->id)
         <hr>
         <h3>Alleles</h3>
@@ -115,15 +115,15 @@
             });
             $('.create-allele-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/trait-loci/edit') }}/{{ $locus->id}}/allele", 'Create Allele');
+                loadModal("{{ url('admin/data/trait-loci/edit') }}/{{ $locus->id }}/allele", 'Create Allele');
             });
             $('.edit-allele-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/trait-loci/edit') }}/{{ $locus->id}}/allele/" + $(this).data('id'), 'Edit Allele');
+                loadModal("{{ url('admin/data/trait-loci/edit') }}/{{ $locus->id }}/allele/" + $(this).data('id'), 'Edit Allele');
             });
             $('.delete-allele-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/trait-loci/edit') }}/{{ $locus->id}}/allele/" + $(this).data('id') + "/delete", 'Delete Allele');
+                loadModal("{{ url('admin/data/trait-loci/edit') }}/{{ $locus->id }}/allele/" + $(this).data('id') + "/delete", 'Delete Allele');
             });
             $('.handle').on('click', function(e) {
                 e.preventDefault();
