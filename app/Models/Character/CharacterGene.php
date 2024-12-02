@@ -177,13 +177,13 @@ class CharacterGene extends Model {
                 return sprintf(
                     '<a href="%s" class="display-locus">%s</a>',
                     $this->locus->url,
-                    $this->locus->default_allele . $this->locus->default_allele
+                    $this->locus->default_allele.$this->locus->default_allele
                 );
             case 1:
                 return sprintf(
                     '<a href="%s" class="display-locus">%s</a>',
                     $this->locus->url,
-                    $this->locus->default_allele_leads ? $this->locus->default_allele . $alleles->implode('') : $alleles->implode('') . $this->locus->default_allele
+                    $this->locus->default_allele_leads ? $this->locus->default_allele.$alleles->implode('') : $alleles->implode('').$this->locus->default_allele
                 );
             default:
                 return sprintf(
