@@ -602,6 +602,8 @@ class FeatureController extends Controller {
 
         return view('admin.features.create_edit_feature', [
             'feature'    => $feature,
+            'features'   => Feature::pluck('name', 'id')->toArray(),
+            'loci'       => FeatureLocus::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'rarities'   => ['none' => 'Select a Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'specieses'  => ['none' => 'No restriction'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes'   => ['none' => 'No subtype'] + Subtype::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
@@ -621,6 +623,7 @@ class FeatureController extends Controller {
         $id ? $request->validate(Feature::$updateRules) : $request->validate(Feature::$createRules);
         $data = $request->only([
             'name', 'species_id', 'subtype_id', 'rarity_id', 'feature_category_id', 'description', 'image', 'remove_image', 'is_visible', 'is_genetic',
+            'trait_overrides', 'gene_requirements',
         ]);
         if ($id && $service->updateFeature(Feature::find($id), $data, Auth::user())) {
             flash('Trait updated successfully.')->success();

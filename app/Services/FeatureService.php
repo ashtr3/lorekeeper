@@ -9,6 +9,7 @@ use App\Models\Feature\FeatureAllele;
 use App\Models\Feature\FeatureCategory;
 use App\Models\Feature\FeatureGene;
 use App\Models\Feature\FeatureLocus;
+use App\Models\Feature\FeatureOverride;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use Illuminate\Support\Facades\DB;
@@ -433,110 +434,6 @@ class FeatureService extends Service {
 
     /**********************************************************************************************
 
-        FEATURE GENETICS
-
-    **********************************************************************************************/
-
-    /**
-     * Create a genetic requirement.
-     *
-     * @param array                 $data
-     * @param \App\Models\User\User $user
-     *
-     * @return \App\Models\Feature\FeatureGene|bool
-     */
-    public function createFeatureGene($data, $user) {
-        DB::beginTransaction();
-
-        try {
-            if (FeatureGene::where('feature_id', $data['feature_id'])->where('feature_allele_id', $data['feature_allele_id'])->exists()) {
-                throw new \Exception('The gene requirement already exists.');
-            }
-
-            $data = $this->populateGeneticRequirementData($data);
-            $feature = Feature::with(['genetics', 'genetics.allele'])->find($data['feature_id']);
-            $feature->genetics()->create($data);
-            $this->updateFeatureOnCharacters($feature);
-
-            if (!$this->logAdminAction($user, 'Created Feature Genetic Requirement', 'Created genetic requirement on '.$feature->displayName)) {
-                throw new \Exception('Failed to log admin action.');
-            }
-
-            return $this->commitReturn(true);
-        } catch (\Exception $e) {
-            $this->setError('error', $e->getMessage());
-        }
-
-        return $this->rollbackReturn(false);
-    }
-
-    /**
-     * Update a genetic requirement.
-     *
-     * @param \App\Models\Feature\FeatureGene $gene
-     * @param array                           $data
-     * @param \App\Models\User\User           $user
-     *
-     * @return \App\Models\Feature\FeatureGene|bool
-     */
-    public function updateFeatureGene($gene, $data, $user) {
-        DB::beginTransaction();
-
-        try {
-            // More specific validation
-            if ($gene->feature_id != $data['feature_id'] && $gene->feature_allele_id != $data['feature_allele_id']) {
-                if (FeatureGene::where('feature_id', $data['feature_id'])->where('feature_allele_id', $data['feature_allele_id'])->exists()) {
-                    throw new \Exception('The gene requirement already exists.');
-                }
-            }
-
-            $data = $this->populateGeneticRequirementData($data);
-            $feature = Feature::with(['genetics', 'genetics.allele'])->find($gene->feature_id);
-            $feature->genetics()->where('feature_allele_id', $gene->feature_allele_id)->update($data);
-            $this->updateFeatureOnCharacters($feature);
-
-            if (!$this->logAdminAction($user, 'Updated Feature Genetic Requirement', 'Updated genetic requirement on '.$feature->displayName)) {
-                throw new \Exception('Failed to log admin action.');
-            }
-
-            return $this->commitReturn(true);
-        } catch (\Exception $e) {
-            $this->setError('error', $e->getMessage());
-        }
-
-        return $this->rollbackReturn(false);
-    }
-
-    /**
-     * Delete a genetic requirement.
-     *
-     * @param \App\Models\Feature\FeatureGene $gene
-     * @param mixed                           $user
-     *
-     * @return bool
-     */
-    public function deleteFeatureGene($gene, $user) {
-        DB::beginTransaction();
-
-        try {
-            if (!$this->logAdminAction($user, 'Deleted Feature Genetic Requirement', 'Deleted genetic requirement on '.$gene->feature->displayName)) {
-                throw new \Exception('Failed to log admin action.');
-            }
-
-            $feature = Feature::with(['genetics', 'genetics.allele'])->find($gene->feature_id);
-            $feature->genetics()->where('feature_allele_id', $gene->feature_allele_id)->delete();
-            $this->updateFeatureOnCharacters($feature);
-
-            return $this->commitReturn(true);
-        } catch (\Exception $e) {
-            $this->setError('error', $e->getMessage());
-        }
-
-        return $this->rollbackReturn(false);
-    }
-
-    /**********************************************************************************************
-
         FEATURES
 
     **********************************************************************************************/
@@ -592,6 +489,12 @@ class FeatureService extends Service {
             }
 
             $feature = Feature::create($data);
+
+            $this->updateFeatureOverrides($data, $feature);
+
+            $this->updateFeatureGenetics($data, $feature, $user);
+
+            $this->updateFeatureOnCharacters($feature);
 
             if (!$this->logAdminAction($user, 'Created Feature', 'Created '.$feature->displayName)) {
                 throw new \Exception('Failed to log admin action.');
@@ -664,6 +567,12 @@ class FeatureService extends Service {
 
             $feature->update($data);
 
+            $this->updateFeatureOverrides($data, $feature);
+
+            $this->updateFeatureGenetics($data, $feature, $user);
+            
+            $this->updateFeatureOnCharacters($feature);
+
             if (!$this->logAdminAction($user, 'Updated Feature', 'Updated '.$feature->displayName)) {
                 throw new \Exception('Failed to log admin action.');
             }
@@ -714,7 +623,65 @@ class FeatureService extends Service {
         return $this->rollbackReturn(false);
     }
 
+    protected function updateFeatureOverrides($data, $feature) {
+        DB::beginTransaction();
+
+        try {
+            FeatureOverride::where('override_id', $feature->id)->delete();
+            foreach($data['trait_overrides'] as $override) {
+                if ($override == $feature->id) {
+                    throw new \Exception('A trait cannot override itself.');
+                }
+                FeatureOverride::create([
+                    'override_id' => $feature->id,
+                    'hidden_id' => $override
+                ]);
+            }
+            return $this->commitReturn(true);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+        
+        return $this->rollbackReturn(false);
+    }
+
+    protected function updateFeatureGenetics($data, $feature) {
+        DB::beginTransaction();
+
+        try {
+            $feature->genetics()->delete();            
+            if ($this->hasDuplicateRequirements($data)) {
+                throw new \Exception('Cannot have multiple rows for the same alleles.');
+            }
+            foreach($data['gene_requirements'] as $gene) {
+                $gene = $this->populateGeneticRequirementData($gene);
+                if (is_null($gene['locus_id'])) {
+                    throw new \Exception('Selected locus is invalid.');
+                }
+                if (is_null($gene['allele_id'])) {
+                    throw new \Exception('Selected allele is invalid.');
+                }
+                if ($gene['allow_homozygous'] === 0 && $gene['allow_heterozygous'] === 0 && $gene['allow_absent'] === 0) {
+                    throw new \Exception('All genetic requirements must have at least one zygosity rule.');
+                }
+                $feature->genetics()->create([
+                    'feature_allele_id' => $gene['allele_id'],
+                    'allow_homozygous' => $gene['allow_homozygous'],
+                    'allow_heterozygous' => $gene['allow_heterozygous'],
+                    'allow_absent' => $gene['allow_absent'],
+                ]);
+            }
+            return $this->commitReturn(true);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+
+        return $this->rollbackReturn(false);
+    }
+
     protected function updateFeatureOnCharacters($feature) {
+        DB::beginTransaction();
+        
         try {
             // Delete all instances of the feature
             CharacterFeature::where('feature_id', $feature->id)->delete();
@@ -727,9 +694,18 @@ class FeatureService extends Service {
                     ]);
                 }
             }
+
+            return $this->commitReturn(true);
         } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
+        
+        return $this->rollbackReturn(false);
+    }
+
+    private function hasDuplicateRequirements($data) {
+        $alleles = array_column($data['gene_requirements'], 'allele_id');
+        return count($alleles) !== count(array_unique($alleles));
     }
 
     /**
@@ -819,7 +795,6 @@ class FeatureService extends Service {
         if (!isset($data['allow_absent'])) {
             $data['allow_absent'] = 0;
         }
-
         return $data;
     }
 

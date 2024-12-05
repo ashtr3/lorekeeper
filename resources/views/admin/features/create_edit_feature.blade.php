@@ -64,6 +64,12 @@
             </div>
         </div>
     </div>
+
+    <div class="form-group">
+        {!! Form::label('Trait Overrides (Optional)') !!} {!! add_help('These traits will be hidden if they appear on the same character as this trait.') !!}
+        {!! Form::select('trait_overrides[]', $features, $feature->hides->pluck('id'), ['id' => 'feature-override-select', 'class' => 'form-control', 'placeholder' => 'Select Features', 'multiple']) !!}
+    </div>
+
     <div class="form-group">
         {!! Form::label('Description (Optional)') !!}
         {!! Form::textarea('description', $feature->description, ['class' => 'form-control wysiwyg']) !!}
@@ -75,53 +81,60 @@
             {!! Form::label('is_visible', 'Is Visible', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned off, the trait will not be visible in the trait list or available for selection in search and design updates. Permissioned staff will still be able to add them to characters, however.') !!}
         </div>
         <div class="form-group">
-            {!! Form::checkbox('is_genetic', 1, $feature->id ? $feature->is_genetic : 1, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
+            {!! Form::checkbox('is_genetic', 1, $feature->id ? $feature->is_genetic : 1, ['class' => 'is-genetic-check form-check-input', 'data-toggle' => 'toggle']) !!}
             {!! Form::label('is_genetic', 'Is Genetic', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned on, the trait will not be manually assignable. It will automatically be applied to characters meeting the trait\'s genetic requirements.') !!}
         </div>
     </div>
 
+    <div class="genetic-settings @if(!$feature->is_genetic) hide @endif">
+        <hr>
+        <div class="d-flex align-items-end justify-content-between mb-3">
+            <div>
+                <h3>Genetic Requirements</h3>
+                <p>A character will be automatically assigned this trait if they meet the genetic requirements.</p>
+            </div>
+            <a id="add-genetic-requirement" class="btn btn-primary" href="#"><i class="fas fa-plus"></i> Add Genetic Requirement</a>
+        </div>
+        <div id="genetic-requirement-list">                
+            @foreach ($feature->genetics as $index => $gene)
+                <div data-id="{{ $index }}" class="d-flex mb-2">
+                    {!! Form::select("gene_requirements[$index][locus_id]", $loci, $gene->allele->feature_locus_id, ['class' => 'form-control mr-2 locus-select', 'placeholder' => 'Select Locus']) !!}
+                    {!! Form::select("gene_requirements[$index][allele_id]", $gene->allele->locus->alleles->pluck('allele', 'id'), $gene->feature_allele_id, ['class' => 'form-control mr-2 allele-select', 'placeholder' => 'Select Allele']) !!}
+                    <div class="mr-2">
+                        {!! Form::checkbox("gene_requirements[$index][allow_homozygous]", 1, $gene->allow_homozygous ? 1 : 0, ['class' => 'form-check-input', 'data-toggle' => 'toggle', 'data-on' => 'Homozygous', 'data-off' => 'No Homozygous', 'data-width' => 150]) !!}
+                    </div>
+                    <div class="mr-2">
+                        {!! Form::checkbox("gene_requirements[$index][allow_heterozygous]", 1, $gene->allow_heterozygous ? 1 : 0, ['class' => 'form-check-input', 'data-toggle' => 'toggle', 'data-on' => 'Heterozygous', 'data-off' => 'No Heterozygous', 'data-width' => 150]) !!}
+                    </div>
+                    <div class="mr-2">
+                        {!! Form::checkbox("gene_requirements[$index][allow_absent]", 1, $gene->allow_absent ? 1 : 0, ['class' => 'form-check-input', 'data-toggle' => 'toggle', 'data-on' => 'Absent', 'data-off' => 'No Absent', 'data-width' => 100]) !!}
+                    </div>
+                    <a href="#" class="remove-genetic-requirement btn btn-danger mb-2">×</a>
+                </div>
+            @endforeach
+            <div class="genetic-requirement-row hide d-flex mb-2">
+                {!! Form::select('gene_requirements[][locus_id]', $loci, null, ['class' => 'form-control mr-2 locus-select', 'placeholder' => 'Select Locus']) !!}
+                {!! Form::select('gene_requirements[][allele_id]', [], null, ['class' => 'form-control mr-2 allele-select', 'placeholder' => 'Select Allele']) !!}
+                <div class="mr-2">
+                    {!! Form::checkbox('gene_requirements[][allow_homozygous]', 1, 0, ['class' => 'form-check-input', 'data-on' => 'Homozygous', 'data-off' => 'No Homozygous', 'data-width' => 150]) !!}
+                </div>
+                <div class="mr-2">
+                    {!! Form::checkbox('gene_requirements[][allow_heterozygous]', 1, 0, ['class' => 'form-check-input', 'data-on' => 'Heterozygous', 'data-off' => 'No Heterozygous', 'data-width' => 150]) !!}
+                </div>
+                <div class="mr-2">
+                    {!! Form::checkbox('gene_requirements[][allow_absent]', 1, 0, ['class' => 'form-check-input', 'data-on' => 'Absent', 'data-off' => 'No Absent', 'data-width' => 100]) !!}
+                </div>
+                <a href="#" class="remove-genetic-requirement btn btn-danger mb-2">×</a>
+            </div>
+        </div>
+    </div>
+
+    <hr>
     <div class="text-right">
-        {!! Form::submit($feature->id ? 'Edit' : 'Create', ['class' => 'btn btn-primary']) !!}
+        {!! Form::submit(($feature->id ? 'Edit' : 'Create') . ' Feature', ['class' => 'btn btn-primary']) !!}
     </div>
 
     {!! Form::close() !!}
-
-    @if ($feature->id && $feature->is_genetic)
-        <hr>
-        <h3>Genetic Requirements</h3>
-        <div class="text-right mb-3"><a class="btn btn-primary create-gene-button" href="#"><i class="fas fa-plus"></i> Create New Gene Requirement</a></div>
-        @if (!count($feature->genetics))
-            <p>No genetic requirements found.</p>
-        @else
-            <table class="table table-sm genetics-table">
-                <tbody>
-                    @foreach ($feature->genetics as $gene)
-                        <tr data-id="{{ $gene->feature_allele_id }}">
-                            <td class="p-3">
-                                <h6>{!! $gene->allele->displayNameWithLocus !!}</h6>
-                                <ul class="d-flex list-unstyled mb-0">
-                                    <li class="mr-3">
-                                        <i class="text-{{ $gene->allow_homozygous ? 'success fas fa-check' : 'danger fas fa-times' }} fa-fw mr-2"></i> Homozygous
-                                    </li>
-                                    <li class="mr-3">
-                                        <i class="text-{{ $gene->allow_heterozygous ? 'success fas fa-check' : 'danger fas fa-times' }} fa-fw mr-2"></i> Heterozygous
-                                    </li>
-                                    <li>
-                                        <i class="text-{{ $gene->allow_absent ? 'success fas fa-check' : 'danger fas fa-times' }} fa-fw mr-2"></i> Absent
-                                    </li>
-                                </ul>
-                            </td>
-                            <td class="p-3 text-right">
-                                <a href="#" class="btn btn-outline-primary mr-1 edit-gene-button" data-id="{{ $gene->feature_allele_id }}">Edit</a>
-                                <a href="#" class="btn btn-outline-danger delete-gene-button" data-id="{{ $gene->feature_allele_id }}">Delete</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @endif
-        <hr>
-    @endif
 
     @if ($feature->id)
         <h3>Preview</h3>
@@ -137,21 +150,24 @@
     @parent
     <script>
         $(document).ready(function() {
+            $('#feature-override-select').selectize();
+            $('.is-genetic-check').on('change', function(e) {
+                $('.genetic-settings').toggleClass('hide');
+            });
+            $('#genetic-requirement-list [data-id]').each(function() {
+                addLocusListener($(this));
+            });            
+            $('#add-genetic-requirement').on('click', function(e) {
+                e.preventDefault();
+                addRow('genetic-requirement-row', 'genetic-requirement-list', 'remove-genetic-requirement');
+            });
+            $('.remove-genetic-requirement').on('click', function(e) {
+                e.preventDefault();
+                removeRow($(this));
+            });
             $('.delete-feature-button').on('click', function(e) {
                 e.preventDefault();
                 loadModal("{{ url('admin/data/traits/delete') }}/{{ $feature->id }}", 'Delete Trait');
-            });
-            $('.create-gene-button').on('click', function(e) {
-                e.preventDefault();
-                loadModal("{{ url('admin/data/traits/edit') }}/{{ $feature->id }}/genetics", 'Create Gene Requirement');
-            });
-            $('.edit-gene-button').on('click', function(e) {
-                e.preventDefault();
-                loadModal("{{ url('admin/data/traits/edit') }}/{{ $feature->id }}/genetics/" + $(this).data('id'), 'Edit Gene Requirement');
-            });
-            $('.delete-gene-button').on('click', function(e) {
-                e.preventDefault();
-                loadModal("{{ url('admin/data/traits/edit') }}/{{ $feature->id }}/genetics/" + $(this).data('id') + "/delete", 'Delete Gene Requirement');
             });
             refreshSubtype();
         });
@@ -173,5 +189,76 @@
                 alert("AJAX call failed: " + textStatus + ", " + errorThrown);
             });
         };
+
+        function getNextIndex() {
+            const rows = $('[data-id]');
+            return rows.length > 0 ? 
+                Math.max(...$.map($('[data-id]'), function (element) {
+                    return parseInt($(element).data('id'), 10);
+                })) + 1 : 0;
+        }
+
+        function addLocusListener(row) {
+            row.find('.locus-select').on('change', async function(e) {
+                const id = $(this).val();
+                const select = row.find('.allele-select');
+
+                if (id) {
+                    const alleles = await refreshAlleles(id);
+                    select.empty();
+                    $.each(alleles, function(key, value) {
+                        select.append(`<option value="${key}">${value}</option>`);
+                    });
+                } else {
+                    select.empty();
+                    select.append('<option>Select Allele</option>');
+                }                
+            });
+        }
+
+        function refreshAlleles(id) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: "{{ url('admin/data/trait-loci') }}/" + id + "/alleles",
+                    type: 'GET',
+                    success: function(response) {
+                        resolve(response);
+                    },
+                    error: function(xhr, status, error) {
+                        reject(error);
+                    }
+                });
+            });
+        };
+
+        function addRow(row, list, remove_btn) {
+            var clone = $(`.${row}`).clone();
+            $(`#${list}`).append(clone);
+
+            const nextIndex = getNextIndex();
+            clone.attr('data-id', nextIndex);
+            clone.removeClass(`hide ${row}`);
+
+            clone.find(`.${remove_btn}`).on('click', function(e) {
+                e.preventDefault();
+                removeRow($(this));
+            });
+            
+            clone.find('select, input').each(function() {
+                const name = $(this).attr('name');
+                const newName = name.replace('[]', `[${nextIndex}]`);
+                $(this).attr('name', newName);
+            });
+
+            clone.find('input.form-check-input').each(function() {
+                $(this).bootstrapToggle();
+            });
+
+            addLocusListener(clone);
+        }
+
+        function removeRow(trigger) {
+            trigger.parent().remove();
+        }
     </script>
 @endsection
