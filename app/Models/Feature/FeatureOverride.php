@@ -2,13 +2,9 @@
 
 namespace App\Models\Feature;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FeatureOverride extends Model
-{
-    public $timestamps = false;
-
+class FeatureOverride extends Model {
     /**
      * The attributes that are mass assignable.
      *
@@ -17,6 +13,7 @@ class FeatureOverride extends Model
     protected $fillable = [
         'override_id', 'hidden_id',
     ];
+    public $timestamps = false;
 
     /**********************************************************************************************
 

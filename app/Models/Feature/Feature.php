@@ -99,14 +99,14 @@ class Feature extends Model {
      * Get the features hidden by this feature.
      */
     public function hiddenBy() {
-        return $this->hasManyThrough(Feature::class, FeatureOverride::class, 'hidden_id', 'id', 'id', 'override_id');
+        return $this->hasManyThrough(self::class, FeatureOverride::class, 'hidden_id', 'id', 'id', 'override_id');
     }
 
     /**
      * Get the features that hide this feature.
      */
     public function hides() {
-        return $this->hasManyThrough(Feature::class, FeatureOverride::class, 'override_id', 'id', 'id', 'hidden_id');
+        return $this->hasManyThrough(self::class, FeatureOverride::class, 'override_id', 'id', 'id', 'hidden_id');
     }
 
     /**********************************************************************************************
@@ -234,6 +234,7 @@ class Feature extends Model {
 
     public function scopeExcludeOverridden($query) {
         $ids = $query->pluck('id')->toArray();
+
         return $query->whereDoesntHave('hiddenBy', function ($query) use ($ids) {
             $query->whereIn('id', $ids);
         });
