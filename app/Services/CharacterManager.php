@@ -638,7 +638,9 @@ class CharacterManager extends Service {
 
             // Clear old features
             $image->characterFeatures()
-                ->whereHas('feature', function ($query) { $query->where('is_genetic', 0); })
+                ->whereHas('feature', function ($query) {
+                    $query->where('is_genetic', 0);
+                })
                 ->delete();
 
             // Attach features
@@ -692,7 +694,9 @@ class CharacterManager extends Service {
             // Clear old genetics
             $character->genetics()->delete();
             $character->image->characterFeatures()
-                ->whereHas('feature', function ($query) { $query->where('is_genetic', 1); })
+                ->whereHas('feature', function ($query) {
+                    $query->where('is_genetic', 1);
+                })
                 ->delete();
 
             // Attach genetics
@@ -711,9 +715,9 @@ class CharacterManager extends Service {
                 if ($character->canHaveGeneticFeature($feature)) {
                     CharacterFeature::create([
                         'character_image_id' => $character->image->id,
-                        'feature_id' => $feature->id,
-                        'data' => $feature->data,
-                        'character_type' => 'Character',
+                        'feature_id'         => $feature->id,
+                        'data'               => $feature->data,
+                        'character_type'     => 'Character',
                     ]);
                 }
             }
