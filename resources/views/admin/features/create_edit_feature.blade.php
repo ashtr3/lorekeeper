@@ -86,7 +86,7 @@
         </div>
     </div>
 
-    <div class="genetic-settings @if(!$feature->is_genetic) hide @endif">
+    <div class="genetic-settings @if (!$feature->is_genetic) hide @endif">
         <hr>
         <div class="d-flex align-items-end justify-content-between mb-3">
             <div>
@@ -95,7 +95,7 @@
             </div>
             <a id="add-genetic-requirement" class="btn btn-primary" href="#"><i class="fas fa-plus"></i> Add Genetic Requirement</a>
         </div>
-        <div id="genetic-requirement-list">        
+        <div id="genetic-requirement-list">
             @foreach ($feature->genetics as $index => $gene)
                 <div data-id="{{ $index }}" class="d-flex mb-2">
                     {!! Form::select("gene_requirements[$index][locus_id]", $loci, $gene->allele->feature_locus_id, ['class' => 'form-control mr-2 locus-select', 'placeholder' => 'Select Locus']) !!}
@@ -104,7 +104,13 @@
                         {!! Form::checkbox("gene_requirements[$index][allow_homozygous]", 1, $gene->allow_homozygous ? 1 : 0, ['class' => 'form-check-input', 'data-toggle' => 'toggle', 'data-on' => 'Homozygous', 'data-off' => 'No Homozygous', 'data-width' => 150]) !!}
                     </div>
                     <div class="mr-2">
-                        {!! Form::checkbox("gene_requirements[$index][allow_heterozygous]", 1, $gene->allow_heterozygous ? 1 : 0, ['class' => 'form-check-input', 'data-toggle' => 'toggle', 'data-on' => 'Heterozygous', 'data-off' => 'No Heterozygous', 'data-width' => 150]) !!}
+                        {!! Form::checkbox("gene_requirements[$index][allow_heterozygous]", 1, $gene->allow_heterozygous ? 1 : 0, [
+                            'class' => 'form-check-input',
+                            'data-toggle' => 'toggle',
+                            'data-on' => 'Heterozygous',
+                            'data-off' => 'No Heterozygous',
+                            'data-width' => 150,
+                        ]) !!}
                     </div>
                     <div class="mr-2">
                         {!! Form::checkbox("gene_requirements[$index][allow_absent]", 1, $gene->allow_absent ? 1 : 0, ['class' => 'form-check-input', 'data-toggle' => 'toggle', 'data-on' => 'Absent', 'data-off' => 'No Absent', 'data-width' => 100]) !!}
@@ -156,7 +162,7 @@
             });
             $('#genetic-requirement-list [data-id]').each(function() {
                 addLocusListener($(this));
-            });            
+            });
             $('#add-genetic-requirement').on('click', function(e) {
                 e.preventDefault();
                 addRow('genetic-requirement-row', 'genetic-requirement-list', 'remove-genetic-requirement');
@@ -192,8 +198,8 @@
 
         function getNextIndex() {
             const rows = $('[data-id]');
-            return rows.length > 0 ? 
-                Math.max(...$.map($('[data-id]'), function (element) {
+            return rows.length > 0 ?
+                Math.max(...$.map($('[data-id]'), function(element) {
                     return parseInt($(element).data('id'), 10);
                 })) + 1 : 0;
         }
@@ -212,7 +218,7 @@
                 } else {
                     select.empty();
                     select.append('<option>Select Allele</option>');
-                }                
+                }
             });
         }
 
@@ -243,7 +249,7 @@
                 e.preventDefault();
                 removeRow($(this));
             });
-            
+
             clone.find('select, input').each(function() {
                 const name = $(this).attr('name');
                 const newName = name.replace('[]', `[${nextIndex}]`);

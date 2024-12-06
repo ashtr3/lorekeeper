@@ -7,7 +7,6 @@ use App\Models\Character\CharacterFeature;
 use App\Models\Feature\Feature;
 use App\Models\Feature\FeatureAllele;
 use App\Models\Feature\FeatureCategory;
-use App\Models\Feature\FeatureGene;
 use App\Models\Feature\FeatureLocus;
 use App\Models\Feature\FeatureOverride;
 use App\Models\Species\Species;
@@ -570,7 +569,7 @@ class FeatureService extends Service {
             $this->updateFeatureOverrides($data, $feature);
 
             $this->updateFeatureGenetics($data, $feature, $user);
-            
+
             $this->updateFeatureOnCharacters($feature);
 
             if (!$this->logAdminAction($user, 'Updated Feature', 'Updated '.$feature->displayName)) {
@@ -628,30 +627,31 @@ class FeatureService extends Service {
 
         try {
             FeatureOverride::where('override_id', $feature->id)->delete();
-            foreach($data['trait_overrides'] as $override) {
+            foreach ($data['trait_overrides'] as $override) {
                 if ($override == $feature->id) {
                     continue;
                 }
                 FeatureOverride::create([
                     'override_id' => $feature->id,
-                    'hidden_id' => $override
+                    'hidden_id'   => $override,
                 ]);
             }
+
             return $this->commitReturn(true);
         } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
-        
+
         return $this->rollbackReturn(false);
     }
 
     protected function updateFeatureGenetics($data, $feature) {
         try {
-            $feature->genetics()->delete();            
+            $feature->genetics()->delete();
             if ($this->hasDuplicateRequirements($data)) {
                 throw new \Exception('Cannot have multiple rows for the same alleles.');
             }
-            foreach($data['gene_requirements'] as $gene) {
+            foreach ($data['gene_requirements'] as $gene) {
                 $gene = $this->populateGeneticRequirementData($gene);
                 if (is_null($gene['locus_id'])) {
                     continue;
@@ -663,10 +663,10 @@ class FeatureService extends Service {
                     continue;
                 }
                 $feature->genetics()->create([
-                    'feature_allele_id' => $gene['allele_id'],
-                    'allow_homozygous' => $gene['allow_homozygous'],
+                    'feature_allele_id'  => $gene['allele_id'],
+                    'allow_homozygous'   => $gene['allow_homozygous'],
                     'allow_heterozygous' => $gene['allow_heterozygous'],
-                    'allow_absent' => $gene['allow_absent'],
+                    'allow_absent'       => $gene['allow_absent'],
                 ]);
             }
         } catch (\Exception $e) {
@@ -694,6 +694,7 @@ class FeatureService extends Service {
 
     private function hasDuplicateRequirements($data) {
         $alleles = array_column($data['gene_requirements'], 'allele_id');
+
         return count($alleles) !== count(array_unique($alleles));
     }
 
@@ -784,6 +785,7 @@ class FeatureService extends Service {
         if (!isset($data['allow_absent'])) {
             $data['allow_absent'] = 0;
         }
+
         return $data;
     }
 
