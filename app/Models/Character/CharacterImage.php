@@ -3,7 +3,6 @@
 namespace App\Models\Character;
 
 use App\Models\Feature\Feature;
-use App\Models\Feature\FeatureOverride;
 use App\Models\Model;
 use App\Models\Rarity;
 use App\Models\Species\Species;
@@ -111,8 +110,6 @@ class CharacterImage extends Model {
 
     /**
      * Get the character feature (trait) pivot models attached to the character image.
-     *
-     * @param mixed|null $isGenetic
      */
     public function characterFeatures() {
         return $this->hasMany(CharacterFeature::class, 'character_image_id');
@@ -120,8 +117,6 @@ class CharacterImage extends Model {
 
     /**
      * Get the features (traits) attached to the character image, ordered by display order.
-     *
-     * @param mixed|null $isGenetic
      */
     public function features() {
         return $this->hasManyThrough(Feature::class, CharacterFeature::class, 'character_image_id', 'id', 'id', 'feature_id')
