@@ -2,6 +2,8 @@
 
 namespace App\Models\Character;
 
+use App\Models\Feature\Feature;
+use App\Models\Feature\FeatureOverride;
 use App\Models\Model;
 use App\Models\Rarity;
 use App\Models\Species\Species;
@@ -108,22 +110,23 @@ class CharacterImage extends Model {
     }
 
     /**
+     * Get the character feature (trait) pivot models attached to the character image.
+     *
+     * @param mixed|null $isGenetic
+     */
+    public function characterFeatures() {
+        return $this->hasMany(CharacterFeature::class, 'character_image_id');
+    }
+
+    /**
      * Get the features (traits) attached to the character image, ordered by display order.
      *
      * @param mixed|null $isGenetic
      */
-    public function features($isGenetic = null) {
-        $query = $this
-            ->hasMany(CharacterFeature::class, 'character_image_id')->where('character_features.character_type', 'Character')
-            ->join('features', 'features.id', '=', 'character_features.feature_id')
+    public function features() {
+        return $this->hasManyThrough(Feature::class, CharacterFeature::class, 'character_image_id', 'id', 'id', 'feature_id')
             ->leftJoin('feature_categories', 'feature_categories.id', '=', 'features.feature_category_id')
-            ->select(['character_features.*', 'features.*', 'character_features.id AS character_feature_id', 'feature_categories.sort']);
-
-        if (!is_null($isGenetic)) {
-            $query->where('features.is_genetic', $isGenetic);
-        }
-
-        return $query->orderByDesc('sort');
+            ->orderByDesc('feature_categories.sort');
     }
 
     /**

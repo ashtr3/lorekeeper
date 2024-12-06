@@ -630,7 +630,7 @@ class FeatureService extends Service {
             FeatureOverride::where('override_id', $feature->id)->delete();
             foreach($data['trait_overrides'] as $override) {
                 if ($override == $feature->id) {
-                    throw new \Exception('A trait cannot override itself.');
+                    continue;
                 }
                 FeatureOverride::create([
                     'override_id' => $feature->id,
@@ -646,8 +646,6 @@ class FeatureService extends Service {
     }
 
     protected function updateFeatureGenetics($data, $feature) {
-        DB::beginTransaction();
-
         try {
             $feature->genetics()->delete();            
             if ($this->hasDuplicateRequirements($data)) {
@@ -656,13 +654,13 @@ class FeatureService extends Service {
             foreach($data['gene_requirements'] as $gene) {
                 $gene = $this->populateGeneticRequirementData($gene);
                 if (is_null($gene['locus_id'])) {
-                    throw new \Exception('Selected locus is invalid.');
+                    continue;
                 }
                 if (is_null($gene['allele_id'])) {
-                    throw new \Exception('Selected allele is invalid.');
+                    continue;
                 }
                 if ($gene['allow_homozygous'] === 0 && $gene['allow_heterozygous'] === 0 && $gene['allow_absent'] === 0) {
-                    throw new \Exception('All genetic requirements must have at least one zygosity rule.');
+                    continue;
                 }
                 $feature->genetics()->create([
                     'feature_allele_id' => $gene['allele_id'],
@@ -671,17 +669,12 @@ class FeatureService extends Service {
                     'allow_absent' => $gene['allow_absent'],
                 ]);
             }
-            return $this->commitReturn(true);
         } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
-
-        return $this->rollbackReturn(false);
     }
 
     protected function updateFeatureOnCharacters($feature) {
-        DB::beginTransaction();
-        
         try {
             // Delete all instances of the feature
             CharacterFeature::where('feature_id', $feature->id)->delete();
@@ -694,13 +687,9 @@ class FeatureService extends Service {
                     ]);
                 }
             }
-
-            return $this->commitReturn(true);
         } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
-        
-        return $this->rollbackReturn(false);
     }
 
     private function hasDuplicateRequirements($data) {

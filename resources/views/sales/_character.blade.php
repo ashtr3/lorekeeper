@@ -29,16 +29,16 @@
                                             <div>
                                                 @if ($group->count() > 1)
                                                     <div>
-                                                        <strong>{!! $key ? $group->first()->feature->category->displayName : 'Miscellaneous' !!}:</strong>
+                                                        <strong>{!! $key ? $group->first()->category->displayName : 'Miscellaneous' !!}:</strong>
                                                         @foreach ($group as $feature)
-                                                            {!! $feature->feature->displayName !!}@if ($feature->data)
+                                                            {!! $feature->displayName !!}@if ($feature->data)
                                                                 ({{ $feature->data }})
                                                             @endif{{ !$loop->last ? ', ' : '' }}
                                                         @endforeach
                                                     </div>
                                                 @else
-                                                    <strong>{!! $key ? $group->first()->feature->category->displayName : 'Miscellaneous' !!}:</strong>
-                                                    {!! $group->first()->feature->displayName !!}
+                                                    <strong>{!! $key ? $group->first()->category->displayName : 'Miscellaneous' !!}:</strong>
+                                                    {!! $group->first()->displayName !!}
                                                     @if ($group->first()->data)
                                                         ({{ $group->first()->data }})
                                                     @endif
@@ -53,14 +53,14 @@
                                 <div>
                                     <?php $features = $character->image
                                         ->features()
-                                        ->with('feature.category')
+                                        ->with('category')
                                         ->get(); ?>
                                     @if ($features->count())
                                         @foreach ($features as $feature)
                                             <div>
-                                                @if ($feature->feature->feature_category_id)
-                                                    <strong>{!! $feature->feature->category->displayName !!}:</strong>
-                                                    @endif {!! $feature->feature->displayName !!} @if ($feature->data)
+                                                @if ($feature->feature_category_id)
+                                                    <strong>{!! $feature->category->displayName !!}:</strong>
+                                                    @endif {!! $feature->displayName !!} @if ($feature->data)
                                                         ({{ $feature->data }})
                                                     @endif
                                             </div>

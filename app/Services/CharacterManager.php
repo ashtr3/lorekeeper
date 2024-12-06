@@ -631,18 +631,20 @@ class CharacterManager extends Service {
 
             // Log old features
             $old = [];
-            $old['features'] = $this->generateFeatureList($image->features(0));
+            $old['features'] = $this->generateFeatureList($image->features()->genetic(0));
             $old['species'] = $image->species_id ? $image->species->displayName : null;
             $old['subtype'] = $image->subtype_id ? $image->subtype->displayName : null;
             $old['rarity'] = $image->rarity_id ? $image->rarity->displayName : null;
 
             // Clear old features
-            $image->features(0)->delete();
+            $image->characterFeatures()
+                ->whereHas('feature', function ($query) { $query->where('is_genetic', 0); })
+                ->delete();
 
             // Attach features
             foreach ($data['feature_id'] as $key => $featureId) {
                 if ($featureId) {
-                    $feature = CharacterFeature::create(['character_image_id' => $image->id, 'feature_id' => $featureId, 'data' => $data['feature_data'][$key]]);
+                    CharacterFeature::create(['character_image_id' => $image->id, 'feature_id' => $featureId, 'data' => $data['feature_data'][$key]]);
                 }
             }
 
@@ -653,7 +655,7 @@ class CharacterManager extends Service {
             $image->save();
 
             $new = [];
-            $new['features'] = $this->generateFeatureList($image->features(0));
+            $new['features'] = $this->generateFeatureList($image->features()->genetic(0));
             $new['species'] = $image->species_id ? $image->species->displayName : null;
             $new['subtype'] = $image->subtype_id ? $image->subtype->displayName : null;
             $new['rarity'] = $image->rarity_id ? $image->rarity->displayName : null;
@@ -685,11 +687,13 @@ class CharacterManager extends Service {
             // Log old genetics
             $old = [];
             $old['genetics'] = $character->genotype;
-            $old['features'] = $this->generateFeatureList($character->image->features(1));
+            $old['features'] = $this->generateFeatureList($character->image->features()->genetic());
 
             // Clear old genetics
             $character->genetics()->delete();
-            $character->image->features(1)->delete();
+            $character->image->characterFeatures()
+                ->whereHas('feature', function ($query) { $query->where('is_genetic', 1); })
+                ->delete();
 
             // Attach genetics
             foreach ($data['genetics'] as $key => $gene) {
@@ -705,15 +709,18 @@ class CharacterManager extends Service {
             // Attach features
             foreach ($features as $feature) {
                 if ($character->canHaveGeneticFeature($feature)) {
-                    $character->image->features()->create([
+                    CharacterFeature::create([
+                        'character_image_id' => $character->image->id,
                         'feature_id' => $feature->id,
+                        'data' => $feature->data,
+                        'character_type' => 'Character',
                     ]);
                 }
             }
 
             $new = [];
             $new['genetics'] = $character->genotype;
-            $new['features'] = $this->generateFeatureList($character->image->features(1));
+            $new['features'] = $this->generateFeatureList($character->image->features()->genetic());
 
             // Add a log for the character
             // This logs all the updates made to the character
@@ -2058,7 +2065,7 @@ class CharacterManager extends Service {
             // Attach features
             foreach ($data['feature_id'] as $key => $featureId) {
                 if ($featureId) {
-                    $feature = CharacterFeature::create(['character_image_id' => $image->id, 'feature_id' => $featureId, 'data' => $data['feature_data'][$key]]);
+                    CharacterFeature::create(['character_image_id' => $image->id, 'feature_id' => $featureId, 'data' => $data['feature_data'][$key]]);
                 }
             }
 
@@ -2080,7 +2087,7 @@ class CharacterManager extends Service {
     private function generateFeatureList($features) {
         $result = '';
         foreach ($features as $feature) {
-            $result .= '<div>'.($feature->feature->category ? '<strong>'.$feature->feature->category->displayName.':</strong> ' : '').$feature->feature->displayName.'</div>';
+            $result .= '<div>'.($feature->category ? '<strong>'.$feature->category->displayName.':</strong> ' : '').$feature->displayName.'</div>';
         }
 
         return $result;

@@ -20,7 +20,7 @@
     <div id="featureList">
         @foreach ($image->features->where('is_genetic', false) as $feature)
             <div class="d-flex mb-2">
-                {!! Form::select('feature_id[]', $features, $feature->feature_id, ['class' => 'form-control mr-2 feature-select original', 'placeholder' => 'Select Trait']) !!}
+                {!! Form::select('feature_id[]', $features, $feature->id, ['class' => 'form-control mr-2 feature-select original', 'placeholder' => 'Select Trait']) !!}
                 {!! Form::text('feature_data[]', $feature->data, ['class' => 'form-control mr-2', 'placeholder' => 'Extra Info (Optional)']) !!}
                 <a href="#" class="remove-feature btn btn-danger mb-2">×</a>
             </div>

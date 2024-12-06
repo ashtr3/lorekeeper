@@ -223,7 +223,7 @@ class BrowseController extends Controller {
             $featureIds = $request->get('feature_id');
             foreach ($featureIds as $featureId) {
                 $imageQuery->whereHas('features', function ($query) use ($featureId) {
-                    $query->where('feature_id', $featureId);
+                    $query->where('id', $featureId);
                 });
             }
         }
@@ -411,7 +411,7 @@ class BrowseController extends Controller {
             $featureIds = $request->get('feature_id');
             foreach ($featureIds as $featureId) {
                 $imageQuery->whereHas('features', function ($query) use ($featureId) {
-                    $query->where('feature_id', $featureId);
+                    $query->where('id', $featureId);
                 });
             }
         }
@@ -563,7 +563,7 @@ class BrowseController extends Controller {
             $featureIds = $request->get('feature_id');
             foreach ($featureIds as $featureId) {
                 $imageQuery->whereHas('features', function ($query) use ($featureId) {
-                    $query->where('feature_id', $featureId);
+                    $query->where('id', $featureId);
                 });
             }
         }

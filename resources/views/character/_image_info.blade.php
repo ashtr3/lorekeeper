@@ -66,6 +66,7 @@
                             @php
                                 $traitgroup = $image
                                     ->features()
+                                    ->excludeOverridden()
                                     ->get()
                                     ->groupBy('feature_category_id');
                             @endphp
@@ -73,12 +74,13 @@
                                 @foreach ($traitgroup as $key => $group)
                                     <div class="mb-2">
                                         @if ($key)
-                                            <strong>{!! $group->first()->feature->category->displayName !!}:</strong>
+                                            <strong>{!! $group->first()->category->displayName !!}:</strong>
                                         @else
                                             <strong>Miscellaneous:</strong>
                                         @endif
                                         @foreach ($group as $feature)
-                                            <div class="ml-md-2">{!! $feature->feature->displayName !!} @if ($feature->data)
+                                            <div class="ml-md-2">{!! $feature->displayName !!} 
+                                                @if ($feature->data)
                                                     ({{ $feature->data }})
                                                 @endif
                                             </div>
@@ -93,14 +95,16 @@
                         <div>
                             <?php $features = $image
                                 ->features()
-                                ->with('feature.category')
+                                ->excludeOverridden()
+                                ->with('category')
                                 ->get(); ?>
                             @if ($features->count())
                                 @foreach ($features as $feature)
                                     <div>
-                                        @if ($feature->feature->feature_category_id)
-                                            <strong>{!! $feature->feature->category->displayName !!}:</strong>
-                                            @endif {!! $feature->feature->displayName !!} @if ($feature->data)
+                                        @if ($feature->feature_category_id)
+                                            <strong>{!! $feature->category->displayName !!}:</strong>
+                                            @endif {!! $feature->displayName !!} 
+                                            @if ($feature->data)
                                                 ({{ $feature->data }})
                                             @endif
                                     </div>

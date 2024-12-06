@@ -580,6 +580,8 @@ class FeatureController extends Controller {
     public function getCreateFeature() {
         return view('admin.features.create_edit_feature', [
             'feature'    => new Feature,
+            'features'   => Feature::pluck('name', 'id')->toArray(),
+            'loci'       => FeatureLocus::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'rarities'   => ['none' => 'Select a Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'specieses'  => ['none' => 'No restriction'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes'   => ['none' => 'No subtype'] + Subtype::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),

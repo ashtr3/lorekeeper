@@ -95,7 +95,7 @@
             </div>
             <a id="add-genetic-requirement" class="btn btn-primary" href="#"><i class="fas fa-plus"></i> Add Genetic Requirement</a>
         </div>
-        <div id="genetic-requirement-list">                
+        <div id="genetic-requirement-list">        
             @foreach ($feature->genetics as $index => $gene)
                 <div data-id="{{ $index }}" class="d-flex mb-2">
                     {!! Form::select("gene_requirements[$index][locus_id]", $loci, $gene->allele->feature_locus_id, ['class' => 'form-control mr-2 locus-select', 'placeholder' => 'Select Locus']) !!}

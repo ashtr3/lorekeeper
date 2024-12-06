@@ -74,10 +74,10 @@ class DesignUpdateManager extends Service {
             // users to edit compulsory traits, so we'll only add them when the design is approved.
             if (!$character->is_myo_slot) {
                 foreach ($character->image->features as $feature) {
-                    $request->features()->create([
+                    CharacterFeature::create([
                         'character_image_id' => $request->id,
                         'character_type'     => 'Update',
-                        'feature_id'         => $feature->feature_id,
+                        'feature_id'         => $feature->id,
                         'data'               => $feature->data,
                     ]);
                 }
@@ -379,7 +379,7 @@ class DesignUpdateManager extends Service {
             }
 
             // Clear old features
-            $request->features(0)->delete();
+            $request->characterFeatures()->delete();
 
             // Attach features
             // We'll do the compulsory ones at the time of approval.
@@ -400,7 +400,7 @@ class DesignUpdateManager extends Service {
                     continue;
                 }
 
-                $feature = CharacterFeature::create(['character_image_id' => $request->id, 'feature_id' => $featureId, 'data' => $data['feature_data'][$key], 'character_type' => 'Update']);
+                CharacterFeature::create(['character_image_id' => $request->id, 'feature_id' => $featureId, 'data' => $data['feature_data'][$key], 'character_type' => 'Update']);
             }
 
             // Update other stats
@@ -577,7 +577,7 @@ class DesignUpdateManager extends Service {
             // Add the compulsory features
             if ($request->character->is_myo_slot) {
                 foreach ($request->character->image->features as $feature) {
-                    CharacterFeature::create(['character_image_id' => $image->id, 'feature_id' => $feature->feature_id, 'data' => $feature->data, 'character_type' => 'Character']);
+                    CharacterFeature::create(['character_image_id' => $image->id, 'feature_id' => $feature->id, 'data' => $feature->data, 'character_type' => 'Character']);
                 }
             }
 

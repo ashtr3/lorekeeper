@@ -233,9 +233,9 @@ class Feature extends Model {
     }
 
     public function scopeExcludeOverridden($query) {
-        $ids = $query->pluck('id')->toArray();
+        $ids = $query->pluck('features.id')->toArray();
         return $query->whereDoesntHave('hiddenBy', function ($query) use ($ids) {
-            $query->whereIn('id', $ids);
+            $query->whereIn('features.id', $ids);
         });
     }
 
