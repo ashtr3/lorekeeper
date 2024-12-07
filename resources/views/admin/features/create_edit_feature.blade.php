@@ -77,16 +77,20 @@
 
     <div class="d-flex">
         <div class="form-group mr-3">
+            {!! Form::checkbox('is_genetic', 1, $feature->id ? $feature->is_genetic : 0, ['class' => 'is-genetic-check form-check-input', 'data-toggle' => 'toggle']) !!}
+            {!! Form::label('is_genetic', 'Is Genetic', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned on, the trait will not be manually assignable. It will automatically be applied to characters meeting the trait\'s genetic requirements.') !!}
+        </div>
+        <div class="form-group mr-3">
+            {!! Form::checkbox('enables_chimerism', 1, $feature->id ? $feature->enables_chimerism : 0, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
+            {!! Form::label('enables_chimerism', 'Enables Chimerism', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned on, this trait will enable chimerism. Chimerism adds a secondary genotype to the character.') !!}
+        </div>
+        <div class="form-group">
             {!! Form::checkbox('is_visible', 1, $feature->id ? $feature->is_visible : 1, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
             {!! Form::label('is_visible', 'Is Visible', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned off, the trait will not be visible in the trait list or available for selection in search and design updates. Permissioned staff will still be able to add them to characters, however.') !!}
         </div>
-        <div class="form-group">
-            {!! Form::checkbox('is_genetic', 1, $feature->id ? $feature->is_genetic : 1, ['class' => 'is-genetic-check form-check-input', 'data-toggle' => 'toggle']) !!}
-            {!! Form::label('is_genetic', 'Is Genetic', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned on, the trait will not be manually assignable. It will automatically be applied to characters meeting the trait\'s genetic requirements.') !!}
-        </div>
     </div>
 
-    <div class="genetic-settings @if (!$feature->is_genetic) hide @endif">
+    <div class="genetic-settings @if ($feature->id ? !$feature->is_genetic : true) hide @endif">
         <hr>
         <div class="d-flex align-items-end justify-content-between mb-3">
             <div>

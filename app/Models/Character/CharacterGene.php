@@ -13,7 +13,7 @@ class CharacterGene extends Model {
      * @var array
      */
     protected $fillable = [
-        'character_id', 'locus_id', 'primary_allele_id', 'secondary_allele_id',
+        'character_id', 'locus_id', 'primary_allele_id', 'secondary_allele_id', 'is_chimeric',
     ];
 
     /**
@@ -22,13 +22,6 @@ class CharacterGene extends Model {
      * @var string
      */
     protected $table = 'character_genetics';
-
-    /**
-     * Whether the model contains timestamps to be saved and updated.
-     *
-     * @var string
-     */
-    public $timestamps = true;
 
     /**
      * Validation rules for character gene creation.
@@ -53,6 +46,13 @@ class CharacterGene extends Model {
         'primary_allele_id'   => 'nullable|exists:feature_alleles,id',
         'secondary_allele_id' => 'nullable|exists:feature_alleles,id',
     ];
+
+    /**
+     * Whether the model contains timestamps to be saved and updated.
+     *
+     * @var string
+     */
+    public $timestamps = false;
 
     /**********************************************************************************************
 

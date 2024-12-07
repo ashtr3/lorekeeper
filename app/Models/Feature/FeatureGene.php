@@ -55,6 +55,13 @@ class FeatureGene extends Model {
         'allow_absent'       => 'nullable',
     ];
 
+    /**
+     * Whether the model contains timestamps to be saved and updated.
+     *
+     * @var string
+     */
+    public $timestamps = false;
+
     /**********************************************************************************************
 
         RELATIONS

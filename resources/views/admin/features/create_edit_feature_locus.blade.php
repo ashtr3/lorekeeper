@@ -41,6 +41,10 @@
             {!! Form::checkbox('default_allele_leads', 1, $locus->id ? $locus->default_allele_leads : 1, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
             {!! Form::label('default_allele_leads', 'Default Allele Leads', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned on, the default allele will always appear at the front of a heterozygous genotype, otherwise it will be trailing.') !!}
         </div>
+        <div class="form-group mr-3">
+            {!! Form::checkbox('restrict_chimeric', 1, $locus->id ? $locus->restrict_chimeric : 0, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
+            {!! Form::label('restrict_chimeric', 'Restrict Chimerism', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned on, this locus cannot be added to the secondary genotype caused by chimerism.') !!}
+        </div>
         <div class="form-group">
             {!! Form::checkbox('is_visible', 1, $locus->id ? $locus->is_visible : 1, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
             {!! Form::label('is_visible', 'Is Visible', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned off, the locus will not be visible in the locus list or available for selection in search. Permissioned staff will still be able to add traits to them, however.') !!}

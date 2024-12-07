@@ -11,7 +11,7 @@ class FeatureLocus extends Model {
      * @var array
      */
     protected $fillable = [
-        'name', 'default_allele', 'sort', 'description', 'parsed_description', 'default_allele_leads', 'is_visible',
+        'name', 'default_allele', 'sort', 'description', 'parsed_description', 'default_allele_leads', 'restrict_chimeric', 'is_visible',
     ];
 
     /**
@@ -42,6 +42,13 @@ class FeatureLocus extends Model {
         'default_allele' => 'required|between:1,5',
         'description'    => 'nullable',
     ];
+
+    /**
+     * Whether the model contains timestamps to be saved and updated.
+     *
+     * @var string
+     */
+    public $timestamps = false;
 
     /**********************************************************************************************
 
@@ -76,6 +83,10 @@ class FeatureLocus extends Model {
         }
 
         return $query->where('is_visible', 1);
+    }
+
+    public function scopeAllowsChimeric($query) {
+        return $query->where('restrict_chimeric', 0);
     }
 
     /**********************************************************************************************

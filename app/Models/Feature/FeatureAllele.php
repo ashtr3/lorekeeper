@@ -43,6 +43,13 @@ class FeatureAllele extends Model {
         'description'      => 'nullable',
     ];
 
+    /**
+     * Whether the model contains timestamps to be saved and updated.
+     *
+     * @var string
+     */
+    public $timestamps = false;
+
     /**********************************************************************************************
 
         RELATIONS

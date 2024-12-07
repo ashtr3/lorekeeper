@@ -211,7 +211,7 @@ class FeatureController extends Controller {
     public function postCreateEditFeatureLocus(Request $request, FeatureService $service, $id = null) {
         $id ? $request->validate(FeatureLocus::$updateRules) : $request->validate(FeatureLocus::$createRules);
         $data = $request->only([
-            'name', 'default_allele', 'description', 'is_visible', 'default_allele_leads',
+            'name', 'default_allele', 'description', 'is_visible', 'default_allele_leads', 'restrict_chimeric',
         ]);
         if ($id && $service->updateFeatureLocus(FeatureLocus::find($id), $data, Auth::user())) {
             flash('Locus updated successfully.')->success();
@@ -558,8 +558,8 @@ class FeatureController extends Controller {
     public function postCreateEditFeature(Request $request, FeatureService $service, $id = null) {
         $id ? $request->validate(Feature::$updateRules) : $request->validate(Feature::$createRules);
         $data = $request->only([
-            'name', 'species_id', 'subtype_id', 'rarity_id', 'feature_category_id', 'description', 'image', 'remove_image', 'is_visible', 'is_genetic',
-            'trait_overrides', 'gene_requirements',
+            'name', 'species_id', 'subtype_id', 'rarity_id', 'feature_category_id', 'description', 'image', 'remove_image', 'is_visible', 
+            'is_genetic', 'enables_chimerism', 'trait_overrides', 'gene_requirements',
         ]);
         if ($id && $service->updateFeature(Feature::find($id), $data, Auth::user())) {
             flash('Trait updated successfully.')->success();

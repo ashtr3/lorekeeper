@@ -742,6 +742,10 @@ class FeatureService extends Service {
             $data['default_allele_leads'] = 0;
         }
 
+        if (!isset($data['restrict_chimeric'])) {
+            $data['restrict_chimeric'] = 0;
+        }
+
         if (!isset($data['is_visible'])) {
             $data['is_visible'] = 0;
         }
@@ -812,6 +816,9 @@ class FeatureService extends Service {
         }
         if (!isset($data['is_genetic'])) {
             $data['is_genetic'] = 0;
+        }
+        if (!isset($data['enables_chimerism'])) {
+            $data['enables_chimerism'] = 0;
         }
         if (isset($data['remove_image'])) {
             if ($feature && $feature->has_image && $data['remove_image']) {

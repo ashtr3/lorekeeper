@@ -12,7 +12,7 @@ class CharacterFeature extends Model {
      * @var array
      */
     protected $fillable = [
-        'character_image_id', 'feature_id', 'data', 'character_type',
+        'character_image_id', 'feature_id', 'data', 'character_type', 'is_chimeric',
     ];
 
     /**
