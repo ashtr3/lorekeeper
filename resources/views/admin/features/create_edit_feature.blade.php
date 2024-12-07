@@ -206,7 +206,7 @@
                 const dataId = $(element).data('id');
                 return !isNaN(dataId) ? parseInt(dataId, 10) : null;
             }).filter(function(id) {
-                return id !== null; 
+                return id !== null;
             });
             return indexes.length > 0 ? Math.max(...indexes) + 1 : 0;
         }
