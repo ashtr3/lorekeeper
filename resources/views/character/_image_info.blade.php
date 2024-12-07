@@ -79,7 +79,7 @@
                                             <strong>Miscellaneous:</strong>
                                         @endif
                                         @foreach ($group as $feature)
-                                            <div class="ml-md-2">{!! $feature->displayName !!} 
+                                            <div class="ml-md-2">{!! $feature->displayName !!}
                                                 @if ($feature->data)
                                                     ({{ $feature->data }})
                                                 @endif
@@ -103,10 +103,10 @@
                                     <div>
                                         @if ($feature->feature_category_id)
                                             <strong>{!! $feature->category->displayName !!}:</strong>
-                                            @endif {!! $feature->displayName !!} 
-                                            @if ($feature->data)
-                                                ({{ $feature->data }})
-                                            @endif
+                                        @endif {!! $feature->displayName !!}
+                                        @if ($feature->data)
+                                            ({{ $feature->data }})
+                                        @endif
                                     </div>
                                 @endforeach
                             @else
