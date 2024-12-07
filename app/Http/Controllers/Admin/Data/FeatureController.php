@@ -211,7 +211,7 @@ class FeatureController extends Controller {
     public function postCreateEditFeatureLocus(Request $request, FeatureService $service, $id = null) {
         $id ? $request->validate(FeatureLocus::$updateRules) : $request->validate(FeatureLocus::$createRules);
         $data = $request->only([
-            'name', 'default_allele', 'description', 'is_visible',
+            'name', 'default_allele', 'description', 'is_visible', 'default_allele_leads',
         ]);
         if ($id && $service->updateFeatureLocus(FeatureLocus::find($id), $data, Auth::user())) {
             flash('Locus updated successfully.')->success();
@@ -465,72 +465,6 @@ class FeatureController extends Controller {
             ->toArray();
 
         return response()->json(['0' => 'Select Allele'] + $alleles);
-    }
-
-    /**
-     * Creates or edits feature genetics.
-     *
-     * @param App\Services\FeatureService $service
-     * @param int|null                    $id
-     * @param mixed|null                  $allele
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function postCreateEditFeatureGenetics(Request $request, FeatureService $service, $id, $allele = null) {
-        $allele ? $request->validate(FeatureGene::$updateRules) : $request->validate(FeatureGene::$createRules);
-        $data = $request->only([
-            'feature_id', 'feature_allele_id', 'allow_homozygous', 'allow_heterozygous', 'allow_absent',
-        ]);
-
-        if ($allele && $service->updateFeatureGene(FeatureGene::where('feature_id', $id)->where('feature_allele_id', $allele)->first(), $data, Auth::user())) {
-            flash('Genetic requirement updated successfully.')->success();
-        } elseif (!$allele && $service->createFeatureGene($data, Auth::user())) {
-            flash('Genetic requirement created successfully.')->success();
-        } else {
-            foreach ($service->errors()->getMessages()['error'] as $error) {
-                flash($error)->error();
-            }
-        }
-
-        return redirect()->back();
-    }
-
-    /**
-     * Gets the feature genetics deletion modal.
-     *
-     * @param int   $id
-     * @param mixed $allele
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function getDeleteFeatureGenetics($id, $allele) {
-        $gene = FeatureGene::with('feature')->with('allele')->where('feature_id', $id)->where('feature_allele_id', $allele)->first();
-
-        return view('admin.features._delete_feature_genetics', [
-            'gene' => $gene,
-        ]);
-    }
-
-    /**
-     * Deletes feature genetics.
-     *
-     * @param App\Services\FeatureService $service
-     * @param int|null                    $id
-     * @param mixed                       $allele
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function postDeleteFeatureGenetics(Request $request, FeatureService $service, $id, $allele) {
-        $gene = FeatureGene::where('feature_id', $id)->where('feature_allele_id', $allele)->first();
-        if ($gene && $service->deleteFeatureGene($gene, Auth::user())) {
-            flash('Genetic requirement deleted successfully.')->success();
-        } else {
-            foreach ($service->errors()->getMessages()['error'] as $error) {
-                flash($error)->error();
-            }
-        }
-
-        return redirect()->back();
     }
 
     /**********************************************************************************************

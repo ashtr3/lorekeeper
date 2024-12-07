@@ -198,10 +198,13 @@
 
         function getNextIndex() {
             const rows = $('[data-id]');
-            return rows.length > 0 ?
-                Math.max(...$.map($('[data-id]'), function(element) {
-                    return parseInt($(element).data('id'), 10);
-                })) + 1 : 0;
+            const indexes = $.map(rows, function(element) {
+                const dataId = $(element).data('id');
+                return !isNaN(dataId) ? parseInt(dataId, 10) : null;
+            }).filter(function(id) {
+                return id !== null; 
+            });
+            return indexes.length > 0 ? Math.max(...indexes) + 1 : 0;
         }
 
         function addLocusListener(row) {
