@@ -574,7 +574,7 @@ class FeatureService extends Service {
                 $this->updateFeatureOnCharacters($feature);
             } else {
                 $feature->genetics()->delete();
-            }            
+            }
 
             if (!$this->logAdminAction($user, 'Updated Feature', 'Updated '.$feature->displayName)) {
                 throw new \Exception('Failed to log admin action.');
