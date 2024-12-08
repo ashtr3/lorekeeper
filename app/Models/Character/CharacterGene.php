@@ -107,7 +107,7 @@ class CharacterGene extends Model {
      * @param \Illuminate\Database\Eloquent\Builder  $query
      * @param \App\Models\Feature\FeatureAllele|null $allele
      *
-     * @return \Illuminate\Database\Eloquent\Builder $allele
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeHomozygous($query, $allele = null) {
         $query = $query->whereNotNull('primary_allele_id')->whereNotNull('secondary_allele_id')->whereColumn('primary_allele_id', 'secondary_allele_id');
@@ -127,7 +127,7 @@ class CharacterGene extends Model {
      * @param \Illuminate\Database\Eloquent\Builder  $query
      * @param \App\Models\Feature\FeatureAllele|null $allele
      *
-     * @return \Illuminate\Database\Eloquent\Builder $allele
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeHeterozygous($query, $allele = null) {
         $query = $query->whereColumn('primary_allele_id', '!=', 'secondary_allele_id');
@@ -147,7 +147,7 @@ class CharacterGene extends Model {
      * @param \Illuminate\Database\Eloquent\Builder  $query
      * @param \App\Models\Feature\FeatureAllele|null $allele
      *
-     * @return \Illuminate\Database\Eloquent\Builder $allele
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeAbsent($query, $allele = null) {
         if (!is_null($allele)) {
@@ -157,6 +157,28 @@ class CharacterGene extends Model {
         } else {
             return $query->whereNull('primary_allele_id')->whereNull('secondary_allele_id');
         }
+    }
+
+    /**
+     * Scope a query to show only the primary genes.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePrimary($query) {
+        return $query->where('is_chimeric', 0);
+    }
+
+    /**
+     * Scope a query to show only the secondary genes.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSecondary($query) {
+        return $query->where('is_chimeric', 1);
     }
 
     /**********************************************************************************************

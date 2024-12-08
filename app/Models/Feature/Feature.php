@@ -232,6 +232,35 @@ class Feature extends Model {
         return $query->where('is_genetic', $isGenetic);
     }
 
+    /**
+     * Scope a query to show only primary features.
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePrimary($query) {
+        return $query->where('is_chimeric', 0);
+    }
+
+    /**
+     * Scope a query to show only secondary features.
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSecondary($query) {
+        return $query->where('is_chimeric', 1);
+    }
+
+    /**
+     * Scope a query to show only non-overridden features.
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeExcludeOverridden($query) {
         $ids = $query->pluck('features.id')->toArray();
 

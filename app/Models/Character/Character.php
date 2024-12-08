@@ -351,8 +351,12 @@ class Character extends Model {
     /**
      * Gets the character's genotype.
      */
-    public function getGenotypeAttribute() {
-        return $this->genetics->pluck('genotype')->implode('/');
+    public function getDisplayGenotypeAttribute() {
+        $genotype = $this->genetics()->primary()->get()->pluck('genotype')->implode('/');
+        if ($this->isChimeric) {
+            $genotype .= '//' . $this->genetics()->secondary()->get()->pluck('genotype')->implode('/');
+        }
+        return $genotype;
     }
 
     /**
@@ -387,16 +391,32 @@ class Character extends Model {
     }
 
     /**
+     * Checks if a character has a trait enabling chimerism.
+     * 
+     * @return bool
+     */
+    public function getIsChimericAttribute() {
+        return $this->image->features->contains('enables_chimerism', 1);
+    }
+
+    /**
      * Checks if a character's genetics meet a feature's requirements.
+     * 
+     * @param App\Models\Feature\Feature $feature
+     * @param bool                       $checkChimeric
      *
      * @return bool
      */
-    public function canHaveGeneticFeature(Feature $feature) {
+    public function canHaveGeneticFeature(Feature $feature, $checkChimeric = false) {
         $requirements = $feature->genetics()->get();
         $matches = 0;
 
         foreach ($requirements as $req) {
-            $geneQuery = $this->genetics();
+            if ($checkChimeric) {
+                $geneQuery = $this->genetics()->secondary();
+            } else {
+                $geneQuery = $this->genetics()->primary();
+            }
             $matchFound = false;
 
             $homozygous = clone $geneQuery;

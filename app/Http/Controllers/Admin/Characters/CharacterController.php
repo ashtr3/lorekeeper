@@ -274,6 +274,7 @@ class CharacterController extends Controller {
         return view('character.admin._edit_genetics_modal', [
             'character' => $this->character,
             'loci'      => ['0' => 'Select Locus'] + FeatureLocus::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'loci_c'    => ['0' => 'Select Locus'] + FeatureLocus::where('restrict_chimeric', 0)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'isMyo'     => false,
         ]);
     }
@@ -294,6 +295,7 @@ class CharacterController extends Controller {
         return view('character.admin._edit_genetics_modal', [
             'character' => $this->character,
             'loci'      => ['0' => 'Select Locus'] + FeatureLocus::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'loci_c'    => ['0' => 'Select Locus'] + FeatureLocus::where('restrict_chimeric', 0)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'isMyo'     => true,
         ]);
     }
@@ -338,13 +340,14 @@ class CharacterController extends Controller {
      */
     public function postEditMyoGenetics(Request $request, CharacterManager $service, $id) {
         $data = $request->only(['genetics']);
+        $features = Feature::genetic()->get();
 
         $this->character = Character::where('is_myo_slot', 1)->where('id', $id)->first();
         if (!$this->character) {
             abort(404);
         }
 
-        if ($service->updateCharacterGenetics($data, $this->character, Auth::user())) {
+        if ($service->updateCharacterGenetics($data, $this->character, $features, Auth::user())) {
             flash('Character genetics updated successfully.')->success();
 
             return redirect()->to($this->character->url);

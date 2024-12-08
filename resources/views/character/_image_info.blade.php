@@ -66,6 +66,7 @@
                             @php
                                 $traitgroup = $image
                                     ->features()
+                                    ->primary()
                                     ->excludeOverridden()
                                     ->get()
                                     ->groupBy('feature_category_id');
@@ -95,6 +96,7 @@
                         <div>
                             <?php $features = $image
                                 ->features()
+                                ->primary()
                                 ->excludeOverridden()
                                 ->with('category')
                                 ->get(); ?>
@@ -115,6 +117,68 @@
                         </div>
                     @endif
                 </div>
+
+                <div class="mb-3">
+                    <div>
+                        <h5>Traits (Chimeric)</h5>
+                    </div>
+                    @if (config('lorekeeper.extensions.traits_by_category'))
+                        <div>
+                            @php
+                                $traitgroup = $image
+                                    ->features()
+                                    ->secondary()
+                                    ->excludeOverridden()
+                                    ->get()
+                                    ->groupBy('feature_category_id');
+                            @endphp
+                            @if ($image->features()->count())
+                                @foreach ($traitgroup as $key => $group)
+                                    <div class="mb-2">
+                                        @if ($key)
+                                            <strong>{!! $group->first()->category->displayName !!}:</strong>
+                                        @else
+                                            <strong>Miscellaneous:</strong>
+                                        @endif
+                                        @foreach ($group as $feature)
+                                            <div class="ml-md-2">{!! $feature->displayName !!}
+                                                @if ($feature->data)
+                                                    ({{ $feature->data }})
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endforeach
+                            @else
+                                <div>No traits listed.</div>
+                            @endif
+                        </div>
+                    @else
+                        <div>
+                            <?php $features = $image
+                                ->features()
+                                ->secondary()
+                                ->excludeOverridden()
+                                ->with('category')
+                                ->get(); ?>
+                            @if ($features->count())
+                                @foreach ($features as $feature)
+                                    <div>
+                                        @if ($feature->feature_category_id)
+                                            <strong>{!! $feature->category->displayName !!}:</strong>
+                                        @endif {!! $feature->displayName !!}
+                                        @if ($feature->data)
+                                            ({{ $feature->data }})
+                                        @endif
+                                    </div>
+                                @endforeach
+                            @else
+                                <div>No traits listed.</div>
+                            @endif
+                        </div>
+                    @endif
+                </div>
+
                 <div>
                     <strong>Uploaded:</strong> {!! pretty_date($image->created_at) !!}
                 </div>

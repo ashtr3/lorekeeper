@@ -699,8 +699,8 @@ class CharacterManager extends Service {
                 })
                 ->delete();
 
-            // Attach genetics
-            foreach ($data['genetics'] as $key => $gene) {
+            // Attach primary genetics
+            foreach ($data['genetics']['primary'] as $key => $gene) {
                 if ($gene['locus_id']) {
                     $character->genetics()->create([
                         'locus_id'            => $gene['locus_id'],
@@ -710,7 +710,7 @@ class CharacterManager extends Service {
                 }
             }
 
-            // Attach features
+            // Attach primary features
             foreach ($features as $feature) {
                 if ($character->canHaveGeneticFeature($feature)) {
                     CharacterFeature::create([
@@ -719,6 +719,33 @@ class CharacterManager extends Service {
                         'data'               => $feature->data,
                         'character_type'     => 'Character',
                     ]);
+                }
+            }
+
+            if ($character->isChimeric) {
+                // Attach secondary genetics (if chimeric)
+                foreach ($data['genetics']['secondary'] as $key => $gene) {
+                    if ($gene['locus_id']) {
+                        $character->genetics()->create([
+                            'locus_id'            => $gene['locus_id'],
+                            'primary_allele_id'   => $gene['primary_allele_id'],
+                            'secondary_allele_id' => $gene['secondary_allele_id'],
+                            'is_chimeric'         => 1,
+                        ]);
+                    }
+                }
+
+                // Attach secondary features (if chimeric)
+                foreach ($features as $feature) {
+                    if ($character->canHaveGeneticFeature($feature, true)) {
+                        CharacterFeature::create([
+                            'character_image_id' => $character->image->id,
+                            'feature_id'         => $feature->id,
+                            'data'               => $feature->data,
+                            'character_type'     => 'Character',
+                            'is_chimeric'        => 1,
+                        ]);
+                    }
                 }
             }
 

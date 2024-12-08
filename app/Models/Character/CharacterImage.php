@@ -121,6 +121,7 @@ class CharacterImage extends Model {
     public function features() {
         return $this->hasManyThrough(Feature::class, CharacterFeature::class, 'character_image_id', 'id', 'id', 'feature_id')
             ->leftJoin('feature_categories', 'feature_categories.id', '=', 'features.feature_category_id')
+            ->select('features.*', 'feature_categories.sort', 'character_features.data', 'character_features.is_chimeric')
             ->orderByDesc('feature_categories.sort');
     }
 
