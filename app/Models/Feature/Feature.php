@@ -234,7 +234,7 @@ class Feature extends Model {
 
     /**
      * Scope a query to show only primary features.
-     * 
+     *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *
      * @return \Illuminate\Database\Eloquent\Builder
@@ -245,7 +245,7 @@ class Feature extends Model {
 
     /**
      * Scope a query to show only secondary features.
-     * 
+     *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *
      * @return \Illuminate\Database\Eloquent\Builder
@@ -256,7 +256,7 @@ class Feature extends Model {
 
     /**
      * Scope a query to show only non-overridden features.
-     * 
+     *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *
      * @return \Illuminate\Database\Eloquent\Builder

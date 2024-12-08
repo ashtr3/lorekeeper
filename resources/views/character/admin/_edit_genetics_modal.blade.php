@@ -18,11 +18,13 @@
             </tr>
         </thead>
         <tbody>
-            @if (!count($character->genetics()->primary()->get()))
+            @if (
+                !count(
+                    $character->genetics()->primary()->get()))
                 <tr class="gene-row" data-id="0">
-                    <td>{!! Form::select("genetics[primary][0][locus_id]", $loci, null, ['class' => 'form-control locus-input']) !!}</td>
-                    <td>{!! Form::select("genetics[primary][0][primary_allele_id]", ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
-                    <td>{!! Form::select("genetics[primary][0][secondary_allele_id]", ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                    <td>{!! Form::select('genetics[primary][0][locus_id]', $loci, null, ['class' => 'form-control locus-input']) !!}</td>
+                    <td>{!! Form::select('genetics[primary][0][primary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                    <td>{!! Form::select('genetics[primary][0][secondary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
                     <td class="d-flex">
                         <button type="button" href="#" class="btn btn-sm btn-outline-danger delete-gene-button" disabled>
                             <i class="fas fa-times"></i>
@@ -34,7 +36,9 @@
                     <tr class="gene-row" data-id="{{ $index }}">
                         <td>{!! Form::select("genetics[primary][$index][locus_id]", $loci, $gene->locus_id ?? null, ['class' => 'form-control locus-input']) !!}</td>
                         <td>{!! Form::select("genetics[primary][$index][primary_allele_id]", ['0' => 'Select Allele'] + ($gene ? $gene->locus->alleles->pluck('allele', 'id')->toArray() : []), $gene->primary_allele_id ?? null, ['class' => 'form-control allele-input']) !!}</td>
-                        <td>{!! Form::select("genetics[primary][$index][secondary_allele_id]", ['0' => 'Select Allele'] + ($gene ? $gene->locus->alleles->pluck('allele', 'id')->toArray() : []), $gene->secondary_allele_id ?? null, ['class' => 'form-control allele-input']) !!}</td>
+                        <td>{!! Form::select("genetics[primary][$index][secondary_allele_id]", ['0' => 'Select Allele'] + ($gene ? $gene->locus->alleles->pluck('allele', 'id')->toArray() : []), $gene->secondary_allele_id ?? null, [
+                            'class' => 'form-control allele-input',
+                        ]) !!}</td>
                         <td class="d-flex">
                             <button type="button" href="#" class="btn btn-sm btn-outline-danger delete-gene-button" {{ count($character->genetics) <= 1 ? 'disabled' : '' }}>
                                 <i class="fas fa-times"></i>
@@ -64,11 +68,13 @@
             </tr>
         </thead>
         <tbody>
-            @if (!count($character->genetics()->secondary()->get()))
+            @if (
+                !count(
+                    $character->genetics()->secondary()->get()))
                 <tr class="gene-row" data-id="0">
-                    <td>{!! Form::select("genetics[secondary][0][locus_id]", $loci_c, null, ['class' => 'form-control locus-input']) !!}</td>
-                    <td>{!! Form::select("genetics[secondary][0][primary_allele_id]", ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
-                    <td>{!! Form::select("genetics[secondary][0][secondary_allele_id]", ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                    <td>{!! Form::select('genetics[secondary][0][locus_id]', $loci_c, null, ['class' => 'form-control locus-input']) !!}</td>
+                    <td>{!! Form::select('genetics[secondary][0][primary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                    <td>{!! Form::select('genetics[secondary][0][secondary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
                     <td class="d-flex">
                         <button type="button" href="#" class="btn btn-sm btn-outline-danger delete-gene-button" disabled>
                             <i class="fas fa-times"></i>
@@ -80,7 +86,9 @@
                     <tr class="gene-row" data-id="{{ $index }}">
                         <td>{!! Form::select("genetics[secondary][$index][locus_id]", $loci_c, $gene->locus_id ?? null, ['class' => 'form-control locus-input']) !!}</td>
                         <td>{!! Form::select("genetics[secondary][$index][primary_allele_id]", ['0' => 'Select Allele'] + ($gene ? $gene->locus->alleles->pluck('allele', 'id')->toArray() : []), $gene->primary_allele_id ?? null, ['class' => 'form-control allele-input']) !!}</td>
-                        <td>{!! Form::select("genetics[secondary][$index][secondary_allele_id]", ['0' => 'Select Allele'] + ($gene ? $gene->locus->alleles->pluck('allele', 'id')->toArray() : []), $gene->secondary_allele_id ?? null, ['class' => 'form-control allele-input']) !!}</td>
+                        <td>{!! Form::select("genetics[secondary][$index][secondary_allele_id]", ['0' => 'Select Allele'] + ($gene ? $gene->locus->alleles->pluck('allele', 'id')->toArray() : []), $gene->secondary_allele_id ?? null, [
+                            'class' => 'form-control allele-input',
+                        ]) !!}</td>
                         <td class="d-flex">
                             <button type="button" href="#" class="btn btn-sm btn-outline-danger delete-gene-button" {{ count($character->genetics) <= 1 ? 'disabled' : '' }}>
                                 <i class="fas fa-times"></i>
@@ -145,7 +153,7 @@
             const count = secondary.find('.gene-row').length;
             toggleDeleteButtons(secondary, count > 1);
         });
-        
+
         primary.on('click', '.delete-gene-button', function(e) {
             e.preventDefault();
             $(this).closest('tr').remove();
