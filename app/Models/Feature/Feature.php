@@ -373,13 +373,14 @@ class Feature extends Model {
         }
 
         if (config('lorekeeper.extensions.organised_traits_dropdown')) {
+            $sorted_feature_categories = collect(FeatureCategory::all()->where('is_visible', '>=', $visibleOnly)->sortBy('sort')->pluck('name')->toArray());
+            
             if (!is_null($withGenetic)) {
-                $sorted_feature_categories = collect(FeatureCategory::all()->where('is_visible', '>=', $visibleOnly)->where('is_genetic', $withGenetic)->sortBy('sort')->pluck('name')->toArray());
+                $grouped = self::where('is_visible', '>=', $visibleOnly)->where('is_genetic', $withGenetic)->select('name', 'id', 'feature_category_id')->with('category')->orderBy('name')->get()->keyBy('id')->groupBy('category.name', $preserveKeys = true)->toArray();
             } else {
-                $sorted_feature_categories = collect(FeatureCategory::all()->where('is_visible', '>=', $visibleOnly)->sortBy('sort')->pluck('name')->toArray());
+                $grouped = self::where('is_visible', '>=', $visibleOnly)->select('name', 'id', 'feature_category_id')->with('category')->orderBy('name')->get()->keyBy('id')->groupBy('category.name', $preserveKeys = true)->toArray();
             }
 
-            $grouped = self::where('is_visible', '>=', $visibleOnly)->where('is_genetic', 0)->select('name', 'id', 'feature_category_id')->with('category')->orderBy('name')->get()->keyBy('id')->groupBy('category.name', $preserveKeys = true)->toArray();
             if (isset($grouped[''])) {
                 if (!$sorted_feature_categories->contains('Miscellaneous')) {
                     $sorted_feature_categories->push('Miscellaneous');
