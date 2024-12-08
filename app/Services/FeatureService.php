@@ -491,9 +491,10 @@ class FeatureService extends Service {
 
             $this->updateFeatureOverrides($data, $feature);
 
-            $this->updateFeatureGenetics($data, $feature, $user);
-
-            $this->updateFeatureOnCharacters($feature);
+            if ($feature->is_genetic) {
+                $this->updateFeatureGenetics($data, $feature, $user);
+                $this->updateFeatureOnCharacters($feature);
+            }
 
             if (!$this->logAdminAction($user, 'Created Feature', 'Created '.$feature->displayName)) {
                 throw new \Exception('Failed to log admin action.');
@@ -568,9 +569,12 @@ class FeatureService extends Service {
 
             $this->updateFeatureOverrides($data, $feature);
 
-            $this->updateFeatureGenetics($data, $feature, $user);
-
-            $this->updateFeatureOnCharacters($feature);
+            if ($feature->is_genetic) {
+                $this->updateFeatureGenetics($data, $feature, $user);
+                $this->updateFeatureOnCharacters($feature);
+            } else {
+                $feature->genetics()->delete();
+            }            
 
             if (!$this->logAdminAction($user, 'Updated Feature', 'Updated '.$feature->displayName)) {
                 throw new \Exception('Failed to log admin action.');

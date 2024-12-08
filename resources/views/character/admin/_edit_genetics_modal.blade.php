@@ -51,55 +51,57 @@
     </table>
 </div>
 
-<div>
-    <div class="d-flex align-items-end justify-content-between mb-3">
-        <div>
-            <h5>Secondary Genotype</h5>
-            <p class="mb-0">This is the secondary genotype available only to characters with a trait that enables chimerism.</p>
+@if ($character->isChimeric)
+    <div>
+        <div class="d-flex align-items-end justify-content-between mb-3">
+            <div>
+                <h5>Secondary Genotype</h5>
+                <p class="mb-0">This is the secondary genotype available only to characters with a trait that enables chimerism.</p>
+            </div>
+            <a class="btn btn-primary add-secondary-gene-button" href="#"><i class="fas fa-plus"></i> Add Gene</a>
         </div>
-        <a class="btn btn-primary add-secondary-gene-button" href="#"><i class="fas fa-plus"></i> Add Gene</a>
-    </div>
-    <table class="table table-sm genetics-secondary-table">
-        <thead>
-            <tr>
-                <th width="50%">Locus</th>
-                <th width="25%">Allele 1</th>
-                <th width="25%" colspan="2">Allele 2</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (
-                !count(
-                    $character->genetics()->secondary()->get()))
-                <tr class="gene-row" data-id="0">
-                    <td>{!! Form::select('genetics[secondary][0][locus_id]', $loci_c, null, ['class' => 'form-control locus-input']) !!}</td>
-                    <td>{!! Form::select('genetics[secondary][0][primary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
-                    <td>{!! Form::select('genetics[secondary][0][secondary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
-                    <td class="d-flex">
-                        <button type="button" href="#" class="btn btn-sm btn-outline-danger delete-gene-button" disabled>
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </td>
+        <table class="table table-sm genetics-secondary-table">
+            <thead>
+                <tr>
+                    <th width="50%">Locus</th>
+                    <th width="25%">Allele 1</th>
+                    <th width="25%" colspan="2">Allele 2</th>
                 </tr>
-            @else
-                @foreach ($character->genetics()->secondary()->get() as $index => $gene)
-                    <tr class="gene-row" data-id="{{ $index }}">
-                        <td>{!! Form::select("genetics[secondary][$index][locus_id]", $loci_c, $gene->locus_id ?? null, ['class' => 'form-control locus-input']) !!}</td>
-                        <td>{!! Form::select("genetics[secondary][$index][primary_allele_id]", ['0' => 'Select Allele'] + ($gene ? $gene->locus->alleles->pluck('allele', 'id')->toArray() : []), $gene->primary_allele_id ?? null, ['class' => 'form-control allele-input']) !!}</td>
-                        <td>{!! Form::select("genetics[secondary][$index][secondary_allele_id]", ['0' => 'Select Allele'] + ($gene ? $gene->locus->alleles->pluck('allele', 'id')->toArray() : []), $gene->secondary_allele_id ?? null, [
-                            'class' => 'form-control allele-input',
-                        ]) !!}</td>
+            </thead>
+            <tbody>
+                @if (
+                    !count(
+                        $character->genetics()->secondary()->get()))
+                    <tr class="gene-row" data-id="0">
+                        <td>{!! Form::select('genetics[secondary][0][locus_id]', $loci_c, null, ['class' => 'form-control locus-input']) !!}</td>
+                        <td>{!! Form::select('genetics[secondary][0][primary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                        <td>{!! Form::select('genetics[secondary][0][secondary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
                         <td class="d-flex">
-                            <button type="button" href="#" class="btn btn-sm btn-outline-danger delete-gene-button" {{ count($character->genetics) <= 1 ? 'disabled' : '' }}>
+                            <button type="button" href="#" class="btn btn-sm btn-outline-danger delete-gene-button" disabled>
                                 <i class="fas fa-times"></i>
                             </button>
                         </td>
                     </tr>
-                @endforeach
-            @endif
-        </tbody>
-    </table>
-</div>
+                @else
+                    @foreach ($character->genetics()->secondary()->get() as $index => $gene)
+                        <tr class="gene-row" data-id="{{ $index }}">
+                            <td>{!! Form::select("genetics[secondary][$index][locus_id]", $loci_c, $gene->locus_id ?? null, ['class' => 'form-control locus-input']) !!}</td>
+                            <td>{!! Form::select("genetics[secondary][$index][primary_allele_id]", ['0' => 'Select Allele'] + ($gene ? $gene->locus->alleles->pluck('allele', 'id')->toArray() : []), $gene->primary_allele_id ?? null, ['class' => 'form-control allele-input']) !!}</td>
+                            <td>{!! Form::select("genetics[secondary][$index][secondary_allele_id]", ['0' => 'Select Allele'] + ($gene ? $gene->locus->alleles->pluck('allele', 'id')->toArray() : []), $gene->secondary_allele_id ?? null, [
+                                'class' => 'form-control allele-input',
+                            ]) !!}</td>
+                            <td class="d-flex">
+                                <button type="button" href="#" class="btn btn-sm btn-outline-danger delete-gene-button" {{ count($character->genetics) <= 1 ? 'disabled' : '' }}>
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+            </tbody>
+        </table>
+    </div>
+@endif
 
 <div class="text-right">
     {!! Form::submit('Edit', ['class' => 'btn btn-primary']) !!}
