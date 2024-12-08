@@ -354,8 +354,9 @@ class Character extends Model {
     public function getDisplayGenotypeAttribute() {
         $genotype = $this->genetics()->primary()->get()->pluck('genotype')->implode('/');
         if ($this->isChimeric) {
-            $genotype .= '//' . $this->genetics()->secondary()->get()->pluck('genotype')->implode('/');
+            $genotype .= '//'.$this->genetics()->secondary()->get()->pluck('genotype')->implode('/');
         }
+
         return $genotype;
     }
 
@@ -392,7 +393,7 @@ class Character extends Model {
 
     /**
      * Checks if a character has a trait enabling chimerism.
-     * 
+     *
      * @return bool
      */
     public function getIsChimericAttribute() {
@@ -401,7 +402,7 @@ class Character extends Model {
 
     /**
      * Checks if a character's genetics meet a feature's requirements.
-     * 
+     *
      * @param App\Models\Feature\Feature $feature
      * @param bool                       $checkChimeric
      *
