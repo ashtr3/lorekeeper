@@ -8,7 +8,7 @@
     <div class="col-lg-3 col-5">
         <h5>Is Chimeric</h5>
     </div>
-    <div class="col-lg-9 col-7">{!! $character->isChimeric ? "True" : "False" !!}</div>
+    <div class="col-lg-9 col-7">{!! $character->isChimeric ? 'True' : 'False' !!}</div>
 </div>
 @if (Auth::check() && Auth::user()->hasPower('manage_characters'))
     <div class="mt-3">
