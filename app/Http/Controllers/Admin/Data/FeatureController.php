@@ -558,7 +558,7 @@ class FeatureController extends Controller {
     public function postCreateEditFeature(Request $request, FeatureService $service, $id = null) {
         $id ? $request->validate(Feature::$updateRules) : $request->validate(Feature::$createRules);
         $data = $request->only([
-            'name', 'species_id', 'subtype_id', 'rarity_id', 'feature_category_id', 'description', 'image', 'remove_image', 'is_visible', 
+            'name', 'species_id', 'subtype_id', 'rarity_id', 'feature_category_id', 'description', 'image', 'remove_image', 'is_visible',
             'is_genetic', 'enables_chimerism', 'trait_overrides', 'gene_requirements',
         ]);
         if ($id && $service->updateFeature(Feature::find($id), $data, Auth::user())) {

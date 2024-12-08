@@ -13,7 +13,7 @@ class FeatureOverride extends Model {
     protected $fillable = [
         'override_id', 'hidden_id',
     ];
-    
+
     /**
      * Whether the model contains timestamps to be saved and updated.
      *
