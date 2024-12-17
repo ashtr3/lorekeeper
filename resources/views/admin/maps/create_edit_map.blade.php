@@ -40,10 +40,10 @@
         <a id="add-conversion-button" class="btn btn-primary" href="#"><i class="fas fa-plus"></i> Add Conversion</a>
     </div>
     <div id="conversion-list">
-        @foreach($map->conversions as $index => $conversion)
+        @foreach ($map->conversions as $index => $conversion)
             <div class="d-flex mb-2" data-id="{{ $index }}">
                 <select name="conversions[{{ $index }}][]" class="conversion-input form-control mr-2" placeholder="Enter Source Genotypes" multiple>
-                    @foreach($conversion as $gene)
+                    @foreach ($conversion as $gene)
                         <option value="{{ $gene }}" selected>{{ $gene }}</option>
                     @endforeach
                 </select>
@@ -51,7 +51,7 @@
             </div>
         @endforeach
         <div class="conversion-row hide d-flex mb-2">
-            {!! Form::select('conversions[][]', [], null, ['class' => 'conversion-input form-control mr-2', 'placeholder' => 'Enter Source Genotypes', 'multiple' ]) !!}
+            {!! Form::select('conversions[][]', [], null, ['class' => 'conversion-input form-control mr-2', 'placeholder' => 'Enter Source Genotypes', 'multiple']) !!}
             <a href="#" class="remove-conversion-button btn btn-danger mb-2">×</a>
         </div>
     </div>
@@ -74,20 +74,20 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($map->genetics as $index => $gene)
+            @foreach ($map->genetics as $index => $gene)
                 <tr data-id="{{ $index }}">
                     <td>{!! Form::select("genetics[$index][locus_id]", $loci, $gene->locus_id, ['class' => 'form-control locus-input']) !!}</td>
-                    <td>{!! Form::select("genetics[$index][primary_allele_id]", ['0' => 'Select Allele'] + ($gene->locus->alleles->pluck('allele', 'id')->toArray()), $gene->primary_allele_id, ['class' => 'form-control allele-input']) !!}</td>
-                    <td>{!! Form::select("genetics[$index][secondary_allele_id]", ['0' => 'Select Allele'] + ($gene->locus->alleles->pluck('allele', 'id')->toArray()), $gene->secondary_allele_id, ['class' => 'form-control allele-input']) !!}</td>
+                    <td>{!! Form::select("genetics[$index][primary_allele_id]", ['0' => 'Select Allele'] + $gene->locus->alleles->pluck('allele', 'id')->toArray(), $gene->primary_allele_id, ['class' => 'form-control allele-input']) !!}</td>
+                    <td>{!! Form::select("genetics[$index][secondary_allele_id]", ['0' => 'Select Allele'] + $gene->locus->alleles->pluck('allele', 'id')->toArray(), $gene->secondary_allele_id, ['class' => 'form-control allele-input']) !!}</td>
                     <td class="d-flex">
                         <a href="#" class="remove-gene-button btn btn-danger">×</a>
                     </td>
                 </tr>
             @endforeach
             <tr class="gene-row hide">
-                <td>{!! Form::select("genetics[][locus_id]", $loci, null, ['class' => 'form-control locus-input']) !!}</td>
-                <td>{!! Form::select("genetics[][primary_allele_id]", ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
-                <td>{!! Form::select("genetics[][secondary_allele_id]", ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                <td>{!! Form::select('genetics[][locus_id]', $loci, null, ['class' => 'form-control locus-input']) !!}</td>
+                <td>{!! Form::select('genetics[][primary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                <td>{!! Form::select('genetics[][secondary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
                 <td class="d-flex">
                     <a href="#" class="remove-gene-button btn btn-danger">×</a>
                 </td>
@@ -112,8 +112,11 @@
                 $(this).selectize({
                     delimiter: ",",
                     persist: false,
-                    create: function (input) {
-                        return { value: input, text: input };
+                    create: function(input) {
+                        return {
+                            value: input,
+                            text: input
+                        };
                     }
                 });
             });
@@ -137,13 +140,16 @@
                     const newName = name.replace('[][]', `[${nextIndex}][]`);
                     $(this).attr('name', newName);
                 });
-                
+
                 clone.find('.conversion-input').each(function() {
                     $(this).selectize({
                         delimiter: ",",
                         persist: false,
-                        create: function (input) {
-                            return { value: input, text: input };
+                        create: function(input) {
+                            return {
+                                value: input,
+                                text: input
+                            };
                         }
                     });
                 });
