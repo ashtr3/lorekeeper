@@ -374,7 +374,7 @@ class Feature extends Model {
 
         if (config('lorekeeper.extensions.organised_traits_dropdown')) {
             $sorted_feature_categories = collect(FeatureCategory::all()->where('is_visible', '>=', $visibleOnly)->sortBy('sort')->pluck('name')->toArray());
-            
+
             if (!is_null($withGenetic)) {
                 $grouped = self::where('is_visible', '>=', $visibleOnly)->where('is_genetic', $withGenetic)->select('name', 'id', 'feature_category_id')->with('category')->orderBy('name')->get()->keyBy('id')->groupBy('category.name', $preserveKeys = true)->toArray();
             } else {
