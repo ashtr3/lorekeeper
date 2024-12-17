@@ -10,8 +10,7 @@ use App\Services\MapService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class MapController extends Controller
-{
+class MapController extends Controller {
     /*
     |--------------------------------------------------------------------------
     | Admin / Map Controller
@@ -51,6 +50,8 @@ class MapController extends Controller
 
     /**
      * Shows the edit character map category page.
+     *
+     * @param mixed $id
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -177,6 +178,8 @@ class MapController extends Controller
     /**
      * Shows the edit character map page.
      *
+     * @param mixed $id
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getEditMap($id) {
@@ -208,6 +211,7 @@ class MapController extends Controller
             flash('Map updated successfully.')->success();
         } elseif (!$id && $map = $service->createMap($data, Auth::user())) {
             flash('Map created successfully.')->success();
+
             return redirect()->to('admin/data/maps/edit/'.$map->id);
         } else {
             foreach ($service->errors()->getMessages()['error'] as $error) {

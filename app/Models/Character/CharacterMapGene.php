@@ -6,8 +6,7 @@ use App\Models\Feature\FeatureAllele;
 use App\Models\Feature\FeatureLocus;
 use Illuminate\Database\Eloquent\Model;
 
-class CharacterMapGene extends Model
-{
+class CharacterMapGene extends Model {
     /**
      * The attributes that are mass assignable.
      *
@@ -23,6 +22,13 @@ class CharacterMapGene extends Model
      * @var string
      */
     protected $table = 'character_map_genetics';
+
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['map', 'locus', 'primary_allele', 'secondary_allele'];
 
     /**
      * Validation rules for character map gene creation.
@@ -54,13 +60,6 @@ class CharacterMapGene extends Model
      * @var string
      */
     public $timestamps = false;
-
-    /**
-     * The relationships that should always be loaded.
-     *
-     * @var array
-     */
-    protected $with = ['map', 'locus', 'primary_allele', 'secondary_allele'];
 
     /**********************************************************************************************
 

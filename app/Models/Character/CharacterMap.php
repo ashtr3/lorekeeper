@@ -2,11 +2,9 @@
 
 namespace App\Models\Character;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CharacterMap extends Model
-{
+class CharacterMap extends Model {
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +20,10 @@ class CharacterMap extends Model
      * @var string
      */
     protected $table = 'character_maps';
+
+    protected $casts = [
+        'conversions' => 'array',
+    ];
 
     /**
      * Validation rules for character map creation.
@@ -51,10 +53,6 @@ class CharacterMap extends Model
      * @var string
      */
     public $timestamps = false;
-
-    protected $casts = [
-        'conversions' => 'array',
-    ];
 
     /**********************************************************************************************
 

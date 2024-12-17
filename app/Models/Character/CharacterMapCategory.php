@@ -2,11 +2,9 @@
 
 namespace App\Models\Character;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CharacterMapCategory extends Model
-{
+class CharacterMapCategory extends Model {
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +20,13 @@ class CharacterMapCategory extends Model
      * @var string
      */
     protected $table = 'character_map_categories';
+
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['maps'];
 
     /**
      * Validation rules for character map category creation.
@@ -47,13 +52,6 @@ class CharacterMapCategory extends Model
      * @var string
      */
     public $timestamps = false;
-
-    /**
-     * The relationships that should always be loaded.
-     *
-     * @var array
-     */
-    protected $with = ['maps'];
 
     /**********************************************************************************************
 
@@ -91,5 +89,4 @@ class CharacterMapCategory extends Model
     public function getAdminUrlAttribute() {
         return url('admin/data/map-categories/edit/'.$this->id);
     }
-
 }

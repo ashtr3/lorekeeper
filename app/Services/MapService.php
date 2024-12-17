@@ -25,10 +25,10 @@ class MapService extends Service {
 
     /**
      * Create a character map category.
-     * 
+     *
      * @param array                 $data
      * @param \App\Models\User\User $user
-     * 
+     *
      * @return \App\Models\Character\CharacterMapCategory
      */
     public function createMapCategory($data, $user) {
@@ -37,7 +37,7 @@ class MapService extends Service {
         try {
             $category = CharacterMapCategory::create($data);
 
-            if (!$this->logAdminAction($user, 'Created Character Map Category', "Created $category->displayName category")) {
+            if (!$this->logAdminAction($user, 'Created Character Map Category', "Created {$category->displayName} category")) {
                 throw new Exception('Failed to log admin action.');
             }
 
@@ -51,11 +51,11 @@ class MapService extends Service {
 
     /**
      * Update a character map category.
-     * 
+     *
      * @param \App\Models\Character\CharacterMapCategory $category
      * @param array                                      $data
      * @param \App\Models\User\User                      $user
-     * 
+     *
      * @return \App\Models\Character\CharacterMapCategory
      */
     public function updateMapCategory($category, $data, $user) {
@@ -69,7 +69,7 @@ class MapService extends Service {
 
             $category->update($data);
 
-            if (!$this->logAdminAction($user, 'Updated Character Map Category', "Updated $category->displayName category")) {
+            if (!$this->logAdminAction($user, 'Updated Character Map Category', "Updated {$category->displayName} category")) {
                 throw new Exception('Failed to log admin action.');
             }
 
@@ -83,10 +83,10 @@ class MapService extends Service {
 
     /**
      * Delete a character map category.
-     * 
+     *
      * @param \App\Models\Character\CharacterMapCategory $category
      * @param \App\Models\User\User                      $user
-     * 
+     *
      * @return bool
      */
     public function deleteMapCategory($category, $user) {
@@ -98,7 +98,7 @@ class MapService extends Service {
                 throw new Exception('A map with this category exists. Please change its category first.');
             }
 
-            if (!$this->logAdminAction($user, 'Delete Character Map Category', "Deleted $category->name category")) {
+            if (!$this->logAdminAction($user, 'Delete Character Map Category', "Deleted {$category->name} category")) {
                 throw new Exception('Failed to log admin action.');
             }
 
@@ -114,9 +114,9 @@ class MapService extends Service {
 
     /**
      * Sorts character map category order.
-     * 
+     *
      * @param string $data
-     * 
+     *
      * @return bool
      */
     public function sortMapCategory($data) {
@@ -146,10 +146,10 @@ class MapService extends Service {
 
     /**
      * Create a character map.
-     * 
+     *
      * @param array                 $data
      * @param \App\Models\User\User $user
-     * 
+     *
      * @return \App\Models\Character\CharacterMap
      */
     public function createMap($data, $user) {
@@ -171,7 +171,7 @@ class MapService extends Service {
 
             $this->updateMapGenetics($data, $map);
 
-            if (!$this->logAdminAction($user, 'Created Character Map', "Created $map->displayName map")) {
+            if (!$this->logAdminAction($user, 'Created Character Map', "Created {$map->displayName} map")) {
                 throw new Exception('Failed to log admin action.');
             }
 
@@ -185,11 +185,11 @@ class MapService extends Service {
 
     /**
      * Update a character map.
-     * 
+     *
      * @param \App\Models\Character\CharacterMap $map
      * @param array                              $data
      * @param \App\Models\User\User              $user
-     * 
+     *
      * @return \App\Models\Character\CharacterMap
      */
     public function updateMap($map, $data, $user) {
@@ -207,7 +207,7 @@ class MapService extends Service {
 
             $this->updateMapGenetics($data, $map);
 
-            if (!$this->logAdminAction($user, 'Updated Character Map', "Updated $map->displayName map")) {
+            if (!$this->logAdminAction($user, 'Updated Character Map', "Updated {$map->displayName} map")) {
                 throw new Exception('Failed to log admin action.');
             }
 
@@ -221,17 +221,17 @@ class MapService extends Service {
 
     /**
      * Delete a character map.
-     * 
+     *
      * @param \App\Models\Character\CharacterMap $map
      * @param \App\Models\User\User              $user
-     * 
+     *
      * @return bool
      */
     public function deleteMap($map, $user) {
         DB::beginTransaction();
 
         try {
-            if (!$this->logAdminAction($user, 'Deleted Character Map', "Deleted #$map->id (".$map->category->displayName.") map")) {
+            if (!$this->logAdminAction($user, 'Deleted Character Map', "Deleted #{$map->id} (".$map->category->displayName.') map')) {
                 throw new Exception('Failed to log admin action.');
             }
 
@@ -248,9 +248,9 @@ class MapService extends Service {
 
     /**
      * Sorts character map order.
-     * 
+     *
      * @param string $data
-     * 
+     *
      * @return bool
      */
     public function sortMap($data) {
@@ -280,10 +280,10 @@ class MapService extends Service {
 
     /**
      * Update character map genetics.
-     * 
+     *
      * @param array                              $data
      * @param \App\Models\Character\CharacterMap $map
-     * 
+     *
      * @return bool
      */
     public function updateMapGenetics($data, $map) {
@@ -309,21 +309,22 @@ class MapService extends Service {
 
     /**
      * Checks if data contains duplicate loci.
-     * 
+     *
      * @param array $data
-     * 
+     *
      * @return bool
      */
     private function hasDuplicateLoci($data) {
         $alleles = array_column($data['genetics'], 'locus_id');
+
         return count($alleles) !== count(array_unique($alleles));
     }
 
     // /**
     //  * Sanitizes an array, removing null values.
-    //  * 
+    //  *
     //  * @param array $array
-    //  * 
+    //  *
     //  * @return array
     //  */
     // private function sanitizeArray($array) {
@@ -363,13 +364,13 @@ class MapService extends Service {
         $data['conversions'] = array_values($data['conversions']);
 
         foreach ($data['genetics'] as $key => $gene) {
-            if (!isset($gene['locus_id']) || $gene['locus_id'] == "0") {
+            if (!isset($gene['locus_id']) || $gene['locus_id'] == '0') {
                 unset($data['genetics'][$key]);
             } else {
-                if (!isset($gene['primary_allele_id']) || $gene['primary_allele_id'] == "0") {
+                if (!isset($gene['primary_allele_id']) || $gene['primary_allele_id'] == '0') {
                     $gene['primary_allele_id'] = null;
                 }
-                if (!isset($gene['secondary_allele_id']) || $gene['secondary_allele_id'] == "0") {
+                if (!isset($gene['secondary_allele_id']) || $gene['secondary_allele_id'] == '0') {
                     $gene['secondary_allele_id'] = null;
                 }
             }
