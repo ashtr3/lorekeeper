@@ -213,6 +213,25 @@ Route::group(['prefix' => 'data', 'namespace' => 'Data', 'middleware' => 'power:
     Route::post('traits/edit/{id}/genetics/{allele}/delete', 'FeatureController@postDeleteFeatureGenetics');
     Route::post('traits/delete/{id}', 'FeatureController@postDeleteFeature');
 
+    // CHARACTER MAPS
+    Route::get('map-categories', 'MapController@getMapCategoryIndex');
+    Route::get('map-categories/create', 'MapController@getCreateMapCategory');
+    Route::get('map-categories/edit/{id}', 'MapController@getEditMapCategory');
+    Route::get('map-categories/delete/{id}', 'MapController@getDeleteMapCategory');
+    Route::post('map-categories/create', 'MapController@postCreateEditMapCategory');
+    Route::post('map-categories/edit/{id?}', 'MapController@postCreateEditMapCategory');
+    Route::post('map-categories/delete/{id}', 'MapController@postDeleteMapCategory');
+    Route::post('map-categories/sort', 'MapController@postSortMapCategory');
+
+    Route::get('maps', 'MapController@getMapIndex');
+    Route::get('maps/create', 'MapController@getCreateMap');
+    Route::get('maps/edit/{id}', 'MapController@getEditMap');
+    Route::get('maps/delete/{id}', 'MapController@getDeleteMap');
+    Route::post('maps/create', 'MapController@postCreateEditMap');
+    Route::post('maps/edit/{id?}', 'MapController@postCreateEditMap');
+    Route::post('maps/delete/{id}', 'MapController@postDeleteMap');
+    Route::post('maps/sort', 'MapController@postSortMap');
+
     // CHARACTER CATEGORIES
     Route::get('character-categories', 'CharacterCategoryController@getIndex');
     Route::get('character-categories/create', 'CharacterCategoryController@getCreateCharacterCategory');

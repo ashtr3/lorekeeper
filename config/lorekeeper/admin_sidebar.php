@@ -155,6 +155,10 @@ return [
                 'url'  => 'admin/data/character-categories',
             ],
             [
+                'name' => 'Character Maps',
+                'url'  => 'admin/data/maps',
+            ],
+            [
                 'name' => 'Sub Masterlists',
                 'url'  => 'admin/data/sublists',
             ],
