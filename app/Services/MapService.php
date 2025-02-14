@@ -335,6 +335,7 @@ class MapService extends Service {
             $subArray = array_filter($subArray, function ($value) {
                 return $value !== null && $value !== 0;
             });
+
             return array_values($subArray);
         }, $data['conversions']);
 
