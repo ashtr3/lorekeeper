@@ -58,7 +58,7 @@
             </div>
         @endif
         <div class="conversion-row hide d-flex mb-2">
-            {!! Form::select('conversions[][]', [], null, ['class' => 'conversion-input form-control mr-2', 'placeholder' => 'Enter Source Genotypes', 'multiple' ]) !!}
+            {!! Form::select('conversions[][]', [], null, ['class' => 'conversion-input form-control mr-2', 'placeholder' => 'Enter Source Genotypes', 'multiple']) !!}
             <a href="#" class="remove-conversion-button btn btn-danger mb-2">×</a>
         </div>
     </div>
@@ -103,9 +103,9 @@
                 </tr>
             @endif
             <tr class="gene-row hide">
-                <td>{!! Form::select("genetics[][locus_id]", $loci, null, ['class' => 'form-control locus-input']) !!}</td>
-                <td>{!! Form::select("genetics[][primary_allele_id]", ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
-                <td>{!! Form::select("genetics[][secondary_allele_id]", ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                <td>{!! Form::select('genetics[][locus_id]', $loci, null, ['class' => 'form-control locus-input']) !!}</td>
+                <td>{!! Form::select('genetics[][primary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                <td>{!! Form::select('genetics[][secondary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
                 <td class="d-flex">
                     <a href="#" class="remove-gene-button btn btn-danger">×</a>
                 </td>
@@ -130,8 +130,11 @@
                 $(this).selectize({
                     delimiter: ",",
                     persist: false,
-                    create: function (input) {
-                        return { value: input, text: input };
+                    create: function(input) {
+                        return {
+                            value: input,
+                            text: input
+                        };
                     }
                 });
             });
@@ -160,13 +163,16 @@
                     const newName = name.replace('[][]', `[${nextIndex}][]`);
                     $(this).attr('name', newName);
                 });
-                
+
                 clone.find('.conversion-input').each(function() {
                     $(this).selectize({
                         delimiter: ",",
                         persist: false,
-                        create: function (input) {
-                            return { value: input, text: input };
+                        create: function(input) {
+                            return {
+                                value: input,
+                                text: input
+                            };
                         }
                     });
                 });
