@@ -40,11 +40,11 @@
         <a id="add-conversion-button" class="btn btn-primary" href="#"><i class="fas fa-plus"></i> Add Conversion</a>
     </div>
     <div id="conversion-list">
-        @if($map->conversions)
-            @foreach($map->conversions as $index => $conversion)
+        @if ($map->conversions)
+            @foreach ($map->conversions as $index => $conversion)
                 <div class="d-flex mb-2" data-id="{{ $index }}">
                     <select name="conversions[{{ $index }}][]" class="conversion-input form-control mr-2" placeholder="Enter Source Genotypes" multiple>
-                        @foreach($conversion as $gene)
+                        @foreach ($conversion as $gene)
                             <option value="{{ $gene }}" selected>{{ $gene }}</option>
                         @endforeach
                     </select>
@@ -81,12 +81,12 @@
             </tr>
         </thead>
         <tbody>
-            @if($map->genetics->count() > 0)
-                @foreach($map->genetics as $index => $gene)
+            @if ($map->genetics->count() > 0)
+                @foreach ($map->genetics as $index => $gene)
                     <tr data-id="{{ $index }}">
                         <td>{!! Form::select("genetics[$index][locus_id]", $loci, $gene->locus_id, ['class' => 'form-control locus-input']) !!}</td>
-                        <td>{!! Form::select("genetics[$index][primary_allele_id]", ['0' => 'Select Allele'] + ($gene->locus->alleles->pluck('allele', 'id')->toArray()), $gene->primary_allele_id, ['class' => 'form-control allele-input']) !!}</td>
-                        <td>{!! Form::select("genetics[$index][secondary_allele_id]", ['0' => 'Select Allele'] + ($gene->locus->alleles->pluck('allele', 'id')->toArray()), $gene->secondary_allele_id, ['class' => 'form-control allele-input']) !!}</td>
+                        <td>{!! Form::select("genetics[$index][primary_allele_id]", ['0' => 'Select Allele'] + $gene->locus->alleles->pluck('allele', 'id')->toArray(), $gene->primary_allele_id, ['class' => 'form-control allele-input']) !!}</td>
+                        <td>{!! Form::select("genetics[$index][secondary_allele_id]", ['0' => 'Select Allele'] + $gene->locus->alleles->pluck('allele', 'id')->toArray(), $gene->secondary_allele_id, ['class' => 'form-control allele-input']) !!}</td>
                         <td class="d-flex">
                             <a href="#" class="remove-gene-button btn btn-danger">×</a>
                         </td>
@@ -94,9 +94,9 @@
                 @endforeach
             @else
                 <tr data-id="0">
-                    <td>{!! Form::select("genetics[0][locus_id]", $loci, null, ['class' => 'form-control locus-input']) !!}</td>
-                    <td>{!! Form::select("genetics[0][primary_allele_id]", ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
-                    <td>{!! Form::select("genetics[0][secondary_allele_id]", ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                    <td>{!! Form::select('genetics[0][locus_id]', $loci, null, ['class' => 'form-control locus-input']) !!}</td>
+                    <td>{!! Form::select('genetics[0][primary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                    <td>{!! Form::select('genetics[0][secondary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
                     <td class="d-flex">
                         <a href="#" class="remove-gene-button btn btn-danger">×</a>
                     </td>
