@@ -156,17 +156,19 @@ class MapService extends Service {
         DB::beginTransaction();
 
         try {
+            if (CharacterMap::where('name', $data['name'])->exists()) {
+                throw new Exception('The name has already been taken.');
+            }
             if ((isset($data['category_id']) && $data['category_id']) && !CharacterMapCategory::where('id', $data['category_id'])->exists()) {
                 throw new Exception('The selected character map category is invalid.');
             }
 
             $data = $this->prepareMapData($data);
-            dd($data);
 
             $map = CharacterMap::create([
                 'category_id' => $data['category_id'],
                 'name'        => $data['name'],
-                'conversions' => json_encode($data['conversions']),
+                'conversions' => $data['conversions'],
             ]);
 
             $this->updateMapGenetics($data, $map);
@@ -203,7 +205,13 @@ class MapService extends Service {
                 throw new Exception('The selected character map category is invalid.');
             }
 
-            $map->update($data);
+            $data = $this->prepareMapData($data);
+
+            $map->update([
+                'category_id' => $data['category_id'],
+                'name'        => $data['name'],
+                'conversions' => $data['conversions'],
+            ]);
 
             $this->updateMapGenetics($data, $map);
 
@@ -319,38 +327,14 @@ class MapService extends Service {
         return count($alleles) !== count(array_unique($alleles));
     }
 
-    // /**
-    //  * Sanitizes an array, removing null values.
-    //  * 
-    //  * @param array $array
-    //  * 
-    //  * @return array
-    //  */
-    // private function sanitizeArray($array) {
-    //     // Iterate over the 2D array and clean each sub-array
-    //     return array_map(function ($subArray) {
-    //         return array_filter($subArray, function ($value) {
-    //             // Remove values that are null or 0
-    //             return $value !== null && $value !== '0';
-    //         });
-    //     }, $array);
-    // }
-
     private function prepareMapData($data) {
-        // $data['conversions'] = array_map(function ($subArray) {
-        //     return array_filter($subArray, function ($value) {
-        //         return $value !== null;
-        //     });
-        // }, $data['conversions']);
-        // $data['conversions'] = array_map('array_values', $data['conversions']);
-        // $data['conversions'] = array_values($data['conversions']);
-
         // Filter out null and 0 values from each subarray in 'conversions'
         $data['conversions'] = array_map(function ($subArray) {
             // Filter each subarray by removing null and 0 values
-            return array_filter($subArray, function ($value) {
+            $subArray = array_filter($subArray, function ($value) {
                 return $value !== null && $value !== 0;
             });
+            return array_values($subArray);
         }, $data['conversions']);
 
         // Remove empty subarrays from 'conversions' and reindex the array

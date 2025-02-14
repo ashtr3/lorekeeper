@@ -40,16 +40,23 @@
         <a id="add-conversion-button" class="btn btn-primary" href="#"><i class="fas fa-plus"></i> Add Conversion</a>
     </div>
     <div id="conversion-list">
-        @foreach($map->conversions as $index => $conversion)
-            <div class="d-flex mb-2" data-id="{{ $index }}">
-                <select name="conversions[{{ $index }}][]" class="conversion-input form-control mr-2" placeholder="Enter Source Genotypes" multiple>
-                    @foreach($conversion as $gene)
-                        <option value="{{ $gene }}" selected>{{ $gene }}</option>
-                    @endforeach
-                </select>
+        @if($map->conversions)
+            @foreach($map->conversions as $index => $conversion)
+                <div class="d-flex mb-2" data-id="{{ $index }}">
+                    <select name="conversions[{{ $index }}][]" class="conversion-input form-control mr-2" placeholder="Enter Source Genotypes" multiple>
+                        @foreach($conversion as $gene)
+                            <option value="{{ $gene }}" selected>{{ $gene }}</option>
+                        @endforeach
+                    </select>
+                    <a href="#" class="remove-conversion-button btn btn-danger mb-2">×</a>
+                </div>
+            @endforeach
+        @else
+            <div class="d-flex mb-2" data-id="0">
+                <select name="conversions[0][]" class="conversion-input form-control mr-2" placeholder="Enter Source Genotypes" multiple></select>
                 <a href="#" class="remove-conversion-button btn btn-danger mb-2">×</a>
             </div>
-        @endforeach
+        @endif
         <div class="conversion-row hide d-flex mb-2">
             {!! Form::select('conversions[][]', [], null, ['class' => 'conversion-input form-control mr-2', 'placeholder' => 'Enter Source Genotypes', 'multiple' ]) !!}
             <a href="#" class="remove-conversion-button btn btn-danger mb-2">×</a>
@@ -74,16 +81,27 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($map->genetics as $index => $gene)
-                <tr data-id="{{ $index }}">
-                    <td>{!! Form::select("genetics[$index][locus_id]", $loci, $gene->locus_id, ['class' => 'form-control locus-input']) !!}</td>
-                    <td>{!! Form::select("genetics[$index][primary_allele_id]", ['0' => 'Select Allele'] + ($gene->locus->alleles->pluck('allele', 'id')->toArray()), $gene->primary_allele_id, ['class' => 'form-control allele-input']) !!}</td>
-                    <td>{!! Form::select("genetics[$index][secondary_allele_id]", ['0' => 'Select Allele'] + ($gene->locus->alleles->pluck('allele', 'id')->toArray()), $gene->secondary_allele_id, ['class' => 'form-control allele-input']) !!}</td>
+            @if($map->genetics->count() > 0)
+                @foreach($map->genetics as $index => $gene)
+                    <tr data-id="{{ $index }}">
+                        <td>{!! Form::select("genetics[$index][locus_id]", $loci, $gene->locus_id, ['class' => 'form-control locus-input']) !!}</td>
+                        <td>{!! Form::select("genetics[$index][primary_allele_id]", ['0' => 'Select Allele'] + ($gene->locus->alleles->pluck('allele', 'id')->toArray()), $gene->primary_allele_id, ['class' => 'form-control allele-input']) !!}</td>
+                        <td>{!! Form::select("genetics[$index][secondary_allele_id]", ['0' => 'Select Allele'] + ($gene->locus->alleles->pluck('allele', 'id')->toArray()), $gene->secondary_allele_id, ['class' => 'form-control allele-input']) !!}</td>
+                        <td class="d-flex">
+                            <a href="#" class="remove-gene-button btn btn-danger">×</a>
+                        </td>
+                    </tr>
+                @endforeach
+            @else
+                <tr data-id="0">
+                    <td>{!! Form::select("genetics[0][locus_id]", $loci, null, ['class' => 'form-control locus-input']) !!}</td>
+                    <td>{!! Form::select("genetics[0][primary_allele_id]", ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                    <td>{!! Form::select("genetics[0][secondary_allele_id]", ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
                     <td class="d-flex">
                         <a href="#" class="remove-gene-button btn btn-danger">×</a>
                     </td>
                 </tr>
-            @endforeach
+            @endif
             <tr class="gene-row hide">
                 <td>{!! Form::select("genetics[][locus_id]", $loci, null, ['class' => 'form-control locus-input']) !!}</td>
                 <td>{!! Form::select("genetics[][primary_allele_id]", ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
@@ -117,6 +135,11 @@
                     }
                 });
             });
+
+            $('#genetics-list [data-id]').each(function() {
+                addLocusListener($(this));
+            });
+
             $('#add-conversion-button').on('click', function(e) {
                 e.preventDefault();
                 const clone = $('.conversion-row').clone();
@@ -173,45 +196,16 @@
                 addLocusListener(clone);
             });
 
-            $('#feature-override-select').selectize();
-            $('.is-genetic-check').on('change', function(e) {
-                $('.genetic-settings').toggleClass('hide');
-            });
-            $('#genetic-requirement-list [data-id]').each(function() {
-                addLocusListener($(this));
-            });
-            $('#add-genetic-requirement').on('click', function(e) {
+            $('.remove-conversion-button').on('click', function(e) {
                 e.preventDefault();
-                addRow('genetic-requirement-row', 'genetic-requirement-list', 'remove-genetic-requirement');
+                $(this).parent().remove();
             });
-            $('.remove-genetic-requirement').on('click', function(e) {
-                e.preventDefault();
-                removeRow($(this));
-            });
-            $('.delete-feature-button').on('click', function(e) {
-                e.preventDefault();
-                loadModal("{{ url('admin/data/traits/delete') }}/{{ $map->id }}", 'Delete Trait');
-            });
-            refreshSubtype();
-        });
 
-        $("#species").change(function() {
-            refreshSubtype();
-        });
-
-        function refreshSubtype() {
-            var species = $('#species').val();
-            var subtype_id = {{ $map->id ?: 'null' }};
-            $.ajax({
-                type: "GET",
-                url: "{{ url('admin/data/traits/check-subtype') }}?species=" + species + "&subtype_id=" + subtype_id,
-                dataType: "text"
-            }).done(function(res) {
-                $("#subtypes").html(res);
-            }).fail(function(jqXHR, textStatus, errorThrown) {
-                alert("AJAX call failed: " + textStatus + ", " + errorThrown);
+            $('.remove-gene-button').on('click', function(e) {
+                e.preventDefault();
+                $(this).parent().parent().remove();
             });
-        };
+        });
 
         function getNextIndex(list) {
             const rows = list.find('[data-id]');
@@ -256,35 +250,5 @@
                 });
             });
         };
-
-        function addRow(row, list, remove_btn) {
-            var clone = $(`.${row}:last`).clone();
-            $(`#${list}`).append(clone);
-
-            const nextIndex = getNextIndex();
-            clone.attr('data-id', nextIndex);
-            clone.removeClass(`hide ${row}`);
-
-            clone.find(`.${remove_btn}`).on('click', function(e) {
-                e.preventDefault();
-                removeRow($(this));
-            });
-
-            clone.find('select, input').each(function() {
-                const name = $(this).attr('name');
-                const newName = name.replace('[]', `[${nextIndex}]`);
-                $(this).attr('name', newName);
-            });
-
-            clone.find('input.form-check-input').each(function() {
-                $(this).bootstrapToggle();
-            });
-
-            addLocusListener(clone);
-        }
-
-        function removeRow(trigger) {
-            trigger.parent().remove();
-        }
     </script>
 @endsection
