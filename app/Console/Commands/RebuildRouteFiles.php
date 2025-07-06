@@ -6,8 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
-class RebuildRouteFiles extends Command
-{
+class RebuildRouteFiles extends Command {
     /**
      * The name and signature of the console command.
      *
@@ -27,31 +26,32 @@ class RebuildRouteFiles extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
-    {
+    public function handle() {
         $jsonPath = base_path($this->option('json'));
 
         if (!File::exists($jsonPath)) {
             $this->error("JSON file not found: {$jsonPath}");
+
             return self::FAILURE;
         }
 
         $routes = collect(json_decode(File::get($jsonPath), true));
 
         if ($routes->isEmpty()) {
-            $this->error("No routes found in JSON.");
+            $this->error('No routes found in JSON.');
+
             return self::FAILURE;
         }
-        
+
         $groups = $routes->groupBy(fn ($r) => $r['source'] ?? '_unknown')
-                         ->filter(fn ($_, $key) => $key !== '_unknown');
+            ->filter(fn ($_, $key) => $key !== '_unknown');
 
         $timestamp = Carbon::now()->format('Ymd_His');
-        $dryRun    = $this->option('dry');
+        $dryRun = $this->option('dry');
 
         foreach ($groups as $file => $fileRoutes) {
-            $absPath  = base_path($file);
-            $backup   = "{$absPath}.{$timestamp}.bak";
+            $absPath = base_path($file);
+            $backup = "{$absPath}.{$timestamp}.bak";
 
             // 1. Back-up original file if it exists
             if (File::exists($absPath)) {
@@ -70,24 +70,23 @@ class RebuildRouteFiles extends Command
 
             foreach ($fileRoutes as $route) {
                 $methods = explode('|', $route['method']);
-                $uri     = $route['uri'];
-                $action  = $route['action'];
-                $name    = $route['name'] ? "->name('{$route['name']}')" : '';
+                $uri = $route['uri'];
+                $action = $route['action'];
+                $name = $route['name'] ? "->name('{$route['name']}')" : '';
 
                 // middleware string → array
                 $middleware = collect(explode(',', $route['middleware'] ?? ''))
-                                ->map(fn ($m) => trim($m))   // ← explicit trim
-                                ->filter()
-                                ->values();
-
+                    ->map(fn ($m) => trim($m))   // ← explicit trim
+                    ->filter()
+                    ->values();
 
                 // build the route line
                 if (count($methods) === 1) {
-                    $method  = strtolower($methods[0]);
-                    $line    = "Route::{$method}('{$uri}', '{$action}')";
+                    $method = strtolower($methods[0]);
+                    $line = "Route::{$method}('{$uri}', '{$action}')";
                 } else {
                     $methodList = collect($methods)->map(fn ($m) => "'{$m}'")->implode(', ');
-                    $line       = "Route::match([{$methodList}], '{$uri}', '{$action}')";
+                    $line = "Route::match([{$methodList}], '{$uri}', '{$action}')";
                 }
 
                 if ($middleware->isNotEmpty()) {
@@ -113,6 +112,7 @@ class RebuildRouteFiles extends Command
         }
 
         $this->info($dryRun ? 'Dry-run complete.' : 'All route files rebuilt.');
+
         return self::SUCCESS;
     }
 }

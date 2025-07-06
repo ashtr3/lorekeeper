@@ -6,8 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
-class ListRoutes extends Command
-{
+class ListRoutes extends Command {
     /**
      * The name and signature of the console command.
      *
@@ -25,8 +24,7 @@ class ListRoutes extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
-    {
+    public function handle() {
         $routes = $this->getRoutes();
 
         $json = $routes->toJson(JSON_PRETTY_PRINT);
@@ -40,21 +38,21 @@ class ListRoutes extends Command
         return Command::SUCCESS;
     }
 
-    private function getRoutes()
-    {
+    private function getRoutes() {
         return collect(Route::getRoutes())
             ->filter(function ($route) {
                 $source = $route->getAction('source_file') ?? '';
+
                 return str_contains($source, 'routes/lorekeeper');
             })
             ->map(function ($route) {
                 return [
-                    'method' => implode('|', $route->methods()),
-                    'uri' => $route->uri(),
-                    'name' => $route->getName(),
-                    'action' => $route->getActionName(),
+                    'method'     => implode('|', $route->methods()),
+                    'uri'        => $route->uri(),
+                    'name'       => $route->getName(),
+                    'action'     => $route->getActionName(),
                     'middleware' => implode(', ', $route->middleware()),
-                    'source' => $route->getAction('source_file') ?? null,
+                    'source'     => $route->getAction('source_file') ?? null,
                 ];
             });
     }
