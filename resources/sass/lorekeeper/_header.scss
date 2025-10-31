@@ -11,4 +11,37 @@
     font-family: $font-family-serif;
 }
 
+#headerNav a.navbar-brand {
+    color: $navbar-brand-color;
+}
+
+#headerNav a.navbar-brand:hover {
+    color: $navbar-brand-hover-color;
+}
+
+#headerNav a.nav-link {
+    color: $navbar-color;
+}
+
+#headerNav a.nav-link:hover {
+    color: $navbar-hover-color;
+}
+
+#headerNav a.nav-link.active, #headerNav a.nav-link:active {
+    color: $navbar-active-color;
+}
+
+#headerNav a.nav-link:disabled {
+    color: $navbar-disabled-color;
+}
+
+#headerNav button.navbar-toggler {
+    color: $navbar-color;
+    border-color: $navbar-toggler-border-color;
+}
+
+#headerNav span.navbar-toggler-icon {
+    background-image: $navbar-toggler-icon-bg;
+}
+
 .navbar .row { width: 100%; }

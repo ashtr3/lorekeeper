@@ -5,8 +5,8 @@
 }
 
 .sortable .handle {
-    color: #343a40;
+    color: $sortable-handle-color;
 }
 .sortable .sortable-placeholder {
-    background-color: rgba(0,0,0,0.1);
+    background-color: $sortable-placeholder;
 }

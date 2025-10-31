@@ -1,5 +1,21 @@
 /* Footer */
 
+#footer a.nav-link {
+    color: $footer-link-color;
+}
+
+#footer a.nav-link:hover {
+    color: $footer-link-hover-color;
+}
+
+#footer a.nav-link.active, #footer a.nav-link:active {
+    color: $footer-link-active-color;
+}
+
+#footer a.nav-link:disabled {
+    color: $footer-link-disabled-color;
+}
+
 .site-footer {
     text-align: center;
 }
@@ -17,7 +33,7 @@
 
 .site-footer .copyright {
     padding: 0 1rem 1rem;
-    color: rgba(0,0,0,.3);
+    color: $footer-copyright-color;
 }
 
 .mce-content-body {

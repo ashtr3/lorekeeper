@@ -30,7 +30,7 @@
     /*vertical-align: middle;*/
     cursor: pointer;
     margin: 0 5px;
-    color: rgba(0,0,0,0.3);
+    color: $breadcrumb-color;
 }
 
 .breadcrumb {
@@ -41,11 +41,14 @@
     align-items: center;
 }
 .breadcrumb a {
-    color: rgba(0,0,0,0.3);
+    color: $breadcrumb-link-color;
 }
 .breadcrumb a:hover {
-    color: rgba(0,0,0,0.4);
+    color: $breadcrumb-link-hover-color;
     text-decoration: none;
+}
+.breadcrumb .breadcrumb-item.active, .breadcrumb .breadcrumb-item:active {
+    color: $breadcrumb-link-active-color;
 }
 .breadcrumb-item+.breadcrumb-item:before {
     content: "»";
@@ -59,8 +62,8 @@
     position: absolute;
     right: -20px;
     top: 0.425em;
-    border: 0.3em solid rgba(0,0,0,0.3);
-    border-color: rgba(0,0,0,0.3) transparent transparent transparent;
+    border: 0.3em solid $breadcrumb-color;
+    border-color: $breadcrumb-color transparent transparent transparent;
 }
 
 .image, .image-thumb {
@@ -89,7 +92,7 @@
 }
 
 .spoiler {
-    border: 1px solid rgba(0,0,0,0.1);
+    border: 1px solid $spoiler-border-color;
     border-radius: 5px;
     margin-bottom: 1rem;
     background: transparent;
@@ -97,17 +100,17 @@
 }
 .spoiler-toggle {
     font-weight: bold;
-    background-color: #f5f5f5;
+    background-color: $spoiler-toggle-color;
     cursor: pointer;
     padding: .3rem 1.25rem;
     font-size: .9rem;
     font-family: $font-family-serif;
-    color: inherit;
+    color: $spoiler-color;
     text-transform: uppercase;
 }
 .spoiler-text {
     padding: .75rem 1.25rem;
-    border-top: 1px solid rgba(0,0,0,0.1);
+    border-top: 1px solid $spoiler-border-color;
 }
 .text-break {
     overflow-wrap: break-word;

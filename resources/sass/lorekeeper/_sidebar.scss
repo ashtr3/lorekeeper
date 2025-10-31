@@ -12,13 +12,13 @@
 }
 
 .sidebar ul li {
-    background-color: white;
+    background-color: $sidebar-link-bg;
     border-top-left-radius: .25rem;
     border-bottom-left-radius: .25rem;
     margin-bottom: 1em;
     padding: 0.4em 0;
 
-    box-shadow: 0px 0px 6px 3px rgba(0,0,0,0.1);
+    box-shadow: $box-shadow;
 }
 
 .sidebar .sidebar-header,
@@ -29,14 +29,14 @@
 }
 
 .sidebar .sidebar-header {
-    background-color: #343a40;
+    background-color: $sidebar-header-bg;
 }
 .sidebar .sidebar-header a {
-    color: white;
+    color: $sidebar-header-link-color;
 }
 .sidebar .sidebar-header a:hover {
     background-color: transparent;
-    color: rgba(255,255,255,0.8);
+    color: $sidebar-header-link-hover-color;
 }
 
 .sidebar a,
@@ -48,11 +48,11 @@
 .sidebar a {
     text-transform: uppercase;
     font-family: $font-family-serif;
-    color: rgba(0,0,0,0.4);
+    color: $sidebar-link-color;
 }
 .sidebar a:hover {
-    color: #16181b;
-    background-color: #f8f9fa;
+    color: $sidebar-link-hover-color;
+    background-color: $sidebar-link-hover-bg;
 }
 .sidebar a:hover, .sidebar a:active, .sidebar a:focus, .sidebar a:link {
     text-decoration: none;
@@ -61,8 +61,8 @@
     text-decoration: none;
 }
 .sidebar a.active, .sidebar a.active:hover {
-    color: white;
-    background-color: #343a40;
+    color: $sidebar-link-active-color;
+    background-color: $sidebar-link-active-bg;
 }
 
 .site-mobile-header {
@@ -110,7 +110,7 @@
         position: absolute;
         padding-left: 0px;
         text-align: left;
-        background-color: #ddd;
+        background-color: $sidebar-bg;
         z-index: 3;
         right: 0px;
         bottom: 0px;
@@ -136,7 +136,7 @@
     }
 
     .sidebar ul li {
-        background-color: white;
+        background-color: $sidebar-link-bg;
         border-radius: 0;
         margin-bottom: 1em;
         padding: 0.4em 0;

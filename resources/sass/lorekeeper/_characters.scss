@@ -1,12 +1,12 @@
 /* CHARACTERS ************************************************************************************/
 
 .image-nav .nav-item a {
-    border: 5px solid transparent;
+    border: 5px solid $image-border-color;
     border-radius: .25rem;
     display: block;
 }
 .image-nav .nav-item a.active {
-    border: 5px solid #ddd;
+    border: 5px solid $image-border-color-active;
 }
 
 @keyframes copy-to-check {

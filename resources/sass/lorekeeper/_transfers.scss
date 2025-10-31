@@ -27,8 +27,8 @@
 .collapse-toggle:after {
     display: block;
     content: '';
-    border: 0.3rem solid rgba(0,0,0,0.5);
-    border-color: transparent transparent transparent rgba(0,0,0,0.5);
+    border: 0.3rem solid $transfer-border-color;
+    border-color: transparent transparent transparent $transfer-border-color;
     position: absolute;
     right: -0.85rem;
     top: 0.45rem;
@@ -51,9 +51,9 @@
     cursor: not-allowed;
 }
 .user-items .category-selected .inventory-item, .user-characters .category-selected .character-item {
-    background-color: rgba(0,0,0,0.05);
+    background-color: $transfer-select-bg;
     border-radius: .25rem;
 }
 .user-items .category-selected.select-item-row {
-    background-color: rgba(0,0,0,0.05);
+    background-color: $transfer-select-bg;
 }

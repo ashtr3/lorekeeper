@@ -1,21 +1,94 @@
-
-// Body
-$body-bg: #f8fafc;
+// Colors
+$primary:       $blue !default;
+$secondary:     $gray-600 !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light:         $gray-300 !default;
+$lighter:       $gray-100 !default;
+$lightest:      $white !default;
+$dark:          $gray-800 !default;
+$darker:        $gray-900 !default;
+$darkest:       $black !default;
 
 // Typography
-$font-family-serif: "Roboto Condensed", serif;
-$font-family-sans-serif: "Lato", sans-serif;
-$font-size-base: 0.9rem;
-$line-height-base: 1.6;
+$font-family-serif:           "Roboto Condensed", serif;
+$font-family-sans-serif:      "Lato", sans-serif;
+$font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+$font-family-base:            $font-family-sans-serif !default;
 
-// Colors
-$blue: #3490dc;
-$indigo: #6574cd;
-$purple: #9561e2;
-$pink: #f66D9b;
-$red: #e3342f;
-$orange: #f6993f;
-$yellow: #ffed4a;
-$green: #38c172;
-$teal: #4dc0b5;
-$cyan: #6cb2eb;
+$font-size-base: 0.9rem !default;
+$line-height-base: 1.6 !default;
+$box-shadow: 0px 0px 6px 3px rgba($darkest,0.1) !default;
+
+$font-dark-color: $darkest !default;
+$font-light-color: $lightest !default;
+$text-muted: $secondary !default;
+
+$body-bg:       $light !default;
+$body-color:    $darker !default;
+
+$content-bg:    $lightest !default;
+
+$table-border-color: $light !default;
+$image-border-color: transparent !default;
+$image-border-color-active: $light !default;
+
+$link-color: rgba($font-dark-color,0.7) !default;
+$link-decoration: none !default;
+$link-hover-color: rgba($font-dark-color,1) !default;
+$link-hover-decoration: none !default;
+
+$breadcrumb-color: rgba($font-dark-color,0.3) !default;
+$breadcrumb-link-color: $breadcrumb-color !default;
+$breadcrumb-link-hover-color: rgba($font-dark-color,0.4) !default;
+$breadcrumb-link-active-color: $text-muted !default;
+
+$notif-unread-bg: $lighter !default;
+
+$character-tab-active-bg: $lightest !default;
+
+$card-bg: $lightest !default;
+$card-color: inherit !default;
+$card-cap-bg: rgba($darkest,0.03) !default;
+$card-cap-color: inherit !default;
+$card-border-color: rgba($darkest,0.125) !default;
+
+$sidebar-bg: $light !default; // Visible on full screen menu
+$sidebar-link-color: rgba($font-dark-color,0.4) !default;
+$sidebar-link-bg: $lightest !default;
+$sidebar-link-hover-color: rgba($font-dark-color,0.9) !default;
+$sidebar-link-hover-bg: $lighter !default;
+$sidebar-link-active-color: $font-light-color !default;
+$sidebar-link-active-bg: $dark !default;
+
+$sidebar-header-bg: $dark !default;
+$sidebar-header-link-color: $font-light-color !default;
+$sidebar-header-link-hover-color: rgba($font-light-color, 0.8) !default;
+
+$navbar-color:                 rgba($font-light-color, .5) !default;
+$navbar-hover-color:           rgba($font-light-color, .75) !default;
+$navbar-active-color:          $font-light-color !default;
+$navbar-disabled-color:        rgba($font-light-color, .25) !default;
+$navbar-toggler-icon-bg:       url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'><path stroke='#{$navbar-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
+$navbar-toggler-border-color:  rgba($font-light-color, .1) !default;
+
+$navbar-brand-color:           $navbar-active-color !default;
+$navbar-brand-hover-color:     $navbar-active-color !default;
+
+$footer-link-color: rgba($font-dark-color,0.5) !default;
+$footer-link-hover-color: rgba($font-dark-color,0.75) !default;
+$footer-link-active-color: $font-dark-color !default;
+$footer-link-disabled-color: rgba($font-dark-color,0.25) !default;
+$footer-copyright-color: rgba($font-dark-color,0.3) !default;
+
+$sortable-handle-color: $dark !default;
+$sortable-placeholder: rgba($font-dark-color,0.1) !default;
+
+$spoiler-toggle-color: $lighter !default;
+$spoiler-border-color: rgba($darkest,0.1) !default;
+$spoiler-color: inherit;
+
+$transfer-border-color: rgba($darkest,0.5) !default;
+$transfer-select-bg: rgba($darkest,0.05) !default;
