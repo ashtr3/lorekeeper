@@ -1,0 +1,159 @@
+/* Sidebar */
+
+.sidebar {
+    text-align: right;
+    padding-right: 0px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    display: inline-block;
+    padding-top: 30px;
+}
+
+.sidebar ul li {
+    background-color: white;
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+    margin-bottom: 1em;
+    padding: 0.4em 0;
+
+    box-shadow: 0px 0px 6px 3px rgba(0,0,0,0.1);
+}
+
+.sidebar .sidebar-header,
+.sidebar .sidebar-section .sidebar-section-header {
+    text-transform: uppercase;
+    font-family: $font-family-serif;
+    font-weight: bold;
+}
+
+.sidebar .sidebar-header {
+    background-color: #343a40;
+}
+.sidebar .sidebar-header a {
+    color: white;
+}
+.sidebar .sidebar-header a:hover {
+    background-color: transparent;
+    color: rgba(255,255,255,0.8);
+}
+
+.sidebar a,
+.sidebar-section-header {
+    display: block;
+    padding: 0.1em 1em;
+}
+
+.sidebar a {
+    text-transform: uppercase;
+    font-family: $font-family-serif;
+    color: rgba(0,0,0,0.4);
+}
+.sidebar a:hover {
+    color: #16181b;
+    background-color: #f8f9fa;
+}
+.sidebar a:hover, .sidebar a:active, .sidebar a:focus, .sidebar a:link {
+    text-decoration: none;
+}
+.sidebar a:hover {
+    text-decoration: none;
+}
+.sidebar a.active, .sidebar a.active:hover {
+    color: white;
+    background-color: #343a40;
+}
+
+.site-mobile-header {
+    display: none;
+    padding: 10px 20px;
+}
+
+@media (max-width: 767px) {
+	.site-mobile-header {
+		top: 54px !important;
+    }
+
+    .timestamp {
+		margin-left: 1rem!important;
+		margin-right: 1rem!important;
+	}
+}
+
+@media (max-width: 991px) {
+    .site-header-image {
+        display: none;
+    }
+    .site-mobile-header {
+        display: block;
+        position: fixed;
+		top: 3.45rem;
+        z-index: 4;
+        width: 100%;
+    }
+
+    #headerNav {
+        position: fixed;
+        z-index: 5;
+        width: 100%;
+    }
+
+    main.container-fluid {
+        margin-top: 6.45rem;
+    }
+
+    main.container-fluid > .row {
+        position: relative;
+    }
+    .sidebar {
+        position: absolute;
+        padding-left: 0px;
+        text-align: left;
+        background-color: #ddd;
+        z-index: 3;
+        right: 0px;
+        bottom: 0px;
+        top: 0px;
+        overflow-y: scroll;
+
+        left: -100%;
+        transition: left 0.2s;
+    }
+    .sidebar.active {
+        left: 0%;
+    }
+
+    .sidebar > ul {
+        padding-top: 0px;
+    }
+
+    .sidebar ul {
+        list-style-type: none;
+        display: block;
+        padding-top: 30px;
+        padding-left: 0px;
+    }
+
+    .sidebar ul li {
+        background-color: white;
+        border-radius: 0;
+        margin-bottom: 1em;
+        padding: 0.4em 0;
+
+        box-shadow: none;
+    }
+
+	/*fix for screen being over-wide on mobile*/
+	.row {
+		margin:0; max-width:100%;
+	}
+
+	.container-fluid {
+		padding:0px;
+	}
+
+	.site-footer .navbar .navbar-nav {
+		flex-wrap: wrap; justify-content: center;
+	}
+}

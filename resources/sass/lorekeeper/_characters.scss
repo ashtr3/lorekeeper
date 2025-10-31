@@ -1,0 +1,69 @@
+/* CHARACTERS ************************************************************************************/
+
+.image-nav .nav-item a {
+    border: 5px solid transparent;
+    border-radius: .25rem;
+    display: block;
+}
+.image-nav .nav-item a.active {
+    border: 5px solid #ddd;
+}
+
+@keyframes copy-to-check {
+    from {
+        opacity: 1;
+        content: '\f0c5';
+        font-weight: 400;
+    }
+    50% {
+        opacity: 0;
+        content: '\f0c5';
+        font-weight: 400;
+    }
+    51% {
+        opacity: 0;
+        content: '\f00c';
+        font-weight: 900;
+    }
+    to {
+        opacity: 1;
+        content: '\f00c';
+        font-weight: 900;
+    }
+}
+
+@keyframes check-to-copy {
+    from {
+        opacity: 1;
+        content: '\f00c';
+        font-weight: 900;
+    }
+    50% {
+        opacity: 0;
+        content: '\f00c';
+        font-weight: 900;
+    }
+    51% {
+        opacity: 0;
+        content: '\f0c5';
+        font-weight: 400;
+    }
+    to {
+        opacity: 1;
+        content: '\f0c5';
+        font-weight: 400;
+    }
+}
+
+.toCheck::before {
+    animation-name: copy-to-check;
+    animation-iteration-count: 1;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+.toCopy::before {
+    animation-name: check-to-copy;
+    animation-iteration-count: 1;
+    animation-duration: 1s;
+}

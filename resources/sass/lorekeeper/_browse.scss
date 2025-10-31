@@ -1,0 +1,31 @@
+/* BROWSE ****************************************************************************************/
+
+.world-entry-image {
+    text-align: center;
+}
+
+.world-entry img {
+    max-width: 100%;
+    height: auto;
+}
+
+.world-entry-image img {
+    max-width: 100%;
+}
+.world-entry-search {
+    opacity: 0.5;
+}
+
+.masterlist-search-field {
+    display: inline-block;
+    align-items: center;
+    margin-right: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+.masterlist-search-field label {
+    margin-bottom: 0px;
+    margin-right: 10px;
+}
+.masterlist-search-field input[type=text], .masterlist-search-field select {
+    width: 300px;
+}

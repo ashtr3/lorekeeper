@@ -1,0 +1,16 @@
+/* INVENTORY *************************************************************************************/
+
+.inventory-category .inventory-body .inventory-item img {
+    max-width: 100%;
+}
+.inventory-stack-name, .inventory-character-name {
+    color: rgba(0,0,0,0.7);
+}
+.inventory-stack-name:hover, .inventory-character-name:hover {
+    color: inherit;
+    text-decoration: none;
+}
+tr.accountbound {
+    background-color: rgba(0,0,0,0.05);
+    border-radius: .25rem;
+}

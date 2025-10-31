@@ -1,0 +1,12 @@
+/* ADMIN ****************************************************************************************/
+
+.ranks-table tbody tr > td:last-of-type {
+    text-align: right;
+}
+
+.sortable .handle {
+    color: #343a40;
+}
+.sortable .sortable-placeholder {
+    background-color: rgba(0,0,0,0.1);
+}

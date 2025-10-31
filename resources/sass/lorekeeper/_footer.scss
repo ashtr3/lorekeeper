@@ -1,0 +1,29 @@
+/* Footer */
+
+.site-footer {
+    text-align: center;
+}
+
+.site-footer .navbar {
+    padding-bottom: 0;
+}
+.site-footer .navbar .navbar-nav {
+    flex-direction: row;
+}
+.site-footer .navbar .navbar-nav .nav-link {
+    padding-right: .5rem;
+    padding-left: .5rem;
+}
+
+.site-footer .copyright {
+    padding: 0 1rem 1rem;
+    color: rgba(0,0,0,.3);
+}
+
+.mce-content-body {
+    padding: 20px;
+}
+
+.ui-datepicker-inline {
+    position: fixed;
+}

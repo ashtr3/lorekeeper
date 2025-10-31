@@ -1,0 +1,14 @@
+/* Header */
+
+.site-header-image {
+    /*background-color: #eee;*/
+    background-repeat: repeat;
+    min-height: 200px;
+}
+
+.navbar .navbar-brand, .navbar .nav-item {
+    text-transform: uppercase;
+    font-family: $font-family-serif;
+}
+
+.navbar .row { width: 100%; }

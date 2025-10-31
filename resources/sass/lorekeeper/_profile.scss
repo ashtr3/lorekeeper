@@ -1,0 +1,17 @@
+/* PROFILE ***************************************************************************************/
+
+.profile-assets-card .card-body {
+    display: flex;
+    flex-direction: column;
+}
+.profile-assets-card .card-body .profile-assets-content {
+    flex-grow: 1;
+}
+
+.profile-assets .profile-inventory .profile-inventory-item img {
+    max-width: 100%;
+}
+
+.character-bio .nav-tabs.card-header-tabs .active {
+    background-color: white;
+}
