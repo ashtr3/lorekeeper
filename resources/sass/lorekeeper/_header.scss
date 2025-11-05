@@ -11,6 +11,10 @@
     font-family: $font-family-serif;
 }
 
+#headerNav {
+    background-color: $navbar-bg;
+}
+
 #headerNav a.navbar-brand {
     color: $navbar-brand-color;
 }

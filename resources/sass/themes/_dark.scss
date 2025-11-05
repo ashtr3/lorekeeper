@@ -1,6 +1,6 @@
 // Colors
 $primary:       $blue !default;
-$secondary:     $gray-600 !default;
+$secondary:     $gray-900 !default;
 $success:       $green !default;
 $info:          $cyan !default;
 $warning:       $yellow !default;
@@ -10,7 +10,7 @@ $lighter:       $gray-100 !default;
 $lightest:      $white !default;
 $dark:          $gray-800 !default;
 $darker:        $gray-900 !default;
-$darkest:       $black !default;
+$darkest:       $gray-950 !default;
 
 // Typography & text
 $font-family-serif: "Roboto Condensed", serif;
@@ -21,19 +21,19 @@ $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 $font-dark-color: $darkest;
 $font-light-color: $lightest;
-$text-muted: $secondary;
-$body-color: $darker;
-$breadcrumb-color: rgba($darkest, 0.3);
-$breadcrumb-link-color: rgba($darkest, 0.3);
-$breadcrumb-link-hover-color: rgba($darkest, 0.4);
-$breadcrumb-link-active-color: $secondary;
-$link-color: rgba($darkest, 0.7);
-$link-hover-color: rgba($darkest, 1);
+$text-muted: $light;
+$body-color: $lightest;
+$breadcrumb-color: rgba($lightest, 0.3);
+$breadcrumb-link-color: rgba($lightest, 0.3);
+$breadcrumb-link-hover-color: rgba($lightest, 0.4);
+$breadcrumb-link-active-color: rgba($lightest, 0.75);
+$link-color: rgba($lightest, 0.7);
+$link-hover-color: rgba($lightest, 1);
 $spoiler-color: inherit;
 
 // Backgrounds
-$body-bg: $light;
-$content-bg: $lightest;
+$body-bg: $darker;
+$content-bg: $dark;
 $character-tab-active-bg: $lightest;
 $notif-unread-bg: $lighter;
 $transfer-select-bg: rgba($darkest, 0.05);
@@ -41,20 +41,20 @@ $sortable-placeholder: rgba($darkest, 0.1);
 $spoiler-toggle-color: $lighter;
 
 // Sidebar
-$sidebar-bg: $light;
-$sidebar-link-color: rgba($darkest, 0.4);
-$sidebar-link-bg: $lightest;
-$sidebar-link-hover-color: rgba($darkest, 0.9);
-$sidebar-link-hover-bg: $lighter;
+$sidebar-bg: $darkest;
+$sidebar-link-color: rgba($lightest, 0.4);
+$sidebar-link-bg: rgba($dark, 0.75);
+$sidebar-link-hover-color: rgba($lightest, 0.9);
+$sidebar-link-hover-bg: $dark;
 $sidebar-link-active-color: $lightest;
 $sidebar-link-active-bg: $dark;
 $sidebar-header-bg: $dark;
-$sidebar-header-color: $darker;
+$sidebar-header-color: $lightest;
 $sidebar-header-link-color: $lightest;
 $sidebar-header-link-hover-color: rgba($lightest, 0.8);
 
 // Cards
-$card-bg: $lightest;
+$card-bg: rgba($darker, 0.75);
 $card-color: inherit;
 $card-cap-bg: rgba($darkest,0.03);
 $card-cap-color: inherit;
@@ -62,11 +62,11 @@ $card-border-color: rgba($darkest,0.125);
 
 // Listbox
 $list-group-color: inherit;
-$list-group-bg: $lightest;
+$list-group-bg: transparent;
 $list-group-border-color: rgba($black, .125);
 
 // Navbar
-$navbar-bg: $dark;
+$navbar-bg: $darkest;
 $navbar-color: rgba($lightest, 0.5);
 $navbar-hover-color: rgba($lightest, 0.75);
 $navbar-active-color: $lightest;
@@ -77,27 +77,27 @@ $navbar-brand-color: $lightest;
 $navbar-brand-hover-color: $lightest;
 
 // Dropdown
-$dropdown-color: $body-color;
-$dropdown-bg: $lightest;
-$dropdown-border-color: rgba($darkest, .15);
-$dropdown-divider-bg: $light;
-$dropdown-link-color: $darker;
-$dropdown-link-hover-color: darken($darker, 5%);
-$dropdown-link-hover-bg: $light;
-$dropdown-link-active-color: $lightest;
-$dropdown-link-active-bg: $lightest;
+$dropdown-color: rgba($lightest, 0.75);
+$dropdown-bg: color-mix(in srgb, $darker, $darkest);
+$dropdown-border-color: $darkest;
+$dropdown-divider-bg: rgba($light, 0.05);
+$dropdown-link-color: $light;
+$dropdown-link-hover-color: darken($light, 15%);
+$dropdown-link-hover-bg: $darkest;
+$dropdown-link-active-color: $darkest;
+$dropdown-link-active-bg: $darkest;
 $dropdown-link-disabled-color: rgba($darker, 0.5);
 $dropdown-header-color: $secondary;
 
 // Footer
-$footer-link-color: rgba($darkest, 0.5);
-$footer-link-hover-color: rgba($darkest, 0.75);
-$footer-link-active-color: $darkest;
-$footer-link-disabled-color: rgba($darkest, 0.25);
-$footer-copyright-color: rgba($darkest, 0.3);
+$footer-link-color: rgba($lightest, 0.5);
+$footer-link-hover-color: rgba($lightest, 0.75);
+$footer-link-active-color: $lightest;
+$footer-link-disabled-color: rgba($lightest, 0.25);
+$footer-copyright-color: rgba($lightest, 0.3);
 
 // Borders & UI elements
-$table-border-color: $light;
+$table-border-color: rgba($darkest, 0.5);
 $image-border-color: transparent;
 $image-border-color-active: $light;
 $spoiler-border-color: rgba($darkest, 0.1);
@@ -105,12 +105,12 @@ $transfer-border-color: rgba($darkest, 0.5);
 $sortable-handle-color: $dark;
 
 // Forms
-$input-bg: $lightest;
+$input-bg: rgba($darkest, 0.125);
 $input-disabled-bg: $gray-200;
-$input-color: $gray-700;
-$input-border-color: $gray-400;
-$input-focus-bg: $input-bg;
-$input-focus-border-color: lighten($lightest, 25%);
+$input-color: inherit;
+$input-border-color: rgba($darkest, 0.5);
+$input-focus-bg: rgba($darkest, 0.25);
+$input-focus-border-color: lighten($white, 25%);
 $input-focus-color: $input-color;
 $input-placeholder-color: $gray-600;
 $input-plaintext-color: $body-color;

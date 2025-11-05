@@ -23,6 +23,7 @@
 
 .sidebar .sidebar-header,
 .sidebar .sidebar-section .sidebar-section-header {
+    color: $sidebar-header-color;
     text-transform: uppercase;
     font-family: $font-family-serif;
     font-weight: bold;

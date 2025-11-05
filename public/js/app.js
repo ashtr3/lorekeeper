@@ -54660,10 +54660,23 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
 
 /***/ }),
 
-/***/ "./resources/sass/default.scss":
-/*!*************************************!*\
-  !*** ./resources/sass/default.scss ***!
-  \*************************************/
+/***/ "./resources/sass/light.scss":
+/*!***********************************!*\
+  !*** ./resources/sass/light.scss ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/sass/dark.scss":
+/*!**********************************!*\
+  !*** ./resources/sass/dark.scss ***!
+  \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -61013,7 +61026,8 @@ module.exports = axios;
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
 /******/ 			"/js/app": 0,
-/******/ 			"css/default": 0
+/******/ 			"css/dark": 0,
+/******/ 			"css/light": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -61063,8 +61077,9 @@ module.exports = axios;
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/default"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/default"], () => (__webpack_require__("./resources/sass/default.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/dark","css/light"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/dark","css/light"], () => (__webpack_require__("./resources/sass/light.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/dark","css/light"], () => (__webpack_require__("./resources/sass/dark.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
