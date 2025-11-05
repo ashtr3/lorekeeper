@@ -114,6 +114,38 @@ $input-focus-border-color: lighten($lightest, 25%);
 $input-focus-color: $input-color;
 $input-placeholder-color: $gray-600;
 $input-plaintext-color: $body-color;
+$custom-file-border-color: $input-border-color;
+$custom-file-button-color: $input-color;
+$custom-file-button-bg: $gray-200;
+
+// Tabs
+$nav-tabs-border-color: $light;
+$nav-tabs-link-hover-border-color: $nav-tabs-border-color $nav-tabs-border-color $nav-tabs-border-color;
+$nav-tabs-link-active-color: $text-muted;
+$nav-tabs-link-active-bg: $body-bg;
+$nav-tabs-link-active-border-color: $nav-tabs-border-color $nav-tabs-border-color $nav-tabs-link-active-bg;
+
+// Pagination
+$pagination-color: $link-color;
+$pagination-bg: $lightest;
+$pagination-border-color: $gray-300;
+$pagination-hover-color: $link-hover-color;
+$pagination-hover-bg: $gray-200;
+$pagination-hover-border-color: $gray-300;
+$pagination-active-color: $lightest;
+$pagination-active-bg: $primary;
+$pagination-active-border-color: $pagination-active-bg;
+$pagination-disabled-color: $gray-600;
+$pagination-disabled-bg: $white;
+$pagination-disabled-border-color: $gray-300;
+
+// Alerts
+$alert-bg-level: -10;
+$alert-border-level: -9;
+$alert-color-level: 6;
 
 // Shadows
-$box-shadow: 0px 0px 6px 3px rgba($darkest, 0.1)
+$box-shadow: 0px 0px 6px 3px rgba($darkest, 0.1);
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';

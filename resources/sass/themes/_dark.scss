@@ -107,13 +107,95 @@ $sortable-handle-color: $dark;
 // Forms
 $input-bg: rgba($darkest, 0.125);
 $input-disabled-bg: $gray-200;
-$input-color: inherit;
+$input-color: $lightest;
 $input-border-color: rgba($darkest, 0.5);
 $input-focus-bg: rgba($darkest, 0.25);
 $input-focus-border-color: lighten($white, 25%);
 $input-focus-color: $input-color;
 $input-placeholder-color: $gray-600;
 $input-plaintext-color: $body-color;
+$input-handle-color: $dark;
+$custom-file-border-color: $input-border-color;
+$custom-file-button-color: $input-color;
+$custom-file-button-bg: $dark;
+
+// Tabs
+$nav-tabs-border-color: rgba($darkest, 0.5);
+$nav-tabs-link-hover-border-color: $nav-tabs-border-color $nav-tabs-border-color $nav-tabs-border-color;
+$nav-tabs-link-active-color: $lightest;
+$nav-tabs-link-active-bg: lighten($body-bg, 5%);
+$nav-tabs-link-active-border-color: $nav-tabs-border-color $nav-tabs-border-color $nav-tabs-link-active-bg;
+
+// Pagination
+$pagination-color: $link-color;
+$pagination-bg: $darker;
+$pagination-border-color: darken($darker, 5%);
+$pagination-hover-color: $link-hover-color;
+$pagination-hover-bg: rgba($darker, 0.6);
+$pagination-hover-border-color: $darker;
+$pagination-active-color: $lightest;
+$pagination-active-bg: $primary;
+$pagination-active-border-color: $pagination-active-bg;
+$pagination-disabled-color: $gray-600;
+$pagination-disabled-bg: color-mix(in srgb, $dark, $darker);
+$pagination-disabled-border-color: $darker;
+
+// Alerts
+$alert-bg-level: 6;
+$alert-border-level: 6;
+$alert-color-level: -10;
 
 // Shadows
-$box-shadow: 0px 0px 6px 3px rgba($darkest, 0.1)
+$box-shadow: 0px 0px 6px 3px rgba($darkest, 0.1);
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Selectize
+.selectize-input, .selectize-control.single, .selectize-input.input-active {
+    background: $input-bg !important;
+}
+.selectize-dropdown, .selectize-input, .selectize-input input {
+    color: $input-color !important;
+}
+.selectize-input {
+    border: 1px solid $input-border-color !important;
+}
+
+// Bootstrap Toggle
+.toggle.btn {
+    color: $input-color !important;
+    background-color: $input-bg !important;
+    border-color: $input-border-color !important;
+}
+.toggle .toggle-off {
+    color: $input-color;
+    background-color: transparent;
+}
+.toggle .toggle-handle {
+    background-color: $input-handle-color;
+    border-color: $input-border-color !important;
+}
+
+// TinyMCE WYSIWYG Editor
+.tox .tox-tbtn svg {
+    fill: $input-color !important;
+}
+.tox .tox-edit-area__iframe {
+    background-color: $input-bg !important;
+}
+.tox-tbtn__select-label, .tox .tox-collection--list .tox-collection__item--active {
+    color: $input-color !important;
+}
+.tox .tox-tbtn:hover, .tox .tox-tbtn:focus, .tox .tox-tbtn:active, .tox .tox-collection--list .tox-collection__item--active {
+    background-color: transparent !important;
+    color: $input-color !important;
+}
+.tox .tox-menu, .tox .tox-statusbar, .tox .tox-toolbar, .tox .tox-toolbar__overflow, .tox .tox-toolbar__primary {
+    background: $dark !important;
+    color: $input-color !important;
+    border-color: $input-border-color !important;
+}
+.tox-tinymce, .tox .tox-statusbar, .tox .tox-toolbar__group:not(:last-of-type), .tox .tox-edit-area {
+    border-color: $input-border-color !important;
+}
