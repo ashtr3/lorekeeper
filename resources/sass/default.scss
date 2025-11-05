@@ -1,12 +1,12 @@
 
 // Fonts
-@import 'fonts';
+@import './config/fonts';
 
 // Colors
-@import 'colors';
+@import './config/colors';
 
-// Variables
-@import 'variables';
+// Theme
+@import './themes/light';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';

@@ -1,0 +1,81 @@
+// Colors
+$primary:       $blue !default;
+$secondary:     $gray-600 !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light:         $gray-300 !default;
+$lighter:       $gray-100 !default;
+$lightest:      $white !default;
+$dark:          $gray-800 !default;
+$darker:        $gray-900 !default;
+$darkest:       $black !default;
+
+// Typography & text
+$font-family-serif: "Roboto Condensed", serif;
+$font-family-sans-serif: "Lato", sans-serif;
+$font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+$font-family-base: $font-family-sans-serif;
+$font-size-base: 0.9rem;
+$line-height-base: 1.6;
+$font-dark-color: $darkest;
+$font-light-color: $lightest;
+$text-muted: $secondary;
+$body-color: $darker;
+$breadcrumb-color: rgba($darkest, 0.3);
+$breadcrumb-link-color: rgba($darkest, 0.3);
+$breadcrumb-link-hover-color: rgba($darkest, 0.4);
+$breadcrumb-link-active-color: $secondary;
+$link-color: rgba($darkest, 0.7);
+$link-hover-color: rgba($darkest, 1);
+$spoiler-color: inherit;
+
+// Backgrounds
+$body-bg: $light;
+$content-bg: $lightest;
+$character-tab-active-bg: $lightest;
+$notif-unread-bg: $lighter;
+$transfer-select-bg: rgba($darkest, 0.05);
+$sortable-placeholder: rgba($darkest, 0.1);
+$spoiler-toggle-color: $lighter;
+
+// Cards
+$sidebar-bg: $light;
+$sidebar-link-color: rgba($darkest, 0.4);
+$sidebar-link-bg: $lightest;
+$sidebar-link-hover-color: rgba($darkest, 0.9);
+$sidebar-link-hover-bg: $lighter;
+$sidebar-link-active-color: $lightest;
+$sidebar-link-active-bg: $dark;
+$sidebar-header-bg: $dark;
+$sidebar-header-link-color: $lightest;
+$sidebar-header-link-hover-color: rgba($lightest, 0.8);
+
+// Navbar
+$navbar-color: rgba($lightest, 0.5);
+$navbar-hover-color: rgba($lightest, 0.75);
+$navbar-active-color: $lightest;
+$navbar-disabled-color: rgba($lightest, 0.25);
+$navbar-toggler-icon-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'><path stroke='#{rgba($lightest, .5)}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+$navbar-toggler-border-color: rgba($lightest, 0.1);
+$navbar-brand-color: $lightest;
+$navbar-brand-hover-color: $lightest;
+
+// Footer
+$footer-link-color: rgba($darkest, 0.5);
+$footer-link-hover-color: rgba($darkest, 0.75);
+$footer-link-active-color: $darkest;
+$footer-link-disabled-color: rgba($darkest, 0.25);
+$footer-copyright-color: rgba($darkest, 0.3);
+
+// Borders & UI elements
+$table-border-color: $light;
+$image-border-color: transparent;
+$image-border-color-active: $light;
+$spoiler-border-color: rgba($darkest, 0.1);
+$transfer-border-color: rgba($darkest, 0.5);
+$sortable-handle-color: $dark;
+
+// Shadows
+$box-shadow: 0px 0px 6px 3px rgba($darkest, 0.1)
