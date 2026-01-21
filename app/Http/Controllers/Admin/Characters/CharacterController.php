@@ -55,8 +55,10 @@ class CharacterController extends Controller {
             'subtypes'    => ['0' => 'Pick a Species First'],
             'features'    => Feature::getDropdownItems(1, 0),
             'chimericFeatureIds' => Feature::getChimericFeatureIds(),
-            'loci'        => ['0' => 'Select Locus'] + FeatureLocus::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'loci_c'      => ['0' => 'Select Locus'] + FeatureLocus::where('restrict_chimeric', 0)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'requiredLoci'       => FeatureLocus::required()->with('alleles')->orderBy('sort', 'DESC')->get(),
+            'requiredLoci_c'     => FeatureLocus::required()->where('restrict_chimeric', 0)->with('alleles')->orderBy('sort', 'DESC')->get(),
+            'loci'        => ['0' => 'Select Locus'] + FeatureLocus::required(false)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'loci_c'      => ['0' => 'Select Locus'] + FeatureLocus::required(false)->where('restrict_chimeric', 0)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'isMyo'       => false,
         ]);
     }
@@ -113,6 +115,7 @@ class CharacterController extends Controller {
             'species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data', 'genetics',
             'image', 'thumbnail', 'image_description',
         ]);
+
         if ($character = $service->createCharacter($data, Auth::user())) {
             flash('Character created successfully.')->success();
 

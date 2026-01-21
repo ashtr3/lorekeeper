@@ -211,7 +211,7 @@ class FeatureController extends Controller {
     public function postCreateEditFeatureLocus(Request $request, FeatureService $service, $id = null) {
         $id ? $request->validate(FeatureLocus::$updateRules) : $request->validate(FeatureLocus::$createRules);
         $data = $request->only([
-            'name', 'default_allele', 'description', 'is_visible', 'default_allele_leads', 'restrict_chimeric',
+            'name', 'default_allele', 'description', 'is_visible', 'default_allele_leads', 'is_required', 'restrict_chimeric',
         ]);
         if ($id && $service->updateFeatureLocus(FeatureLocus::find($id), $data, Auth::user())) {
             flash('Locus updated successfully.')->success();

@@ -767,6 +767,10 @@ class FeatureService extends Service {
             $data['default_allele_leads'] = 0;
         }
 
+        if (!isset($data['is_required'])) {
+            $data['is_required'] = 0;
+        }
+
         if (!isset($data['restrict_chimeric'])) {
             $data['restrict_chimeric'] = 0;
         }

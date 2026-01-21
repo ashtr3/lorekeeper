@@ -11,7 +11,7 @@ class FeatureLocus extends Model {
      * @var array
      */
     protected $fillable = [
-        'name', 'default_allele', 'sort', 'description', 'parsed_description', 'default_allele_leads', 'restrict_chimeric', 'is_visible',
+        'name', 'default_allele', 'sort', 'description', 'parsed_description', 'default_allele_leads', 'is_required', 'restrict_chimeric', 'is_visible',
     ];
 
     /**
@@ -83,6 +83,10 @@ class FeatureLocus extends Model {
         }
 
         return $query->where('is_visible', 1);
+    }
+
+    public function scopeRequired($query, $required = true) {
+        return $query->where('is_required', $required ? 1 : 0);
     }
 
     public function scopeAllowsChimeric($query) {

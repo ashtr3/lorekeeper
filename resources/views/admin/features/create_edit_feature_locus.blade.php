@@ -42,6 +42,10 @@
             {!! Form::label('default_allele_leads', 'Default Allele Leads', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned on, the default allele will always appear at the front of a heterozygous genotype, otherwise it will be trailing.') !!}
         </div>
         <div class="form-group mr-3">
+            {!! Form::checkbox('is_required', 1, $locus->id ? $locus->is_required : 1, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
+            {!! Form::label('is_required', 'Is Required', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned on, the locus will be included automatically on all character genotypes.') !!}
+        </div>
+        <div class="form-group mr-3">
             {!! Form::checkbox('restrict_chimeric', 1, $locus->id ? $locus->restrict_chimeric : 0, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
             {!! Form::label('restrict_chimeric', 'Restrict Chimerism', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned on, this locus cannot be added to the secondary genotype caused by chimerism.') !!}
         </div>

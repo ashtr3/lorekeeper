@@ -253,10 +253,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="gene-row" data-id="0">
-                        <td>{!! Form::select('genetics[primary][0][locus_id]', $loci, null, ['class' => 'form-control locus-input']) !!}</td>
-                        <td>{!! Form::select('genetics[primary][0][primary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
-                        <td>{!! Form::select('genetics[primary][0][secondary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                    @if (count($requiredLoci))
+                        @foreach ($requiredLoci as $index => $locus)
+                            <tr class="gene-row-fixed" data-id="{{ $index }}">
+                                <td>
+                                    {!! Form::hidden("genetics[primary][$index][locus_id]", $locus->id) !!}
+                                    <input type="text" class="form-control mr-2" value="{{ $locus->name }}" readonly>
+                                </td>
+                                <td>{!! Form::select("genetics[primary][$index][primary_allele_id]", ['0' => 'Select Allele'] + $locus->alleles->pluck('allele', 'id')->toArray(), null, ['class' => 'form-control allele-input']) !!}</td>
+                                <td colspan=2>{!! Form::select("genetics[primary][$index][secondary_allele_id]", ['0' => 'Select Allele'] + $locus->alleles->pluck('allele', 'id')->toArray(), null, ['class' => 'form-control allele-input']) !!}</td>
+                            </tr>
+                        @endforeach
+                    @endif
+                    @php 
+                        $nextIndex = count($requiredLoci)
+                    @endphp
+                    <tr class="gene-row" data-id="{{ $nextIndex }}">
+                        <td>{!! Form::select("genetics[primary][$nextIndex][locus_id]", $loci, null, ['class' => 'form-control locus-input']) !!}</td>
+                        <td>{!! Form::select("genetics[primary][$nextIndex][primary_allele_id]", ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                        <td>{!! Form::select("genetics[primary][$nextIndex][secondary_allele_id]", ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
                         <td class="d-flex">
                             <button type="button" href="#" class="btn btn-sm btn-outline-danger delete-gene-button" disabled>
                                 <i class="fas fa-times"></i>
@@ -282,10 +297,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="gene-row" data-id="0">
-                        <td>{!! Form::select('genetics[secondary][0][locus_id]', $loci_c, null, ['class' => 'form-control locus-input']) !!}</td>
-                        <td>{!! Form::select('genetics[secondary][0][primary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
-                        <td>{!! Form::select('genetics[secondary][0][secondary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                    @if (count($requiredLoci_c))
+                        @foreach ($requiredLoci_c as $index => $locus)
+                            <tr class="gene-row-fixed" data-id="{{ $index }}">
+                                <td>
+                                    {!! Form::hidden("genetics[secondary][$index][locus_id]", $locus->id) !!}
+                                    <input type="text" class="form-control mr-2" value="{{ $locus->name }}" readonly>
+                                </td>
+                                <td>{!! Form::select("genetics[secondary][$index][primary_allele_id]", ['0' => 'Select Allele'] + $locus->alleles->pluck('allele', 'id')->toArray(), null, ['class' => 'form-control allele-input']) !!}</td>
+                                <td colspan=2>{!! Form::select("genetics[secondary][$index][secondary_allele_id]", ['0' => 'Select Allele'] + $locus->alleles->pluck('allele', 'id')->toArray(), null, ['class' => 'form-control allele-input']) !!}</td>
+                            </tr>
+                        @endforeach
+                    @endif
+                    @php 
+                        $nextIndex_c = count($requiredLoci_c)
+                    @endphp
+                    <tr class="gene-row" data-id="{{ $nextIndex_c }}">
+                        <td>{!! Form::select("genetics[secondary][$nextIndex_c][locus_id]", $loci_c, null, ['class' => 'form-control locus-input']) !!}</td>
+                        <td>{!! Form::select("genetics[secondary][$nextIndex_c][primary_allele_id]", ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                        <td>{!! Form::select("genetics[secondary][$nextIndex_c][secondary_allele_id]", ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
                         <td class="d-flex">
                             <button type="button" href="#" class="btn btn-sm btn-outline-danger delete-gene-button" disabled>
                                 <i class="fas fa-times"></i>

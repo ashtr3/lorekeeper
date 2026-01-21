@@ -25,6 +25,9 @@
                             @if (!$locus->is_visible)
                                 <i class="fas fa-eye-slash mr-1"></i>
                             @endif
+                            @if ($locus->is_required)
+                                <i class="fas fa-asterisk mr-1"></i>
+                            @endif
                             {!! $locus->displayName !!}
                         </td>
                         <td class="text-right">
