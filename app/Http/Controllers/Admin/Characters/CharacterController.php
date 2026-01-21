@@ -54,6 +54,9 @@ class CharacterController extends Controller {
             'specieses'   => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes'    => ['0' => 'Pick a Species First'],
             'features'    => Feature::getDropdownItems(1, 0),
+            'chimericFeatureIds' => Feature::getChimericFeatureIds(),
+            'loci'        => ['0' => 'Select Locus'] + FeatureLocus::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'loci_c'      => ['0' => 'Select Locus'] + FeatureLocus::where('restrict_chimeric', 0)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'isMyo'       => false,
         ]);
     }
@@ -70,6 +73,9 @@ class CharacterController extends Controller {
             'specieses'   => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes'    => ['0' => 'Pick a Species First'],
             'features'    => Feature::getDropdownItems(1, 0),
+            'chimericFeatureIds' => Feature::getChimericFeatureIds(),
+            'loci'        => ['0' => 'Select Locus'] + FeatureLocus::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'loci_c'      => ['0' => 'Select Locus'] + FeatureLocus::where('restrict_chimeric', 0)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'isMyo'       => true,
         ]);
     }
@@ -104,7 +110,7 @@ class CharacterController extends Controller {
             'x0', 'x1', 'y0', 'y1',
             'designer_id', 'designer_url',
             'artist_id', 'artist_url',
-            'species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data',
+            'species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data', 'genetics',
             'image', 'thumbnail', 'image_description',
         ]);
         if ($character = $service->createCharacter($data, Auth::user())) {
@@ -136,7 +142,7 @@ class CharacterController extends Controller {
             'x0', 'x1', 'y0', 'y1',
             'designer_id', 'designer_url',
             'artist_id', 'artist_url',
-            'species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data',
+            'species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data', 'genetics',
             'image', 'thumbnail',
         ]);
         if ($character = $service->createCharacter($data, Auth::user(), true)) {

@@ -9,6 +9,7 @@ use App\Models\Feature\FeatureAllele;
 use App\Models\Feature\FeatureCategory;
 use App\Models\Feature\FeatureLocus;
 use App\Models\Feature\FeatureOverride;
+use App\Models\Feature\FeatureGene;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use Illuminate\Support\Facades\DB;
@@ -261,8 +262,15 @@ class FeatureService extends Service {
         DB::beginTransaction();
 
         try {
-            // Check first if the category is currently in use
-            if (FeatureAllele::where('feature_locus_id', $locus->id)->exists()) {
+            $locusId = $locus->id;
+
+            if (FeatureGene::whereHas('allele', function($query) use ($locusId) {
+                $query->where('feature_locus_id', $locusId);
+            })->exists()) {
+                throw new \Exception('A trait with this locus exists. Please update the affected traits first.');
+            }
+
+            if (FeatureAllele::where('feature_locus_id', $locusId)->exists()) {
                 throw new \Exception('An allele with this locus exists. Please change its locus first.');
             }
 
@@ -386,10 +394,9 @@ class FeatureService extends Service {
         DB::beginTransaction();
 
         try {
-            // Check first if the category is currently in use
-            // if (FeatureAllele::where('feature_locus_id', $locus->id)->exists()) {
-            //     throw new \Exception('An allele with this locus exists. Please change its locus first.');
-            // }
+            if (FeatureGene::where('feature_allele_id', $allele->id)->exists()) {
+                throw new \Exception('A trait with this allele exists. Please update the affected traits first.');
+            }
 
             if (!$this->logAdminAction($user, 'Deleted Feature Allele', 'Deleted '.$allele->allele)) {
                 throw new \Exception('Failed to log admin action.');
@@ -684,10 +691,24 @@ class FeatureService extends Service {
             CharacterFeature::where('feature_id', $feature->id)->delete();
 
             // Add feature to all characters meeting genetic requirements
-            foreach (Character::hasGenotype()->with(['genetics', 'image.features'])->get() as $character) {
+            $characters = Character::hasGenotype()->with(['genetics', 'image.features'])->get();
+
+            foreach ($characters as $character) {
                 if ($character->canHaveGeneticFeature($feature)) {
-                    $character->image->features()->create([
-                        'feature_id' => $feature->id,
+                    CharacterFeature::create([
+                        'character_image_id' => $character->image->id,
+                        'feature_id'         => $feature->id,
+                        'data'               => $feature->data,
+                        'character_type'     => 'Character',
+                    ]);
+                }
+                if ($character->isChimeric && $character->canHaveGeneticFeature($feature, true)) {
+                    CharacterFeature::create([
+                        'character_image_id' => $character->image->id,
+                        'feature_id'         => $feature->id,
+                        'data'               => $feature->data,
+                        'character_type'     => 'Character',
+                        'is_chimeric'        => 1,
                     ]);
                 }
             }

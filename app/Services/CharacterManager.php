@@ -14,6 +14,7 @@ use App\Models\Character\CharacterImage;
 use App\Models\Character\CharacterTransfer;
 use App\Models\Sales\SalesCharacter;
 use App\Models\Species\Subtype;
+use App\Models\Feature\Feature;
 use App\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
@@ -2097,6 +2098,62 @@ class CharacterManager extends Service {
             foreach ($data['feature_id'] as $key => $featureId) {
                 if ($featureId) {
                     CharacterFeature::create(['character_image_id' => $image->id, 'feature_id' => $featureId, 'data' => $data['feature_data'][$key]]);
+                }
+            }
+
+            $image->load('features');
+
+            $isChimeric = $image->features->contains('enables_chimerism', 1);
+
+            $features = Feature::genetic()->get();
+
+            // Attach primary genetics
+            foreach ($data['genetics']['primary'] as $key => $gene) {
+                if ($gene['locus_id']) {
+                    $character->genetics()->create([
+                        'locus_id'            => $gene['locus_id'],
+                        'primary_allele_id'   => $gene['primary_allele_id'],
+                        'secondary_allele_id' => $gene['secondary_allele_id'],
+                    ]);
+                }
+            }
+
+            // Attach primary features
+            foreach ($features as $feature) {
+                if ($character->canHaveGeneticFeature($feature)) {
+                    CharacterFeature::create([
+                        'character_image_id' => $image->id,
+                        'feature_id'         => $feature->id,
+                        'data'               => $feature->data,
+                        'character_type'     => 'Character',
+                    ]);
+                }
+            }
+
+            if ($isChimeric) {
+                // Attach secondary genetics (if chimeric)
+                foreach ($data['genetics']['secondary'] as $key => $gene) {
+                    if ($gene['locus_id']) {
+                        $character->genetics()->create([
+                            'locus_id'            => $gene['locus_id'],
+                            'primary_allele_id'   => $gene['primary_allele_id'],
+                            'secondary_allele_id' => $gene['secondary_allele_id'],
+                            'is_chimeric'         => 1,
+                        ]);
+                    }
+                }
+
+                // Attach secondary features (if chimeric)
+                foreach ($features as $feature) {
+                    if ($character->canHaveGeneticFeature($feature, true)) {
+                        CharacterFeature::create([
+                            'character_image_id' => $image->id,
+                            'feature_id'         => $feature->id,
+                            'data'               => $feature->data,
+                            'character_type'     => 'Character',
+                            'is_chimeric'        => 1,
+                        ]);
+                    }
                 }
             }
 

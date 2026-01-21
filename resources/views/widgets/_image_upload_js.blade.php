@@ -71,15 +71,37 @@
         }
 
         // Traits /////////////////////////////////////////////////////////////////////////////////////
+    
+        var selectedFeatureIds;
+
+        function updateSelectedFeatures() {
+            selectedFeatureIds = [];
+            $('.feature-select').each(function() {
+                var selectedId = $(this).val();
+                if (selectedId && selectedId !== '') {
+                    selectedFeatureIds.push(selectedId);
+                }
+            });
+            if (typeof checkIfChimeric === 'function') {
+                checkIfChimeric(selectedFeatureIds);
+            }
+        }
 
         @if (config('lorekeeper.extensions.organised_traits_dropdown'))
             $('.initial.feature-select').selectize({
                 render: {
                     item: featureSelectedRender
+                },
+                onChange: function(value) {
+                    updateSelectedFeatures();
                 }
             });
         @else
-            $('.initial.feature-select').selectize();
+            $('.initial.feature-select').selectize({
+                onChange: function(value) {
+                    updateSelectedFeatures();
+                }
+            });
         @endif
         $('#add-feature').on('click', function(e) {
             e.preventDefault();
@@ -103,19 +125,94 @@
                 $clone.find('.feature-select').selectize({
                     render: {
                         item: featureSelectedRender
+                    },
+                    onChange: function(value) {
+                        updateSelectedFeatures();
                     }
                 });
             @else
-                $clone.find('.feature-select').selectize();
+                $clone.find('.feature-select').selectize({
+                    onChange: function(value) {
+                        updateSelectedFeatures();
+                    }
+                });
             @endif
         }
 
         function removeFeatureRow($trigger) {
             $trigger.parent().remove();
+            updateSelectedFeatures();
         }
 
         function featureSelectedRender(item, escape) {
             return '<div><span>' + escape(item["text"].trim()) + ' (' + escape(item["optgroup"].trim()) + ')' + '</span></div>';
+        }
+
+        // Genetics ///////////////////////////////////////////////////////////////////////////////////
+
+        var primary = $('.genetics-primary-table tbody');
+        var secondary = $('.genetics-secondary-table tbody');
+
+        $('.add-primary-gene-button').click(function(e) {
+            e.preventDefault();
+
+            const newRow = primary.find('.gene-row:last').clone();
+            const lastIndex = newRow.data('id');
+            const newIndex = lastIndex + 1;
+            newRow.attr('data-id', newIndex);
+
+            newRow.find('select').each(function() {
+                const name = $(this).attr('name');
+                const newName = name.replace(/\[\d+\]/, `[${newIndex}]`);
+                $(this).attr('name', newName);
+            });
+
+            newRow.find('input').val('');
+            primary.append(newRow);
+
+            const count = primary.find('.gene-row').length;
+            toggleDeleteButtons(primary, count > 1);
+        });
+
+        $('.add-secondary-gene-button').click(function(e) {
+            e.preventDefault();
+
+            const newRow = secondary.find('.gene-row:last').clone();
+            const lastIndex = newRow.data('id');
+            const newIndex = lastIndex + 1;
+            newRow.attr('data-id', newIndex);
+
+            newRow.find('select').each(function() {
+                const name = $(this).attr('name');
+                const newName = name.replace(/\[\d+\]/, `[${newIndex}]`);
+                $(this).attr('name', newName);
+            });
+
+            newRow.find('input').val('');
+            secondary.append(newRow);
+
+            const count = secondary.find('.gene-row').length;
+            toggleDeleteButtons(secondary, count > 1);
+        });
+
+        primary.on('click', '.delete-gene-button', function(e) {
+            e.preventDefault();
+            $(this).closest('tr').remove();
+
+            const count = primary.find('.gene-row').length;
+            toggleDeleteButtons(primary, count > 1);
+        });
+
+        secondary.on('click', '.delete-gene-button', function(e) {
+            e.preventDefault();
+            $(this).closest('tr').remove();
+
+            const count = secondary.find('.gene-row').length;
+            toggleDeleteButtons(secondary, count > 1);
+        });
+
+        function toggleDeleteButtons(tbody, enabled = true) {
+            tbody.find('.delete-gene-button').prop('disabled', !enabled);
         }
 
         // Croppie ////////////////////////////////////////////////////////////////////////////////////

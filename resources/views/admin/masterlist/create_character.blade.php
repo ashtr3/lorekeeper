@@ -239,6 +239,64 @@
         </div>
 
         <div class="form-group">
+            {!! Form::label('Primary Genotype') !!}
+            {!! add_help('This is the primary genotype available for all characters.') !!}
+            <div>
+                <a class="btn btn-primary mb-2 add-primary-gene-button" href="#"><i class="fas fa-plus"></i> Add Gene</a>
+            </div>
+            <table class="table table-sm genetics-primary-table">
+                <thead>
+                    <tr>
+                        <th width="50%">Locus</th>
+                        <th width="25%">Allele 1</th>
+                        <th width="25%" colspan="2">Allele 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="gene-row" data-id="0">
+                        <td>{!! Form::select('genetics[primary][0][locus_id]', $loci, null, ['class' => 'form-control locus-input']) !!}</td>
+                        <td>{!! Form::select('genetics[primary][0][primary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                        <td>{!! Form::select('genetics[primary][0][secondary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                        <td class="d-flex">
+                            <button type="button" href="#" class="btn btn-sm btn-outline-danger delete-gene-button" disabled>
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="chimericGenetics" class="form-group hide">
+            {!! Form::label('Secondary Genotype') !!}
+            {!! add_help('This is the secondary genotype available only to characters with a trait that enables chimerism.') !!}
+            <div>
+                <a class="btn btn-primary mb-2 add-secondary-gene-button" href="#"><i class="fas fa-plus"></i> Add Gene</a>
+            </div>
+            <table class="table table-sm genetics-secondary-table">
+                <thead>
+                    <tr>
+                        <th width="50%">Locus</th>
+                        <th width="25%">Allele 1</th>
+                        <th width="25%" colspan="2">Allele 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="gene-row" data-id="0">
+                        <td>{!! Form::select('genetics[secondary][0][locus_id]', $loci_c, null, ['class' => 'form-control locus-input']) !!}</td>
+                        <td>{!! Form::select('genetics[secondary][0][primary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                        <td>{!! Form::select('genetics[secondary][0][secondary_allele_id]', ['0' => 'Select Allele'], null, ['class' => 'form-control allele-input']) !!}</td>
+                        <td class="d-flex">
+                            <button type="button" href="#" class="btn btn-sm btn-outline-danger delete-gene-button" disabled>
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="form-group">
             {!! Form::label('Traits') !!} @if ($isMyo)
                 {!! add_help(
                     'These traits will be listed as required traits for the slot. The user will still be able to add on more traits, but not be able to remove these. This is allowed to conflict with the rarity above; you may add traits above the character\'s specified rarity.',
@@ -264,6 +322,28 @@
 
 @section('scripts')
     @parent
+
+    <script>
+        var chimericFeatureIds = @json($chimericFeatureIds);
+
+        function checkIfChimeric(selectedIds) {
+            var isChimeric = false;
+
+            for (var i = 0; i < selectedIds.length; i++) {
+                if (chimericFeatureIds.includes(parseInt(selectedIds[i]))) {
+                    isChimeric = true;
+                    break;
+                }
+            }
+
+            if (isChimeric) {
+                $('#chimericGenetics').removeClass('hide');
+            } else {
+                $('#chimericGenetics').addClass('hide');
+            }
+        }
+    </script>
+
     @include('widgets._character_create_options_js')
     @include('widgets._image_upload_js')
     @include('widgets._datetimepicker_js')
@@ -285,5 +365,33 @@
                 alert("AJAX call failed: " + textStatus + ", " + errorThrown);
             });
         });
+
+        $('tbody').on('change', '.locus-input', async function() {
+            const id = $(this).val();
+            const alleles = await getAlleles(id);
+
+            const row = $(this).closest('tr');
+            const select = row.find('.allele-input');
+
+            select.empty();
+            $.each(alleles, function(key, value) {
+                select.append(`<option value="${key}">${value}</option>`);
+            });
+        });
+
+        function getAlleles(id) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: "{{ url('admin/data/trait-loci') }}/" + id + "/alleles",
+                    type: 'GET',
+                    success: function(response) {
+                        resolve(response);
+                    },
+                    error: function(xhr, status, error) {
+                        reject(error);
+                    }
+                });
+            });
+        }
     </script>
 @endsection
