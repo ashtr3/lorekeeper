@@ -7,9 +7,9 @@ use App\Models\Character\CharacterFeature;
 use App\Models\Feature\Feature;
 use App\Models\Feature\FeatureAllele;
 use App\Models\Feature\FeatureCategory;
+use App\Models\Feature\FeatureGene;
 use App\Models\Feature\FeatureLocus;
 use App\Models\Feature\FeatureOverride;
-use App\Models\Feature\FeatureGene;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use Illuminate\Support\Facades\DB;
@@ -264,7 +264,7 @@ class FeatureService extends Service {
         try {
             $locusId = $locus->id;
 
-            if (FeatureGene::whereHas('allele', function($query) use ($locusId) {
+            if (FeatureGene::whereHas('allele', function ($query) use ($locusId) {
                 $query->where('feature_locus_id', $locusId);
             })->exists()) {
                 throw new \Exception('A trait with this locus exists. Please update the affected traits first.');
