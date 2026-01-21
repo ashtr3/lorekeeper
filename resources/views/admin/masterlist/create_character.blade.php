@@ -265,8 +265,8 @@
                             </tr>
                         @endforeach
                     @endif
-                    @php 
-                        $nextIndex = count($requiredLoci)
+                    @php
+                        $nextIndex = count($requiredLoci);
                     @endphp
                     <tr class="gene-row" data-id="{{ $nextIndex }}">
                         <td>{!! Form::select("genetics[primary][$nextIndex][locus_id]", $loci, null, ['class' => 'form-control locus-input']) !!}</td>
@@ -309,8 +309,8 @@
                             </tr>
                         @endforeach
                     @endif
-                    @php 
-                        $nextIndex_c = count($requiredLoci_c)
+                    @php
+                        $nextIndex_c = count($requiredLoci_c);
                     @endphp
                     <tr class="gene-row" data-id="{{ $nextIndex_c }}">
                         <td>{!! Form::select("genetics[secondary][$nextIndex_c][locus_id]", $loci_c, null, ['class' => 'form-control locus-input']) !!}</td>
