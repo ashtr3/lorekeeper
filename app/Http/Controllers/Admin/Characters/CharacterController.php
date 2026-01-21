@@ -48,12 +48,12 @@ class CharacterController extends Controller {
      */
     public function getCreateCharacter() {
         return view('admin.masterlist.create_character', [
-            'categories'  => CharacterCategory::orderBy('sort')->get(),
-            'userOptions' => User::query()->orderBy('name')->pluck('name', 'id')->toArray(),
-            'rarities'    => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'specieses'   => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'subtypes'    => ['0' => 'Pick a Species First'],
-            'features'    => Feature::getDropdownItems(1, 0),
+            'categories'         => CharacterCategory::orderBy('sort')->get(),
+            'userOptions'        => User::query()->orderBy('name')->pluck('name', 'id')->toArray(),
+            'rarities'           => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'specieses'          => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'subtypes'           => ['0' => 'Pick a Species First'],
+            'features'           => Feature::getDropdownItems(1, 0),
             'chimericFeatureIds' => Feature::getChimericFeatureIds(),
             'requiredLoci'       => FeatureLocus::required()->with('alleles')->orderBy('sort', 'DESC')->get(),
             'requiredLoci_c'     => FeatureLocus::required()->where('restrict_chimeric', 0)->with('alleles')->orderBy('sort', 'DESC')->get(),
@@ -70,15 +70,15 @@ class CharacterController extends Controller {
      */
     public function getCreateMyo() {
         return view('admin.masterlist.create_character', [
-            'userOptions' => User::query()->orderBy('name')->pluck('name', 'id')->toArray(),
-            'rarities'    => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'specieses'   => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'subtypes'    => ['0' => 'Pick a Species First'],
-            'features'    => Feature::getDropdownItems(1, 0),
+            'userOptions'        => User::query()->orderBy('name')->pluck('name', 'id')->toArray(),
+            'rarities'           => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'specieses'          => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'subtypes'           => ['0' => 'Pick a Species First'],
+            'features'           => Feature::getDropdownItems(1, 0),
             'chimericFeatureIds' => Feature::getChimericFeatureIds(),
-            'loci'        => ['0' => 'Select Locus'] + FeatureLocus::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'loci_c'      => ['0' => 'Select Locus'] + FeatureLocus::where('restrict_chimeric', 0)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'isMyo'       => true,
+            'loci'               => ['0' => 'Select Locus'] + FeatureLocus::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'loci_c'             => ['0' => 'Select Locus'] + FeatureLocus::where('restrict_chimeric', 0)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'isMyo'              => true,
         ]);
     }
 

@@ -71,7 +71,7 @@
         }
 
         // Traits /////////////////////////////////////////////////////////////////////////////////////
-    
+
         var selectedFeatureIds;
 
         function updateSelectedFeatures() {

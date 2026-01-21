@@ -411,8 +411,7 @@ class Feature extends Model {
         }
     }
 
-    public static function getChimericFeatureIds()
-    {
+    public static function getChimericFeatureIds() {
         return self::where('enables_chimerism', true)->pluck('id')->toArray();
     }
 }
