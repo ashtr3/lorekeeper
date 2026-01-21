@@ -57,9 +57,9 @@ class CharacterController extends Controller {
             'chimericFeatureIds' => Feature::getChimericFeatureIds(),
             'requiredLoci'       => FeatureLocus::required()->with('alleles')->orderBy('sort', 'DESC')->get(),
             'requiredLoci_c'     => FeatureLocus::required()->where('restrict_chimeric', 0)->with('alleles')->orderBy('sort', 'DESC')->get(),
-            'loci'        => ['0' => 'Select Locus'] + FeatureLocus::required(false)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'loci_c'      => ['0' => 'Select Locus'] + FeatureLocus::required(false)->where('restrict_chimeric', 0)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'isMyo'       => false,
+            'loci'               => ['0' => 'Select Locus'] + FeatureLocus::required(false)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'loci_c'             => ['0' => 'Select Locus'] + FeatureLocus::required(false)->where('restrict_chimeric', 0)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'isMyo'              => false,
         ]);
     }
 
