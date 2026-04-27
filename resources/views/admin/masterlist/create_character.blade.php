@@ -98,14 +98,14 @@
         <div class="row">
             <div class="col-12 col-md-6">
                 <div class="form-group">
-                    {!! Form::label('Sire') !!}
-                    {!! Form::select('ancestor_sire', $characters, old('ancestor_sire'), ['class' => 'form-control', 'placeholder' => 'Select Sire', 'id' => 'ancestorSire']) !!}
+                    {!! Form::label(__('lineage.sire')) !!}
+                    {!! Form::select('ancestor_sire', $characters, old('ancestor_sire'), ['class' => 'form-control', 'placeholder' => 'Select ' . __('lineage.sire'), 'id' => 'ancestorSire']) !!}
                 </div>
             </div>
             <div class="col-12 col-md-6">
                 <div class="form-group">
-                    {!! Form::label('Dam') !!}
-                    {!! Form::select('ancestor_dam', $characters, old('ancestor_dam'), ['class' => 'form-control', 'placeholder' => 'Select Dam', 'id' => 'ancestorDam']) !!}
+                    {!! Form::label(__('lineage.dam')) !!}
+                    {!! Form::select('ancestor_dam', $characters, old('ancestor_dam'), ['class' => 'form-control', 'placeholder' => 'Select ' . __('lineage.dam'), 'id' => 'ancestorDam']) !!}
                 </div>
             </div>
         </div>
@@ -113,30 +113,30 @@
         <div class="row">
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="form-group">
-                    {!! Form::label('SS') !!}
-                    {!! add_help('This ancestor is the Sire\'s Sire.') !!}
-                    {!! Form::select('ancestor_ss', $characters, old('ancestor_ss'), ['class' => 'form-control', 'placeholder' => 'Select SS', 'id' => 'ancestorSS']) !!}
+                    {!! Form::label(__('lineage.ss')) !!}
+                    {!! add_help('This ancestor is the ' . __('lineage.sire') . '\'s ' . __('lineage.sire') . '.') !!}
+                    {!! Form::select('ancestor_ss', $characters, old('ancestor_ss'), ['class' => 'form-control', 'placeholder' => 'Select ' . __('lineage.ss'), 'id' => 'ancestorSS']) !!}
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="form-group">
-                    {!! Form::label('SD') !!}
-                    {!! add_help('This ancestor is the Sire\'s Dam.') !!}
-                    {!! Form::select('ancestor_sd', $characters, old('ancestor_sd'), ['class' => 'form-control', 'placeholder' => 'Select SD', 'id' => 'ancestorSD']) !!}
+                    {!! Form::label(__('lineage.sd')) !!}
+                    {!! add_help('This ancestor is the ' . __('lineage.sire') . '\'s ' . __('lineage.dam') . '.') !!}
+                    {!! Form::select('ancestor_sd', $characters, old('ancestor_sd'), ['class' => 'form-control', 'placeholder' => 'Select ' . __('lineage.sd'), 'id' => 'ancestorSD']) !!}
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="form-group">
-                    {!! Form::label('DS') !!}
-                    {!! add_help('This ancestor is the Dam\'s Sire.') !!}
-                    {!! Form::select('ancestor_ds', $characters, old('ancestor_ds'), ['class' => 'form-control', 'placeholder' => 'Select DS', 'id' => 'ancestorDS']) !!}
+                    {!! Form::label(__('lineage.ds')) !!}
+                    {!! add_help('This ancestor is the ' . __('lineage.dam') . '\'s ' . __('lineage.sire') . '.') !!}
+                    {!! Form::select('ancestor_ds', $characters, old('ancestor_ds'), ['class' => 'form-control', 'placeholder' => 'Select ' . __('lineage.ds'), 'id' => 'ancestorDS']) !!}
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="form-group">
-                    {!! Form::label('DD') !!}
-                    {!! add_help('This ancestor is the Dam\'s Dam.') !!}
-                    {!! Form::select('ancestor_dd', $characters, old('ancestor_dd'), ['class' => 'form-control', 'placeholder' => 'Select DD', 'id' => 'ancestorDD']) !!}
+                    {!! Form::label(__('lineage.dd')) !!}
+                    {!! add_help('This ancestor is the ' . __('lineage.dam') . '\'s ' . __('lineage.dam') . '.') !!}
+                    {!! Form::select('ancestor_dd', $characters, old('ancestor_dd'), ['class' => 'form-control', 'placeholder' => 'Select ' . __('lineage.dd'), 'id' => 'ancestorDD']) !!}
                 </div>
             </div>
         </div>
@@ -144,58 +144,58 @@
         <div class="row">
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="form-group">
-                    {!! Form::label('SSS') !!}
-                    {!! add_help('This ancestor is the Sire\'s Sire\'s Sire.') !!}
-                    {!! Form::select('ancestor_sss', $characters, old('ancestor_sss'), ['class' => 'form-control', 'placeholder' => 'Select SSS', 'id' => 'ancestorSSS']) !!}
+                    {!! Form::label(__('lineage.sss')) !!}
+                    {!! add_help('This ancestor is the ' . __('lineage.sire') . '\'s ' . __('lineage.sire') . '\'s ' . __('lineage.sire') . '.') !!}
+                    {!! Form::select('ancestor_sss', $characters, old('ancestor_sss'), ['class' => 'form-control', 'placeholder' => 'Select ' . __('lineage.sss'), 'id' => 'ancestorSSS']) !!}
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="form-group">
-                    {!! Form::label('SSD') !!}
-                    {!! add_help('This ancestor is the Sire\'s Sire\'s Dam.') !!}
-                    {!! Form::select('ancestor_ssd', $characters, old('ancestor_ssd'), ['class' => 'form-control', 'placeholder' => 'Select SSD', 'id' => 'ancestorSSD']) !!}
+                    {!! Form::label(__('lineage.ssd')) !!}
+                    {!! add_help('This ancestor is the ' . __('lineage.sire') . '\'s ' . __('lineage.sire') . '\'s ' . __('lineage.dam') . '.') !!}
+                    {!! Form::select('ancestor_ssd', $characters, old('ancestor_ssd'), ['class' => 'form-control', 'placeholder' => 'Select ' . __('lineage.ssd'), 'id' => 'ancestorSSD']) !!}
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="form-group">
-                    {!! Form::label('SDS') !!}
-                    {!! add_help('This ancestor is the Sire\'s Dam\'s Sire.') !!}
-                    {!! Form::select('ancestor_sds', $characters, old('ancestor_sds'), ['class' => 'form-control', 'placeholder' => 'Select SDS', 'id' => 'ancestorSDS']) !!}
+                    {!! Form::label(__('lineage.sds')) !!}
+                    {!! add_help('This ancestor is the ' . __('lineage.sire') . '\'s ' . __('lineage.dam') . '\'s ' . __('lineage.sire') . '.') !!}
+                    {!! Form::select('ancestor_sds', $characters, old('ancestor_sds'), ['class' => 'form-control', 'placeholder' => 'Select ' . __('lineage.sds'), 'id' => 'ancestorSDS']) !!}
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="form-group">
-                    {!! Form::label('SDD') !!}
-                    {!! add_help('This ancestor is the Sire\'s Dam\'s Dam.') !!}
-                    {!! Form::select('ancestor_sdd', $characters, old('ancestor_sdd'), ['class' => 'form-control', 'placeholder' => 'Select SDD', 'id' => 'ancestorSDD']) !!}
+                    {!! Form::label(__('lineage.sdd')) !!}
+                    {!! add_help('This ancestor is the ' . __('lineage.sire') . '\'s ' . __('lineage.dam') . '\'s ' . __('lineage.dam') . '.') !!}
+                    {!! Form::select('ancestor_sdd', $characters, old('ancestor_sdd'), ['class' => 'form-control', 'placeholder' => 'Select ' . __('lineage.sdd'), 'id' => 'ancestorSDD']) !!}
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="form-group">
-                    {!! Form::label('DSS') !!}
-                    {!! add_help('This ancestor is the Dam\'s Sire\'s Sire.') !!}
-                    {!! Form::select('ancestor_dss', $characters, old('ancestor_dss'), ['class' => 'form-control', 'placeholder' => 'Select DSS', 'id' => 'ancestorDSS']) !!}
+                    {!! Form::label(__('lineage.dss')) !!}
+                    {!! add_help('This ancestor is the ' . __('lineage.dam') . '\'s ' . __('lineage.sire') . '\'s ' . __('lineage.sire') . '.') !!}
+                    {!! Form::select('ancestor_dss', $characters, old('ancestor_dss'), ['class' => 'form-control', 'placeholder' => 'Select ' . __('lineage.dss'), 'id' => 'ancestorDSS']) !!}
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="form-group">
-                    {!! Form::label('DSD') !!}
-                    {!! add_help('This ancestor is the Dam\'s Sire\'s Dam.') !!}
-                    {!! Form::select('ancestor_dsd', $characters, old('ancestor_dsd'), ['class' => 'form-control', 'placeholder' => 'Select DSD', 'id' => 'ancestorDSD']) !!}
+                    {!! Form::label(__('lineage.dsd')) !!}
+                    {!! add_help('This ancestor is the ' . __('lineage.dam') . '\'s ' . __('lineage.sire') . '\'s ' . __('lineage.dam') . '.') !!}
+                    {!! Form::select('ancestor_dsd', $characters, old('ancestor_dsd'), ['class' => 'form-control', 'placeholder' => 'Select ' . __('lineage.dsd'), 'id' => 'ancestorDSD']) !!}
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="form-group">
-                    {!! Form::label('DDS') !!}
-                    {!! add_help('This ancestor is the Dam\'s Dam\'s Sire.') !!}
-                    {!! Form::select('ancestor_dds', $characters, old('ancestor_dds'), ['class' => 'form-control', 'placeholder' => 'Select DDS', 'id' => 'ancestorDDS']) !!}
+                    {!! Form::label(__('lineage.dds')) !!}
+                    {!! add_help('This ancestor is the ' . __('lineage.dam') . '\'s ' . __('lineage.dam') . '\'s ' . __('lineage.sire') . '.') !!}
+                    {!! Form::select('ancestor_dds', $characters, old('ancestor_dds'), ['class' => 'form-control', 'placeholder' => 'Select ' . __('lineage.dds'), 'id' => 'ancestorDDS']) !!}
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="form-group">
-                    {!! Form::label('DDD') !!}
-                    {!! add_help('This ancestor is the Dam\'s Dam\'s Dam.') !!}
-                    {!! Form::select('ancestor_ddd', $characters, old('ancestor_ddd'), ['class' => 'form-control', 'placeholder' => 'Select DDD', 'id' => 'ancestorDDD']) !!}
+                    {!! Form::label(__('lineage.ddd')) !!}
+                    {!! add_help('This ancestor is the ' . __('lineage.dam') . '\'s ' . __('lineage.dam') . '\'s ' . __('lineage.dam') . '.') !!}
+                    {!! Form::select('ancestor_ddd', $characters, old('ancestor_ddd'), ['class' => 'form-control', 'placeholder' => 'Select ' . __('lineage.ddd'), 'id' => 'ancestorDDD']) !!}
                 </div>
             </div>
         </div>
