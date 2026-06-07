@@ -13,215 +13,214 @@
     Users
 **************************************************************************************************/
 
-Route::group(['prefix' => 'notifications', 'namespace' => 'Users'], function () {
-    Route::get('/', 'AccountController@getNotifications');
-    Route::get('delete/{id}', 'AccountController@getDeleteNotification');
-    Route::post('clear', 'AccountController@postClearNotifications');
-    Route::post('clear/{type}', 'AccountController@postClearNotifications');
+Route::group(['prefix' => 'notifications', 'as' => 'notifications.', 'namespace' => 'Users'], function () {
+    Route::get('/', 'AccountController@getNotifications')->name('index');
+    Route::get('delete/{id}', 'AccountController@getDeleteNotification')->name('delete');
+    Route::post('clear', 'AccountController@postClearNotifications')->name('clear');
+    Route::post('clear/{type}', 'AccountController@postClearNotifications')->name('clear.type');
 });
 
-Route::group(['prefix' => 'account', 'namespace' => 'Users'], function () {
-    Route::get('settings', 'AccountController@getSettings');
-    Route::post('profile', 'AccountController@postProfile');
-    Route::post('password', 'AccountController@postPassword');
-    Route::post('email', 'AccountController@postEmail');
-    Route::post('avatar', 'AccountController@postAvatar');
-    Route::post('username', 'AccountController@postUsername');
-    Route::get('aliases', 'AccountController@getAliases');
-    Route::get('make-primary/{id}', 'AccountController@getMakePrimary');
-    Route::post('make-primary/{id}', 'AccountController@postMakePrimary');
-    Route::get('hide-alias/{id}', 'AccountController@getHideAlias');
-    Route::post('hide-alias/{id}', 'AccountController@postHideAlias');
-    Route::get('remove-alias/{id}', 'AccountController@getRemoveAlias');
-    Route::post('remove-alias/{id}', 'AccountController@postRemoveAlias');
-    Route::post('dob', 'AccountController@postBirthday');
+Route::group(['prefix' => 'account', 'as' => 'account.', 'namespace' => 'Users'], function () {
+    Route::get('settings', 'AccountController@getSettings')->name('settings');
+    Route::post('profile', 'AccountController@postProfile')->name('profile.update');
+    Route::post('password', 'AccountController@postPassword')->name('password.update');
+    Route::post('email', 'AccountController@postEmail')->name('email.update');
+    Route::post('avatar', 'AccountController@postAvatar')->name('avatar.update');
+    Route::post('username', 'AccountController@postUsername')->name('username.update');
+    Route::get('aliases', 'AccountController@getAliases')->name('aliases');
+    Route::get('make-primary/{id}', 'AccountController@getMakePrimary')->name('aliases.make-primary');
+    Route::post('make-primary/{id}', 'AccountController@postMakePrimary')->name('aliases.make-primary.store');
+    Route::get('hide-alias/{id}', 'AccountController@getHideAlias')->name('aliases.hide');
+    Route::post('hide-alias/{id}', 'AccountController@postHideAlias')->name('aliases.hide.store');
+    Route::get('remove-alias/{id}', 'AccountController@getRemoveAlias')->name('aliases.remove');
+    Route::post('remove-alias/{id}', 'AccountController@postRemoveAlias')->name('aliases.remove.store');
+    Route::post('dob', 'AccountController@postBirthday')->name('birthday.update');
 
-    Route::get('two-factor/confirm', 'AccountController@getConfirmTwoFactor');
-    Route::post('two-factor/enable', 'AccountController@postEnableTwoFactor');
-    Route::post('two-factor/confirm', 'AccountController@postConfirmTwoFactor');
-    Route::post('two-factor/disable', 'AccountController@postDisableTwoFactor');
+    Route::get('two-factor/confirm', 'AccountController@getConfirmTwoFactor')->name('two-factor.confirm');
+    Route::post('two-factor/enable', 'AccountController@postEnableTwoFactor')->name('two-factor.enable');
+    Route::post('two-factor/confirm', 'AccountController@postConfirmTwoFactor')->name('two-factor.confirm.store');
+    Route::post('two-factor/disable', 'AccountController@postDisableTwoFactor')->name('two-factor.disable');
 
-    Route::get('deactivate', 'AccountController@getDeactivate');
-    Route::get('deactivate-confirm', 'AccountController@getDeactivateConfirmation');
-    Route::post('deactivate', 'AccountController@postDeactivate');
+    Route::get('deactivate', 'AccountController@getDeactivate')->name('deactivate');
+    Route::get('deactivate-confirm', 'AccountController@getDeactivateConfirmation')->name('deactivate.confirm');
+    Route::post('deactivate', 'AccountController@postDeactivate')->name('deactivate.store');
 
-    Route::get('bookmarks', 'BookmarkController@getBookmarks');
-    Route::get('bookmarks/create', 'BookmarkController@getCreateBookmark');
-    Route::get('bookmarks/edit/{id}', 'BookmarkController@getEditBookmark');
-    Route::post('bookmarks/create', 'BookmarkController@postCreateEditBookmark');
-    Route::post('bookmarks/edit/{id}', 'BookmarkController@postCreateEditBookmark');
-    Route::get('bookmarks/delete/{id}', 'BookmarkController@getDeleteBookmark');
-    Route::post('bookmarks/delete/{id}', 'BookmarkController@postDeleteBookmark');
+    Route::get('bookmarks', 'BookmarkController@getBookmarks')->name('bookmarks.index');
+    Route::get('bookmarks/create', 'BookmarkController@getCreateBookmark')->name('bookmarks.create');
+    Route::get('bookmarks/edit/{id}', 'BookmarkController@getEditBookmark')->name('bookmarks.edit');
+    Route::post('bookmarks/create', 'BookmarkController@postCreateEditBookmark')->name('bookmarks.store');
+    Route::post('bookmarks/edit/{id}', 'BookmarkController@postCreateEditBookmark')->name('bookmarks.update');
+    Route::get('bookmarks/delete/{id}', 'BookmarkController@getDeleteBookmark')->name('bookmarks.delete');
+    Route::post('bookmarks/delete/{id}', 'BookmarkController@postDeleteBookmark')->name('bookmarks.destroy');
 });
 
-Route::group(['prefix' => 'inventory', 'namespace' => 'Users'], function () {
-    Route::get('/', 'InventoryController@getIndex');
-    Route::post('edit', 'InventoryController@postEdit');
-    Route::get('account-search', 'InventoryController@getAccountSearch');
-    Route::get('full-inventory', 'InventoryController@getFullInventory');
-    Route::get('consolidate-inventory', 'InventoryController@getConsolidateInventory');
-    Route::post('consolidate', 'InventoryController@postConsolidateInventory');
-
-    Route::get('selector', 'InventoryController@getSelector');
+Route::group(['prefix' => 'inventory', 'as' => 'inventory.', 'namespace' => 'Users'], function () {
+    Route::get('/', 'InventoryController@getIndex')->name('index');
+    Route::post('edit', 'InventoryController@postEdit')->name('edit');
+    Route::get('account-search', 'InventoryController@getAccountSearch')->name('account-search');
+    Route::get('full-inventory', 'InventoryController@getFullInventory')->name('full');
+    Route::get('consolidate-inventory', 'InventoryController@getConsolidateInventory')->name('consolidate');
+    Route::post('consolidate', 'InventoryController@postConsolidateInventory')->name('consolidate.store');
+    Route::get('selector', 'InventoryController@getSelector')->name('selector');
 });
 
-Route::group(['prefix' => 'characters', 'namespace' => 'Users'], function () {
-    Route::get('/', 'CharacterController@getIndex');
-    Route::post('sort', 'CharacterController@postSortCharacters');
+Route::group(['prefix' => 'characters', 'as' => 'characters.', 'namespace' => 'Users'], function () {
+    Route::get('/', 'CharacterController@getIndex')->name('index');
+    Route::post('sort', 'CharacterController@postSortCharacters')->name('sort');
 
-    Route::get('transfers/{type}', 'CharacterController@getTransfers');
-    Route::post('transfer/act/{id}', 'CharacterController@postHandleTransfer');
+    Route::get('transfers/{type}', 'CharacterController@getTransfers')->name('transfers.index');
+    Route::post('transfer/act/{id}', 'CharacterController@postHandleTransfer')->name('transfers.act');
 
-    Route::get('myos', 'CharacterController@getMyos');
+    Route::get('myos', 'CharacterController@getMyos')->name('myos');
 });
 
-Route::group(['prefix' => 'bank', 'namespace' => 'Users'], function () {
-    Route::get('/', 'BankController@getIndex');
-    Route::post('transfer', 'BankController@postTransfer');
+Route::group(['prefix' => 'bank', 'as' => 'bank.', 'namespace' => 'Users'], function () {
+    Route::get('/', 'BankController@getIndex')->name('index');
+    Route::post('transfer', 'BankController@postTransfer')->name('transfer');
 });
 
-Route::group(['prefix' => 'trades', 'namespace' => 'Users'], function () {
-    Route::get('{status}', 'TradeController@getIndex')->where('status', 'open|pending|completed|rejected|canceled');
-    Route::get('create', 'TradeController@getCreateTrade');
-    Route::get('{id}/edit', 'TradeController@getEditTrade')->where('id', '[0-9]+');
-    Route::post('create', 'TradeController@postCreateTrade');
-    Route::post('{id}/edit', 'TradeController@postEditTrade')->where('id', '[0-9]+');
-    Route::get('{id}', 'TradeController@getTrade')->where('id', '[0-9]+');
+Route::group(['prefix' => 'trades', 'as' => 'trades.', 'namespace' => 'Users'], function () {
+    Route::get('{status}', 'TradeController@getIndex')->where('status', 'open|pending|completed|rejected|canceled')->name('index');
+    Route::get('create', 'TradeController@getCreateTrade')->name('create');
+    Route::get('{id}/edit', 'TradeController@getEditTrade')->where('id', '[0-9]+')->name('edit');
+    Route::post('create', 'TradeController@postCreateTrade')->name('store');
+    Route::post('{id}/edit', 'TradeController@postEditTrade')->where('id', '[0-9]+')->name('update');
+    Route::get('{id}', 'TradeController@getTrade')->where('id', '[0-9]+')->name('show');
 
-    Route::get('{id}/confirm-offer', 'TradeController@getConfirmOffer');
-    Route::post('{id}/confirm-offer', 'TradeController@postConfirmOffer');
-    Route::get('{id}/confirm-trade', 'TradeController@getConfirmTrade');
-    Route::post('{id}/confirm-trade', 'TradeController@postConfirmTrade');
-    Route::get('{id}/cancel-trade', 'TradeController@getCancelTrade');
-    Route::post('{id}/cancel-trade', 'TradeController@postCancelTrade');
+    Route::get('{id}/confirm-offer', 'TradeController@getConfirmOffer')->name('confirm-offer');
+    Route::post('{id}/confirm-offer', 'TradeController@postConfirmOffer')->name('confirm-offer.store');
+    Route::get('{id}/confirm-trade', 'TradeController@getConfirmTrade')->name('confirm-trade');
+    Route::post('{id}/confirm-trade', 'TradeController@postConfirmTrade')->name('confirm-trade.store');
+    Route::get('{id}/cancel-trade', 'TradeController@getCancelTrade')->name('cancel-trade');
+    Route::post('{id}/cancel-trade', 'TradeController@postCancelTrade')->name('cancel-trade.store');
 });
 
 /**************************************************************************************************
     Characters
 **************************************************************************************************/
-Route::group(['prefix' => 'character', 'namespace' => 'Characters'], function () {
-    Route::get('{slug}/profile/edit', 'CharacterController@getEditCharacterProfile');
-    Route::post('{slug}/profile/edit', 'CharacterController@postEditCharacterProfile');
+Route::group(['prefix' => 'character', 'as' => 'character.', 'namespace' => 'Characters'], function () {
+    Route::get('{slug}/profile/edit', 'CharacterController@getEditCharacterProfile')->name('profile.edit');
+    Route::post('{slug}/profile/edit', 'CharacterController@postEditCharacterProfile')->name('profile.update');
 
-    Route::post('{slug}/inventory/edit', 'CharacterController@postInventoryEdit');
+    Route::post('{slug}/inventory/edit', 'CharacterController@postInventoryEdit')->name('inventory.update');
 
-    Route::post('{slug}/bank/transfer', 'CharacterController@postCurrencyTransfer');
-    Route::get('{slug}/transfer', 'CharacterController@getTransfer');
-    Route::post('{slug}/transfer', 'CharacterController@postTransfer');
-    Route::post('{slug}/transfer/{id}/cancel', 'CharacterController@postCancelTransfer');
+    Route::post('{slug}/bank/transfer', 'CharacterController@postCurrencyTransfer')->name('bank.transfer');
+    Route::get('{slug}/transfer', 'CharacterController@getTransfer')->name('transfer');
+    Route::post('{slug}/transfer', 'CharacterController@postTransfer')->name('transfer.store');
+    Route::post('{slug}/transfer/{id}/cancel', 'CharacterController@postCancelTransfer')->name('transfer.cancel');
 
-    Route::post('{slug}/approval', 'CharacterController@postCharacterApproval');
-    Route::get('{slug}/approval', 'CharacterController@getCharacterApproval');
+    Route::post('{slug}/approval', 'CharacterController@postCharacterApproval')->name('approval.store');
+    Route::get('{slug}/approval', 'CharacterController@getCharacterApproval')->name('approval');
 });
-Route::group(['prefix' => 'myo', 'namespace' => 'Characters'], function () {
-    Route::get('{id}/profile/edit', 'MyoController@getEditCharacterProfile');
-    Route::post('{id}/profile/edit', 'MyoController@postEditCharacterProfile');
+Route::group(['prefix' => 'myo', 'as' => 'myo.', 'namespace' => 'Characters'], function () {
+    Route::get('{id}/profile/edit', 'MyoController@getEditCharacterProfile')->name('profile.edit');
+    Route::post('{id}/profile/edit', 'MyoController@postEditCharacterProfile')->name('profile.update');
 
-    Route::get('{id}/transfer', 'MyoController@getTransfer');
-    Route::post('{id}/transfer', 'MyoController@postTransfer');
-    Route::post('{id}/transfer/{id2}/cancel', 'MyoController@postCancelTransfer');
+    Route::get('{id}/transfer', 'MyoController@getTransfer')->name('transfer');
+    Route::post('{id}/transfer', 'MyoController@postTransfer')->name('transfer.store');
+    Route::post('{id}/transfer/{id2}/cancel', 'MyoController@postCancelTransfer')->name('transfer.cancel');
 
-    Route::post('{id}/approval', 'MyoController@postCharacterApproval');
-    Route::get('{id}/approval', 'MyoController@getCharacterApproval');
+    Route::post('{id}/approval', 'MyoController@postCharacterApproval')->name('approval.store');
+    Route::get('{id}/approval', 'MyoController@getCharacterApproval')->name('approval');
 });
 
 /**************************************************************************************************
     Submissions
 **************************************************************************************************/
 
-Route::group(['prefix' => 'gallery'], function () {
-    Route::get('submissions/{type}', 'GalleryController@getUserSubmissions')->where('type', 'draft|pending|accepted|rejected');
+Route::group(['prefix' => 'gallery', 'as' => 'gallery.'], function () {
+    Route::get('submissions/{type}', 'GalleryController@getUserSubmissions')->where('type', 'draft|pending|accepted|rejected')->name('submissions.index');
 
-    Route::post('favorite/{id}', 'GalleryController@postFavoriteSubmission');
+    Route::post('favorite/{id}', 'GalleryController@postFavoriteSubmission')->name('favorite');
 
-    Route::get('submit/{id}', 'GalleryController@getNewGallerySubmission');
-    Route::get('submit/character/{slug}', 'GalleryController@getCharacterInfo');
-    Route::get('edit/{id}', 'GalleryController@getEditGallerySubmission');
-    Route::get('queue/{id}', 'GalleryController@getSubmissionLog');
-    Route::post('submit', 'GalleryController@postCreateEditGallerySubmission');
-    Route::post('edit/{id}', 'GalleryController@postCreateEditGallerySubmission');
+    Route::get('submit/{id}', 'GalleryController@getNewGallerySubmission')->name('submit');
+    Route::get('submit/character/{slug}', 'GalleryController@getCharacterInfo')->name('submit.character');
+    Route::get('edit/{id}', 'GalleryController@getEditGallerySubmission')->name('edit');
+    Route::get('queue/{id}', 'GalleryController@getSubmissionLog')->name('queue');
+    Route::post('submit', 'GalleryController@postCreateEditGallerySubmission')->name('store');
+    Route::post('edit/{id}', 'GalleryController@postCreateEditGallerySubmission')->name('update');
 
-    Route::post('collaborator/{id}', 'GalleryController@postEditCollaborator');
+    Route::post('collaborator/{id}', 'GalleryController@postEditCollaborator')->name('collaborator.update');
 
-    Route::get('archive/{id}', 'GalleryController@getArchiveSubmission');
-    Route::post('archive/{id}', 'GalleryController@postArchiveSubmission');
+    Route::get('archive/{id}', 'GalleryController@getArchiveSubmission')->name('archive');
+    Route::post('archive/{id}', 'GalleryController@postArchiveSubmission')->name('archive.store');
 });
 
-Route::group(['prefix' => 'submissions', 'namespace' => 'Users'], function () {
-    Route::get('/', 'SubmissionController@getIndex');
-    Route::get('new', 'SubmissionController@getNewSubmission');
-    Route::get('new/character/{slug}', 'SubmissionController@getCharacterInfo');
-    Route::get('new/prompt/{id}', 'SubmissionController@getPromptInfo');
-    Route::post('new', 'SubmissionController@postNewSubmission');
-    Route::post('new/{draft}', 'SubmissionController@postNewSubmission')->where('draft', 'draft');
-    Route::get('draft/{id}', 'SubmissionController@getEditSubmission');
-    Route::post('draft/{id}', 'SubmissionController@postEditSubmission');
-    Route::post('draft/{id}/{submit}', 'SubmissionController@postEditSubmission')->where('submit', 'submit');
-    Route::post('draft/{id}/delete', 'SubmissionController@postDeleteSubmission');
-    Route::post('draft/{id}/cancel', 'SubmissionController@postCancelSubmission');
+Route::group(['prefix' => 'submissions', 'as' => 'submissions.', 'namespace' => 'Users'], function () {
+    Route::get('/', 'SubmissionController@getIndex')->name('index');
+    Route::get('new', 'SubmissionController@getNewSubmission')->name('create');
+    Route::get('new/character/{slug}', 'SubmissionController@getCharacterInfo')->name('new.character');
+    Route::get('new/prompt/{id}', 'SubmissionController@getPromptInfo')->name('new.prompt');
+    Route::post('new', 'SubmissionController@postNewSubmission')->name('store');
+    Route::post('new/{draft}', 'SubmissionController@postNewSubmission')->where('draft', 'draft')->name('store.draft');
+    Route::get('draft/{id}', 'SubmissionController@getEditSubmission')->name('draft.edit');
+    Route::post('draft/{id}', 'SubmissionController@postEditSubmission')->name('draft.update');
+    Route::post('draft/{id}/{submit}', 'SubmissionController@postEditSubmission')->where('submit', 'submit')->name('draft.submit');
+    Route::post('draft/{id}/delete', 'SubmissionController@postDeleteSubmission')->name('draft.delete');
+    Route::post('draft/{id}/cancel', 'SubmissionController@postCancelSubmission')->name('draft.cancel');
 });
 
-Route::group(['prefix' => 'claims', 'namespace' => 'Users'], function () {
-    Route::get('/', 'SubmissionController@getClaimsIndex');
-    Route::get('new', 'SubmissionController@getNewClaim');
-    Route::post('new', 'SubmissionController@postNewClaim');
-    Route::post('new/{draft}', 'SubmissionController@postNewClaim')->where('draft', 'draft');
-    Route::get('draft/{id}', 'SubmissionController@getEditClaim');
-    Route::post('draft/{id}', 'SubmissionController@postEditClaim');
-    Route::post('draft/{id}/{submit}', 'SubmissionController@postEditClaim')->where('submit', 'submit');
-    Route::post('draft/{id}/delete', 'SubmissionController@postDeleteClaim');
-    Route::post('draft/{id}/cancel', 'SubmissionController@postCancelClaim');
+Route::group(['prefix' => 'claims', 'as' => 'claims.', 'namespace' => 'Users'], function () {
+    Route::get('/', 'SubmissionController@getClaimsIndex')->name('index');
+    Route::get('new', 'SubmissionController@getNewClaim')->name('create');
+    Route::post('new', 'SubmissionController@postNewClaim')->name('store');
+    Route::post('new/{draft}', 'SubmissionController@postNewClaim')->where('draft', 'draft')->name('store.draft');
+    Route::get('draft/{id}', 'SubmissionController@getEditClaim')->name('draft.edit');
+    Route::post('draft/{id}', 'SubmissionController@postEditClaim')->name('draft.update');
+    Route::post('draft/{id}/{submit}', 'SubmissionController@postEditClaim')->where('submit', 'submit')->name('draft.submit');
+    Route::post('draft/{id}/delete', 'SubmissionController@postDeleteClaim')->name('draft.delete');
+    Route::post('draft/{id}/cancel', 'SubmissionController@postCancelClaim')->name('draft.cancel');
 });
 
-Route::group(['prefix' => 'reports', 'namespace' => 'Users'], function () {
-    Route::get('/', 'ReportController@getReportsIndex');
-    Route::get('new', 'ReportController@getNewReport');
-    Route::post('new', 'ReportController@postNewReport');
-    Route::get('view/{id}', 'ReportController@getReport');
+Route::group(['prefix' => 'reports', 'as' => 'reports.', 'namespace' => 'Users'], function () {
+    Route::get('/', 'ReportController@getReportsIndex')->name('index');
+    Route::get('new', 'ReportController@getNewReport')->name('create');
+    Route::post('new', 'ReportController@postNewReport')->name('store');
+    Route::get('view/{id}', 'ReportController@getReport')->name('show');
 });
 
-Route::group(['prefix' => 'designs', 'namespace' => 'Characters'], function () {
-    Route::get('{type?}', 'DesignController@getDesignUpdateIndex')->where('type', 'draft|pending|approved|rejected');
-    Route::get('{id}', 'DesignController@getDesignUpdate');
+Route::group(['prefix' => 'designs', 'as' => 'designs.', 'namespace' => 'Characters'], function () {
+    Route::get('{type?}', 'DesignController@getDesignUpdateIndex')->where('type', 'draft|pending|approved|rejected')->name('index');
+    Route::get('{id}', 'DesignController@getDesignUpdate')->name('show');
 
-    Route::get('{id}/comments', 'DesignController@getComments');
-    Route::post('{id}/comments', 'DesignController@postComments');
+    Route::get('{id}/comments', 'DesignController@getComments')->name('comments');
+    Route::post('{id}/comments', 'DesignController@postComments')->name('comments.store');
 
-    Route::get('{id}/image', 'DesignController@getImage');
-    Route::post('{id}/image', 'DesignController@postImage');
+    Route::get('{id}/image', 'DesignController@getImage')->name('image');
+    Route::post('{id}/image', 'DesignController@postImage')->name('image.store');
 
-    Route::get('{id}/addons', 'DesignController@getAddons');
-    Route::post('{id}/addons', 'DesignController@postAddons');
+    Route::get('{id}/addons', 'DesignController@getAddons')->name('addons');
+    Route::post('{id}/addons', 'DesignController@postAddons')->name('addons.store');
 
-    Route::get('{id}/traits', 'DesignController@getFeatures');
-    Route::post('{id}/traits', 'DesignController@postFeatures');
-    Route::get('traits/subtype', 'DesignController@getFeaturesSubtype');
+    Route::get('{id}/traits', 'DesignController@getFeatures')->name('traits');
+    Route::post('{id}/traits', 'DesignController@postFeatures')->name('traits.store');
+    Route::get('traits/subtype', 'DesignController@getFeaturesSubtype')->name('traits.subtype');
 
-    Route::get('{id}/confirm', 'DesignController@getConfirm');
-    Route::post('{id}/submit', 'DesignController@postSubmit');
+    Route::get('{id}/confirm', 'DesignController@getConfirm')->name('confirm');
+    Route::post('{id}/submit', 'DesignController@postSubmit')->name('submit');
 
-    Route::get('{id}/delete', 'DesignController@getDelete');
-    Route::post('{id}/delete', 'DesignController@postDelete');
+    Route::get('{id}/delete', 'DesignController@getDelete')->name('delete');
+    Route::post('{id}/delete', 'DesignController@postDelete')->name('destroy');
 });
 
 /**************************************************************************************************
     Shops
 **************************************************************************************************/
 
-Route::group(['prefix' => 'shops'], function () {
-    Route::post('buy', 'ShopController@postBuy');
-    Route::get('history', 'ShopController@getPurchaseHistory');
+Route::group(['prefix' => 'shops', 'as' => 'shops.'], function () {
+    Route::post('buy', 'ShopController@postBuy')->name('buy');
+    Route::get('history', 'ShopController@getPurchaseHistory')->name('history');
 });
 
 /**************************************************************************************************
     Comments
 **************************************************************************************************/
-Route::group(['prefix' => 'comments', 'namespace' => 'Comments'], function () {
-    Route::post('make/{model}/{id}', 'CommentController@store');
-    Route::delete('/{comment}', 'CommentController@destroy')->name('comments.destroy');
-    Route::post('edit/{comment}', 'CommentController@update')->name('comments.update');
-    Route::post('/{comment}', 'CommentController@reply')->name('comments.reply');
-    Route::post('/{id}/feature', 'CommentController@feature')->name('comments.feature');
-    Route::post('/{id}/like/{action}', 'CommentController@like')->name('comments.like');
-    Route::get('/liked', 'CommentController@getLikedComments');
+Route::group(['prefix' => 'comments', 'as' => 'comments.', 'namespace' => 'Comments'], function () {
+    Route::post('make/{model}/{id}', 'CommentController@store')->name('store');
+    Route::delete('/{comment}', 'CommentController@destroy')->name('destroy');
+    Route::post('edit/{comment}', 'CommentController@update')->name('update');
+    Route::post('/{comment}', 'CommentController@reply')->name('reply');
+    Route::post('/{id}/feature', 'CommentController@feature')->name('feature');
+    Route::post('/{id}/like/{action}', 'CommentController@like')->name('like');
+    Route::get('/liked', 'CommentController@getLikedComments')->name('liked');
 });

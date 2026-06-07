@@ -12,15 +12,15 @@
 */
 
 Route::get('/', 'HomeController@getIndex')->name('home');
-Route::get('login', 'Auth\LoginController@getNewReply');
+Route::get('login', 'Auth\LoginController@getNewReply')->name('auth.login');
 
 // Logging in with Aliases
-Route::get('/login/redirect/{driver}', 'Auth\LoginController@getAuthRedirect');
-Route::get('/login/callback/{driver}', 'Auth\LoginController@getAuthCallback');
+Route::get('/login/redirect/{driver}', 'Auth\LoginController@getAuthRedirect')->name('auth.login.redirect');
+Route::get('/login/callback/{driver}', 'Auth\LoginController@getAuthCallback')->name('auth.login.callback');
 
 // Registering with Aliases
-Route::get('register/{driver}', 'Auth\RegisterController@getRegisterWithDriver');
-Route::post('register/{driver}', 'Auth\RegisterController@postRegisterWithDriver');
+Route::get('register/{driver}', 'Auth\RegisterController@getRegisterWithDriver')->name('auth.register');
+Route::post('register/{driver}', 'Auth\RegisterController@postRegisterWithDriver')->name('auth.register.score');
 
 // BROWSE
 require_once __DIR__.'/lorekeeper/browse.php';
@@ -34,22 +34,22 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     // LINK DA ACCOUNT
     Route::get('/link', 'HomeController@getLink')->name('link');
 
-    Route::get('/auth/redirect/{driver}', 'HomeController@getAuthRedirect');
-    Route::get('/auth/callback/{driver}', 'HomeController@getAuthCallback');
+    Route::get('/auth/redirect/{driver}', 'HomeController@getAuthRedirect')->name('auth.redirect');
+    Route::get('/auth/callback/{driver}', 'HomeController@getAuthCallback')->name('auth.callback');
 
     // SET BIRTHDATE
     Route::get('/birthday', 'HomeController@getBirthday')->name('birthday');
-    Route::post('/birthday', 'HomeController@postBirthday');
+    Route::post('/birthday', 'HomeController@postBirthday')->name('birthday.store');
 
     Route::get('/blocked', 'HomeController@getBirthdayBlocked')->name('blocked');
 
     // BANNED
-    Route::get('banned', 'Users\AccountController@getBanned');
+    Route::get('banned', 'Users\AccountController@getBanned')->name('auth.banned');
 
     // DEACTIVATED
-    Route::get('deactivated', 'Users\AccountController@getDeactivated');
-    Route::get('reactivate', 'Users\AccountController@getReactivateConfirmation');
-    Route::post('reactivate', 'Users\AccountController@postReactivate');
+    Route::get('deactivated', 'Users\AccountController@getDeactivated')->name('auth.deactivated');
+    Route::get('reactivate', 'Users\AccountController@getReactivateConfirmation')->name('auth.reactivate');
+    Route::post('reactivate', 'Users\AccountController@postReactivate')->name('auth.reactivate.store');
 
     /**********************************************************************************************
         Routes that require having a linked account (also includes blocked routes when banned)
