@@ -1,6 +1,6 @@
 @if (Auth::user()->is_deactivated)
     <p>This will reactivate your account, allowing you to use the site features again. Are you sure you want to do this?</p>
-    {!! Form::open(['url' => 'reactivate']) !!}
+    {!! Form::open(['url' => route('auth.reactivate.store')]) !!}
     <div class="text-right">
         {!! Form::submit('Reactivate', ['class' => 'btn btn-success']) !!}
     </div>

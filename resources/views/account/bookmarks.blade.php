@@ -158,13 +158,13 @@
             $('.edit-bookmark-button').on('click', function(e) {
                 e.preventDefault();
                 var $this = $(this);
-                loadModal("{{ url('account/bookmarks/edit') }}" + '/' + $this.data('id'), 'Edit Bookmark');
+                loadModal("{{ route('account.bookmarks.edit', ':id') }}".replace(':id', $this.data('id')), 'Edit Bookmark');
             });
 
             $('.delete-bookmark-button').on('click', function(e) {
                 e.preventDefault();
                 var $this = $(this);
-                loadModal("{{ url('account/bookmarks/delete') }}" + '/' + $this.data('id'), 'Delete Bookmark');
+                loadModal("{{ route('account.bookmarks.delete', ':id') }}".replace(':id', $this.data('id')), 'Delete Bookmark');
             });
         });
     </script>

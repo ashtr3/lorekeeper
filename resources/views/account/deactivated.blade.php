@@ -33,7 +33,7 @@
         $(document).ready(function() {
             $('.reactivate-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('reactivate') }}", 'Reactivate Account');
+                loadModal("{{ route('auth.reactivate') }}", 'Reactivate Account');
             });
         });
     </script>

@@ -80,7 +80,7 @@
             <div class="d-flex mb-3">
                 <div class="d-flex justify-content-end align-items-center"><i class="{{ $site['icon'] }} fa-fw mr-3"></i></div>
                 <div class="">
-                    <a href="{{ url('auth/redirect/' . $provider) }}" class="btn btn-outline-primary mr-3">Link <strong>{{ $site['full_name'] }}</strong> Account</a>
+                    <a href="{{ route('auth.redirect', $provider) }}" class="btn btn-outline-primary mr-3">Link <strong>{{ $site['full_name'] }}</strong> Account</a>
                     @if (isset($site['primary_alias']) && $site['primary_alias'])
                         <span class="badge badge-success">Primary</span>
                     @endif
@@ -93,15 +93,15 @@
     <script>
         $('.make-primary').on('click', function(e) {
             e.preventDefault();
-            loadModal("{{ url('account/make-primary') }}/" + $(this).data('id'), 'Make Primary Alias');
+            loadModal("{{ route('account.aliases.make-primary', ':id') }}".replace(':id', $(this).data('id')), 'Make Primary Alias');
         });
         $('.hide-alias').on('click', function(e) {
             e.preventDefault();
-            loadModal("{{ url('account/hide-alias') }}/" + $(this).data('id'), 'Alias Visibility');
+            loadModal("{{ route('account.aliases.hide', ':id') }}".replace(':id', $(this).data('id')), 'Alias Visibility');
         });
         $('.remove-alias').on('click', function(e) {
             e.preventDefault();
-            loadModal("{{ url('account/remove-alias') }}/" + $(this).data('id'), 'Remove Alias');
+            loadModal("{{ route('account.aliases.remove', ':id') }}".replace(':id', $(this).data('id')), 'Remove Alias');
         });
     </script>
 @endsection

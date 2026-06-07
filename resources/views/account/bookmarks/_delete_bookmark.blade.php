@@ -1,6 +1,6 @@
 <p>You are about to delete your bookmark for {!! $bookmark->character->displayName !!}. Are you sure?</p>
 <div class="text-right">
-    {!! Form::open(['url' => 'account/bookmarks/delete/' . $bookmark->id]) !!}
+    {!! Form::open(['url' => route('account.bookmarks.destroy', $bookmark->id)]) !!}
     {!! Form::submit('Delete Bookmark', ['class' => 'btn btn-danger']) !!}
     {!! Form::close() !!}
 </div>

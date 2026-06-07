@@ -19,7 +19,7 @@
 
     <div class="card p-3 mb-2">
         <h3>Deactivate your account</h3>
-        {!! Form::open(['url' => 'account/deactivate', 'id' => 'deactivateForm']) !!}
+        {!! Form::open(['url' => route('account.deactivate.store'), 'id' => 'deactivateForm']) !!}
         <div class="form-group">
             {!! Form::label('Reason (Optional; no HTML)') !!}
             {!! Form::textarea('deactivate_reason', Auth::user()->settings->deactivate_reason, ['class' => 'form-control']) !!}
