@@ -25,8 +25,8 @@ function set_active($path, $class = 'active') {
  * Returns class name if the current route name matches the given pattern
  * and optionally if route parameters match specific values.
  *
- * @param string $route
- * @param string $class
+ * @param string     $route
+ * @param string     $class
  * @param array|null $parameters
  *
  * @return string
@@ -35,17 +35,17 @@ function set_active_route($route, $class = 'active', $parameters = null) {
     if (!request()->routeIs($route)) {
         return '';
     }
-    
+
     if (is_null($parameters)) {
         return $class;
     }
-    
+
     foreach ($parameters as $key => $value) {
         if (request()->route($key) != $value) {
             return '';
         }
     }
-    
+
     return $class;
 }
 

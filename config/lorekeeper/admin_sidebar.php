@@ -104,7 +104,7 @@ return [
             [
                 'name'   => 'Claim Submissions',
                 'route'  => 'admin.claims.index',
-                'active' => 'admin.claims.*'
+                'active' => 'admin.claims.*',
             ],
         ],
     ],
