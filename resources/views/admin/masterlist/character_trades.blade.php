@@ -27,7 +27,7 @@
         $(document).ready(function() {
             $('.trade-action-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ route('admin.masterlist.trade.act', ['id' => ':id', 'action' => ':action']) }}".replace(':id', $(this).data('id')).replace(':action', $(this).data('action')), 'Process Trade');
+                loadModal("{{ route('admin.masterlist.trade.act', ['id' => ':id', 'type' => ':type']) }}".replace(':id', $(this).data('id')).replace(':type', $(this).data('action')), 'Process Trade');
             });
         });
     </script>

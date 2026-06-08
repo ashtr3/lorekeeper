@@ -48,7 +48,7 @@
         $(document).ready(function() {
             $('.transfer-action-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ route('admin.masterlist.transfer.act', ['id' => ':id', 'action' => ':action']) }}".replace(':id', $(this).data('id')).replace(':action', $(this).data('action')), 'Process Transfer');
+                loadModal("{{ route('admin.masterlist.transfer.act', ['id' => ':id', 'type' => ':type']) }}".replace(':id', $(this).data('id')).replace(':type', $(this).data('action')), 'Process Transfer');
             });
         });
     </script>
