@@ -53,7 +53,7 @@ class CharacterManager extends Service {
             if (!strlen($number)) {
                 $number = '0';
             }
-        } elseif (config('lorekeeper.settings.character_pull_number') == 'category') {            
+        } elseif (config('lorekeeper.settings.character_pull_number') == 'category') {
             $character = Character::myo(0)->where('character_category_id', $categoryId)->orderBy('number', 'DESC')->first();
             if ($character) {
                 $number = ltrim($character->number, 0);
@@ -1110,7 +1110,7 @@ class CharacterManager extends Service {
             $characterData = Arr::only($data, [
                 'number', 'slug',
             ]);
-            
+
             $characterData['character_category_id'] = isset($data['character_category_id']) && $data['character_category_id'] != 0 ? $data['character_category_id'] : null;
             $characterData['is_sellable'] = isset($data['is_sellable']);
             $characterData['is_tradeable'] = isset($data['is_tradeable']);
