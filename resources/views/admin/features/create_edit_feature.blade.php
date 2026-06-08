@@ -26,7 +26,7 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                {!! Form::label('Rarity') !!}
+                {!! Form::label('Rarity (Optional)') !!}
                 {!! Form::select('rarity_id', $rarities, $feature->rarity_id, ['class' => 'form-control']) !!}
             </div>
         </div>

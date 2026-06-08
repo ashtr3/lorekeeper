@@ -10,7 +10,7 @@
 </div>
 
 <div class="form-group">
-    {!! Form::label('Character Rarity') !!}
+    {!! Form::label('Character Rarity (Optional)') !!}
     {!! Form::select('rarity_id', $rarities, $image->rarity_id, ['class' => 'form-control']) !!}
 </div>
 

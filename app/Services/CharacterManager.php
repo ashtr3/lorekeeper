@@ -92,9 +92,6 @@ class CharacterManager extends Service {
                 if (!(isset($data['species_id']) && $data['species_id'])) {
                     throw new \Exception('Characters require a species.');
                 }
-                if (!(isset($data['rarity_id']) && $data['rarity_id'])) {
-                    throw new \Exception('Characters require a rarity.');
-                }
             }
             if (isset($data['subtype_id']) && $data['subtype_id']) {
                 $subtype = Subtype::find($data['subtype_id']);
@@ -543,9 +540,6 @@ class CharacterManager extends Service {
                 if (!(isset($data['species_id']) && $data['species_id'])) {
                     throw new \Exception('Characters require a species.');
                 }
-                if (!(isset($data['rarity_id']) && $data['rarity_id'])) {
-                    throw new \Exception('Characters require a rarity.');
-                }
             }
             if (isset($data['subtype_id']) && $data['subtype_id']) {
                 $subtype = Subtype::find($data['subtype_id']);
@@ -630,10 +624,6 @@ class CharacterManager extends Service {
                 throw new \Exception('Characters require a species.');
             }
 
-            if (!(isset($data['rarity_id']) && $data['rarity_id'])) {
-                throw new \Exception('Characters require a rarity.');
-            }
-
             if (!$this->logAdminAction($user, 'Updated Image', 'Updated character image features on <a href="'.$image->character->url.'">#'.$image->id.'</a>')) {
                 throw new \Exception('Failed to log admin action.');
             }
@@ -658,7 +648,7 @@ class CharacterManager extends Service {
             // Update other stats
             $image->species_id = $data['species_id'];
             $image->subtype_id = $data['subtype_id'] ?: null;
-            $image->rarity_id = $data['rarity_id'];
+            $image->rarity_id = $data['rarity_id'] ?: null;
             $image->save();
 
             $new = [];

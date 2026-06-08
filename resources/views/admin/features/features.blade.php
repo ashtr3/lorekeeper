@@ -76,7 +76,7 @@
                                 </div>
                             </div>
                             <div class="col-6 col-md-2">
-                                <div class="logs-table-cell">{!! $feature->rarity->displayName !!}</div>
+                                <div class="logs-table-cell">{!! $feature->rarity ? $feature->rarity->displayName : '---' !!}</div>
                             </div>
                             <div class="col-6 col-md-2">
                                 <div class="logs-table-cell">{{ $feature->category ? $feature->category->name : '---' }}</div>

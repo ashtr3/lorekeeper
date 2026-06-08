@@ -199,6 +199,9 @@ class FeatureService extends Service {
             if (isset($data['subtype_id']) && $data['subtype_id'] == 'none') {
                 $data['subtype_id'] = null;
             }
+            if (isset($data['rarity_id']) && $data['rarity_id'] == 'none') {
+                $data['rarity_id'] = null;
+            }
 
             if ((isset($data['feature_category_id']) && $data['feature_category_id']) && !FeatureCategory::where('id', $data['feature_category_id'])->exists()) {
                 throw new \Exception('The selected trait category is invalid.');
@@ -267,6 +270,9 @@ class FeatureService extends Service {
             }
             if (isset($data['subtype_id']) && $data['subtype_id'] == 'none') {
                 $data['subtype_id'] = null;
+            }
+            if (isset($data['rarity_id']) && $data['rarity_id'] == 'none') {
+                $data['rarity_id'] = null;
             }
 
             // More specific validation
@@ -396,6 +402,9 @@ class FeatureService extends Service {
         }
         if (isset($data['feature_category_id']) && $data['feature_category_id'] == 'none') {
             $data['feature_category_id'] = null;
+        }
+        if (isset($data['rarity_id']) && $data['rarity_id'] == 'none') {
+            $data['rarity_id'] = null;
         }
         if (!isset($data['is_visible'])) {
             $data['is_visible'] = 0;

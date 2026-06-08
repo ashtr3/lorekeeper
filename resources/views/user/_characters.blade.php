@@ -13,7 +13,8 @@
                     </a>
                 </div>
                 <div class="small">
-                    {!! $character->image->species_id ? $character->image->species->displayName : 'No Species' !!} ・ {!! $character->image->rarity_id ? $character->image->rarity->displayName : 'No Rarity' !!}
+                    {!! $character->image->species_id ? $character->image->species->displayName : 'No Species' !!}
+                    {!! $character->image->rarity_id ? '・ '.$character->image->rarity->displayName : '' !!}
                 </div>
             </div>
         @endforeach

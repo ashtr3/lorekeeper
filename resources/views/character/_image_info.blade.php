@@ -50,12 +50,14 @@
                         <div class="col-lg-8 col-7 pl-1">{!! $image->subtype_id ? $image->subtype->displayName : 'None' !!}</div>
                     </div>
                 @endif
+                @if ($image->rarity_id)
                 <div class="row no-gutters">
                     <div class="col-lg-4 col-5">
                         <h5>Rarity</h5>
                     </div>
                     <div class="col-lg-8 col-7 pl-1">{!! $image->rarity_id ? $image->rarity->displayName : 'None' !!}</div>
                 </div>
+                @endif
 
                 <div class="mb-3">
                     <div>
