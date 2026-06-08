@@ -77,10 +77,12 @@
     @parent
     <script>
         $(document).ready(function() {
-            $('.delete-category-button').on('click', function(e) {
-                e.preventDefault();
-                loadModal("{{ route('admin.data.trait-categories.delete', $category->id) }}", 'Delete Category');
-            });
+            @if($category->id)
+                $('.delete-category-button').on('click', function(e) {
+                    e.preventDefault();
+                    loadModal("{{ route('admin.data.trait-categories.delete', $category->id) }}", 'Delete Category');
+                });
+            @endif
         });
     </script>
 @endsection

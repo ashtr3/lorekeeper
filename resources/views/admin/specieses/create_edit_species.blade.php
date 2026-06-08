@@ -72,10 +72,12 @@
     @parent
     <script>
         $(document).ready(function() {
-            $('.delete-species-button').on('click', function(e) {
-                e.preventDefault();
-                loadModal("{{ route('admin.data.species.delete', $species->id) }}", 'Delete Species');
-            });
+            @if($species->id)
+                $('.delete-species-button').on('click', function(e) {
+                    e.preventDefault();
+                    loadModal("{{ route('admin.data.species.delete', $species->id) }}", 'Delete Species');
+                });
+            @endif
         });
     </script>
 @endsection

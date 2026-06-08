@@ -195,10 +195,12 @@
                 maxItems: 10
             });
 
-            $('.delete-item-button').on('click', function(e) {
-                e.preventDefault();
-                loadModal("{{ route('admin.data.items.delete', $item->id) }}", 'Delete Item');
-            });
+            @if($item->id)
+                $('.delete-item-button').on('click', function(e) {
+                    e.preventDefault();
+                    loadModal("{{ route('admin.data.items.delete', $item->id) }}", 'Delete Item');
+                });
+            @endif
         });
     </script>
 @endsection

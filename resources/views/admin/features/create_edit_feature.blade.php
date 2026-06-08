@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open(['route' => $feature->id ? ['admin.data.traits.update', $feature->id] : 'designs.traits.store', 'files' => true]) !!}
+    {!! Form::open(['route' => $feature ? ['admin.data.traits.update', $feature->id] : 'designs.traits.store', 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 
@@ -97,10 +97,13 @@
     @parent
     <script>
         $(document).ready(function() {
-            $('.delete-feature-button').on('click', function(e) {
-                e.preventDefault();
-                loadModal("{{ route('admin.data.traits.delete', $feature->id) }}", 'Delete Trait');
-            });
+            @if($feature->id)
+                $('.delete-feature-button').on('click', function(e) {
+                    e.preventDefault();
+                    loadModal("{{ route('admin.data.traits.delete', $feature->id) }}", 'Delete Trait');
+                });
+            @endif
+
             refreshSubtype();
         });
 

@@ -138,10 +138,12 @@
     @include('widgets._datetimepicker_js')
     <script>
         $(document).ready(function() {
-            $('.delete-prompt-button').on('click', function(e) {
-                e.preventDefault();
-                loadModal("{{ route('admin.data.prompts.delete', $prompt->id) }}", 'Delete Prompt');
-            });
+            @if($prompt->id)
+                $('.delete-prompt-button').on('click', function(e) {
+                    e.preventDefault();
+                    loadModal("{{ route('admin.data.prompts.delete', $prompt->id) }}", 'Delete Prompt');
+                });
+            @endif
         });
     </script>
 @endsection

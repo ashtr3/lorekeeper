@@ -172,15 +172,18 @@
             $('#lootTableBody .selectize').selectize();
             attachRemoveListener($('#lootTableBody .remove-loot-button'));
 
-            $('.delete-table-button').on('click', function(e) {
-                e.preventDefault();
-                loadModal("{{ route('admin.data.loot-tables.delete', $table->id) }}", 'Delete Loot Table');
-            });
+            @if($table->id)
+                $('.delete-table-button').on('click', function(e) {
+                    e.preventDefault();
+                    loadModal("{{ route('admin.data.loot-tables.delete', $table->id) }}", 'Delete Loot Table');
+                });
 
-            $('#testRoll').on('click', function(e) {
-                e.preventDefault();
-                loadModal("{{ route('admin.data.loot-tables.roll', $table->id) }}?quantity=" + $('#rollQuantity').val(), 'Rolling Loot Table');
-            });
+                $('#testRoll').on('click', function(e) {
+                    e.preventDefault();
+                    loadModal("{{ route('admin.data.loot-tables.roll', $table->id) }}?quantity=" + $('#rollQuantity').val(), 'Rolling Loot Table');
+                });
+            @endif
+            
 
             $('#addLoot').on('click', function(e) {
                 e.preventDefault();

@@ -62,10 +62,12 @@
     @parent
     <script>
         $(document).ready(function() {
-            $('.delete-sublist-button').on('click', function(e) {
-                e.preventDefault();
-                loadModal("{{ route('admin.data.sublists.delete', $sublist->id) }}", 'Delete Sub Masterlist');
-            });
+            @if($sublist->id)
+                $('.delete-sublist-button').on('click', function(e) {
+                    e.preventDefault();
+                    loadModal("{{ route('admin.data.sublists.delete', $sublist->id) }}", 'Delete Sub Masterlist');
+                });
+            @endif
         });
 
         $(document).ready(function() {

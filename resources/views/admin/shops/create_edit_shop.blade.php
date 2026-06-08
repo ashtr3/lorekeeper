@@ -83,10 +83,13 @@
             var $shopStock = $('#shopStock');
             var $stock = $('#shopStockData').find('.stock');
 
-            $('.delete-shop-button').on('click', function(e) {
-                e.preventDefault();
-                loadModal("{{ route('admin.data.shops.delete', $shop->id) }}", 'Delete Shop');
-            });
+            @if($shop->id)
+                $('.delete-shop-button').on('click', function(e) {
+                    e.preventDefault();
+                    loadModal("{{ route('admin.data.shops.delete', $shop->id) }}", 'Delete Shop');
+                });
+            @endif
+
             $('.add-stock-button').on('click', function(e) {
                 e.preventDefault();
 

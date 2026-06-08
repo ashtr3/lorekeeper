@@ -108,11 +108,12 @@
     @include('widgets._datetimepicker_js')
     <script>
         $(document).ready(function() {
-            $('.delete-gallery-button').on('click', function(e) {
-                e.preventDefault();
-                loadModal("{{ route('admin.data.galleries.delete', $gallery->id) }}", 'Delete Gallery');
-            });
-
+            @if($gallery->id)
+                $('.delete-gallery-button').on('click', function(e) {
+                    e.preventDefault();
+                    loadModal("{{ route('admin.data.galleries.delete', $gallery->id) }}", 'Delete Gallery');
+                });
+            @endif
         });
     </script>
 @endsection

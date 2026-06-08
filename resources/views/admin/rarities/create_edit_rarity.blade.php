@@ -82,10 +82,12 @@
     @parent
     <script>
         $(document).ready(function() {
-            $('.delete-rarity-button').on('click', function(e) {
-                e.preventDefault();
-                loadModal("{{ route('admin.data.rarities.delete', $rarity->id) }}", 'Delete Rarity');
-            });
+            @if($rarity->id)
+                $('.delete-rarity-button').on('click', function(e) {
+                    e.preventDefault();
+                    loadModal("{{ route('admin.data.rarities.delete', $rarity->id) }}", 'Delete Rarity');
+                });
+            @endif
         });
     </script>
 @endsection

@@ -71,10 +71,12 @@
     @parent
     <script>
         $(document).ready(function() {
-            $('.delete-subtype-button').on('click', function(e) {
-                e.preventDefault();
-                loadModal("{{ route('admin.data.subtypes.delete', $subtype->id) }}", 'Delete Subtype');
-            });
+            @if($subtype->id)
+                $('.delete-subtype-button').on('click', function(e) {
+                    e.preventDefault();
+                    loadModal("{{ route('admin.data.subtypes.delete', $subtype->id) }}", 'Delete Subtype');
+                });
+            @endif
         });
     </script>
 @endsection
