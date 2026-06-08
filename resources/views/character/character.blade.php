@@ -10,10 +10,10 @@
 
 @section('profile-content')
     @if ($character->is_myo_slot)
-        {!! breadcrumbs(['MYO Slot Masterlist' => 'myos', $character->fullName => $character->url]) !!}
+        {!! breadcrumbs(['MYO Slot Masterlist' => route('browse.myos'), $character->fullName => $character->url]) !!}
     @else
         {!! breadcrumbs([
-            $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? 'sublist/' . $character->category->sublist->key : 'masterlist',
+            $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? route('browse.sublist', $character->category->sublist->key) : route('browse.masterlist'),
             $character->fullName => $character->url,
         ]) !!}
     @endif
@@ -63,7 +63,7 @@
             </div>
             @if (Auth::check() && Auth::user()->hasPower('manage_characters'))
                 <div class="tab-pane fade" id="settings-{{ $character->slug }}">
-                    {!! Form::open([$character->is_myo_slot ? route('admin.myo.settings.update', $character->id) : route('admin.character.settings.update', $character->slug)]) !!}
+                    {!! Form::open(['url' => $character->is_myo_slot ? route('admin.myo.settings.update', $character->id) : route('admin.character.settings.update', $character->slug)]) !!}
                     <div class="form-group">
                         {!! Form::checkbox('is_visible', 1, $character->is_visible, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
                         {!! Form::label('is_visible', 'Is Visible', ['class' => 'form-check-label ml-3']) !!} {!! add_help('Turn this off to hide the character. Only mods with the Manage Masterlist power (that\'s you!) can view it - the owner will also not be able to see the character\'s page.') !!}

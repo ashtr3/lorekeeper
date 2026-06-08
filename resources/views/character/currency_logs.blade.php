@@ -10,10 +10,10 @@
 
 @section('profile-content')
     {!! breadcrumbs([
-        $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? 'sublist/' . $character->category->sublist->key : 'masterlist',
+        $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? route('browse.sublist', $character->category->sublist->key) : route('browse.masterlist'),
         $character->fullName => $character->url,
-        'Bank' => $character->url . '/bank',
-        'Logs' => $character->url . '/currency-logs',
+        'Bank' => route('browse.character.bank', $character->slug),
+        'Logs' => route('browse.character.logs.currency', $character->slug),
     ]) !!}
 
     @include('character._header', ['character' => $character])

@@ -10,12 +10,12 @@
 
 @section('profile-content')
     @if ($character->is_myo_slot)
-        {!! breadcrumbs(['MYO Slot Masterlist' => 'myos', $character->fullName => $character->url, $character->is_myo_slot ? 'MYO Approval' : 'Design Update' => $character->url . '/approval']) !!}
+        {!! breadcrumbs(['MYO Slot Masterlist' => route('browse.myos'), $character->fullName => $character->url, 'MYO Approval' => route('myo.approval', $character->id)]) !!}
     @else
         {!! breadcrumbs([
-            $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? 'sublist/' . $character->category->sublist->key : 'masterlist',
+            $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? route('browse.sublist', $character->category->sublist->key) : route('browse.masterlist'),
             $character->fullName => $character->url,
-            $character->is_myo_slot ? 'MYO Approval' : 'Design Update' => $character->url . '/approval',
+            'Design Update' => route('character.approval', $character->slug),
         ]) !!}
     @endif
 
@@ -32,7 +32,7 @@
         <p>No {{ $character->is_myo_slot ? 'MYO approval' : 'design update' }} request found. Would you like to create one?</p>
         <p>This will prepare a request to approve {{ $character->is_myo_slot ? 'your MYO slot\'s design' : 'a design update for your character' }}, which will allow you to upload a new masterlist image, list their new traits and spend items/currency on
             the design. You will be able to edit the contents of your request as much as you like before submission. Staff will be able to view the draft and provide feedback. </p>
-        {!! Form::open([$character->is_myo_slot ? route('myo.approval.store', $character->id) : route('character.approval.store', $character->slug)]) !!}
+        {!! Form::open(['url' => $character->is_myo_slot ? route('myo.approval.store', $character->id) : route('character.approval.store', $character->slug)]) !!}
         <div class="text-right">
             {!! Form::submit('Create Request', ['class' => 'btn btn-primary']) !!}
         </div>

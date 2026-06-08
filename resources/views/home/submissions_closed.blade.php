@@ -6,16 +6,16 @@
 
 @section('home-content')
     @if ($isClaim)
-        {!! breadcrumbs(['Claims' => 'claims', 'New Claim' => 'claims/new']) !!}
+        {!! breadcrumbs(['Claims' => route('claims.index'), 'New Claim' => route('claims.create')]) !!}
     @else
-        {!! breadcrumbs(['Prompt Submissions' => 'submissions', 'New Submission' => 'submissions/new']) !!}
+        {!! breadcrumbs(['Prompt Submissions' => route('submissions.index'), 'New Submission' => route('submissions.create')]) !!}
     @endif
 
     <h1>
         @if ($isClaim)
             Claims Closed
         @else
-            {!! breadcrumbs(['Prompt Submissions' => 'submissions', 'New Submission' => 'submissions/new']) !!}
+            {!! breadcrumbs(['Prompt Submissions' => route('submissions.index'), 'New Submission' => route('submissions.create')]) !!}
         @endif
     </h1>
 

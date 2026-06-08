@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Subtypes' => 'admin/data/subtypes', ($subtype->id ? 'Edit' : 'Create') . ' Subtype' => $subtype->id ? 'admin/data/subtypes/edit/' . $subtype->id : 'admin/data/subtypes/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Subtypes' => route('admin.data.subtypes.index'), ($subtype->id ? 'Edit' : 'Create') . ' Subtype' => $subtype->id ? route('admin.data.subtypes.edit', $subtype->id) : route('admin.data.subtypes.create')]) !!}
 
     <h1>{{ $subtype->id ? 'Edit' : 'Create' }} Subtype
         @if ($subtype->id)
@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open([$subtype->id ? route('admin.data.subtypes.update', $subtype->id) : route('admin.data.subtypes.store'), 'files' => true]) !!}
+    {!! Form::open(['url' => $subtype->id ? route('admin.data.subtypes.update', $subtype->id) : route('admin.data.subtypes.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 
@@ -73,7 +73,7 @@
         $(document).ready(function() {
             $('.delete-subtype-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/subtypes/delete') }}/{{ $subtype->id }}", 'Delete Subtype');
+                loadModal("{{ route('admin.data.subtypes.delete', $subtype->id) }}", 'Delete Subtype');
             });
         });
     </script>

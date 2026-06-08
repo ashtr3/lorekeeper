@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    {!! breadcrumbs(['Users' => 'users', 'Blacklist' => 'blacklist']) !!}
+    {!! breadcrumbs(['Users' => route('browse.users'), 'Blacklist' => route('browse.blacklist')]) !!}
     <h1>User Blacklist</h1>
 
     @if (!$canView)

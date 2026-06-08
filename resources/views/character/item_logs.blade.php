@@ -5,16 +5,12 @@
 @endsection
 
 @section('profile-content')
-    @if ($character->is_myo_slot)
-        {!! breadcrumbs(['MYO Slot Masterlist' => 'myos', $character->fullName => $character->url, 'Inventory' => $character->url . '/inventory', 'Logs' => $character->url . '/item-logs']) !!}
-    @else
-        {!! breadcrumbs([
-            $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? 'sublist/' . $character->category->sublist->key : 'masterlist',
-            $character->fullName => $character->url,
-            'Inventory' => $character->url . '/inventory',
-            'Logs' => $character->url . '/item-logs',
-        ]) !!}
-    @endif
+    {!! breadcrumbs([
+        $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? route('browse.sublist', $character->category->sublist->key) : route('browse.masterlist'),
+        $character->fullName => $character->url,
+        'Inventory' => route('browse.character.inventory', $character->slug),
+        'Logs' => route('browse.character.logs.items', $character->slug),
+    ]) !!}
 
     @include('character._header', ['character' => $character])
 

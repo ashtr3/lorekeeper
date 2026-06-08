@@ -5,7 +5,7 @@
 @endsection
 
 @section('profile-content')
-    {!! breadcrumbs(['Users' => 'users', $user->name => $user->url, 'Bank' => $user->url . '/bank', 'Logs' => $user->url . '/currency-logs']) !!}
+    {!! breadcrumbs(['Users' => route('browse.users'), $user->name => $user->url, 'Bank' => route('browse.user.bank', $user->name), 'Logs' => route('browse.user.currency-logs', $user->name)]) !!}
 
     <h1>
         {!! $user->displayName !!}'s Currency Logs

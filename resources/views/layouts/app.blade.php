@@ -111,10 +111,10 @@
                         @endif
                         @if (Auth::check() && !config('lorekeeper.extensions.navbar_news_notif'))
                             @if (Auth::user()->is_news_unread)
-                                <div class="alert alert-info"><a href="{{ url('news') }}">There is a new news post!</a></div>
+                                <div class="alert alert-info"><a href="{{ route('browse.news.index') }}">There is a new news post!</a></div>
                             @endif
                             @if (Auth::user()->is_sales_unread)
-                                <div class="alert alert-info"><a href="{{ url('sales') }}">There is a new sales post!</a></div>
+                                <div class="alert alert-info"><a href="{{ route('browse.sales.index') }}">There is a new sales post!</a></div>
                             @endif
                         @endif
                         @include('flash::message')
@@ -187,7 +187,7 @@
 
                 $('.inventory-log-stack').on('click', function(e) {
                     e.preventDefault();
-                    loadModal("{{ url('items') }}/" + $(this).data('id') + "?read_only=1", $(this).data('name'));
+                    loadModal("{{ route('browse.items.stack', '') }}/" + $(this).data('id') + "?read_only=1", $(this).data('name'));
                 });
 
                 $('.spoiler-text').hide();

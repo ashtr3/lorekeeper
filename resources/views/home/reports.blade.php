@@ -5,24 +5,24 @@
 @endsection
 
 @section('home-content')
-    {!! breadcrumbs(['Reports' => 'reports']) !!}
+    {!! breadcrumbs(['Reports' => route('reports.index')]) !!}
     <h1>
         My Reports
     </h1>
 
     <div class="text-right">
-        <a href="{{ url('reports/new') }}" class="btn btn-success">New Report</a>
+        <a href="{{ route('reports.create') }}" class="btn btn-success">New Report</a>
     </div>
 
     <ul class="nav nav-tabs mb-3">
         <li class="nav-item">
-            <a class="nav-link {{ !Request::get('type') || Request::get('type') == 'pending' ? 'active' : '' }}" href="{{ url('reports') }}">Pending</a>
+            <a class="nav-link {{ !Request::get('type') || Request::get('type') == 'pending' ? 'active' : '' }}" href="{{ route('reports.index') }}">Pending</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ Request::get('type') == 'assigned' ? 'active' : '' }}" href="{{ url('reports') . '?type=assigned' }}">Assigned</a>
+            <a class="nav-link {{ Request::get('type') == 'assigned' ? 'active' : '' }}" href="{{ route('reports.index') . '?type=assigned' }}">Assigned</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ Request::get('type') == 'closed' ? 'active' : '' }}" href="{{ url('reports') . '?type=closed' }}">Closed</a>
+            <a class="nav-link {{ Request::get('type') == 'closed' ? 'active' : '' }}" href="{{ route('reports.index') . '?type=closed' }}">Closed</a>
         </li>
     </ul>
 

@@ -5,7 +5,7 @@
 @endsection
 
 @section('profile-content')
-    {!! breadcrumbs(['Users' => 'users', $user->name => $user->url, 'Gallery' => $user->url . '/gallery']) !!}
+    {!! breadcrumbs(['Users' => route('browse.users'), $user->name => $user->url, 'Gallery' => route('browse.user.gallery', $user->name)]) !!}
 
     <h1>
         Gallery

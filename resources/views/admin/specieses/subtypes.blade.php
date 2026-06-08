@@ -5,13 +5,13 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Subtypes' => 'admin/data/subtypes']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Subtypes' => route('admin.data.subtypes.index')]) !!}
 
     <h1>Subtypes</h1>
 
     <p>Subtypes are optional categories that can be added to species. Characters require a species, but do not require a subtype. Note that the sort order here reflects the sort order under the species name as well.</p>
 
-    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ url('admin/data/subtypes/create') }}"><i class="fas fa-plus"></i> Create New Subtype</a></div>
+    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ route('admin.data.subtypes.create') }}"><i class="fas fa-plus"></i> Create New Subtype</a></div>
     @if (!count($subtypes))
         <p>No subtypes found.</p>
     @else
@@ -30,7 +30,7 @@
                             {!! $subtype->species->displayName !!}
                         </td>
                         <td class="text-right">
-                            <a href="{{ url('admin/data/subtypes/edit/' . $subtype->id) }}" class="btn btn-primary">Edit</a>
+                            <a href="{{ route('admin.data.subtypes.edit', $subtype->id) }}" class="btn btn-primary">Edit</a>
                         </td>
                     </tr>
                 @endforeach

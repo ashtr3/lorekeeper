@@ -5,7 +5,7 @@
 @endsection
 
 @section('shops-content')
-    {!! breadcrumbs(['Shops' => 'shops', 'My Purchase History' => 'history']) !!}
+    {!! breadcrumbs(['Shops' => route('browse.shops.index'), 'My Purchase History' => route('shops.history')]) !!}
 
     <h1>
         My Purchase History

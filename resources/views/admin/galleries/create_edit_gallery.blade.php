@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Galleries' => 'admin/data/galleries', ($gallery->id ? 'Edit' : 'Create') . ' Gallery' => $gallery->id ? 'admin/data/galleries/edit/' . $gallery->id : 'admin/data/galleries/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Galleries' => route('admin.data.galleries.index'), ($gallery->id ? 'Edit' : 'Create') . ' Gallery' => $gallery->id ? route('admin.data.galleries.edit', $gallery->id) : route('admin.data.galleries.create')]) !!}
 
     <h1>{{ $gallery->id ? 'Edit' : 'Create' }} Gallery
         @if ($gallery->id)
@@ -110,7 +110,7 @@
         $(document).ready(function() {
             $('.delete-gallery-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/galleries/delete') }}/{{ $gallery->id }}", 'Delete Gallery');
+                loadModal("{{ route('admin.data.galleries.delete', $gallery->id) }}", 'Delete Gallery');
             });
 
         });

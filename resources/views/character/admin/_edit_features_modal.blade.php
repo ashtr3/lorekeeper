@@ -98,7 +98,7 @@
         var id = '<?php echo $image->id; ?>';
         $.ajax({
             type: "GET",
-            url: "{{ url('admin/character/image/traits/subtype') }}?species=" + species + "&id=" + id,
+            url: "{{ route('admin.character.image.traits.subtype') }}?species=" + species + "&id=" + id,
             dataType: "text"
         }).done(function(res) {
             $("#subtypes").html(res);

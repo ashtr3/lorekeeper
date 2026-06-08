@@ -5,7 +5,7 @@
 @endsection
 
 @section('profile-content')
-    {!! breadcrumbs(['Users' => 'users', $user->name => $user->url, 'Inventory' => $user->url . '/inventory']) !!}
+    {!! breadcrumbs(['Users' => route('browse.users'), $user->name => $user->url, 'Inventory' => route('browse.user.inventory', $user->name)]) !!}
 
     <h1>
         Inventory
@@ -118,7 +118,7 @@
     </div>
 
     <div class="text-right">
-        <a href="{{ url($user->url . '/item-logs') }}">View all...</a>
+        <a href="{{ route('browse.user.item-logs', $user->name) }}">View all...</a>
     </div>
 @endsection
 
@@ -129,7 +129,7 @@
             $('.inventory-stack').on('click', function(e) {
                 e.preventDefault();
                 var $parent = $(this).parent().parent();
-                loadModal("{{ url('items') }}/" + $parent.data('id'), $parent.data('name'));
+                loadModal("{{ route('browse.items.stack', '') }}/" + $parent.data('id'), $parent.data('name'));
             });
         });
     </script>

@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    {!! breadcrumbs(['World' => 'world', 'Species' => 'world/species', $species->name => $species->url, 'Traits' => 'world/species/' . $species->id . 'traits']) !!}
+    {!! breadcrumbs(['World' => route('browse.world.index'), 'Species' => route('browse.world.species'), $species->name => $species->url, 'Traits' => route('browse.world.species.traits', $species->id)]) !!}
     <h1>{{ $species->name }} Traits</h1>
 
     <p>This is a visual index of all {!! $species->displayName !!}-specific traits. Click a trait to view more info on it!</p>
@@ -55,7 +55,7 @@
                 $('.modal-image').on('click', function(e) {
                     e.preventDefault();
 
-                    loadModal("{{ url('world/species/' . $species->id . '/trait') }}/" + $(this).data('id'), 'Trait Detail');
+                    loadModal("{{ route('browse.world.species.trait', [$species->id, '']) }}/" + $(this).data('id'), 'Trait Detail');
                 });
             })
         </script>

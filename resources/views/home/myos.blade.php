@@ -5,7 +5,7 @@
 @endsection
 
 @section('home-content')
-    {!! breadcrumbs(['Characters' => 'characters', 'My MYO Slots' => 'myos']) !!}
+    {!! breadcrumbs(['Characters' => route('characters.index'), 'My MYO Slots' => route('characters.myos')]) !!}
 
     <h1>
         My MYO Slots

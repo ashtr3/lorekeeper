@@ -5,7 +5,7 @@
 @endsection
 
 @section('design-content')
-    {!! breadcrumbs(['Design Approvals' => 'designs'] + ($status == 'draft' ? ['Drafts' => 'designs'] : ['Submissions' => 'designs/' . $status])) !!}
+    {!! breadcrumbs(['Design Approvals' => route('designs.index')] + ($status == 'draft' ? ['Drafts' => route('designs.index')] : ['Submissions' => route('designs.index', $status)])) !!}
 
     @if ($status == 'draft')
         <h1>Design Approval Drafts</h1>
@@ -21,13 +21,13 @@
 
         <ul class="nav nav-tabs mb-3">
             <li class="nav-item">
-                <a class="nav-link {{ $status == 'pending' ? 'active' : '' }}" href="{{ url('designs/pending') }}">Pending</a>
+                <a class="nav-link {{ $status == 'pending' ? 'active' : '' }}" href="{{ route('designs.index', 'pending') }}">Pending</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ $status == 'approved' ? 'active' : '' }}" href="{{ url('designs/approved') }}">Approved</a>
+                <a class="nav-link {{ $status == 'approved' ? 'active' : '' }}" href="{{ route('designs.index', 'approved') }}">Approved</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ $status == 'rejected' ? 'active' : '' }}" href="{{ url('designs/rejected') }}">Rejected</a>
+                <a class="nav-link {{ $status == 'rejected' ? 'active' : '' }}" href="{{ route('designs.index', 'rejected') }}">Rejected</a>
             </li>
         </ul>
     @endif

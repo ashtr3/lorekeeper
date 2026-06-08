@@ -6,7 +6,7 @@
 
 @section('shops-content')
     <x-admin-edit title="Shop" :object="$shop" />
-    {!! breadcrumbs(['Shops' => 'shops', $shop->name => $shop->url]) !!}
+    {!! breadcrumbs(['Shops' => route('browse.shops.index'), $shop->name => $shop->url]) !!}
 
     <h1>
         {{ $shop->name }}
@@ -73,7 +73,7 @@
             $('.inventory-item').on('click', function(e) {
                 e.preventDefault();
 
-                loadModal("{{ url('shops/' . $shop->id) }}/" + $(this).data('id'), 'Purchase Item');
+                loadModal("{{ route('browse.shops.show', $shop->id) }}/" + $(this).data('id'), 'Purchase Item');
             });
         });
     </script>

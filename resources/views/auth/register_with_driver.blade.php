@@ -11,7 +11,7 @@
                 <h1>Register with {{ $provider }}</h1>
             </div>
         </div>
-        <form method="POST" action="{{ url('register/' . $provider) }}">
+        <form method="POST" action="{{ route('auth.register', $provider) }}">
             @csrf
             {!! Form::hidden('token', $token ?? old('token')) !!}
 
@@ -62,7 +62,7 @@
                     <div class="form-check">
                         <label class="form-check-label">
                             {!! Form::checkbox('agreement', 1, false, ['class' => 'form-check-input']) !!}
-                            I have read and agree to the <a href="{{ url('info/terms') }}">Terms of Service</a> and <a href="{{ url('info/privacy') }}">Privacy Policy</a>.
+                            I have read and agree to the <a href="{{ route('browse.page', 'terms') }}">Terms of Service</a> and <a href="{{ route('browse.page', 'privacy') }}">Privacy Policy</a>.
                         </label>
                     </div>
                 </div>

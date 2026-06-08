@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Raffle Index' => 'admin/raffles', 'Raffle Tickets for ' . $raffle->name => 'admin/raffles/view/' . $raffle->id]) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Raffle Index' => route('admin.raffles.index'), 'Raffle Tickets for ' . $raffle->name => route('admin.raffles.tickets.index', $raffle->id)]) !!}
 
     <h1>
         Raffle Tickets: {{ $raffle->name }}</h1>

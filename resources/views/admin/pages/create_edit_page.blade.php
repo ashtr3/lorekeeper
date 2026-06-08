@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Pages' => 'admin/pages', ($page->id ? 'Edit' : 'Create') . ' Page' => $page->id ? 'admin/pages/edit/' . $page->id : 'admin/pages/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Pages' => route('admin.pages.index'), ($page->id ? 'Edit' : 'Create') . ' Page' => $page->id ? route('admin.pages.edit', $page->id) : route('admin.pages.create')]) !!}
 
     <h1>{{ $page->id ? 'Edit' : 'Create' }} Page
         @if ($page->id && !config('lorekeeper.text_pages.' . $page->key))
@@ -16,7 +16,7 @@
         @endif
     </h1>
 
-    {!! Form::open([$page->id ? route('admin.pages.update', $page->id) : route('admin.pages.store'), 'files' => true]) !!}
+    {!! Form::open(['url' => $page->id ? route('admin.pages.update', $page->id) : route('admin.pages.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 
@@ -76,7 +76,7 @@
         $(document).ready(function() {
             $('.delete-page-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/pages/delete') }}/{{ $page->id }}", 'Delete Page');
+                loadModal("{{ route('admin.pages.delete', $page->id) }}", 'Delete Page');
             });
         });
     </script>

@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    {!! breadcrumbs(['Prompts' => 'prompts']) !!}
+    {!! breadcrumbs(['Prompts' => route('browse.prompts.index')]) !!}
 
     <h1>Prompts</h1>
     <div class="row">
@@ -16,8 +16,8 @@
                     <h5 class="card-title">Prompts</h5>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><a href="{{ url('prompts/prompt-categories') }}">Prompts Categories</a></li>
-                    <li class="list-group-item"><a href="{{ url('prompts/prompts') }}">All Prompts</a></li>
+                    <li class="list-group-item"><a href="{{ route('browse.prompts.categories') }}">Prompts Categories</a></li>
+                    <li class="list-group-item"><a href="{{ route('browse.prompts.list') }}">All Prompts</a></li>
                 </ul>
             </div>
         </div>

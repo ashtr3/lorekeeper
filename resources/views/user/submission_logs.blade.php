@@ -5,7 +5,7 @@
 @endsection
 
 @section('profile-content')
-    {!! breadcrumbs(['Users' => 'users', $user->name => $user->url, 'Submissions' => $user->url . '/submissions']) !!}
+    {!! breadcrumbs(['Users' => route('browse.users'), $user->name => $user->url, 'Submissions' => route('browse.user.submissions', $user->name)]) !!}
 
     <h1>
         {!! $user->displayName !!}'s Submissions

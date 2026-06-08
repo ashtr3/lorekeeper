@@ -5,7 +5,7 @@
 @endsection
 
 @section('design-content')
-    {!! breadcrumbs(['Design Approvals' => 'designs', 'Request (#' . $request->id . ')' => 'designs/' . $request->id, 'Add-ons' => 'designs/' . $request->id . '/addons']) !!}
+    {!! breadcrumbs(['Design Approvals' => route('designs.index'), 'Request (#' . $request->id . ')' => route('designs.show', $request->id), 'Add-ons' => route('designs.addons', $request->id)]) !!}
 
     @include('character.design._header', ['request' => $request])
 

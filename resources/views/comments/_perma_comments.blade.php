@@ -39,8 +39,8 @@
                             </span>
                         @endif
                     </small>
-                    <a href="{{ url('comment/') . '/' . $comment->id }}"><i class="fas fa-link ml-1" style="opacity: 50%;"></i></a>
-                    <a href="{{ url('reports/new?url=') . $comment->url }}"><i class="fas fa-exclamation-triangle" data-toggle="tooltip" title="Click here to report this comment." style="opacity: 50%;"></i></a>
+                    <a href="{{ route('browse.comment', $comment->id) }}"><i class="fas fa-link ml-1" style="opacity: 50%;"></i></a>
+                    <a href="{{ route('reports.create') . '?url=' . $comment->url }}"><i class="fas fa-exclamation-triangle" data-toggle="tooltip" title="Click here to report this comment." style="opacity: 50%;"></i></a>
                 </p>
             </div>
 
@@ -60,7 +60,7 @@ url should be equal to the last replies permalink (e.g reply 5) --}}
                 @php $limit++; @endphp
 
                 @if ($limit >= 5 && $depth >= 1)
-                    <a href="{{ url('comment/') . '/' . $comment->id }}"><span class="btn btn-secondary w-100">See More Replies</span></a>
+                    <a href="{{ route('browse.comment', $comment->id) }}"><span class="btn btn-secondary w-100">See More Replies</span></a>
                 @break
             @endif
 
@@ -96,7 +96,7 @@ url should be equal to the last replies permalink (e.g reply 5) --}}
                         <span class="text-muted border-left mx-1 px-1">(Deleted {!! $comment->deleted_at !!})</span>
                     @endif
                 </small>
-                <a href="{{ url('comment/') . '/' . $comment->id }}"><i class="fas fa-link ml-1" style="opacity: 50%;"></i></a>
+                <a href="{{ route('browse.comment', $comment->id) }}"><i class="fas fa-link ml-1" style="opacity: 50%;"></i></a>
             </p>
         </div>
     </div>
@@ -108,7 +108,7 @@ url should be equal to the last replies permalink (e.g reply 5) --}}
             @php $limit++; @endphp
 
             @if ($limit >= 5 && $depth >= 1)
-                <a href="{{ url('comment/') . '/' . $comment->id }}"><span class="btn btn-secondary w-100">See More Replies</span></a>
+                <a href="{{ route('browse.comment', $comment->id) }}"><span class="btn btn-secondary w-100">See More Replies</span></a>
             @break
         @endif
 

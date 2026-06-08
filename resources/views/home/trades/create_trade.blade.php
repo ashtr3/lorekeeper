@@ -5,7 +5,7 @@
 @endsection
 
 @section('home-content')
-    {!! breadcrumbs(['Trades' => 'trades/open', 'New Trade' => 'trades/create']) !!}
+    {!! breadcrumbs(['Trades' => route('trades.index', 'open'), 'New Trade' => route('trades.create')]) !!}
 
     <h1>
         New Trade

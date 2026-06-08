@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Site Images & CSS' => 'admin/images']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Site Images & CSS' => route('admin.images.index')]) !!}
 
     <h1>Site Images</h1>
 

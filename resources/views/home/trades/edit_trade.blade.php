@@ -5,7 +5,7 @@
 @endsection
 
 @section('home-content')
-    {!! breadcrumbs(['Trades' => 'trades/open', 'Trade with ' . $partner->name . ' (#' . $trade->id . ')' => 'trades/' . $trade->id, 'Edit Trade' => 'trades/' . $trade->id . '/edit']) !!}
+    {!! breadcrumbs(['Trades' => route('trades.index', 'open'), 'Trade with ' . $partner->name . ' (#' . $trade->id . ')' => route('trades.show', $trade->id), 'Edit Trade' => route('trades.edit', $trade->id)]) !!}
 
     <h1>
         Edit Trade

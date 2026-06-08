@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Raffle Index' => 'admin/raffles']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Raffle Index' => route('admin.raffles.index')]) !!}
 
     <h1>Raffle Index</h1>
     <div class="text-right form-group">
@@ -56,7 +56,7 @@
 
             <li class="list-group-item">
                 <i class="fas {{ $raffle->is_active ? 'fa-eye' : 'fa-eye-slash' }} mr-2"></i>
-                <a href="{{ url('admin/raffles/view/' . $raffle->id) }}">{{ $raffle->name }}</a>
+                <a href="{{ route('admin.raffles.tickets.index', $raffle->id) }}">{{ $raffle->name }}</a>
                 @if ($raffle->is_active < 2)
                     <div class="float-right">
                         @if (!$raffle->group_id)
@@ -76,19 +76,19 @@
             <script>
                 $('.edit-group').on('click', function(e) {
                     e.preventDefault();
-                    loadModal("{{ url('/admin/raffles/edit/group/') }}/" + $(this).data('id'), 'Edit Raffle Group');
+                    loadModal("{{ route('admin.raffles.group.edit', '') }}/" + $(this).data('id'), 'Edit Raffle Group');
                 });
                 $('.edit-raffle').on('click', function(e) {
                     e.preventDefault();
-                    loadModal("{{ url('/admin/raffles/edit/raffle/') }}/" + $(this).data('id'), 'Edit Raffle');
+                    loadModal("{{ route('admin.raffles.edit', '') }}/" + $(this).data('id'), 'Edit Raffle');
                 });
                 $('.roll-raffle').on('click', function(e) {
                     e.preventDefault();
-                    loadModal("{{ url('/admin/raffles/roll/raffle/') }}/" + $(this).data('id'), 'Roll Raffle');
+                    loadModal("{{ route('admin.raffles.roll', '') }}/" + $(this).data('id'), 'Roll Raffle');
                 });
                 $('.roll-group').on('click', function(e) {
                     e.preventDefault();
-                    loadModal("{{ url('/admin/raffles/roll/group/') }}/" + $(this).data('id'), 'Roll Raffle Group');
+                    loadModal("{{ route('admin.raffles.group.roll', '') }}/" + $(this).data('id'), 'Roll Raffle Group');
                 });
             </script>
         @endsection

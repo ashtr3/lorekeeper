@@ -5,7 +5,7 @@
 @endsection
 
 @section('design-content')
-    {!! breadcrumbs(['Design Approvals' => 'designs', 'Request (#' . $request->id . ')' => 'designs/' . $request->id]) !!}
+    {!! breadcrumbs(['Design Approvals' => route('designs.index'), 'Request (#' . $request->id . ')' => route('designs.show', $request->id)]) !!}
 
     @include('character.design._header', ['request' => $request])
 
@@ -73,18 +73,18 @@
             @if ($request->user_id == Auth::user()->id && $request->status == 'Draft')
                 $('.submit-button').on('click', function(e) {
                     e.preventDefault();
-                    loadModal("{{ url('designs/' . $request->id . '/confirm/') }}", 'Confirm Submission');
+                    loadModal("{{ route('designs.confirm', $request->id) }}", 'Confirm Submission');
                 });
                 $('.delete-button').on('click', function(e) {
                     e.preventDefault();
-                    loadModal("{{ url('designs/' . $request->id . '/delete/') }}", 'Delete Submission');
+                    loadModal("{{ route('designs.delete', $request->id) }}", 'Delete Submission');
                 });
             @endif
 
             @if (Auth::user()->hasPower('manage_characters'))
                 $('.process-button').on('click', function(e) {
                     e.preventDefault();
-                    loadModal("{{ url('admin/designs/edit/' . $request->id) }}/" + $(this).data('action'), 'Confirm Action');
+                    loadModal("{{ route('admin.designs.edit', [$request->id, '']) }}/" + $(this).data('action'), 'Confirm Action');
                 });
             @endif
         });

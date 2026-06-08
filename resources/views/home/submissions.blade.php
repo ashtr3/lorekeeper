@@ -6,9 +6,9 @@
 
 @section('home-content')
     @if ($isClaims)
-        {!! breadcrumbs(['Claims' => 'claims']) !!}
+        {!! breadcrumbs(['Claims' => route('claims.index')]) !!}
     @else
-        {!! breadcrumbs(['Prompt Submissions' => 'submissions']) !!}
+        {!! breadcrumbs(['Prompt Submissions' => route('submissions.index')]) !!}
     @endif
 
     <h1>
@@ -17,24 +17,24 @@
 
     <div class="text-right">
         @if (!$isClaims)
-            <a href="{{ url('submissions/new') }}" class="btn btn-success">New Submission</a>
+            <a href="{{ route('submissions.create') }}" class="btn btn-success">New Submission</a>
         @else
-            <a href="{{ url('claims/new') }}" class="btn btn-success">New Claim</a>
+            <a href="{{ route('claims.create') }}" class="btn btn-success">New Claim</a>
         @endif
     </div>
 
     <ul class="nav nav-tabs mb-3">
         <li class="nav-item">
-            <a class="nav-link {{ Request::get('type') == 'draft' ? 'active' : '' }}" href="{{ url($isClaims ? 'claims' : 'submissions') . '?type=draft' }}">Drafts</a>
+            <a class="nav-link {{ Request::get('type') == 'draft' ? 'active' : '' }}" href="{{ route($isClaims ? 'claims.index' : 'submissions.index') . '?type=draft' }}">Drafts</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ !Request::get('type') || Request::get('type') == 'pending' ? 'active' : '' }}" href="{{ url($isClaims ? 'claims' : 'submissions') }}">Pending</a>
+            <a class="nav-link {{ !Request::get('type') || Request::get('type') == 'pending' ? 'active' : '' }}" href="{{ route($isClaims ? 'claims.index' : 'submissions.index') }}">Pending</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ Request::get('type') == 'approved' ? 'active' : '' }}" href="{{ url($isClaims ? 'claims' : 'submissions') . '?type=approved' }}">Approved</a>
+            <a class="nav-link {{ Request::get('type') == 'approved' ? 'active' : '' }}" href="{{ route($isClaims ? 'claims.index' : 'submissions.index') . '?type=approved' }}">Approved</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ Request::get('type') == 'rejected' ? 'active' : '' }}" href="{{ url($isClaims ? 'claims' : 'submissions') . '?type=rejected' }}">Rejected</a>
+            <a class="nav-link {{ Request::get('type') == 'rejected' ? 'active' : '' }}" href="{{ route($isClaims ? 'claims.index' : 'submissions.index') . '?type=rejected' }}">Rejected</a>
         </li>
     </ul>
 

@@ -5,7 +5,7 @@
 @endsection
 
 @section('news-content')
-    {!! breadcrumbs(['Site News' => 'news', $news->title => $news->url]) !!}
+    {!! breadcrumbs(['Site News' => route('browse.news.index'), $news->title => $news->url]) !!}
     @include('news._news', ['news' => $news, 'page' => true])
     <hr class="mb-5" />
 

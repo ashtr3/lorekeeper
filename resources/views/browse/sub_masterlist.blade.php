@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    {!! breadcrumbs([$sublist->name . ' Masterlist' => $sublist->key]) !!}
+    {!! breadcrumbs([$sublist->name . ' Masterlist' => route('browse.sublist', $sublist->key)]) !!}
     <h1>{{ $sublist->name }} Masterlist</h1>
 
     @include('browse._masterlist_content', ['characters' => $characters])

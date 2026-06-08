@@ -7,8 +7,8 @@
 @section('admin-content')
     {!! breadcrumbs([
         'Admin Panel' => route('admin.index'),
-        'Trait Categories' => 'admin/data/trait-categories',
-        ($category->id ? 'Edit' : 'Create') . ' Category' => $category->id ? 'admin/data/trait-categories/edit/' . $category->id : 'admin/data/trait-categories/create',
+        'Trait Categories' => route('admin.data.trait-categories.index'),
+        ($category->id ? 'Edit' : 'Create') . ' Category' => $category->id ? route('admin.data.trait-categories.edit', $category->id) : route('admin.data.trait-categories.create'),
     ]) !!}
 
     <h1>{{ $category->id ? 'Edit' : 'Create' }} Trait Category
@@ -79,7 +79,7 @@
         $(document).ready(function() {
             $('.delete-category-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/trait-categories/delete') }}/{{ $category->id }}", 'Delete Category');
+                loadModal("{{ route('admin.data.trait-categories.delete', $category->id) }}", 'Delete Category');
             });
         });
     </script>

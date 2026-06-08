@@ -5,7 +5,7 @@
 @endsection
 
 @section('home-content')
-    {!! breadcrumbs(['Users' => 'users', $user->name => $user->url, $submission->prompt_id ? 'Submission' : 'Claim (#' . $submission->id . ')' => $submission->viewUrl]) !!}
+    {!! breadcrumbs(['Users' => route('browse.users'), $user->name => $user->url, $submission->prompt_id ? 'Submission' : 'Claim (#' . $submission->id . ')' => $submission->viewUrl]) !!}
 
     @include('home._submission_content', ['submission' => $submission, 'isClaim' => $isClaim])
 
@@ -57,7 +57,7 @@
 
             $cancellationSubmit.on('click', function(e) {
                 e.preventDefault();
-                $submissionForm.attr('action', '{{ url('/' . ($submission->prompt_id ? 'submissions' : 'claims') . '/draft/' . $submission->id) }}/cancel');
+                $submissionForm.attr('action', '{{ route($submission->prompt_id ? 'submissions.draft.cancel' : 'claims.draft.cancel', $submission->id) }}/cancel');
                 $submissionForm.submit();
             });
         });

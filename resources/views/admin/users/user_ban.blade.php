@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'User Index' => 'admin/users', $user->name => 'admin/users/' . $user->name . '/edit', 'Ban User' => 'admin/users/' . $user->name . '/ban']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'User Index' => route('admin.users.index'), $user->name => route('admin.users.edit', $user->name), 'Ban User' => route('admin.users.ban', $user->name)]) !!}
 
     <h1>User: {!! $user->displayName !!}</h1>
     <ul class="nav nav-tabs mb-3">
@@ -13,13 +13,13 @@
             <a class="nav-link" href="{{ $user->adminUrl }}">Account</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('admin/users/' . $user->name . '/updates') }}">Account Updates</a>
+            <a class="nav-link" href="{{ route('admin.users.updates', $user->name) }}">Account Updates</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" href="{{ url('admin/users/' . $user->name . '/ban') }}">Ban</a>
+            <a class="nav-link active" href="{{ route('admin.users.ban', $user->name) }}">Ban</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('admin/users/' . $user->name . '/deactivate') }}">Deactivate</a>
+            <a class="nav-link" href="{{ route('admin.users.deactivate', $user->name) }}">Deactivate</a>
         </li>
     </ul>
 
@@ -51,12 +51,12 @@
             @if (!$user->is_banned)
                 $('.ban-button').on('click', function(e) {
                     e.preventDefault();
-                    loadModal("{{ url('admin/users/' . $user->name . '/ban-confirm') }}", 'Ban User');
+                    loadModal("{{ route('admin.users.ban.confirm', $user->name) }}", 'Ban User');
                 });
             @else
                 $('.unban-button').on('click', function(e) {
                     e.preventDefault();
-                    loadModal("{{ url('admin/users/' . $user->name . '/unban-confirm') }}", 'Unban User');
+                    loadModal("{{ route('admin.users.unban.confirm', $user->name) }}", 'Unban User');
                 });
             @endif
         });

@@ -5,7 +5,7 @@
 @endsection
 
 @section('profile-content')
-    {!! breadcrumbs(['Users' => 'users', $user->name => $user->url, 'Logs' => $user->url . '/ownership']) !!}
+    {!! breadcrumbs(['Users' => route('browse.users'), $user->name => $user->url, 'Logs' => route('browse.user.ownership', $user->name)]) !!}
 
     <h1>
         {!! $user->displayName !!}'s Character History

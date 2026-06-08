@@ -5,7 +5,7 @@
 @endsection
 
 @section('home-content')
-    {!! breadcrumbs(['Trades' => 'trades/open', 'Trade with ' . $partner->name . ' (#' . $trade->id . ')' => 'trades/' . $trade->id]) !!}
+    {!! breadcrumbs(['Trades' => route('trades.index', 'open'), 'Trade with ' . $partner->name . ' (#' . $trade->id . ')' => route('trades.show', $trade->id)]) !!}
 
     <h1>
         Trade with {!! $partner->displayName !!} (#{{ $trade->id }})
@@ -102,17 +102,17 @@
         $(document).ready(function() {
             $('#confirmOfferButton').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('trades/' . $trade->id . '/confirm-offer') }}",
+                loadModal("{{ route('trades.confirm-offer', $trade->id) }}",
                     '{{ (Auth::user()->id == $trade->sender_id ? ($trade->is_sender_confirmed ? 'Unconfirm' : 'Confirm') : ($trade->is_recipient_confirmed ? 'Unconfirm' : 'Confirm')) . ' Offer' }}');
             });
             $('#confirmTradeButton').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('trades/' . $trade->id . '/confirm-trade') }}",
+                loadModal("{{ route('trades.confirm-trade', $trade->id) }}",
                     '{{ (Auth::user()->id == $trade->sender_id ? ($trade->is_sender_trade_confirmed ? 'Unconfirm' : 'Confirm') : ($trade->is_recipient_trade_confirmed ? 'Unconfirm' : 'Confirm')) . ' Trade' }}');
             });
             $('#cancelTradeButton').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('trades/' . $trade->id . '/cancel-trade') }}", 'Cancel Trade');
+                loadModal("{{ route('trades.cancel-trade', $trade->id) }}", 'Cancel Trade');
             });
         });
     </script>

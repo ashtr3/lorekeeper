@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Items' => 'admin/data/items']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Items' => route('admin.data.items.index')]) !!}
 
     <h1>Items</h1>
 
@@ -14,10 +14,10 @@
 
     <div class="text-right mb-3">
         @if (Auth::user()->hasPower('edit_inventories'))
-            <a class="btn btn-primary" href="{{ url('admin/grants/item-search') }}"><i class="fas fa-search"></i> Item Search</a>
+            <a class="btn btn-primary" href="{{ route('admin.grants.item-search') }}"><i class="fas fa-search"></i> Item Search</a>
         @endif
-        <a class="btn btn-primary" href="{{ url('admin/data/item-categories') }}"><i class="fas fa-folder"></i> Item Categories</a>
-        <a class="btn btn-primary" href="{{ url('admin/data/items/create') }}"><i class="fas fa-plus"></i> Create New Item</a>
+        <a class="btn btn-primary" href="{{ route('admin.data.item-categories.index') }}"><i class="fas fa-folder"></i> Item Categories</a>
+        <a class="btn btn-primary" href="{{ route('admin.data.items.create') }}"><i class="fas fa-plus"></i> Create New Item</a>
     </div>
 
     <div>
@@ -66,7 +66,7 @@
                             </div>
                             <div class="col-3 col-md-1 text-right">
                                 <div class="logs-table-cell">
-                                    <a href="{{ url('admin/data/items/edit/' . $item->id) }}" class="btn btn-primary py-0 px-2">Edit</a>
+                                    <a href="{{ route('admin.data.items.edit', $item->id) }}" class="btn btn-primary py-0 px-2">Edit</a>
                                 </div>
                             </div>
                         </div>

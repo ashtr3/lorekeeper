@@ -10,12 +10,12 @@
 
 @section('profile-content')
     @if ($character->is_myo_slot)
-        {!! breadcrumbs(['MYO Slot Masterlist' => 'myos', $character->fullName => $character->url, 'Profile' => $character->url . '/profile']) !!}
+        {!! breadcrumbs(['MYO Slot Masterlist' => route('browse.myos'), $character->fullName => $character->url, 'Profile' => route('browse.myo.profile', $character->id)]) !!}
     @else
         {!! breadcrumbs([
-            $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? 'sublist/' . $character->category->sublist->key : 'masterlist',
+            $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? route('browse.sublist', $character->category->sublist->key) : route('browse.masterlist'),
             $character->fullName => $character->url,
-            'Profile' => $character->url . '/profile',
+            'Profile' => route('browse.character.profile', $character->slug),
         ]) !!}
     @endif
 
@@ -35,7 +35,7 @@
     </div>
 
     {{-- Bio --}}
-    <a class="float-left" href="{{ url('reports/new?url=') . $character->url . '/profile' }}"><i class="fas fa-exclamation-triangle" data-toggle="tooltip" title="Click here to report this character's profile." style="opacity: 50%;"></i></a>
+    <a class="float-left" href="{{ route('reports.create') . '?url=' . $character->url . '/profile' }}"><i class="fas fa-exclamation-triangle" data-toggle="tooltip" title="Click here to report this character's profile." style="opacity: 50%;"></i></a>
     @if (Auth::check() && ($character->user_id == Auth::user()->id || Auth::user()->hasPower('manage_characters')))
         <div class="text-right mb-2">
             <a href="{{ $character->url . '/profile/edit' }}" class="btn btn-outline-info btn-sm"><i class="fas fa-cog"></i> Edit Profile</a>

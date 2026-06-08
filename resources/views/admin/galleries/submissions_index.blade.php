@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Gallery Submissions Queue' => 'admin/gallery/submissions/pending']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Gallery Submissions Queue' => route('admin.gallery.submissions.index.status', 'pending')]) !!}
 
     <h1>
         Gallery Submission Queue
@@ -13,13 +13,13 @@
 
     <ul class="nav nav-tabs mb-3">
         <li class="nav-item">
-            <a class="nav-link {{ set_active('admin/gallery/submissions/pending*') }} {{ set_active('admin/gallery/submissions') }}" href="{{ url('admin/gallery/submissions/pending') }}">Pending</a>
+            <a class="nav-link {{ set_active('admin/gallery/submissions/pending*') }} {{ set_active('admin/gallery/submissions') }}" href="{{ route('admin.gallery.submissions.index.status', 'pending') }}">Pending</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ set_active('admin/gallery/submissions/accepted*') }}" href="{{ url('admin/gallery/submissions/accepted') }}">Accepted</a>
+            <a class="nav-link {{ set_active('admin/gallery/submissions/accepted*') }}" href="{{ route('admin.gallery.submissions.index.status', 'accepted') }}">Accepted</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ set_active('admin/gallery/submissions/rejected*') }}" href="{{ url('admin/gallery/submissions/rejected') }}">Rejected</a>
+            <a class="nav-link {{ set_active('admin/gallery/submissions/rejected*') }}" href="{{ route('admin.gallery.submissions.index.status', 'rejected') }}">Rejected</a>
         </li>
     </ul>
 

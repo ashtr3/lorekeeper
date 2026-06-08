@@ -10,12 +10,12 @@
 
 @section('profile-content')
     @if ($character->is_myo_slot)
-        {!! breadcrumbs(['MYO Slot Masterlist' => 'myos', $character->fullName => $character->url, 'Change Log' => $character->url . '/change-log']) !!}
+        {!! breadcrumbs(['MYO Slot Masterlist' => route('browse.myos'), $character->fullName => $character->url, 'Change Log' => route('browse.myo.logs', $character->id)]) !!}
     @else
         {!! breadcrumbs([
-            $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? 'sublist/' . $character->category->sublist->key : 'masterlist',
+            $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? route('browse.sublist', $character->category->sublist->key) : route('browse.masterlist'),
             $character->fullName => $character->url,
-            'Change Log' => $character->url . '/change-log',
+            'Change Log' => route('browse.character.logs', $character->slug),
         ]) !!}
     @endif
 

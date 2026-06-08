@@ -5,15 +5,15 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Prompts' => 'admin/data/prompts']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Prompts' => route('admin.data.prompts.index')]) !!}
 
     <h1>Prompts</h1>
 
     <p>This is a list of prompts users can submit to.</p>
 
     <div class="text-right mb-3">
-        <a class="btn btn-primary" href="{{ url('admin/data/prompt-categories') }}"><i class="fas fa-folder"></i> Prompt Categories</a>
-        <a class="btn btn-primary" href="{{ url('admin/data/prompts/create') }}"><i class="fas fa-plus"></i> Create New Prompt</a>
+        <a class="btn btn-primary" href="{{ route('admin.data.prompt-categories.index') }}"><i class="fas fa-folder"></i> Prompt Categories</a>
+        <a class="btn btn-primary" href="{{ route('admin.data.prompts.create') }}"><i class="fas fa-plus"></i> Create New Prompt</a>
     </div>
 
     <div>
@@ -83,7 +83,7 @@
                             </div>
                             <div class="col-3 col-md-1 text-right">
                                 <div class="logs-table-cell">
-                                    <a href="{{ url('admin/data/prompts/edit/' . $prompt->id) }}" class="btn btn-primary py-0 px-2">Edit</a>
+                                    <a href="{{ route('admin.data.prompts.edit', $prompt->id) }}" class="btn btn-primary py-0 px-2">Edit</a>
                                 </div>
                             </div>
                         </div>

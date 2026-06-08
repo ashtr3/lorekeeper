@@ -10,12 +10,12 @@
 
 @section('profile-content')
     @if ($character->is_myo_slot)
-        {!! breadcrumbs(['MYO Slot Masterlist' => 'myos', $character->fullName => $character->url, 'Transfer' => $character->url . '/transfer']) !!}
+        {!! breadcrumbs(['MYO Slot Masterlist' => route('browse.myos'), $character->fullName => $character->url, 'Transfer' => route('myo.transfer', $character->id)]) !!}
     @else
         {!! breadcrumbs([
-            $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? 'sublist/' . $character->category->sublist->key : 'masterlist',
+            $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? route('browse.sublist', $character->category->sublist->key) : route('browse.masterlist'),
             $character->fullName => $character->url,
-            'Transfer' => $character->url . '/transfer',
+            'Transfer' => route('character.transfer', $character->slug),
         ]) !!}
     @endif
 
@@ -79,7 +79,7 @@
         <p>This will transfer the character automatically, without requiring the recipient to confirm the transfer. You may also transfer a character that is marked non-transferrable, or still under cooldown. Both the old and new owners will be notified
             of the transfer.</p>
         <p>Fill in either of the recipient fields - if transferring to an off-site user, leave the recipient field blank and vice versa.</p>
-        {!! Form::open([$character->is_myo_slot ? route('admin.myo.transfer.store', $character->id) : route('admin.character.transfer.store', $character->slug)]) !!}
+        {!! Form::open(['url' => $character->is_myo_slot ? route('admin.myo.transfer.store', $character->id) : route('admin.character.transfer.store', $character->slug)]) !!}
         <div class="form-group">
             {!! Form::label('recipient_id', 'Recipient') !!}
             {!! Form::select('recipient_id', $userOptions, old('recipient_id'), ['class' => 'form-control selectize', 'placeholder' => 'Select User']) !!}

@@ -5,7 +5,7 @@
 @endsection
 
 @section('profile-content')
-    {!! breadcrumbs(['Users' => 'users', $user->name => $user->url, 'Aliases' => $user->url . '/aliases']) !!}
+    {!! breadcrumbs(['Users' => route('browse.users'), $user->name => $user->url, 'Aliases' => route('browse.user.aliases', $user->name)]) !!}
 
     <h1>
         {!! $user->displayName !!}'s Aliases

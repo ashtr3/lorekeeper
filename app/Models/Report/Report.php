@@ -165,7 +165,7 @@ class Report extends Model {
      * @return string
      */
     public function getViewUrlAttribute() {
-        return url('reports/view/'.$this->id);
+        return route('reports.show', $this->id);
     }
 
     /**
@@ -174,7 +174,7 @@ class Report extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/reports/edit/'.$this->id);
+        return route('admin.reports.edit', $this->id);
     }
 
     /**

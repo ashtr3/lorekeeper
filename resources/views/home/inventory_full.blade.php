@@ -5,7 +5,7 @@
 @endsection
 
 @section('home-content')
-    {!! breadcrumbs(['Inventory' => 'inventory', 'Full Inventory' => 'inventory-full']) !!}
+    {!! breadcrumbs(['Inventory' => route('inventory.index'), 'Full Inventory' => route('inventory.full')]) !!}
 
     <h1>
         Full Inventory
@@ -84,13 +84,13 @@
             $('.invuser').on('click', function(e) {
                 e.preventDefault();
                 var $parent = $(this);
-                loadModal("{{ url('items') }}/" + $parent.data('id'), $parent.data('name'));
+                loadModal("{{ route('browse.items.stack', '') }}/" + $parent.data('id'), $parent.data('name'));
             });
 
             $('.invchar').on('click', function(e) {
                 e.preventDefault();
                 var $parent = $(this);
-                loadModal("{{ url('items') }}/character/" + $parent.data('id'), $parent.data('name'));
+                loadModal("{{ route('browse.items.stack', '') }}/character/" + $parent.data('id'), $parent.data('name'));
             });
         });
     </script>

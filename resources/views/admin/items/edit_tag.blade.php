@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Items' => 'admin/data/items', 'Edit Item' => 'admin/data/items/edit/' . $item->id, 'Edit Tag Settings - ' . $tag->tag => 'admin/data/items/tag/' . $item->id . '/' . $tag->tag]) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Items' => route('admin.data.items.index'), 'Edit Item' => route('admin.data.items.edit', $item->id), 'Edit Tag Settings - ' . $tag->tag => route('admin.data.items.tag.edit', [$item->id, $tag->tag])]) !!}
 
     <h1>
         Edit Tag Settings - {!! $tag->displayTag !!}
@@ -46,7 +46,7 @@
         $(document).ready(function() {
             $('.delete-tag-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/items/delete-tag') }}/{{ $item->id }}/{{ $tag->tag }}", 'Delete Tag');
+                loadModal("{{ route('admin.data.items.tag.delete', [$item->id, $tag->tag]) }}", 'Delete Tag');
             });
         });
     </script>

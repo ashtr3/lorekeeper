@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    {!! breadcrumbs(['Prompts' => 'prompts', 'Prompt Categories' => 'prompts/prompt-categories']) !!}
+    {!! breadcrumbs(['Prompts' => route('browse.prompts.index'), 'Prompt Categories' => route('browse.prompts.categories')]) !!}
     <h1>Prompt Categories</h1>
 
     <div>

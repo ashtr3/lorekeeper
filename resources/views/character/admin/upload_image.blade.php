@@ -5,7 +5,7 @@
 @endsection
 
 @section('profile-content')
-    {!! breadcrumbs(['Masterlist' => 'masterlist', $character->fullName => $character->url]) !!}
+    {!! breadcrumbs(['Masterlist' => route('browse.masterlist'), $character->fullName => $character->url]) !!}
 
     @include('character._header', ['character' => $character])
 
@@ -329,7 +329,7 @@
             var id = '<?php echo $character->image->id; ?>';
             $.ajax({
                 type: "GET",
-                url: "{{ url('admin/character/image/subtype') }}?species=" + species + "&id=" + id,
+                url: "{{ route('admin.character.image.subtype') }}?species=" + species + "&id=" + id,
                 dataType: "text"
             }).done(function(res) {
                 $("#subtypes").html(res);

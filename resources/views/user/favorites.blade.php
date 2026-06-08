@@ -6,9 +6,9 @@
 
 @section('profile-content')
     @if ($characters)
-        {!! breadcrumbs(['Users' => 'users', $user->name => $user->url, 'Favorites' => $user->url . '/favorites', 'Own Characters' => $user->url . '/favorites/own-characters']) !!}
+        {!! breadcrumbs(['Users' => route('browse.users'), $user->name => $user->url, 'Favorites' => route('browse.user.favorites', $user->name), 'Own Characters' => route('browse.user.favorites.own-characters', $user->name)]) !!}
     @else
-        {!! breadcrumbs(['Users' => 'users', $user->name => $user->url, 'Favorites' => $user->url . '/favorites']) !!}
+        {!! breadcrumbs(['Users' => route('browse.users'), $user->name => $user->url, 'Favorites' => route('browse.user.favorites', $user->name)]) !!}
     @endif
 
     <h1>
@@ -16,7 +16,7 @@
     </h1>
 
     @if ($characters)
-        <p>These are {{ Auth::check() && Auth::user()->id == $user->id ? 'your' : $user->name . '\'s' }} favorites which feature <a href="{{ url($user->url . '/characters') }}">characters
+        <p>These are {{ Auth::check() && Auth::user()->id == $user->id ? 'your' : $user->name . '\'s' }} favorites which feature <a href="{{ route('browse.user.characters', $user->name) }}">characters
                 {{ Auth::check() && Auth::user()->id == $user->id ? 'you' : 'they' }} own</a>.</p>
     @endif
 

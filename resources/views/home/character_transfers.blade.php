@@ -5,7 +5,7 @@
 @endsection
 
 @section('home-content')
-    {!! breadcrumbs(['Character Transfers' => 'characters/transfers']) !!}
+    {!! breadcrumbs(['Character Transfers' => route('characters.transfers.index', 'incoming')]) !!}
 
     <h1>
         Character Transfers
@@ -13,13 +13,13 @@
 
     <ul class="nav nav-tabs mb-3">
         <li class="nav-item">
-            <a class="nav-link {{ set_active('characters/transfers/incoming*') }}" href="{{ url('characters/transfers/incoming') }}">Incoming</a>
+            <a class="nav-link {{ set_active('characters/transfers/incoming*') }}" href="{{ route('characters.transfers.index', 'incoming') }}">Incoming</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ set_active('characters/transfers/outgoing*') }}" href="{{ url('characters/transfers/outgoing') }}">Outgoing</a>
+            <a class="nav-link {{ set_active('characters/transfers/outgoing*') }}" href="{{ route('characters.transfers.index', 'outgoing') }}">Outgoing</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ set_active('characters/transfers/completed*') }}" href="{{ url('characters/transfers/completed') }}">Completed</a>
+            <a class="nav-link {{ set_active('characters/transfers/completed*') }}" href="{{ route('characters.transfers.index', 'completed') }}">Completed</a>
         </li>
     </ul>
 

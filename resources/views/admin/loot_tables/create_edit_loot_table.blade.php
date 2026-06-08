@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Loot Tables' => 'admin/data/loot-tables', ($table->id ? 'Edit' : 'Create') . ' Loot Table' => $table->id ? 'admin/data/loot-tables/edit/' . $table->id : 'admin/data/loot-tables/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Loot Tables' => route('admin.data.loot-tables.index'), ($table->id ? 'Edit' : 'Create') . ' Loot Table' => $table->id ? route('admin.data.loot-tables.edit', $table->id) : route('admin.data.loot-tables.create')]) !!}
 
     <h1>
         {{ $table->id ? 'Edit' : 'Create' }} Loot Table
@@ -14,7 +14,7 @@
         @endif
     </h1>
 
-    {!! Form::open([$table->id ? route('admin.data.loot-tables.update', $table->id) : route('admin.data.loot-tables.store')]) !!}
+    {!! Form::open(['url' => $table->id ? route('admin.data.loot-tables.update', $table->id) : route('admin.data.loot-tables.store')]) !!}
 
     <h3>Basic Information</h3>
 
@@ -174,12 +174,12 @@
 
             $('.delete-table-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/loot-tables/delete') }}/{{ $table->id }}", 'Delete Loot Table');
+                loadModal("{{ route('admin.data.loot-tables.delete', $table->id) }}", 'Delete Loot Table');
             });
 
             $('#testRoll').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/loot-tables/roll') }}/{{ $table->id }}?quantity=" + $('#rollQuantity').val(), 'Rolling Loot Table');
+                loadModal("{{ route('admin.data.loot-tables.roll', $table->id) }}?quantity=" + $('#rollQuantity').val(), 'Rolling Loot Table');
             });
 
             $('#addLoot').on('click', function(e) {

@@ -5,7 +5,7 @@
 @endsection
 
 @section('home-content')
-    {!! breadcrumbs(['My Characters' => 'characters']) !!}
+    {!! breadcrumbs(['My Characters' => route('characters.index')]) !!}
 
     <h1>
         My Characters

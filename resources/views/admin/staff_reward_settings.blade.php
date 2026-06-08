@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Staff Reward Settings' => 'admin/staff-reward-settings']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Staff Reward Settings' => route('admin.staff-reward-settings')]) !!}
 
     @if (!config('lorekeeper.extensions.staff_rewards.enabled'))
         <div class="alert alert-danger">

@@ -5,11 +5,11 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Invitation Keys' => 'admin/invitations']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Invitation Keys' => route('admin.invitations.index')]) !!}
 
     <h1>Invitation Keys</h1>
 
-    <p>Invitation keys can be used to register an account when the site is closed for registration (see the setting "is_registration_open" in <a href="{{ url('admin/settings') }}">Site Settings</a>). Users will be able to register by entering the code
+    <p>Invitation keys can be used to register an account when the site is closed for registration (see the setting "is_registration_open" in <a href="{{ route('admin.settings.index') }}">Site Settings</a>). Users will be able to register by entering the code
         that is generated with the key. Generated invitations can be deleted only if they have not been used.</p>
 
     {!! Form::open(['route' => 'admin.invitations.store', 'class' => 'text-right mb-3']) !!}

@@ -5,15 +5,11 @@
 @endsection
 
 @section('profile-content')
-    @if ($character->is_myo_slot)
-        {!! breadcrumbs(['MYO Slot Masterlist' => 'myos', $character->fullName => $character->url, 'Inventory' => $character->url . '/inventory']) !!}
-    @else
-        {!! breadcrumbs([
-            $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? 'sublist/' . $character->category->sublist->key : 'masterlist',
-            $character->fullName => $character->url,
-            'Inventory' => $character->url . '/inventory',
-        ]) !!}
-    @endif
+    {!! breadcrumbs([
+        $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? route('browse.sublist', $character->category->sublist->key) : route('browse.masterlist'),
+        $character->fullName => $character->url,
+        'Inventory' => route('browse.character.inventory', $character->slug),
+    ]) !!}
 
     @include('character._header', ['character' => $character])
 
@@ -139,7 +135,7 @@
         </div>
     </div>
     <div class="text-right">
-        <a href="{{ url($character->url . '/item-logs') }}">View all...</a>
+        <a href="{{ route('browse.character.logs.items', $character->slug) }}">View all...</a>
     </div>
 
     @if (Auth::check() && Auth::user()->hasPower('edit_inventories'))
@@ -208,7 +204,7 @@
             $('.inventory-stack').on('click', function(e) {
                 e.preventDefault();
                 var $parent = $(this).parent().parent();
-                loadModal("{{ url('items') }}/character/" + $parent.data('id'), $parent.data('name'));
+                loadModal("{{ route('browse.items.stack', '') }}/character/" + $parent.data('id'), $parent.data('name'));
             });
 
             $('.default.item-select').selectize();

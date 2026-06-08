@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Prompt Categories' => 'admin/data/prompt-categories']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Prompt Categories' => route('admin.data.prompt-categories.index')]) !!}
 
     <h1>Prompt Categories</h1>
 
@@ -13,7 +13,7 @@
         queue page can be sorted by prompt category.</p>
     <p>The sorting order reflects the order in which the prompt categories will be displayed on the prompts page.</p>
 
-    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ url('admin/data/prompt-categories/create') }}"><i class="fas fa-plus"></i> Create New Prompt Category</a></div>
+    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ route('admin.data.prompt-categories.create') }}"><i class="fas fa-plus"></i> Create New Prompt Category</a></div>
     @if (!count($categories))
         <p>No prompt categories found.</p>
     @else
@@ -26,7 +26,7 @@
                             {!! $category->displayName !!}
                         </td>
                         <td class="text-right">
-                            <a href="{{ url('admin/data/prompt-categories/edit/' . $category->id) }}" class="btn btn-primary">Edit</a>
+                            <a href="{{ route('admin.data.prompt-categories.edit', $category->id) }}" class="btn btn-primary">Edit</a>
                         </td>
                     </tr>
                 @endforeach

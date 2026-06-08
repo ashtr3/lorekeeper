@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Sales' => 'admin/sales', ($sales->id ? 'Edit' : 'Create') . ' Post' => $sales->id ? 'admin/sales/edit/' . $sales->id : 'admin/sales/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Sales' => route('admin.sales.index'), ($sales->id ? 'Edit' : 'Create') . ' Post' => $sales->id ? route('admin.sales.edit', $sales->id) : route('admin.sales.create')]) !!}
 
     <h1>{{ $sales->id ? 'Edit' : 'Create' }} Sales Post
         @if ($sales->id)
@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open([$sales->id ? route('admin.sales.update', $sales->id) : route('admin.sales.store'), 'files' => true]) !!}
+    {!! Form::open(['url' => $sales->id ? route('admin.sales.update', $sales->id) : route('admin.sales.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 
@@ -109,7 +109,7 @@
         $(document).ready(function() {
             $('.delete-sales-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/sales/delete') }}/{{ $sales->id }}", 'Delete Post');
+                loadModal("{{ route('admin.sales.delete', $sales->id) }}", 'Delete Post');
             });
 
         });

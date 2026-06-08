@@ -5,15 +5,15 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Create ' . ($isMyo ? 'MYO Slot' : 'Character') => 'admin/masterlist/create-' . ($isMyo ? 'myo' : 'character')]) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Create ' . ($isMyo ? 'MYO Slot' : 'Character') => $isMyo ? route('admin.masterlist.myo.create') : route('admin.masterlist.character.create')]) !!}
 
     <h1>Create {{ $isMyo ? 'MYO Slot' : 'Character' }}</h1>
 
     @if (!$isMyo && !count($categories))
 
-        <div class="alert alert-danger">Creating characters requires at least one <a href="{{ url('admin/data/character-categories') }}">character category</a> to be created first, as character categories are used to generate the character code.</div>
+        <div class="alert alert-danger">Creating characters requires at least one <a href="{{ route('admin.data.character-categories.index') }}">character category</a> to be created first, as character categories are used to generate the character code.</div>
     @else
-        {!! Form::open([$isMyo ? route('admin.masterlist.myo.store') : route('admin.masterlist.character.store'), 'files' => true]) !!}
+        {!! Form::open(['url' => $isMyo ? route('admin.masterlist.myo.store') : route('admin.masterlist.character.store'), 'files' => true]) !!}
 
         <h3>Basic Information</h3>
 
@@ -283,7 +283,7 @@
             var myo = '<?php echo $isMyo; ?>';
             $.ajax({
                 type: "GET",
-                url: "{{ url('admin/masterlist/check-subtype') }}?species=" + species + "&myo=" + myo,
+                url: "{{ route('admin.masterlist.check-subtype') }}?species=" + species + "&myo=" + myo,
                 dataType: "text"
             }).done(function(res) {
                 $("#subtypes").html(res);

@@ -5,7 +5,7 @@
 @endsection
 
 @section('home-content')
-    {!! breadcrumbs(['Liked Comments' => 'liked-comments']) !!}
+    {!! breadcrumbs(['Liked Comments' => route('comments.liked')]) !!}
 
     <h1>
         My Liked Comments

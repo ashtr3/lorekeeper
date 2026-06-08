@@ -17,7 +17,7 @@
             @foreach ($altRegistrations as $provider => $site)
                 @if (isset($site['login']) && $site['login'])
                     <div class="text-center w-75 m-auto pt-2 pb-2">
-                        <a href="{{ url('/login/redirect/' . $provider) }}" class="btn btn-primary text-white w-100"><i class="{{ $site['icon'] }} mr-2"></i> Register With {{ ucfirst($provider) }}</a>
+                        <a href="{{ route('auth.login.redirect', $provider) }}" class="btn btn-primary text-white w-100"><i class="{{ $site['icon'] }} mr-2"></i> Register With {{ ucfirst($provider) }}</a>
                     </div>
                 @endif
             @endforeach
@@ -111,7 +111,7 @@
                     <div class="form-check">
                         <label class="form-check-label">
                             {!! Form::checkbox('agreement', 1, false, ['class' => 'form-check-input']) !!}
-                            I have read and agree to the <a href="{{ url('info/terms') }}">Terms of Service</a> and <a href="{{ url('info/privacy') }}">Privacy Policy</a>.
+                            I have read and agree to the <a href="{{ route('browse.page', 'terms') }}">Terms of Service</a> and <a href="{{ route('browse.page', 'privacy') }}">Privacy Policy</a>.
                         </label>
                     </div>
                 </div>

@@ -5,7 +5,7 @@
 @endsection
 
 @section('profile-content')
-    {!! breadcrumbs(['Users' => 'users', $user->name => $user->url, 'Bank' => $user->url . '/bank']) !!}
+    {!! breadcrumbs(['Users' => route('browse.users'), $user->name => $user->url, 'Bank' => route('browse.user.bank', $user->name)]) !!}
 
     <h1>
         {!! $user->displayName !!}'s Bank
@@ -69,6 +69,6 @@
         </div>
     </div>
     <div class="text-right">
-        <a href="{{ url($user->url . '/currency-logs') }}">View all...</a>
+        <a href="{{ route('browse.user.currency-logs', $user->name) }}">View all...</a>
     </div>
 @endsection

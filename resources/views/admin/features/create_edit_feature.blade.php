@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Traits' => 'admin/data/traits', ($feature->id ? 'Edit' : 'Create') . ' Trait' => $feature->id ? 'admin/data/traits/edit/' . $feature->id : 'admin/data/traits/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Traits' => route('admin.data.traits.index'), ($feature->id ? 'Edit' : 'Create') . ' Trait' => $feature->id ? route('admin.data.traits.edit', $feature->id) : route('admin.data.traits.create')]) !!}
 
     <h1>{{ $feature->id ? 'Edit' : 'Create' }} Trait
         @if ($feature->id)
@@ -99,7 +99,7 @@
         $(document).ready(function() {
             $('.delete-feature-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/traits/delete') }}/{{ $feature->id }}", 'Delete Trait');
+                loadModal("{{ route('admin.data.traits.delete', $feature->id) }}", 'Delete Trait');
             });
             refreshSubtype();
         });
@@ -113,7 +113,7 @@
             var subtype_id = {{ $feature->subtype_id ?: 'null' }};
             $.ajax({
                 type: "GET",
-                url: "{{ url('admin/data/traits/check-subtype') }}?species=" + species + "&subtype_id=" + subtype_id,
+                url: "{{ route('admin.data.traits.check-subtype') }}?species=" + species + "&subtype_id=" + subtype_id,
                 dataType: "text"
             }).done(function(res) {
                 $("#subtypes").html(res);

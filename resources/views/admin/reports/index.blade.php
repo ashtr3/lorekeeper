@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Report Queue' => 'admin/reports/pending']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Report Queue' => route('admin.reports.index.status', 'pending')]) !!}
 
     <h1>
         Report Queue
@@ -13,16 +13,16 @@
 
     <ul class="nav nav-tabs mb-3">
         <li class="nav-item">
-            <a class="nav-link {{ set_active('admin/reports/pending*') }} {{ set_active('admin/reports') }}" href="{{ url('admin/reports/pending') }}">Pending</a>
+            <a class="nav-link {{ set_active('admin/reports/pending*') }} {{ set_active('admin/reports') }}" href="{{ route('admin.reports.index.status', 'pending') }}">Pending</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ set_active('admin/reports/assigned-to-me*') }}" href="{{ url('admin/reports/assigned-to-me') }}">Assigned To Me</a>
+            <a class="nav-link {{ set_active('admin/reports/assigned-to-me*') }}" href="{{ route('admin.reports.index.status', 'assigned-to-me') }}">Assigned To Me</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ set_active('admin/reports/assigned') }}" href="{{ url('admin/reports/assigned') }}">Assigned</a>
+            <a class="nav-link {{ set_active('admin/reports/assigned') }}" href="{{ route('admin.reports.index.status', 'assigned') }}">Assigned</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ set_active('admin/reports/closed*') }}" href="{{ url('admin/reports/closed') }}">Closed</a>
+            <a class="nav-link {{ set_active('admin/reports/closed*') }}" href="{{ route('admin.reports.index.status', 'closed') }}">Closed</a>
         </li>
     </ul>
 

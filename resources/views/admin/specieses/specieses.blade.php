@@ -5,11 +5,11 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Species' => 'admin/data/species']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Species' => route('admin.data.species.index')]) !!}
 
     <h1>Species</h1>
 
-    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ url('admin/data/species/create') }}"><i class="fas fa-plus"></i> Create New Species</a></div>
+    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ route('admin.data.species.create') }}"><i class="fas fa-plus"></i> Create New Species</a></div>
     @if (!count($specieses))
         <p>No species found.</p>
     @else
@@ -39,7 +39,7 @@
                             @endif
                         </td>
                         <td class="text-right">
-                            <a href="{{ url('admin/data/species/edit/' . $species->id) }}" class="btn btn-primary">Edit</a>
+                            <a href="{{ route('admin.data.species.edit', $species->id) }}" class="btn btn-primary">Edit</a>
                         </td>
                     </tr>
                 @endforeach

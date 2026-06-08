@@ -7,8 +7,8 @@
 @section('admin-content')
     {!! breadcrumbs([
         'Admin Panel' => route('admin.index'),
-        'Item Categories' => 'admin/data/item-categories',
-        ($category->id ? 'Edit' : 'Create') . ' Category' => $category->id ? 'admin/data/item-categories/edit/' . $category->id : 'admin/data/item-categories/create',
+        'Item Categories' => route('admin.data.item-categories.index'),
+        ($category->id ? 'Edit' : 'Create') . ' Category' => $category->id ? route('admin.data.item-categories.edit', $category->id) : route('admin.data.item-categories.create'),
     ]) !!}
 
     <h1>{{ $category->id ? 'Edit' : 'Create' }} Item Category
@@ -92,7 +92,7 @@
         $(document).ready(function() {
             $('.delete-category-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/item-categories/delete') }}/{{ $category->id }}", 'Delete Category');
+                loadModal("{{ route('admin.data.item-categories.delete', $category->id) }}", 'Delete Category');
             });
         });
     </script>

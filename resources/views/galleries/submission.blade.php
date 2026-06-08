@@ -9,7 +9,7 @@
 @endsection
 
 @section('gallery-content')
-    {!! breadcrumbs(['gallery' => 'gallery', $submission->gallery->displayName => 'gallery/' . $submission->gallery->id, $submission->displayTitle => 'gallery/view/' . $submission->id]) !!}
+    {!! breadcrumbs(['gallery' => route('browse.gallery.index'), $submission->gallery->displayName => route('browse.gallery.show', $submission->gallery->id), $submission->displayTitle => route('browse.gallery.submission', $submission->id)]) !!}
 
     <h1>
         @if (!$submission->isVisible)
@@ -82,7 +82,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h5>{{ $submission->displayTitle }}
-                                <a class="float-right" href="{{ url('reports/new?url=') . $submission->url }}"><i class="fas fa-exclamation-triangle" data-toggle="tooltip" title="Click here to report this submission." style="opacity: 50%;"></i></a>
+                                <a class="float-right" href="{{ route('reports.create') . '?url=' . $submission->url }}"><i class="fas fa-exclamation-triangle" data-toggle="tooltip" title="Click here to report this submission." style="opacity: 50%;"></i></a>
                             </h5>
                             <div class="float-right">
                                 @if (Auth::check() && ($submission->user->id != Auth::user()->id && $submission->collaborators->where('user_id', Auth::user()->id)->first() == null) && $submission->isVisible)
@@ -252,7 +252,7 @@
         $(document).ready(function() {
             $('.view-favorites').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('gallery/view/favorites') }}/{{ $submission->id }}", 'Favorited By');
+                loadModal("{{ route('browse.gallery.submission.favorites', $submission->id) }}", 'Favorited By');
             });
         });
     </script>

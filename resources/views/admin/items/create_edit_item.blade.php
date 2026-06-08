@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Items' => 'admin/data/items', ($item->id ? 'Edit' : 'Create') . ' Item' => $item->id ? 'admin/data/items/edit/' . $item->id : 'admin/data/items/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Items' => route('admin.data.items.index'), ($item->id ? 'Edit' : 'Create') . ' Item' => $item->id ? route('admin.data.items.edit', $item->id) : route('admin.data.items.create')]) !!}
 
     <h1>{{ $item->id ? 'Edit' : 'Create' }} Item
         @if ($item->id)
@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open([$item->id ? route('admin.data.items.update', $item->id) : route('admin.data.items.store'), 'files' => true]) !!}
+    {!! Form::open(['url' => $item->id ? route('admin.data.items.update', $item->id) : route('admin.data.items.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 
@@ -164,7 +164,7 @@
                     <tr>
                         <td>{!! $tag->displayTag !!}</td>
                         <td class="{{ $tag->is_active ? 'text-success' : 'text-danger' }}">{{ $tag->is_active ? 'Yes' : 'No' }}</td>
-                        <td class="text-right"><a href="{{ url('admin/data/items/tag/' . $item->id . '/' . $tag->tag) }}" class="btn btn-outline-primary">Edit</a></td>
+                        <td class="text-right"><a href="{{ route('admin.data.items.tag.edit', [$item->id, $tag->tag]) }}" class="btn btn-outline-primary">Edit</a></td>
                     </tr>
                 @endforeach
             </table>
@@ -172,7 +172,7 @@
             <p>No item tags attached to this item.</p>
         @endif
         <div class="text-right">
-            <a href="{{ url('admin/data/items/tag/' . $item->id) }}" class="btn btn-outline-primary">Add a Tag</a>
+            <a href="{{ route('admin.data.items.tag.create', $item->id) }}" class="btn btn-outline-primary">Add a Tag</a>
         </div>
 
         <h3>Preview</h3>
@@ -197,7 +197,7 @@
 
             $('.delete-item-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/items/delete') }}/{{ $item->id }}", 'Delete Item');
+                loadModal("{{ route('admin.data.items.delete', $item->id) }}", 'Delete Item');
             });
         });
     </script>

@@ -5,7 +5,7 @@
 @endsection
 
 @section('sales-content')
-    {!! breadcrumbs(['Site Sales' => 'sales', $sales->title => $sales->url]) !!}
+    {!! breadcrumbs(['Site Sales' => route('browse.sales.index'), $sales->title => $sales->url]) !!}
     @include('sales._sales', ['sales' => $sales, 'page' => true])
 
     <hr class="mb-5" id="commentsSection" />

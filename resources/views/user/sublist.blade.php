@@ -5,7 +5,7 @@
 @endsection
 
 @section('profile-content')
-    {!! breadcrumbs(['Users' => 'users', $user->name => $user->url, $sublist->name => $user->url . '/sublist/' . $sublist->key]) !!}
+    {!! breadcrumbs(['Users' => route('browse.users'), $user->name => $user->url, $sublist->name => route('browse.user.sublist', ['name' => $user->name, 'key' => $sublist->key])]) !!}
 
     <h1>
         {!! $user->displayName !!}'s {{ $sublist->name }}

@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    {!! breadcrumbs(['MYO Slot Masterlist' => 'myos']) !!}
+    {!! breadcrumbs(['MYO Slot Masterlist' => route('browse.myos')]) !!}
     <h1>MYO Slot Masterlist</h1>
 
     @include('browse._masterlist_content', ['characters' => $slots])

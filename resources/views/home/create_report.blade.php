@@ -5,7 +5,7 @@
 @endsection
 
 @section('home-content')
-    {!! breadcrumbs(['Reports' => 'reports', 'New Report' => 'reports/new']) !!}
+    {!! breadcrumbs(['Reports' => route('reports.index'), 'New Report' => route('reports.create')]) !!}
 
     <h1>
         New Report

@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'User Index' => 'admin/users', $user->name => 'admin/users/' . $user->name . '/edit']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'User Index' => route('admin.users.index'), $user->name => route('admin.users.edit', $user->name)]) !!}
 
     <h1>User: {!! $user->displayName !!}</h1>
     <ul class="nav nav-tabs mb-3">
@@ -13,13 +13,13 @@
             <a class="nav-link active" href="{{ $user->adminUrl }}">Account</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('admin/users/' . $user->name . '/updates') }}">Account Updates</a>
+            <a class="nav-link" href="{{ route('admin.users.updates', $user->name) }}">Account Updates</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('admin/users/' . $user->name . '/ban') }}">Ban</a>
+            <a class="nav-link" href="{{ route('admin.users.ban', $user->name) }}">Ban</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('admin/users/' . $user->name . '/deactivate') }}">Deactivate</a>
+            <a class="nav-link" href="{{ route('admin.users.deactivate', $user->name) }}">Deactivate</a>
         </li>
     </ul>
 

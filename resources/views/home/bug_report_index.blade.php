@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    {!! breadcrumbs(['Reports' => 'reports']) !!}
+    {!! breadcrumbs(['Reports' => route('reports.index')]) !!}
     <h1>
         Bug Reports
     </h1>
@@ -15,7 +15,7 @@
 
     @if (Auth::check())
         <div class="text-right">
-            <a href="{{ url('reports/new') }}" class="btn btn-success">New Report</a>
+            <a href="{{ route('reports.create') }}" class="btn btn-success">New Report</a>
         </div>
     @endif
     <br>

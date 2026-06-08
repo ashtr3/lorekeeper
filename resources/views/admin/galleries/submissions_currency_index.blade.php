@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), ($currency ? $currency->name : 'Gallery Currency') . ' Queue' => 'admin/gallery/currency/pending']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), ($currency ? $currency->name : 'Gallery Currency') . ' Queue' => route('admin.gallery.currency.index.status', 'pending')]) !!}
 
     <h1>
         {!! $currency ? $currency->name : 'Gallery Currency' !!} Queue
@@ -13,10 +13,10 @@
 
     <ul class="nav nav-tabs mb-3">
         <li class="nav-item">
-            <a class="nav-link {{ set_active('admin/gallery/currency/pending*') }} {{ set_active('admin/gallery/currency') }}" href="{{ url('admin/gallery/currency/pending') }}">Pending</a>
+            <a class="nav-link {{ set_active('admin/gallery/currency/pending*') }} {{ set_active('admin/gallery/currency') }}" href="{{ route('admin.gallery.currency.index.status', 'pending') }}">Pending</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ set_active('admin/gallery/currency/valued*') }}" href="{{ url('admin/gallery/currency/valued') }}">Processed</a>
+            <a class="nav-link {{ set_active('admin/gallery/currency/valued*') }}" href="{{ route('admin.gallery.currency.index.status', 'valued') }}">Processed</a>
         </li>
     </ul>
 

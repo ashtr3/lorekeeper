@@ -5,7 +5,7 @@
 @endsection
 
 @section('profile-content')
-    {!! breadcrumbs(['Users' => 'users', $user->name => $user->url, 'MYO Slots' => $user->url . '/myos']) !!}
+    {!! breadcrumbs(['Users' => route('browse.users'), $user->name => $user->url, 'MYO Slots' => route('browse.user.myos', $user->name)]) !!}
 
     <h1>
         {!! $user->displayName !!}'s MYO Slots

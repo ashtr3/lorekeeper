@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Prompts' => 'admin/data/prompts', ($prompt->id ? 'Edit' : 'Create') . ' Prompt' => $prompt->id ? 'admin/data/prompts/edit/' . $prompt->id : 'admin/data/prompts/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Prompts' => route('admin.data.prompts.index'), ($prompt->id ? 'Edit' : 'Create') . ' Prompt' => $prompt->id ? route('admin.data.prompts.edit', $prompt->id) : route('admin.data.prompts.create')]) !!}
 
     <h1>{{ $prompt->id ? 'Edit' : 'Create' }} Prompt
         @if ($prompt->id)
@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open([$prompt->id ? route('admin.data.prompts.update', $prompt->id) : route('admin.data.prompts.store'), 'files' => true]) !!}
+    {!! Form::open(['url' => $prompt->id ? route('admin.data.prompts.update', $prompt->id) : route('admin.data.prompts.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 
@@ -140,7 +140,7 @@
         $(document).ready(function() {
             $('.delete-prompt-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/prompts/delete') }}/{{ $prompt->id }}", 'Delete Prompt');
+                loadModal("{{ route('admin.data.prompts.delete', $prompt->id) }}", 'Delete Prompt');
             });
         });
     </script>

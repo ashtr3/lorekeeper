@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    {!! breadcrumbs(['Users' => 'users', 'Deactivated' => 'deactivated']) !!}
+    {!! breadcrumbs(['Users' => route('browse.users'), 'Deactivated' => route('browse.deactivated')]) !!}
     <h1>Deactivated Users</h1>
 
     @if (!$canView)

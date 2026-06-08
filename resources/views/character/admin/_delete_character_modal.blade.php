@@ -1,4 +1,4 @@
-{!! Form::open([$isMyo ? route('admin.myo.destroy', $character->id) : route('admin.character.destroy', $character->slug)]) !!}
+{!! Form::open(['url' => $isMyo ? route('admin.myo.destroy', $character->id) : route('admin.character.destroy', $character->slug)]) !!}
 <p>This will delete the entire character and its images. <strong>This data will not be retrievable.</strong> </p>
 <p>If you're looking for a less permanent option, you can set the character to not viewable and it will be hidden from public view.</p>
 <p>Are you sure you want to do this?</p>

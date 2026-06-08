@@ -5,7 +5,7 @@
 @endsection
 
 @section('gallery-content')
-    {!! breadcrumbs(['Gallery' => 'gallery', 'All Recent Submissions' => 'gallery/all']) !!}
+    {!! breadcrumbs(['Gallery' => route('browse.gallery.index'), 'All Recent Submissions' => route('browse.gallery.all')]) !!}
 
     <h1>
         All Recent Submissions

@@ -5,7 +5,7 @@
 @endsection
 
 @section('gallery-content')
-    {!! breadcrumbs(['gallery' => 'gallery', 'Gallery Submissions' => 'Gallery/Submissions']) !!}
+    {!! breadcrumbs(['gallery' => route('browse.gallery.index'), 'Gallery Submissions' => route('gallery.submissions.index', 'pending')]) !!}
 
     <h1>
         Gallery Submissions
@@ -16,13 +16,13 @@
 
     <ul class="nav nav-tabs mb-3">
         <li class="nav-item">
-            <a class="nav-link {{ set_active('gallery/submissions/pending') }}" href="{{ url('gallery/submissions/pending') }}">Pending</a>
+            <a class="nav-link {{ set_active('gallery/submissions/pending') }}" href="{{ route('gallery.submissions.index', 'pending') }}">Pending</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ set_active('gallery/submissions/accepted') }}" href="{{ url('gallery/submissions/accepted') }}">Accepted</a>
+            <a class="nav-link {{ set_active('gallery/submissions/accepted') }}" href="{{ route('gallery.submissions.index', 'accepted') }}">Accepted</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ set_active('gallery/submissions/rejected') }}" href="{{ url('gallery/submissions/rejected') }}">Rejected</a>
+            <a class="nav-link {{ set_active('gallery/submissions/rejected') }}" href="{{ route('gallery.submissions.index', 'rejected') }}">Rejected</a>
         </li>
     </ul>
 

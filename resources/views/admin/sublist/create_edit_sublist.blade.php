@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Sub Masterlists' => 'admin/data/sublists', ($sublist->id ? 'Edit' : 'Create') . ' Sub Masterlist' => $sublist->id ? 'admin/data/sublists/edit/' . $sublist->id : 'admin/data/sublists/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Sub Masterlists' => route('admin.data.sublists.index'), ($sublist->id ? 'Edit' : 'Create') . ' Sub Masterlist' => $sublist->id ? route('admin.data.sublists.edit', $sublist->id) : route('admin.data.sublists.create')]) !!}
 
     <h1>{{ $sublist->id ? 'Edit' : 'Create' }} Sub Masterlist
         @if ($sublist->id)
@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open([$sublist->id ? route('admin.data.sublists.update', $sublist->id) : route('admin.data.sublists.store'), 'files' => true]) !!}
+    {!! Form::open(['url' => $sublist->id ? route('admin.data.sublists.update', $sublist->id) : route('admin.data.sublists.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 
@@ -64,7 +64,7 @@
         $(document).ready(function() {
             $('.delete-sublist-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/sublists/delete') }}/{{ $sublist->id }}", 'Delete Sub Masterlist');
+                loadModal("{{ route('admin.data.sublists.delete', $sublist->id) }}", 'Delete Sub Masterlist');
             });
         });
 

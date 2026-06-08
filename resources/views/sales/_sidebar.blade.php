@@ -1,5 +1,5 @@
 <ul>
-    <li class="sidebar-header"><a href="{{ url('sales') }}" class="card-link">Sales</a></li>
+    <li class="sidebar-header"><a href="{{ route('browse.sales.index') }}" class="card-link">Sales</a></li>
     <li class="sidebar-section">
         <div class="sidebar-section-header">For Sale</div>
         @foreach ($forsale as $sales)

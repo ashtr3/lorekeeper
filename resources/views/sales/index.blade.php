@@ -5,7 +5,7 @@
 @endsection
 
 @section('sales-content')
-    {!! breadcrumbs(['Site Sales' => 'sales']) !!}
+    {!! breadcrumbs(['Site Sales' => route('browse.sales.index')]) !!}
     <h1>Site Sales</h1>
 
     <div>

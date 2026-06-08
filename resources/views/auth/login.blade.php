@@ -80,7 +80,7 @@
             @foreach ($altLogins as $provider => $site)
                 @if (isset($site['login']) && $site['login'])
                     <div class="text-center pt-3 w-75 m-auto">
-                        <a href="{{ url('/login/redirect/' . $provider) }}" class="btn btn-primary text-white w-100"><i class="{{ $site['icon'] }} mr-2"></i> Login With {{ ucfirst($provider) }}</a>
+                        <a href="{{ route('auth.login.redirect', $provider) }}" class="btn btn-primary text-white w-100"><i class="{{ $site['icon'] }} mr-2"></i> Login With {{ ucfirst($provider) }}</a>
                     </div>
                 @endif
             @endforeach

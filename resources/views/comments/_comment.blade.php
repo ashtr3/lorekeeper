@@ -43,9 +43,9 @@
                             @endif
                         </small>
                         @if ($comment->type == 'User-User')
-                            <a href="{{ url('comment/') . '/' . $comment->id }}"><i class="fas fa-link ml-1" style="opacity: 50%;"></i></a>
+                            <a href="{{ route('browse.comment', $comment->id) }}"><i class="fas fa-link ml-1" style="opacity: 50%;"></i></a>
                         @endif
-                        <a href="{{ url('reports/new?url=') . $comment->url }}"><i class="fas fa-exclamation-triangle" data-toggle="tooltip" title="Click here to report this comment." style="opacity: 50%;"></i></a>
+                        <a href="{{ route('reports.create') . '?url=' . $comment->url }}"><i class="fas fa-exclamation-triangle" data-toggle="tooltip" title="Click here to report this comment." style="opacity: 50%;"></i></a>
                     </p>
                 </div>
 
@@ -60,7 +60,7 @@
                         @php $limit++; @endphp
 
                         @if ($limit >= 3)
-                            <a href="{{ url('comment/') . '/' . $comment->id }}"><span class="btn btn-secondary w-100 my-2">See More Replies</span></a>
+                            <a href="{{ route('browse.comment', $comment->id) }}"><span class="btn btn-secondary w-100 my-2">See More Replies</span></a>
                         @break
                     @endif
 
@@ -92,7 +92,7 @@
                         @endif
                     </small>
                     @if ($comment->type == 'User-User')
-                        <a href="{{ url('comment/') . '/' . $comment->id }}"><i class="fas fa-link ml-1" style="opacity: 50%;"></i></a>
+                        <a href="{{ route('browse.comment', $comment->id) }}"><i class="fas fa-link ml-1" style="opacity: 50%;"></i></a>
                     @endif
                 </p>
             </div>
@@ -105,7 +105,7 @@
                     @php $limit++; @endphp
 
                     @if ($limit >= 3)
-                        <a href="{{ url('comment/') . '/' . $comment->id }}"><span class="btn btn-secondary w-100 my-2">See More Replies</span></a>
+                        <a href="{{ route('browse.comment', $comment->id) }}"><span class="btn btn-secondary w-100 my-2">See More Replies</span></a>
                     @break
                 @endif
 

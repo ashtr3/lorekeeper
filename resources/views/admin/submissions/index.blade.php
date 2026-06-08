@@ -6,9 +6,9 @@
 
 @section('admin-content')
     @if ($isClaims)
-        {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Claim Queue' => 'admin/claims/pending']) !!}
+        {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Claim Queue' => route('admin.claims.index.status', 'pending')]) !!}
     @else
-        {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Prompt Queue' => 'admin/submissions/pending']) !!}
+        {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Prompt Queue' => route('admin.submissions.index.status', 'pending')]) !!}
     @endif
 
     <h1>
@@ -18,13 +18,13 @@
     <ul class="nav nav-tabs mb-3">
         <li class="nav-item">
             <a class="nav-link {{ set_active('admin/' . ($isClaims ? 'claims' : 'submissions') . '/pending*') }} {{ set_active('admin/' . ($isClaims ? 'claims' : 'submissions')) }}"
-                href="{{ url('admin/' . ($isClaims ? 'claims' : 'submissions') . '/pending') }}">Pending</a>
+                href="{{ route($isClaims ? 'admin.claims.index.status' : 'admin.submissions.index.status', 'pending') }}">Pending</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ set_active('admin/' . ($isClaims ? 'claims' : 'submissions') . '/approved*') }}" href="{{ url('admin/' . ($isClaims ? 'claims' : 'submissions') . '/approved') }}">Approved</a>
+            <a class="nav-link {{ set_active('admin/' . ($isClaims ? 'claims' : 'submissions') . '/approved*') }}" href="{{ route($isClaims ? 'admin.claims.index.status' : 'admin.submissions.index.status', 'approved') }}">Approved</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ set_active('admin/' . ($isClaims ? 'claims' : 'submissions') . '/rejected*') }}" href="{{ url('admin/' . ($isClaims ? 'claims' : 'submissions') . '/rejected') }}">Rejected</a>
+            <a class="nav-link {{ set_active('admin/' . ($isClaims ? 'claims' : 'submissions') . '/rejected*') }}" href="{{ route($isClaims ? 'admin.claims.index.status' : 'admin.submissions.index.status', 'rejected') }}">Rejected</a>
         </li>
     </ul>
 

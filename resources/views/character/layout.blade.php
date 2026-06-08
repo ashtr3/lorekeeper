@@ -19,7 +19,7 @@
             $('.bookmark-button').on('click', function(e) {
                 e.preventDefault();
                 var $this = $(this);
-                loadModal($this.data('id') ? "{{ url('account/bookmarks/edit') }}" + '/' + $this.data('id') : "{{ url('account/bookmarks/create') }}?character_id=" + $this.data('character-id'), $this.data('id') ? 'Edit Bookmark' :
+                loadModal($this.data('id') ? "{{ route('account.bookmarks.edit', '') }}" + '/' + $this.data('id') : "{{ route('account.bookmarks.create') }}?character_id=" + $this.data('character-id'), $this.data('id') ? 'Edit Bookmark' :
                     'Bookmark Character');
             });
         });

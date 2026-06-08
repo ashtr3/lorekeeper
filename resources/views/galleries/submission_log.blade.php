@@ -5,7 +5,7 @@
 @endsection
 
 @section('gallery-content')
-    {!! breadcrumbs(['gallery' => 'gallery', $submission->gallery->displayName => 'gallery/' . $submission->gallery->id, $submission->title => 'gallery/view/' . $submission->id, 'Log Details' => 'gallery/queue/' . $submission->id]) !!}
+    {!! breadcrumbs(['gallery' => route('browse.gallery.index'), $submission->gallery->displayName => route('browse.gallery.show', $submission->gallery->id), $submission->title => route('browse.gallery.submission', $submission->id), 'Log Details' => route('gallery.queue', $submission->id)]) !!}
 
     <h1>Log Details
         <span

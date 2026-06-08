@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    {!! breadcrumbs(['World' => 'world', 'Character Categories' => 'world/character-categories']) !!}
+    {!! breadcrumbs(['World' => route('browse.world.index'), 'Character Categories' => route('browse.world.character-categories')]) !!}
     <h1>Character Categories</h1>
 
     <div>

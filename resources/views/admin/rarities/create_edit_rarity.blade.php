@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Rarities' => 'admin/data/rarities', ($rarity->id ? 'Edit' : 'Create') . ' Rarity' => $rarity->id ? 'admin/data/rarities/edit/' . $rarity->id : 'admin/data/rarities/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Rarities' => route('admin.data.rarities.index'), ($rarity->id ? 'Edit' : 'Create') . ' Rarity' => $rarity->id ? route('admin.data.rarities.edit', $rarity->id) : route('admin.data.rarities.create')]) !!}
 
     <h1>{{ $rarity->id ? 'Edit' : 'Create' }} Rarity
         @if ($rarity->id)
@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open([$rarity->id ? route('admin.data.rarities.update', $rarity->id) : route('admin.data.rarities.store'), 'files' => true]) !!}
+    {!! Form::open(['url' => $rarity->id ? route('admin.data.rarities.update', $rarity->id) : route('admin.data.rarities.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 
@@ -84,7 +84,7 @@
         $(document).ready(function() {
             $('.delete-rarity-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/rarities/delete') }}/{{ $rarity->id }}", 'Delete Rarity');
+                loadModal("{{ route('admin.data.rarities.delete', $rarity->id) }}", 'Delete Rarity');
             });
         });
     </script>

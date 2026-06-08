@@ -7,8 +7,8 @@
 @section('admin-content')
     {!! breadcrumbs([
         'Admin Panel' => route('admin.index'),
-        'Prompt Categories' => 'admin/data/prompt-categories',
-        ($category->id ? 'Edit' : 'Create') . ' Category' => $category->id ? 'admin/data/prompt-categories/edit/' . $category->id : 'admin/data/prompt-categories/create',
+        'Prompt Categories' => route('admin.data.prompt-categories.index'),
+        ($category->id ? 'Edit' : 'Create') . ' Category' => $category->id ? route('admin.data.prompt-categories.edit', $category->id) : route('admin.data.prompt-categories.create'),
     ]) !!}
 
     <h1>{{ $category->id ? 'Edit' : 'Create' }} Prompt Category
@@ -17,7 +17,7 @@
         @endif
     </h1>
 
-    {!! Form::open([$category->id ? route('admin.data.prompt-categories.update', $category->id) : route('admin.data.prompt-categories.store'), 'files' => true]) !!}
+    {!! Form::open(['url' => $category->id ? route('admin.data.prompt-categories.update', $category->id) : route('admin.data.prompt-categories.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 
@@ -68,7 +68,7 @@
         $(document).ready(function() {
             $('.delete-category-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/prompt-categories/delete') }}/{{ $category->id }}", 'Delete Category');
+                loadModal("{{ route('admin.data.prompt-categories.delete', $category->id) }}", 'Delete Category');
             });
         });
     </script>

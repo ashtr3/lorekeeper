@@ -5,13 +5,13 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Loot Tables' => 'admin/data/loot-tables']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Loot Tables' => route('admin.data.loot-tables.index')]) !!}
 
     <h1>Loot Tables</h1>
 
     <p>Loot tables can be attached to prompts as a reward for doing the prompt. This will roll a random reward from the contents of the table. Tables can be chained as well.</p>
 
-    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ url('admin/data/loot-tables/create') }}"><i class="fas fa-plus"></i> Create New Loot Table</a></div>
+    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ route('admin.data.loot-tables.create') }}"><i class="fas fa-plus"></i> Create New Loot Table</a></div>
     @if (!count($tables))
         <p>No loot tables found.</p>
     @else
@@ -44,7 +44,7 @@
                                 <div class="logs-table-cell">{!! $table->display_name !!}</div>
                             </div>
                             <div class="col-3 col-md-1 text-right">
-                                <div class="logs-table-cell"><a href="{{ url('admin/data/loot-tables/edit/' . $table->id) }}" class="btn btn-primary py-0 px-2">Edit</a></div>
+                                <div class="logs-table-cell"><a href="{{ route('admin.data.loot-tables.edit', $table->id) }}" class="btn btn-primary py-0 px-2">Edit</a></div>
                             </div>
                         </div>
                     </div>

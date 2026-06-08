@@ -10,9 +10,9 @@
 
 @section('home-content')
     @if ($isClaim)
-        {!! breadcrumbs(['Claims' => 'claims', 'Claim Draft' => 'claims/drafts']) !!}
+        {!! breadcrumbs(['Claims' => route('claims.index'), 'Claim Draft' => route('claims.draft.edit', $submission->id)]) !!}
     @else
-        {!! breadcrumbs(['Prompt Submissions' => 'submissions', 'Submission Draft' => 'submissions/drafts']) !!}
+        {!! breadcrumbs(['Prompt Submissions' => route('submissions.index'), 'Submission Draft' => route('submissions.draft.edit', $submission->id)]) !!}
     @endif
 
     <h1>
@@ -124,7 +124,7 @@
 
                     $prompt.selectize();
                     $prompt.on('change', function(e) {
-                        $rewards.load('{{ url('submissions/new/prompt') }}/' + $(this).val());
+                        $rewards.load('{{ route('submissions.new.prompt', '') }}/' + $(this).val());
                     });
                 @endif
 

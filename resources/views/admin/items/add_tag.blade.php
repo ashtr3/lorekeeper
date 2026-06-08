@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Items' => 'admin/data/items', 'Edit Item' => 'admin/data/items/edit/' . $item->id, 'Add Item Tag' => 'admin/data/items/tag/' . $item->id]) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Items' => route('admin.data.items.index'), 'Edit Item' => route('admin.data.items.edit', $item->id), 'Add Item Tag' => route('admin.data.items.tag.create', $item->id)]) !!}
 
     <h1>Add Item Tag</h1>
 

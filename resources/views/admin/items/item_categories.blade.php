@@ -5,14 +5,14 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Item Categories' => 'admin/data/item-categories']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Item Categories' => route('admin.data.item-categories.index')]) !!}
 
     <h1>Item Categories</h1>
 
     <p>This is a list of item categories that will be used to sort items in the inventory. Creating item categories is entirely optional, but recommended if you have a lot of items in the game.</p>
     <p>The sorting order reflects the order in which the item categories will be displayed in the inventory, as well as on the world pages.</p>
 
-    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ url('admin/data/item-categories/create') }}"><i class="fas fa-plus"></i> Create New Item Category</a></div>
+    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ route('admin.data.item-categories.create') }}"><i class="fas fa-plus"></i> Create New Item Category</a></div>
     @if (!count($categories))
         <p>No item categories found.</p>
     @else
@@ -28,7 +28,7 @@
                             {!! $category->displayName !!}
                         </td>
                         <td class="text-right">
-                            <a href="{{ url('admin/data/item-categories/edit/' . $category->id) }}" class="btn btn-primary">Edit</a>
+                            <a href="{{ route('admin.data.item-categories.edit', $category->id) }}" class="btn btn-primary">Edit</a>
                         </td>
                     </tr>
                 @endforeach

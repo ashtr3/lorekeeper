@@ -5,7 +5,7 @@
 @endsection
 
 @section('profile-content')
-    {!! breadcrumbs(['MYO Slot Masterlist' => 'myos', $character->fullName => $character->url]) !!}
+    {!! breadcrumbs(['MYO Slot Masterlist' => route('browse.myos'), $character->fullName => $character->url]) !!}
 
     @include('character._header', ['character' => $character])
 
@@ -45,7 +45,7 @@
             </div>
             @if (Auth::check() && Auth::user()->hasPower('manage_characters'))
                 <div class="tab-pane fade" id="settings-all">
-                    {!! Form::open([$character->is_myo_slot ? route('admin.myo.settings.update', $character->id) : route('admin.character.settings.update', $character->slug)]) !!}
+                    {!! Form::open(['url' => $character->is_myo_slot ? route('admin.myo.settings.update', $character->id) : route('admin.character.settings.update', $character->slug)]) !!}
                     <div class="form-group">
                         {!! Form::checkbox('is_visible', 1, $character->is_visible, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
                         {!! Form::label('is_visible', 'Is Visible', ['class' => 'form-check-label ml-3']) !!} {!! add_help('Turn this off to hide the character. Only mods with the Manage Masterlist power (that\'s you!) can view it - the owner will also not be able to see the character\'s page.') !!}

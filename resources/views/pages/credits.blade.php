@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    {!! breadcrumbs(['Credits' => url('credits')]) !!}
+    {!! breadcrumbs(['Credits' => route('browse.credits')]) !!}
     <h1>Credits</h1>
 
     <div class="site-page-content parsed-text">

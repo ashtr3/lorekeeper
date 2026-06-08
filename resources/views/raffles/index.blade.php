@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    {!! breadcrumbs(['Raffles' => 'raffles']) !!}
+    {!! breadcrumbs(['Raffles' => route('browse.raffles.index')]) !!}
     <h1>Raffles</h1>
     <p>Click on the name of a raffle to view the tickets, and in the case of completed raffles, the winners. Raffles in a group with a title will be rolled consecutively starting from the top, and will not draw duplicate winners.</p>
     <ul class="nav nav-tabs mb-3">
@@ -29,7 +29,7 @@
 
     <li class="list-group-item">
         <x-admin-edit title="Raffle" :object="$raffle" />
-        <a href="{{ url('raffles/view/' . $raffle->id) }}">{{ $raffle->name }}</a>
+        <a href="{{ route('browse.raffles.show', $raffle->id) }}">{{ $raffle->name }}</a>
     </li>
     <?php $prevGroup = $raffle->group_id; ?>
     @endforeach

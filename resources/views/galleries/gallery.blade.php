@@ -6,12 +6,12 @@
 
 @section('gallery-content')
     <x-admin-edit title="Gallery" :object="$gallery" />
-    {!! breadcrumbs(['Gallery' => 'gallery', $gallery->name => 'gallery/' . $gallery->id]) !!}
+    {!! breadcrumbs(['Gallery' => route('browse.gallery.index'), $gallery->name => route('browse.gallery.show', $gallery->id)]) !!}
 
     <h1>
         {{ $gallery->name }}
         @if (Auth::check() && $gallery->canSubmit(Settings::get('gallery_submissions_open'), Auth::user()))
-            <a href="{{ url('gallery/submit/' . $gallery->id) }}" class="btn btn-primary float-right"><i class="fas fa-plus mr-1"></i> Submit</a>
+            <a href="{{ route('gallery.submit', $gallery->id) }}" class="btn btn-primary float-right"><i class="fas fa-plus mr-1"></i> Submit</a>
         @endif
     </h1>
     @if (isset($gallery->start_at) || isset($gallery->end_at))

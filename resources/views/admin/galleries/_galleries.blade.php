@@ -37,7 +37,7 @@
         </div>
         <div class="col-6 col-md-2 text-right">
             <div class="logs-table-cell">
-                <a href="{{ url('admin/data/galleries/edit/' . $gallery->id) }}" class="btn btn-primary">Edit</a>
+                <a href="{{ route('admin.data.galleries.edit', $gallery->id) }}" class="btn btn-primary">Edit</a>
             </div>
         </div>
     </div>

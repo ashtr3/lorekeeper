@@ -13,8 +13,8 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><a href="{{ Auth::user()->url }}">Profile</a></li>
-                <li class="list-group-item"><a href="{{ url('account/settings') }}">User Settings</a></li>
-                <li class="list-group-item"><a href="{{ url('trades/open') }}">Trades</a></li>
+                <li class="list-group-item"><a href="{{ route('account.settings') }}">User Settings</a></li>
+                <li class="list-group-item"><a href="{{ route('trades.index', 'open') }}">Trades</a></li>
             </ul>
         </div>
     </div>
@@ -25,9 +25,9 @@
                 <h5 class="card-title">Characters</h5>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"><a href="{{ url('characters') }}">My Characters</a></li>
-                <li class="list-group-item"><a href="{{ url('characters/myos') }}">My MYO Slots</a></li>
-                <li class="list-group-item"><a href="{{ url('characters/transfers/incoming') }}">Character Transfers</a></li>
+                <li class="list-group-item"><a href="{{ route('characters.index') }}">My Characters</a></li>
+                <li class="list-group-item"><a href="{{ route('characters.myos') }}">My MYO Slots</a></li>
+                <li class="list-group-item"><a href="{{ route('characters.transfers.index', 'incoming') }}">Character Transfers</a></li>
             </ul>
         </div>
     </div>
@@ -40,7 +40,7 @@
                 <h5 class="card-title">Inventory</h5>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"><a href="{{ url('inventory') }}">My Inventory</a></li>
+                <li class="list-group-item"><a href="{{ route('inventory.index') }}">My Inventory</a></li>
                 <li class="list-group-item"><a href="{{ Auth::user()->url . '/item-logs' }}">Item Logs</a></li>
             </ul>
         </div>
@@ -52,7 +52,7 @@
                 <h5 class="card-title">Bank</h5>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"><a href="{{ url('bank') }}">Bank</a></li>
+                <li class="list-group-item"><a href="{{ route('bank.index') }}">Bank</a></li>
                 <li class="list-group-item"><a href="{{ Auth::user()->url . '/currency-logs' }}">Currency Logs</a></li>
             </ul>
         </div>

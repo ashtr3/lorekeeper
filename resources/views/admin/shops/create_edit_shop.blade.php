@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Shops' => 'admin/data/shops', ($shop->id ? 'Edit' : 'Create') . ' Shop' => $shop->id ? 'admin/data/shops/edit/' . $shop->id : 'admin/data/shops/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Shops' => route('admin.data.shops.index'), ($shop->id ? 'Edit' : 'Create') . ' Shop' => $shop->id ? route('admin.data.shops.edit', $shop->id) : route('admin.data.shops.create')]) !!}
 
     <h1>{{ $shop->id ? 'Edit' : 'Create' }} Shop
         @if ($shop->id)
@@ -14,7 +14,7 @@
         @endif
     </h1>
 
-    {!! Form::open([$shop->id ? route('admin.data.shops.update', $shop->id) : route('admin.data.shops.store'), 'files' => true]) !!}
+    {!! Form::open(['url' => $shop->id ? route('admin.data.shops.update', $shop->id) : route('admin.data.shops.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 
@@ -85,7 +85,7 @@
 
             $('.delete-shop-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/shops/delete') }}/{{ $shop->id }}", 'Delete Shop');
+                loadModal("{{ route('admin.data.shops.delete', $shop->id) }}", 'Delete Shop');
             });
             $('.add-stock-button').on('click', function(e) {
                 e.preventDefault();

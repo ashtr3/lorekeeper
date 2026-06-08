@@ -26,7 +26,7 @@
                             @endif
                         </p>
                         <div class="text-right">
-                            <a href="{{ url('admin/submissions/pending') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
+                            <a href="{{ route('admin.submissions.index.status', 'pending') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
                         </div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                             @endif
                         </p>
                         <div class="text-right">
-                            <a href="{{ url('admin/claims/pending') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
+                            <a href="{{ route('admin.claims.index.status', 'pending') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
                         </div>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                             @endif
                         </p>
                         <div class="text-right">
-                            <a href="{{ url('admin/design-approvals/pending') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
+                            <a href="{{ route('admin.designs.index', ['design-approvals', 'pending']') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
                         </div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                             @endif
                         </p>
                         <div class="text-right">
-                            <a href="{{ url('admin/myo-approvals/pending') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
+                            <a href="{{ route('admin.designs.index', ['myo-approvals', 'pending']') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
                         </div>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
                                 @endif
                             </p>
                             <div class="text-right">
-                                <a href="{{ url('admin/masterlist/transfers/incoming') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
+                                <a href="{{ route('admin.masterlist.transfers.index', 'incoming') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
                             </div>
                         </div>
                     </div>
@@ -138,7 +138,7 @@
                             @endif
                         </p>
                         <div class="text-right">
-                            <a href="{{ url('admin/reports/pending') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
+                            <a href="{{ route('admin.reports.index.status', 'pending') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
                         </div>
                     </div>
                 </div>
@@ -172,7 +172,7 @@
                                 @endif
                             </p>
                             <div class="text-right">
-                                <a href="{{ url('admin/gallery/submissions/pending') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
+                                <a href="{{ route('admin.gallery.submissions.index.status', 'pending') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
                             </div>
                         </div>
                     </div>
@@ -194,7 +194,7 @@
                                 @endif
                             </p>
                             <div class="text-right">
-                                <a href="{{ url('admin/gallery/currency/pending') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
+                                <a href="{{ route('admin.gallery.currency.index.status', 'pending') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
                             </div>
                         </div>
                     </div>

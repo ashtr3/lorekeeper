@@ -6,7 +6,7 @@
 
 @section('content')
     <x-admin-edit title="Raffle" :object="$raffle" />
-    {!! breadcrumbs(['Raffles' => 'raffles', 'Raffle: ' . $raffle->name => 'raffles/view/' . $raffle->id]) !!}
+    {!! breadcrumbs(['Raffles' => route('browse.raffles.index'), 'Raffle: ' . $raffle->name => route('browse.raffles.show', $raffle->id)]) !!}
     <h1>Raffle: {{ $raffle->name }}</h1>
     @if ($raffle->is_active == 1)
         <div class="alert alert-success text-center">

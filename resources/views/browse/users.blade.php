@@ -5,14 +5,14 @@
 @endsection
 
 @section('content')
-    {!! breadcrumbs(['Users' => 'users']) !!}
+    {!! breadcrumbs(['Users' => route('browse.users')]) !!}
     <h1>
         User Index
         @if ($blacklistLink)
-            <a href="{{ url('blacklist') }}" class="btn btn-dark float-right ml-2">Blacklist</a>
+            <a href="{{ route('browse.blacklist') }}" class="btn btn-dark float-right ml-2">Blacklist</a>
         @endif
         @if ($deactivatedLink || (Auth::check() && Auth::user()->isStaff))
-            <a href="{{ url('deactivated-list') }}" class="btn btn-dark float-right">Deactivated Accounts</a>
+            <a href="{{ route('browse.deactivated') }}" class="btn btn-dark float-right">Deactivated Accounts</a>
         @endif
     </h1>
 

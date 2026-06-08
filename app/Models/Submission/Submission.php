@@ -210,7 +210,7 @@ class Submission extends Model {
      * @return string
      */
     public function getViewUrlAttribute() {
-        return url(($this->prompt_id ? 'submissions' : 'claims').'/view/'.$this->id);
+        return route($this->prompt_id ? 'browse.submissions.show' : 'browse.claims.show', $this->id);
     }
 
     /**
@@ -219,7 +219,7 @@ class Submission extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/'.($this->prompt_id ? 'submissions' : 'claims').'/edit/'.$this->id);
+        return route($this->prompt_id ? 'admin.submissions.edit' : 'admin.claims.edit', $this->id);
     }
 
     /**

@@ -5,13 +5,13 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Sales' => 'admin/sales']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Sales' => route('admin.sales.index')]) !!}
 
     <h1>Sales</h1>
 
     <p>You can create new sales posts here. Creating a sales post alerts every user that there is a new post, unless the post is marked as not viewable (see the post creation page for details).</p>
 
-    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ url('admin/sales/create') }}"><i class="fas fa-plus"></i> Create New Sales Post</a></div>
+    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ route('admin.sales.create') }}"><i class="fas fa-plus"></i> Create New Sales Post</a></div>
     @if (!count($saleses))
         <p>No sales found.</p>
     @else
@@ -53,7 +53,7 @@
                                 <div class="logs-table-cell">{!! pretty_date($sales->updated_at) !!}</div>
                             </div>
                             <div class="col-12 col-md-1 text-right">
-                                <div class="logs-table-cell"><a href="{{ url('admin/sales/edit/' . $sales->id) }}" class="btn btn-primary py-0 px-2 w-100">Edit</a></div>
+                                <div class="logs-table-cell"><a href="{{ route('admin.sales.edit', $sales->id) }}" class="btn btn-primary py-0 px-2 w-100">Edit</a></div>
                             </div>
                         </div>
                     </div>

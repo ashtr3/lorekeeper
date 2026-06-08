@@ -1,7 +1,7 @@
 <h1>
     {{ $submission->prompt_id ? 'Submission' : 'Claim' }} (#{{ $submission->id }})
     @if (Auth::check() && $submission->user_id == Auth::user()->id && $submission->status == 'Draft')
-        <a href="{{ url(($isClaim ? 'claims' : 'submissions') . '/draft/' . $submission->id) }}" class="btn btn-sm btn-outline-secondary ml-3">Edit Draft <i class="fas fa-pen ml-2"></i></a>
+        <a href="{{ route($isClaim ? 'claims.draft.edit' : 'submissions.draft.edit', $submission->id) }}" class="btn btn-sm btn-outline-secondary ml-3">Edit Draft <i class="fas fa-pen ml-2"></i></a>
     @endif
     <span class="float-right badge badge-{{ $submission->status == 'Pending' || $submission->status == 'Draft' ? 'secondary' : ($submission->status == 'Approved' ? 'success' : 'danger') }}">{{ $submission->status }}</span>
 

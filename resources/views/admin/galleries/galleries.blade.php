@@ -5,13 +5,13 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Galleries' => 'admin/data/galleries']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Galleries' => route('admin.data.galleries.index')]) !!}
 
     <h1>Galleries</h1>
 
     <p>This is a list of galleries that art and literature can be submitted to.</p>
 
-    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ url('admin/data/galleries/create') }}"><i class="fas fa-plus"></i> Create New Gallery</a></div>
+    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ route('admin.data.galleries.create') }}"><i class="fas fa-plus"></i> Create New Gallery</a></div>
 
     @if (!count($galleries))
         <p>No galleries found.</p>

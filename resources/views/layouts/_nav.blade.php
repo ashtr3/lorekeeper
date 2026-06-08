@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark" id="headerNav">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ url('/') }}">
+        <a class="navbar-brand" href="{{ route('home') }}">
             {{ config('lorekeeper.settings.site_name', 'Lorekeeper') }}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -12,16 +12,16 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     @if (Auth::check() && Auth::user()->is_news_unread && config('lorekeeper.extensions.navbar_news_notif'))
-                        <a class="nav-link d-flex text-warning" href="{{ url('news') }}"><strong>News</strong><i class="fas fa-bell"></i></a>
+                        <a class="nav-link d-flex text-warning" href="{{ route('browse.news.index') }}"><strong>News</strong><i class="fas fa-bell"></i></a>
                     @else
-                        <a class="nav-link" href="{{ url('news') }}">News</a>
+                        <a class="nav-link" href="{{ route('browse.news.index') }}">News</a>
                     @endif
                 </li>
                 <li class="nav-item">
                     @if (Auth::check() && Auth::user()->is_sales_unread && config('lorekeeper.extensions.navbar_news_notif'))
-                        <a class="nav-link d-flex text-warning" href="{{ url('sales') }}"><strong>Sales</strong><i class="fas fa-bell"></i></a>
+                        <a class="nav-link d-flex text-warning" href="{{ route('browse.sales.index') }}"><strong>Sales</strong><i class="fas fa-bell"></i></a>
                     @else
-                        <a class="nav-link" href="{{ url('sales') }}">Sales</a>
+                        <a class="nav-link" href="{{ route('browse.sales.index') }}">Sales</a>
                     @endif
                 </li>
                 @if (Auth::check())
@@ -31,20 +31,20 @@
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="inventoryDropdown">
-                            <a class="dropdown-item" href="{{ url('characters') }}">
+                            <a class="dropdown-item" href="{{ route('characters.index') }}">
                                 My Characters
                             </a>
-                            <a class="dropdown-item" href="{{ url('characters/myos') }}">
+                            <a class="dropdown-item" href="{{ route('characters.myos') }}">
                                 My MYO Slots
                             </a>
-                            <a class="dropdown-item" href="{{ url('inventory') }}">
+                            <a class="dropdown-item" href="{{ route('inventory.index') }}">
                                 Inventory
                             </a>
-                            <a class="dropdown-item" href="{{ url('bank') }}">
+                            <a class="dropdown-item" href="{{ route('bank.index') }}">
                                 Bank
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url('comments/liked') }}">
+                            <a class="dropdown-item" href="{{ route('comments.liked') }}">
                                 Liked Comments
                             </a>
                         </div>
@@ -54,23 +54,23 @@
                             Activity
                         </a>
                         <div class="dropdown-menu" aria-labelledby="queueDropdown">
-                            <a class="dropdown-item" href="{{ url('submissions') }}">
+                            <a class="dropdown-item" href="{{ route('submissions.index') }}">
                                 Prompt Submissions
                             </a>
-                            <a class="dropdown-item" href="{{ url('claims') }}">
+                            <a class="dropdown-item" href="{{ route('claims.index') }}">
                                 Claims
                             </a>
-                            <a class="dropdown-item" href="{{ url('reports') }}">
+                            <a class="dropdown-item" href="{{ route('reports.index') }}">
                                 Reports
                             </a>
-                            <a class="dropdown-item" href="{{ url('designs') }}">
+                            <a class="dropdown-item" href="{{ route('designs.index') }}">
                                 Design Approvals
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url('characters/transfers/incoming') }}">
+                            <a class="dropdown-item" href="{{ route('characters.transfers.index', 'incoming') }}">
                                 Character Transfers
                             </a>
-                            <a class="dropdown-item" href="{{ url('trades/open') }}">
+                            <a class="dropdown-item" href="{{ route('trades.index', 'open') }}">
                                 Trades
                             </a>
                         </div>
@@ -82,21 +82,21 @@
                     </a>
 
                     <div class="dropdown-menu" aria-labelledby="browseDropdown">
-                        <a class="dropdown-item" href="{{ url('users') }}">
+                        <a class="dropdown-item" href="{{ route('browse.users') }}">
                             Users
                         </a>
-                        <a class="dropdown-item" href="{{ url('masterlist') }}">
+                        <a class="dropdown-item" href="{{ route('browse.masterlist') }}">
                             Character Masterlist
                         </a>
-                        <a class="dropdown-item" href="{{ url('myos') }}">
+                        <a class="dropdown-item" href="{{ route('browse.myos') }}">
                             MYO Slot Masterlist
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ url('raffles') }}">
+                        <a class="dropdown-item" href="{{ route('browse.raffles.index') }}">
                             Raffles
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ url('reports/bug-reports') }}">
+                        <a class="dropdown-item" href="{{ route('browse.reports.bugs') }}">
                             Bug Reports
                         </a>
                     </div>
@@ -107,19 +107,19 @@
                     </a>
 
                     <div class="dropdown-menu" aria-labelledby="loreDropdown">
-                        <a class="dropdown-item" href="{{ url('world') }}">
+                        <a class="dropdown-item" href="{{ route('browse.world.index') }}">
                             Encyclopedia
                         </a>
-                        <a class="dropdown-item" href="{{ url('prompts/prompts') }}">
+                        <a class="dropdown-item" href="{{ route('browse.prompts.list') }}">
                             Prompts
                         </a>
-                        <a class="dropdown-item" href="{{ url('shops') }}">
+                        <a class="dropdown-item" href="{{ route('browse.shops.index') }}">
                             Shops
                         </a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('gallery') }}">Gallery</a>
+                    <a class="nav-link" href="{{ route('browse.gallery.index') }}">Gallery</a>
                 </li>
             </ul>
 
@@ -143,7 +143,7 @@
                     @endif
                     @if (Auth::user()->notifications_unread)
                         <li class="nav-item">
-                            <a class="nav-link btn btn-secondary btn-sm" href="{{ url('notifications') }}"><span class="fas fa-envelope"></span> {{ Auth::user()->notifications_unread }}</a>
+                            <a class="nav-link btn btn-secondary btn-sm" href="{{ route('notifications.index') }}"><span class="fas fa-envelope"></span> {{ Auth::user()->notifications_unread }}</a>
                         </li>
                     @endif
 
@@ -153,13 +153,13 @@
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="submitDropdown">
-                            <a class="dropdown-item" href="{{ url('submissions/new') }}">
+                            <a class="dropdown-item" href="{{ route('submissions.create') }}">
                                 Submit Prompt
                             </a>
-                            <a class="dropdown-item" href="{{ url('claims/new') }}">
+                            <a class="dropdown-item" href="{{ route('claims.create') }}">
                                 Submit Claim
                             </a>
-                            <a class="dropdown-item" href="{{ url('reports/new') }}">
+                            <a class="dropdown-item" href="{{ route('reports.create') }}">
                                 Submit Report
                             </a>
                         </div>
@@ -174,13 +174,13 @@
                             <a class="dropdown-item" href="{{ Auth::user()->url }}">
                                 Profile
                             </a>
-                            <a class="dropdown-item" href="{{ url('notifications') }}">
+                            <a class="dropdown-item" href="{{ route('notifications.index') }}">
                                 Notifications
                             </a>
-                            <a class="dropdown-item" href="{{ url('account/bookmarks') }}">
+                            <a class="dropdown-item" href="{{ route('account.bookmarks.index') }}">
                                 Bookmarks
                             </a>
-                            <a class="dropdown-item" href="{{ url('account/settings') }}">
+                            <a class="dropdown-item" href="{{ route('account.settings') }}">
                                 Settings
                             </a>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();

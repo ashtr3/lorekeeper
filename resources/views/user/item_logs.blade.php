@@ -5,7 +5,7 @@
 @endsection
 
 @section('profile-content')
-    {!! breadcrumbs(['Users' => 'users', $user->name => $user->url, 'Inventory' => $user->url . '/inventory', 'Logs' => $user->url . '/item-logs']) !!}
+    {!! breadcrumbs(['Users' => route('browse.users'), $user->name => $user->url, 'Inventory' => route('browse.user.inventory', $user->name), 'Logs' => route('browse.user.item-logs', $user->name)]) !!}
 
     <h1>
         {!! $user->displayName !!}'s Item Logs

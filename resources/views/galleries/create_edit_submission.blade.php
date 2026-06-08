@@ -6,9 +6,9 @@
 
 @section('gallery-content')
     {!! breadcrumbs([
-        'Gallery' => 'gallery',
-        $gallery->name => 'gallery/' . $gallery->id,
-        ($submission->id ? 'Edit' : 'Create') . ' Submission' => $submission->id ? 'gallery/submissions/edit/' . $submission->id : 'gallery/submit/' . $gallery->id,
+        'Gallery' => route('browse.gallery.index'),
+        $gallery->name => route('browse.gallery.show', $gallery->id),
+        ($submission->id ? 'Edit' : 'Create') . ' Submission' => $submission->id ? route('gallery.edit', $submission->id) : route('gallery.submit', $gallery->id),
     ]) !!}
 
     <h1>
@@ -101,7 +101,7 @@
                         {!! Form::label('gallery_id', '[Admin] Gallery / Move Submission') !!} {!! add_help(
                             'Use in the event you need to move a submission between galleries. If left blank, leaves the submission in its current location. Note that if currency rewards from submissions are enabled, this won\'t retroactively fill out the form if moved from a gallery where they are disabled to one where they are enabled.',
                         ) !!}
-                        {!! Form::select('gallery_id', $galleryOptions, null, ['class' => 'form-control selectize gallery-select original', 'id' => 'gallery', 'placeholder' => '']) !!}
+                        {!! Form::select('gallery_id', $galleryOptions, null, ['class' => 'form-control selectize gallery-select original', 'id' => route('browse.gallery.index'), 'placeholder' => '']) !!}
                     </div>
                 @endif
 
@@ -355,7 +355,7 @@
 
                 $('.archive-submission-button').on('click', function(e) {
                     e.preventDefault();
-                    loadModal("{{ url('gallery/archive') }}/{{ $submission->id }}", 'Archive Submission');
+                    loadModal("{{ route('gallery.archive', $submission->id) }}", 'Archive Submission');
                 });
 
                 $('.original.collaborator-select').selectize();

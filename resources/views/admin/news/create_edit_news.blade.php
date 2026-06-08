@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'News' => 'admin/news', ($news->id ? 'Edit' : 'Create') . ' Post' => $news->id ? 'admin/news/edit/' . $news->id : 'admin/news/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'News' => route('admin.news.index'), ($news->id ? 'Edit' : 'Create') . ' Post' => $news->id ? route('admin.news.edit', $news->id) : route('admin.news.create')]) !!}
 
     <h1>{{ $news->id ? 'Edit' : 'Create' }} News Post
         @if ($news->id)
@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open([$news->id ? route('admin.news.update', $news->id) : route('admin.news.store'), 'files' => true]) !!}
+    {!! Form::open(['url' => $news->id ? route('admin.news.update', $news->id) : route('admin.news.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 
@@ -69,7 +69,7 @@
         $(document).ready(function() {
             $('.delete-news-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/news/delete') }}/{{ $news->id }}", 'Delete Post');
+                loadModal("{{ route('admin.news.delete', $news->id) }}", 'Delete Post');
             });
         });
     </script>

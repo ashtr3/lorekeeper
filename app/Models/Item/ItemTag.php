@@ -99,7 +99,7 @@ class ItemTag extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/data/items/tag/'.$this->item_id.'/'.$this->tag);
+        return route('admin.data.items.tag.edit', ['id' => $this->item_id, 'tag' => $this->tag]);
     }
 
     /**

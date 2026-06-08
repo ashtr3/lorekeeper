@@ -16,7 +16,7 @@
             @if (isset($site['auth']) && $site['auth'] && isset($site['primary_alias']) && $site['primary_alias'])
                 <div class="d-flex mb-3">
                     <div class="d-flex justify-content-end align-items-center"><i class="{{ $site['icon'] }} fa-fw mr-3"></i></div>
-                    <div class=""><a href="{{ url('auth/redirect/' . $provider) }}" class="btn btn-outline-primary">Link <strong>{{ $site['full_name'] }}</strong> Account</a></div>
+                    <div class=""><a href="{{ route('auth.redirect', $provider) }}" class="btn btn-outline-primary">Link <strong>{{ $site['full_name'] }}</strong> Account</a></div>
                 </div>
             @endif
         @endforeach

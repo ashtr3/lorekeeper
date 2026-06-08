@@ -5,7 +5,7 @@
 @endsection
 
 @section('news-content')
-    {!! breadcrumbs(['Site News' => 'news']) !!}
+    {!! breadcrumbs(['Site News' => route('browse.news.index')]) !!}
     <h1>Site News</h1>
     @if (count($newses))
         {!! $newses->render() !!}

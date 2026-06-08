@@ -14,7 +14,7 @@
 
 @section('content')
     <x-admin-edit title="Item" :object="$item" />
-    {!! breadcrumbs(['World' => 'world', 'Items' => 'world/items', $item->name => $item->idUrl]) !!}
+    {!! breadcrumbs(['World' => route('browse.world.index'), 'Items' => route('browse.world.items'), $item->name => $item->idUrl]) !!}
 
     <div class="row">
         <div class="col-sm">

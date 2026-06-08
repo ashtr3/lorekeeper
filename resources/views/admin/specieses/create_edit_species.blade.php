@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Species' => 'admin/data/species', ($species->id ? 'Edit' : 'Create') . ' Species' => $species->id ? 'admin/data/species/edit/' . $species->id : 'admin/data/species/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Species' => route('admin.data.species.index'), ($species->id ? 'Edit' : 'Create') . ' Species' => $species->id ? route('admin.data.species.edit', $species->id) : route('admin.data.species.create')]) !!}
 
     <h1>{{ $species->id ? 'Edit' : 'Create' }} Species
         @if ($species->id)
@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open([$species->id ? route('admin.data.species.update', $species->id) : route('admin.data.species.store'), 'files' => true]) !!}
+    {!! Form::open(['url' => $species->id ? route('admin.data.species.update', $species->id) : route('admin.data.species.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 
@@ -74,7 +74,7 @@
         $(document).ready(function() {
             $('.delete-species-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/species/delete') }}/{{ $species->id }}", 'Delete Species');
+                loadModal("{{ route('admin.data.species.delete', $species->id) }}", 'Delete Species');
             });
         });
     </script>

@@ -1,5 +1,5 @@
 @if ($rank)
-    {!! Form::open([$rank->id ? route('admin.users.ranks.update', $rank->id) : route('admin.users.ranks.store')]) !!}
+    {!! Form::open(['url' => $rank->id ? route('admin.users.ranks.update', $rank->id) : route('admin.users.ranks.store')]) !!}
 
     <div class="form-group">
         {!! Form::label('Rank Name') !!}

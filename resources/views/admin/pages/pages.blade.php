@@ -5,14 +5,14 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Pages' => 'admin/pages']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Pages' => route('admin.pages.index')]) !!}
 
     <h1>Pages</h1>
 
     <p>Here you can create pages with custom HTML content. By default, these pages are not linked to by any other page - if you would like users to look at the pages, you will need to link them manually (e.g. in the top navigation, footer, etc.). Certain
         important pages such as the terms of service and privacy policy cannot be deleted. You can, however, edit their names and visibility.</p>
 
-    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ url('admin/pages/create') }}"><i class="fas fa-plus"></i> Create New Page</a></div>
+    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ route('admin.pages.create') }}"><i class="fas fa-plus"></i> Create New Page</a></div>
     @if (!count($pages))
         <p>No pages found.</p>
     @else
@@ -45,7 +45,7 @@
                                 <div class="logs-table-cell">{!! pretty_date($page->updated_at) !!}</div>
                             </div>
                             <div class="col-3 col-md-1 text-right">
-                                <div class="logs-table-cell"><a href="{{ url('admin/pages/edit/' . $page->id) }}" class="btn btn-primary py-0 px-2">Edit</a></div>
+                                <div class="logs-table-cell"><a href="{{ route('admin.pages.edit', $page->id) }}" class="btn btn-primary py-0 px-2">Edit</a></div>
                             </div>
                         </div>
                     </div>

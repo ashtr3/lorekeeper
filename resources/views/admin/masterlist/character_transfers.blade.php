@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Character Transfer Queue' => 'admin/masterlist/transfers/incoming']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Character Transfer Queue' => route('admin.masterlist.transfers.index', 'incoming')]) !!}
 
     <h1>
         Character Transfers

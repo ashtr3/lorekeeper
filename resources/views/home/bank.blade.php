@@ -5,7 +5,7 @@
 @endsection
 
 @section('home-content')
-    {!! breadcrumbs(['Bank' => 'bank']) !!}
+    {!! breadcrumbs(['Bank' => route('bank.index')]) !!}
 
     <h1>
         Bank
@@ -39,11 +39,11 @@
         </ul>
     </div>
     <div class="text-right mb-4">
-        <a href="{{ url(Auth::user()->url . '/currency-logs') }}">View logs...</a>
+        <a href="{{ route('browse.user.currency-logs', Auth::user()->name) }}">View logs...</a>
     </div>
 
     <h3>Transfer Currency</h3>
-    <p>If you are transferring currency as part of a trade for on-site resources (items, currency, characters), using the <a href="{{ url('trades/open') }}">trade system</a> is recommended instead to protect yourself from being scammed.</p>
+    <p>If you are transferring currency as part of a trade for on-site resources (items, currency, characters), using the <a href="{{ route('trades.index', 'open') }}">trade system</a> is recommended instead to protect yourself from being scammed.</p>
     {!! Form::open(['route' => 'bank.transfer']) !!}
     <div class="form-group">
         {!! Form::label('user_id', 'Recipient') !!}

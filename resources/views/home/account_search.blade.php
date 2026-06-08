@@ -5,7 +5,7 @@
 @endsection
 
 @section('home-content')
-    {!! breadcrumbs(['Inventory' => 'inventory', 'Account Search' => 'account-search']) !!}
+    {!! breadcrumbs(['Inventory' => route('inventory.index'), 'Account Search' => route('inventory.account-search')]) !!}
 
     <h1>Account Search</h1>
 

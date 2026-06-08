@@ -5,9 +5,9 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Files' => 'admin/files'] + ($folder ? [$folder => 'admin/files/' . $folder] : [])) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Files' => route('admin.files.index')] + ($folder ? [$folder => route('admin.files.index', $folder)] : [])) !!}
 
-    <h1>File Manager / {!! $folder ? $folder . ' <a href="' . url('admin/files/') . '" class="btn btn-success float-right">Back to Root</a>' : 'Root' !!}</h1>
+    <h1>File Manager / {!! $folder ? $folder . ' <a href="' . route('admin.files.index') . '" class="btn btn-success float-right">Back to Root</a>' : 'Root' !!}</h1>
 
     <p>This manager allows you to upload files onto your server and create folders up to one level deep. Note that a folder containing files cannot be renamed or deleted.</p>
 
@@ -19,7 +19,7 @@
                 <div class="col-md-4 col-xs-4 col-6 mb-3">
                     <div class="card">
                         <div class="card-body">
-                            <a href="{{ url('admin/files/' . basename($f)) }}"><i class="fas fa-folder"></i> {{ basename($f) }}</a>
+                            <a href="{{ route('admin.files.index', basename($f)) }}"><i class="fas fa-folder"></i> {{ basename($f) }}</a>
                         </div>
                     </div>
                 </div>

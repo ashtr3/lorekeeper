@@ -5,7 +5,7 @@
 @endsection
 
 @section('design-content')
-    {!! breadcrumbs(['Design Approvals' => 'designs', 'Request (#' . $request->id . ')' => 'designs/' . $request->id, 'Traits' => 'designs/' . $request->id . '/traits']) !!}
+    {!! breadcrumbs(['Design Approvals' => route('designs.index'), 'Request (#' . $request->id . ')' => route('designs.show', $request->id), 'Traits' => route('designs.traits', $request->id)]) !!}
 
     @include('character.design._header', ['request' => $request])
 
@@ -149,7 +149,7 @@
             var id = '<?php echo $request->id; ?>';
             $.ajax({
                 type: "GET",
-                url: "{{ url('designs/traits/subtype') }}?species=" + species + "&id=" + id,
+                url: "{{ route('designs.traits.subtype') }}?species=" + species + "&id=" + id,
                 dataType: "text"
             }).done(function(res) {
                 $("#subtypes").html(res);

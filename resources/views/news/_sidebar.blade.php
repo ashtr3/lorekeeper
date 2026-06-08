@@ -1,5 +1,5 @@
 <ul>
-    <li class="sidebar-header"><a href="{{ url('news') }}" class="card-link">News</a></li>
+    <li class="sidebar-header"><a href="{{ route('browse.news.index') }}" class="card-link">News</a></li>
     @if (isset($newses))
         <li class="sidebar-section">
             <div class="sidebar-section-header">On This Page</div>

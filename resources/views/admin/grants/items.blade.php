@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Grant Items' => 'admin/grants/items']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Grant Items' => route('admin.grants.items')]) !!}
 
     <h1>Grant Items</h1>
 

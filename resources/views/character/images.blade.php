@@ -10,9 +10,9 @@
 
 @section('profile-content')
     {!! breadcrumbs([
-        $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? 'sublist/' . $character->category->sublist->key : 'masterlist',
+        $character->category->masterlist_sub_id ? $character->category->sublist->name . ' Masterlist' : 'Character masterlist' => $character->category->masterlist_sub_id ? route('browse.sublist', $character->category->sublist->key) : route('browse.masterlist'),
         $character->fullName => $character->url,
-        'Images' => $character->url . '/images',
+        'Images' => route('browse.character.images', $character->slug),
     ]) !!}
 
     @include('character._header', ['character' => $character])
@@ -42,7 +42,7 @@
     <h3>
         Images
         @if ($canManage)
-            <a href="{{ url('admin/character/' . $character->slug . '/image') }}" class="float-right btn btn-outline-info btn-sm"><i class="fas fa-plus"></i> Add Image</a>
+            <a href="{{ route('admin.character.image.create', $character->slug) }}" class="float-right btn btn-outline-info btn-sm"><i class="fas fa-plus"></i> Add Image</a>
         @endif
     </h3>
 

@@ -84,7 +84,7 @@ class LootTable extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/data/loot-tables/edit/'.$this->id);
+        return route('admin.data.loot-tables.edit', $this->id);
     }
 
     /**

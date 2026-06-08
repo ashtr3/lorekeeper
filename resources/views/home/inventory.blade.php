@@ -5,14 +5,14 @@
 @endsection
 
 @section('home-content')
-    {!! breadcrumbs(['Inventory' => 'inventory']) !!}
+    {!! breadcrumbs(['Inventory' => route('inventory.index')]) !!}
 
     <h1>
         Inventory
         <div class="float-right mb-3">
             <a class="btn btn-secondary consolidate-inventory" href="#">Consolidate</a>
-            <a class="btn btn-primary" href="{{ url('inventory/account-search') }}"><i class="fas fa-search"></i> Account Search</a>
-            <a class="btn btn-primary" href="{{ url('inventory/full-inventory') }}"><i class="fas fa-warehouse"></i> Full Inventory</a>
+            <a class="btn btn-primary" href="{{ route('inventory.account-search') }}"><i class="fas fa-search"></i> Account Search</a>
+            <a class="btn btn-primary" href="{{ route('inventory.full') }}"><i class="fas fa-warehouse"></i> Full Inventory</a>
         </div>
     </h1>
 
@@ -85,7 +85,7 @@
     </div>
 
     <div class="text-right mb-4">
-        <a href="{{ url(Auth::user()->url . '/item-logs') }}">View logs...</a>
+        <a href="{{ route('browse.user.item-logs', Auth::user()->name) }}">View logs...</a>
     </div>
 @endsection
 @section('scripts')
@@ -95,11 +95,11 @@
             $('.inventory-stack').on('click', function(e) {
                 e.preventDefault();
                 var $parent = $(this).parent().parent();
-                loadModal("{{ url('items') }}/" + $parent.data('id'), $parent.data('name'));
+                loadModal("{{ route('browse.items.stack', '') }}/" + $parent.data('id'), $parent.data('name'));
             });
             $('.consolidate-inventory').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('inventory/consolidate-inventory') }}", 'Consolidate Inventory');
+                loadModal("{{ route('inventory.consolidate') }}", 'Consolidate Inventory');
             });
         });
     </script>

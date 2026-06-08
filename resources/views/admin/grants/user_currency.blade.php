@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Grant Currency' => 'admin/grants/user-currency']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Grant Currency' => route('admin.grants.user-currency')]) !!}
 
     <h1>Grant User Currency</h1>
 
