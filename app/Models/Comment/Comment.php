@@ -116,7 +116,7 @@ class Comment extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('comment/'.$this->id);
+        return route('browse.comment', $this->id);
     }
 
     /**

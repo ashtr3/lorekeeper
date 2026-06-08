@@ -5,7 +5,7 @@
 @endsection
 
 @section('account-content')
-    {!! breadcrumbs(['My Account' => Auth::user()->url, 'Aliases' => 'account/aliases']) !!}
+    {!! breadcrumbs(['My Account' => Auth::user()->url, 'Aliases' => route('account.aliases')]) !!}
 
     <h1>Aliases</h1>
 

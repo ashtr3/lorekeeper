@@ -103,7 +103,7 @@ class Raffle extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('raffles/view/'.$this->id);
+        return route('browse.raffles.show', $this->id);
     }
 
     /**
@@ -112,7 +112,7 @@ class Raffle extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/raffles'); // Raffles are edited via a modal so don't have a unique raffle edit page
+        return route('admin.raffles.index'); // Raffles are edited via a modal so don't have a unique raffle edit page
     }
 
     /**

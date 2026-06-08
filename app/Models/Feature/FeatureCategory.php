@@ -126,7 +126,7 @@ class FeatureCategory extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('world/trait-categories?name='.$this->name);
+        return route('browse.world.trait-categories', ['name' => $this->name]);
     }
 
     /**
@@ -135,7 +135,7 @@ class FeatureCategory extends Model {
      * @return string
      */
     public function getSearchUrlAttribute() {
-        return url('world/traits?feature_category_id='.$this->id);
+        return route('browse.world.traits', ['feature_category_id' => $this->id]);
     }
 
     /**
@@ -144,7 +144,7 @@ class FeatureCategory extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/data/trait-categories/edit/'.$this->id);
+        return route('admin.data.trait-categories.edit', $this->id);
     }
 
     /**

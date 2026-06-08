@@ -141,7 +141,7 @@ class CharacterCategory extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('world/character-categories?name='.$this->name);
+        return route('browse.world.character-categories', ['name' => $this->name]);
     }
 
     /**
@@ -151,9 +151,9 @@ class CharacterCategory extends Model {
      */
     public function getSearchUrlAttribute() {
         if ($this->masterlist_sub_id != 0 && $this->sublist->show_main == 0) {
-            return url('sublist/'.$this->sublist->key.'?character_category_id='.$this->id);
+            return route('browse.sublist', ['key' => $this->sublist->key, 'character_category_id' => $this->id]);
         } else {
-            return url('masterlist?character_category_id='.$this->id);
+            return route('browse.masterlist', ['character_category_id' => $this->id]);
         }
     }
 
@@ -163,7 +163,7 @@ class CharacterCategory extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/data/character-categories/edit/'.$this->id);
+        return route('admin.data.character-categories.edit', $this->id);
     }
 
     /**

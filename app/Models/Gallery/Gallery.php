@@ -177,7 +177,7 @@ class Gallery extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('gallery/'.$this->id);
+        return route('browse.gallery.show', $this->id);
     }
 
     /**
@@ -186,7 +186,7 @@ class Gallery extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/data/galleries/edit/'.$this->id);
+        return route('admin.data.galleries.edit', $this->id);
     }
 
     /**

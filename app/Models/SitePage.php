@@ -58,7 +58,7 @@ class SitePage extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('info/'.$this->key);
+        return route('browse.page', $this->key);
     }
 
     /**
@@ -76,7 +76,7 @@ class SitePage extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/pages/edit/'.$this->id);
+        return route('admin.pages.edit', $this->id);
     }
 
     /**

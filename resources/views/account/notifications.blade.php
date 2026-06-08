@@ -5,7 +5,7 @@
 @endsection
 
 @section('account-content')
-    {!! breadcrumbs(['My Account' => Auth::user()->url, 'Notifications' => 'notifications']) !!}
+    {!! breadcrumbs(['My Account' => Auth::user()->url, 'Notifications' => route('notifications.index')]) !!}
 
     <h1>Notifications</h1>
 

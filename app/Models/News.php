@@ -134,7 +134,7 @@ class News extends Model implements Feedable {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('news/'.$this->slug);
+        return route('browse.news.show', $this->slug);
     }
 
     /**
@@ -143,7 +143,7 @@ class News extends Model implements Feedable {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/news/edit/'.$this->id);
+        return route('admin.news.edit', $this->id);
     }
 
     /**

@@ -5,7 +5,7 @@
 @endsection
 
 @section('account-content')
-    {!! breadcrumbs(['My Account' => Auth::user()->url, 'Character Bookmarks' => 'bookmarks']) !!}
+    {!! breadcrumbs(['My Account' => Auth::user()->url, 'Character Bookmarks' => route('account.bookmarks.index')]) !!}
 
     <h1>Character Bookmarks</h1>
 

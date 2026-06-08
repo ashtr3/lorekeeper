@@ -103,7 +103,7 @@ class PromptCategory extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('prompts/prompt-categories?name='.$this->name);
+        return route('browse.prompts.categories', ['name' => $this->name]);
     }
 
     /**
@@ -112,7 +112,7 @@ class PromptCategory extends Model {
      * @return string
      */
     public function getSearchUrlAttribute() {
-        return url('prompts/prompts?prompt_category_id='.$this->id);
+        return route('browse.prompts.list', ['prompt_category_id' => $this->id]);
     }
 
     /**
@@ -121,7 +121,7 @@ class PromptCategory extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/data/prompt-categories/edit/'.$this->id);
+        return route('admin.data.prompt-categories.edit', $this->id);
     }
 
     /**

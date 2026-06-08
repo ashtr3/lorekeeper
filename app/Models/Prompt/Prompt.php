@@ -286,7 +286,7 @@ class Prompt extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('prompts/prompts?name='.$this->name);
+        return route('browse.prompts.list', ['name' => $this->name]);
     }
 
     /**
@@ -295,7 +295,7 @@ class Prompt extends Model {
      * @return string
      */
     public function getIdUrlAttribute() {
-        return url('prompts/'.$this->id);
+        return route('browse.prompts.show', $this->id);
     }
 
     /**
@@ -313,7 +313,7 @@ class Prompt extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/data/prompts/edit/'.$this->id);
+        return route('admin.data.prompts.edit', $this->id);
     }
 
     /**

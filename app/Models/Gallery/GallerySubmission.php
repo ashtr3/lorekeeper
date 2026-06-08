@@ -381,7 +381,7 @@ class GallerySubmission extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('gallery/view/'.$this->id);
+        return route('browse.gallery.submission', $this->id);
     }
 
     /**
@@ -432,7 +432,7 @@ class GallerySubmission extends Model {
      * @return string
      */
     public function getQueueUrlAttribute() {
-        return url('gallery/queue/'.$this->id);
+        return route('gallery.queue', $this->id);
     }
 
     /**

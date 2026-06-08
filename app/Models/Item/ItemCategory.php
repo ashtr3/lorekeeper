@@ -126,7 +126,7 @@ class ItemCategory extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('world/item-categories?name='.$this->name);
+        return route('browse.world.item-categories', ['name' => $this->name]);
     }
 
     /**
@@ -135,7 +135,7 @@ class ItemCategory extends Model {
      * @return string
      */
     public function getSearchUrlAttribute() {
-        return url('world/items?item_category_id='.$this->id);
+        return route('browse.world.items', ['item_category_id' => $this->id]);
     }
 
     /**
@@ -144,7 +144,7 @@ class ItemCategory extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/data/item-categories/edit/'.$this->id);
+        return route('admin.data.item-categories.edit', $this->id);
     }
 
     /**

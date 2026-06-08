@@ -124,7 +124,7 @@ class Shop extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('shops/'.$this->id);
+        return route('browse.shops.show', $this->id);
     }
 
     /**
@@ -133,7 +133,7 @@ class Shop extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/data/shops/edit/'.$this->id);
+        return route('admin.data.shops.edit', $this->id);
     }
 
     /**

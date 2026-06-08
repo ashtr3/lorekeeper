@@ -190,7 +190,7 @@ class Sales extends Model implements Feedable {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('sales/'.$this->slug);
+        return route('browse.sales.show', $this->slug);
     }
 
     /**
@@ -199,7 +199,7 @@ class Sales extends Model implements Feedable {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/sales/edit/'.$this->id);
+        return route('admin.sales.edit', $this->id);
     }
 
     /**

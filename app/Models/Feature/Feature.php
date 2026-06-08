@@ -260,7 +260,7 @@ class Feature extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('world/traits?name='.$this->name);
+        return route('browse.world.traits', ['name' => $this->name]);
     }
 
     /**
@@ -269,7 +269,7 @@ class Feature extends Model {
      * @return string
      */
     public function getSearchUrlAttribute() {
-        return url('masterlist?feature_id[]='.$this->id);
+        return route('browse.masterlist', ['feature_id[]' => $this->id]);
     }
 
     /**
@@ -278,7 +278,7 @@ class Feature extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/data/traits/edit/'.$this->id);
+        return route('admin.data.traits.edit', $this->id);
     }
 
     /**

@@ -150,7 +150,7 @@ class Subtype extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('world/subtypes?name='.$this->name);
+        return route('browse.world.subtypes', ['name' => $this->name]);
     }
 
     /**
@@ -159,7 +159,7 @@ class Subtype extends Model {
      * @return string
      */
     public function getSearchUrlAttribute() {
-        return url('masterlist?subtype_id='.$this->id);
+        return route('browse.masterlist', ['subtype_id' => $this->id]);
     }
 
     /**
@@ -168,7 +168,7 @@ class Subtype extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/data/subtypes/edit/'.$this->id);
+        return route('admin.data.subtypes.edit', $this->id);
     }
 
     /**

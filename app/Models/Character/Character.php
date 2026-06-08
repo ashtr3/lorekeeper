@@ -336,9 +336,9 @@ class Character extends Model {
      */
     public function getUrlAttribute() {
         if ($this->is_myo_slot) {
-            return url('myo/'.$this->id);
+            return route('browse.myo.show', $this->id);
         } else {
-            return url('character/'.$this->slug);
+            return route('browse.character.show', $this->slug);
         }
     }
 

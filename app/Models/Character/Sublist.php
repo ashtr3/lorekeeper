@@ -73,6 +73,6 @@ class Sublist extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('sublist/'.$this->key);
+        return route('browse.sublist', $this->key);
     }
 }

@@ -154,7 +154,7 @@ class Species extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('world/species?name='.$this->name);
+        return route('browse.world.species', ['name' => $this->name]);
     }
 
     /**
@@ -164,9 +164,9 @@ class Species extends Model {
      */
     public function getSearchUrlAttribute() {
         if ($this->masterlist_sub_id != 0 && $this->sublist->show_main == 0) {
-            return url('sublist/'.$this->sublist->key.'?species_id='.$this->id);
+            return route('browse.sublist', ['key' => $this->sublist->key, 'species_id' => $this->id]);
         } else {
-            return url('masterlist?species_id='.$this->id);
+            return route('browse.masterlist', ['species_id' => $this->id]);
         }
     }
 
@@ -176,7 +176,7 @@ class Species extends Model {
      * @return string
      */
     public function getVisualTraitsUrlAttribute() {
-        return url('/world/species/'.$this->id.'/traits');
+        return route('browse.world.species.traits', $this->id);
     }
 
     /**
@@ -185,7 +185,7 @@ class Species extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/data/species/edit/'.$this->id);
+        return route('admin.data.species.edit', $this->id);
     }
 
     /**

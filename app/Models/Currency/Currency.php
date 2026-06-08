@@ -156,7 +156,7 @@ class Currency extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('world/currencies?name='.$this->name);
+        return route('browse.world.currencies', ['name' => $this->name]);
     }
 
     /**
@@ -174,7 +174,7 @@ class Currency extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/data/currencies/edit/'.$this->id);
+        return route('admin.data.currencies.edit', $this->id);
     }
 
     /**

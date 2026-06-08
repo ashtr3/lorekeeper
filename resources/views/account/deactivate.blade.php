@@ -5,7 +5,7 @@
 @endsection
 
 @section('account-content')
-    {!! breadcrumbs(['My Account' => Auth::user()->url, 'Deactivate Account' => 'account/deactivate']) !!}
+    {!! breadcrumbs(['My Account' => Auth::user()->url, 'Deactivate Account' => route('account.deactivate')]) !!}
 
     <h1>Deactivate Account</h1>
 

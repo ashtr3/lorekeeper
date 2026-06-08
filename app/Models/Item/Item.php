@@ -236,7 +236,7 @@ class Item extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('world/items?name='.$this->name);
+        return route('browse.world.items', ['name' => $this->name]);
     }
 
     /**
@@ -245,7 +245,7 @@ class Item extends Model {
      * @return string
      */
     public function getIdUrlAttribute() {
-        return url('world/items/'.$this->id);
+        return route('browse.world.item', $this->id);
     }
 
     /**
@@ -399,7 +399,7 @@ class Item extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/data/items/edit/'.$this->id);
+        return route('admin.data.items.edit', $this->id);
     }
 
     /**

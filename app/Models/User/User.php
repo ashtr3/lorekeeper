@@ -326,7 +326,7 @@ class User extends Authenticatable implements MustVerifyEmail {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('user/'.$this->name);
+        return route('browse.user.show', $this->name);
     }
 
     /**
@@ -335,7 +335,7 @@ class User extends Authenticatable implements MustVerifyEmail {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/users/'.$this->name.'/edit');
+        return route('admin.users.edit', $this->name);
     }
 
     /**

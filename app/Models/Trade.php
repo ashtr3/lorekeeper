@@ -121,7 +121,7 @@ class Trade extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('trades/'.$this->id);
+        return route('trades.show', $this->id);
     }
 
     /**********************************************************************************************

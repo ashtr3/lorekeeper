@@ -335,7 +335,7 @@ class CharacterDesignUpdate extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('designs/'.$this->id);
+        return route('designs.show', $this->id);
     }
 
     /**

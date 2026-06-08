@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    {!! breadcrumbs(['Banned' => 'banned']) !!}
+    {!! breadcrumbs(['Banned' => route('auth.banned')]) !!}
 
     <h1>Banned</h1>
 

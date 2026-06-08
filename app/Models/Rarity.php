@@ -103,7 +103,7 @@ class Rarity extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('world/rarities?name='.$this->name);
+        return route('browse.world.rarities', ['name' => $this->name]);
     }
 
     /**
@@ -112,7 +112,7 @@ class Rarity extends Model {
      * @return string
      */
     public function getSearchFeaturesUrlAttribute() {
-        return url('world/traits?rarity_id='.$this->id);
+        return route('browse.world.traits', ['rarity_id' => $this->id]);
     }
 
     /**
@@ -121,7 +121,7 @@ class Rarity extends Model {
      * @return string
      */
     public function getSearchCharactersUrlAttribute() {
-        return url('masterlist?rarity_id='.$this->id);
+        return route('browse.masterlist', ['rarity_id' => $this->id]);
     }
 
     /**
@@ -130,7 +130,7 @@ class Rarity extends Model {
      * @return string
      */
     public function getAdminUrlAttribute() {
-        return url('admin/data/rarities/edit/'.$this->id);
+        return route('admin.data.rarities.edit', $this->id);
     }
 
     /**
