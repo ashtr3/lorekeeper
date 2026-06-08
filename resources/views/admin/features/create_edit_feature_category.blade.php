@@ -7,6 +7,7 @@
 @section('admin-content')
     {!! breadcrumbs([
         'Admin Panel' => route('admin.index'),
+        'Traits' => route('admin.data.traits.index'),
         'Trait Categories' => route('admin.data.trait-categories.index'),
         ($category->id ? 'Edit' : 'Create') . ' Category' => $category->id ? route('admin.data.trait-categories.edit', $category->id) : route('admin.data.trait-categories.create'),
     ]) !!}

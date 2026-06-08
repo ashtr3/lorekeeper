@@ -5,7 +5,11 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Trait Categories' => route('admin.data.trait-categories.index')]) !!}
+    {!! breadcrumbs([
+        'Admin Panel' => route('admin.index'),
+        'Traits' => route('admin.data.traits.index'),
+        'Trait Categories' => route('admin.data.trait-categories.index')
+    ]) !!}
 
     <h1>Trait Categories</h1>
 
