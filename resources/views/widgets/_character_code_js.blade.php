@@ -3,6 +3,7 @@
         // Code generation ////////////////////////////////////////////////////////////////////////////
 
         var codeFormat = "{{ config('lorekeeper.settings.character_codes') }}";
+        var codeFormatNoCat = "{{ config('lorekeeper.settings.character_codes_no_category') }}";
         var $code = $('#code');
         var $number = $('#number');
         var $category = $('#category');
@@ -15,8 +16,9 @@
         });
 
         function updateCode() {
-            var str = codeFormat;
-            str = str.replace('{category}', $category.find(':selected').data('code'));
+            var selectedCategory = $category.val();
+            var str = (selectedCategory && selectedCategory !== '') ? codeFormat : codeFormatNoCat;
+            str = str.replace('{category}', $category.find(':selected').data('code') || '');
             str = str.replace('{number}', $number.val());
             str = str.replace('{year}', (new Date()).getFullYear());
             $code.val(str);

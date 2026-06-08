@@ -4,7 +4,7 @@
     </div>
     <div class="col-lg-9 col-7">{!! $character->displayOwner !!}</div>
 </div>
-@if (!$character->is_myo_slot)
+@if (!$character->is_myo_slot && $character->character_category_id)
     <div class="row no-gutters">
         <div class="col-lg-3 col-5">
             <h5>Category</h5>
