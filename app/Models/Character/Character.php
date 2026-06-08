@@ -71,7 +71,7 @@ class Character extends Model {
      * @var array
      */
     public static $createRules = [
-        'character_category_id' => 'required',
+        'character_category_id' => 'nullable',
         'rarity_id'             => 'required',
         'user_id'               => 'nullable',
         'number'                => 'required',
@@ -89,7 +89,7 @@ class Character extends Model {
      * @var array
      */
     public static $updateRules = [
-        'character_category_id' => 'required',
+        'character_category_id' => 'nullable',
         'number'                => 'required',
         'slug'                  => 'required',
         'description'           => 'nullable',

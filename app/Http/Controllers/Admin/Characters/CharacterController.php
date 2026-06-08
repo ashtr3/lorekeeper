@@ -166,7 +166,7 @@ class CharacterController extends Controller {
 
         return view('character.admin._edit_stats_modal', [
             'character'   => $this->character,
-            'categories'  => CharacterCategory::orderBy('sort')->pluck('name', 'id')->toArray(),
+            'categories'  => ['0' => 'Select Category'] + CharacterCategory::orderBy('sort')->pluck('name', 'id')->toArray(),
             'userOptions' => User::query()->orderBy('name')->pluck('name', 'id')->toArray(),
             'number'      => format_masterlist_number($this->character->number, config('lorekeeper.settings.character_number_digits')),
             'isMyo'       => false,

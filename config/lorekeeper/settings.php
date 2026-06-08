@@ -123,6 +123,7 @@ return [
     |
     */
     'character_codes'                                   => '{category}-{number}',
+    'character_codes_no_category'                       => '{number}',
     'character_number_digits'                           => 3,
     'character_pull_number'                             => 'all',
 

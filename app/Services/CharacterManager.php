@@ -53,7 +53,7 @@ class CharacterManager extends Service {
             if (!strlen($number)) {
                 $number = '0';
             }
-        } elseif (config('lorekeeper.settings.character_pull_number') == 'category' && $categoryId) {
+        } elseif (config('lorekeeper.settings.character_pull_number') == 'category') {            
             $character = Character::myo(0)->where('character_category_id', $categoryId)->orderBy('number', 'DESC')->first();
             if ($character) {
                 $number = ltrim($character->number, 0);
@@ -1108,9 +1108,10 @@ class CharacterManager extends Service {
             }
 
             $characterData = Arr::only($data, [
-                'character_category_id',
                 'number', 'slug',
             ]);
+            
+            $characterData['character_category_id'] = isset($data['character_category_id']) && $data['character_category_id'] != 0 ? $data['character_category_id'] : null;
             $characterData['is_sellable'] = isset($data['is_sellable']);
             $characterData['is_tradeable'] = isset($data['is_tradeable']);
             $characterData['is_giftable'] = isset($data['is_giftable']);
@@ -1127,8 +1128,8 @@ class CharacterManager extends Service {
             if (!$character->is_myo_slot) {
                 if ($characterData['character_category_id'] != $character->character_category_id) {
                     $result[] = 'character category';
-                    $old['character_category'] = $character->category->displayName;
-                    $new['character_category'] = CharacterCategory::find($characterData['character_category_id'])->displayName;
+                    $old['character_category'] = $character->character_category_id ? $character->category->displayName : null;
+                    $new['character_category'] = $characterData['character_category_id'] ? CharacterCategory::find($characterData['character_category_id'])->displayName : null;
                 }
                 if ($characterData['number'] != $character->number) {
                     $result[] = 'character number';
