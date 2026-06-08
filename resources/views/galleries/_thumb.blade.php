@@ -17,7 +17,7 @@
     </div>
     <div class="small">
         @if (Auth::check() && ($submission->user->id != Auth::user()->id && $submission->collaborators->where('user_id', Auth::user()->id)->first() == null) && $submission->isVisible)
-            {!! Form::open(['url' => '/gallery/favorite/' . $submission->id]) !!}
+            {!! Form::open(['route' => ['gallery.favorite', $submission->id]]) !!}
             @if (isset($gallery) && !$gallery)
                 In {!! $submission->gallery->displayName !!} ・
             @endif

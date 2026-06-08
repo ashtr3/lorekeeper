@@ -16,7 +16,7 @@
             - if necessary, please create a new trade to add more.</strong>
     </p>
 
-    {!! Form::open(['url' => 'trades/' . $trade->id . '/edit']) !!}
+    {!! Form::open(['route' => ['trades.update', $trade->id]]) !!}
 
     @if (Auth::user()->id == $trade->sender_id)
         <div class="form-group">

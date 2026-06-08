@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Rarities' => 'admin/data/rarities', ($rarity->id ? 'Edit' : 'Create') . ' Rarity' => $rarity->id ? 'admin/data/rarities/edit/' . $rarity->id : 'admin/data/rarities/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Rarities' => 'admin/data/rarities', ($rarity->id ? 'Edit' : 'Create') . ' Rarity' => $rarity->id ? 'admin/data/rarities/edit/' . $rarity->id : 'admin/data/rarities/create']) !!}
 
     <h1>{{ $rarity->id ? 'Edit' : 'Create' }} Rarity
         @if ($rarity->id)
@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open(['url' => $rarity->id ? 'admin/data/rarities/edit/' . $rarity->id : 'admin/data/rarities/create', 'files' => true]) !!}
+    {!! Form::open([$rarity->id ? route('admin.data.rarities.update', $rarity->id) : route('admin.data.rarities.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 

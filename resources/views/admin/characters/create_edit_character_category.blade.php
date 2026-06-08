@@ -6,9 +6,9 @@
 
 @section('admin-content')
     {!! breadcrumbs([
-        'Admin Panel' => 'admin',
-        'Character Categories' => 'admin/data/character-categories',
-        ($category->id ? 'Edit' : 'Create') . ' Category' => $category->id ? 'admin/data/character-categories/edit/' . $category->id : 'admin/data/character-categories/create',
+        'Admin Panel' => route('admin.index'),
+        'Character Categories' => route('admin.data.character-categories.index'),
+        ($category->id ? 'Edit' : 'Create') . ' Category' => $category->id ? route('admin.data.character-categories.edit', $category->id) : route('admin.data.character-categories.create'),
     ]) !!}
 
     <h1>{{ $category->id ? 'Edit' : 'Create' }} Character Category
@@ -17,7 +17,7 @@
         @endif
     </h1>
 
-    {!! Form::open(['url' => $category->id ? 'admin/data/character-categories/edit/' . $category->id : 'admin/data/character-categories/create', 'files' => true]) !!}
+    {!! Form::open(['route' => $category->id ? ['admin.data.character-categories.update', $category->id] : 'admin.data.character-categories.store', 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 
@@ -89,7 +89,7 @@
         $(document).ready(function() {
             $('.delete-category-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ url('admin/data/character-categories/delete') }}/{{ $category->id }}", 'Delete Category');
+                loadModal("{{ route('admin.data.character-categories.delete', $category->id) }}", 'Delete Category');
             });
         });
     </script>

@@ -27,7 +27,7 @@
                     {{ $comment->likes()->where('is_like', 1)->count() -$comment->likes()->where('is_like', 0)->count() !=1? 'Likes': 'Like' }}
                 </button>
             </a>
-            {!! Form::open(['url' => 'comments/' . $comment->id . '/like/1', 'class' => 'd-inline-block']) !!}
+            {!! Form::open(['route' => ['comments.like', [$comment->id, 1]], 'class' => 'd-inline-block']) !!}
             {!! Form::button('<i class="fas fa-thumbs-up"></i>', [
                 'type' => 'submit',
                 'class' =>
@@ -39,7 +39,7 @@
             ]) !!}
             {!! Form::close() !!}
             @if (Settings::get('comment_dislikes_enabled') || (isset($allow_dislikes) && $allow_dislikes))
-                {!! Form::open(['url' => 'comments/' . $comment->id . '/like/0', 'class' => 'd-inline-block']) !!}
+                {!! Form::open(['route' => ['comments.like', [$comment->id, 0]], 'class' => 'd-inline-block']) !!}
                 {!! Form::button('<i class="fas fa-thumbs-down"></i>', [
                     'type' => 'submit',
                     'class' =>
@@ -154,7 +154,7 @@
                 <div class="form-group">Are you sure you want to {{ $comment->is_featured ? 'un' : '' }}feature this comment?</div>
             </div>
             <div class="alert alert-warning">Comments can be unfeatured.</div>
-            {!! Form::open(['url' => 'comments/' . $comment->id . '/feature']) !!}
+            {!! Form::open(['route' => ['comments.feature', $comment->id]]) !!}
             @if (!$comment->is_featured)
                 {!! Form::submit('Feature', ['class' => 'btn btn-primary w-100 mb-0 mx-0']) !!}
             @else

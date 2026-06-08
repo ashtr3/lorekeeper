@@ -1,5 +1,5 @@
 <p>This will cancel the design approval request, returning it to draft form and allowing the user to edit it again.</p>
-{!! Form::open(['url' => 'admin/designs/edit/' . $request->id . '/cancel']) !!}
+{!! Form::open(['route' => ['admin.designs.update', $request->id, 'cancel']]) !!}
 <div class="form-group">
     {!! Form::label('staff_comments', 'Comment') !!} {!! add_help('Enter a comment for the user. They will see this on their request page.') !!}
     {!! Form::textarea('staff_comments', $request->staff_comment, ['class' => 'form-control']) !!}

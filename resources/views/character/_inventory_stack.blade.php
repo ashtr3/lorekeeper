@@ -11,7 +11,7 @@
         <p class="alert alert-warning my-2">Note: Your rank allows you to transfer character-bound items.</p>
     @endif
 
-    {!! Form::open(['url' => 'character/' . $character->slug . '/inventory/edit']) !!}
+    {!! Form::open(['route' => ['character.inventory.update', $character->slug]]) !!}
     <div class="card" style="border: 0px">
         <table class="table table-sm">
             <thead class="thead">

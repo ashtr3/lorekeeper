@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Site Images & CSS' => 'admin/images']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Site Images & CSS' => 'admin/images']) !!}
 
     <h1>Site Images</h1>
 
@@ -25,7 +25,7 @@
                     <div style="width: 100%;">
                         <h3 class="card-heading">{{ $image['name'] }} <a href="{{ asset('images/' . $image['filename']) }}" class="btn btn-info btn-sm float-right">View Current</a></h3>
                         <p>{{ $image['description'] }}</p>
-                        {!! Form::open(['url' => 'admin/images/upload', 'files' => true]) !!}
+                        {!! Form::open(['route' => 'admin.images.upload', 'files' => true]) !!}
                         <div class="d-flex">
                             <div class="custom-file">
                                 {!! Form::label('file', 'Choose file...', ['class' => 'custom-file-label']) !!}
@@ -49,7 +49,7 @@
         <div class="card-body">
             <div>
                 <h3 class="card-heading">CSS <a href="{{ asset('css/custom.css') }}" class="btn btn-info btn-sm float-right">View Current</a></h3>
-                {!! Form::open(['url' => 'admin/images/upload/css', 'files' => true]) !!}
+                {!! Form::open(['route' => 'admin.images.upload.css', 'files' => true]) !!}
                 <div class="d-flex">
                     <div class="custom-file">
                         {!! Form::label('file', 'Choose CSS...', ['class' => 'custom-file-label']) !!}

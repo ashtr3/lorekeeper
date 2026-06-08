@@ -202,7 +202,7 @@
 
             @if (Auth::check() && Auth::user()->hasPower('manage_characters'))
                 <div class="tab-pane fade" id="settings-{{ $image->id }}">
-                    {!! Form::open(['url' => 'admin/character/image/' . $image->id . '/settings']) !!}
+                    {!! Form::open(['route' => ['admin.character.image.settings.update', $image->id]]) !!}
                     <div class="form-group">
                         {!! Form::checkbox('is_visible', 1, $image->is_visible, ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
                         {!! Form::label('is_visible', 'Is Viewable', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If this is turned off, the image will not be visible by anyone without the Manage Masterlist power.') !!}

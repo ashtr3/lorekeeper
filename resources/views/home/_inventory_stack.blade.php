@@ -23,7 +23,7 @@
         <p class="alert alert-warning my-2">Note: Your rank allows you to transfer account-bound items to another user.</p>
     @endif
 
-    {!! Form::open(['url' => 'inventory/edit']) !!}
+    {!! Form::open(['route' => 'inventory.edit']) !!}
     <div class="card" style="border: 0px">
         <table class="table table-sm">
             <thead class="thead">

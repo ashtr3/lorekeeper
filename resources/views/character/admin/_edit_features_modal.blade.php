@@ -1,4 +1,4 @@
-{!! Form::open(['url' => 'admin/character/image/' . $image->id . '/traits']) !!}
+{!! Form::open(['route' => ['admin.character.image.traits.update', $image->id]]) !!}
 <div class="form-group">
     {!! Form::label('Species') !!}
     {!! Form::select('species_id', $specieses, $image->species_id, ['class' => 'form-control', 'id' => 'species']) !!}

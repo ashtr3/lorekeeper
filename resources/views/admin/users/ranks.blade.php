@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'User Ranks' => 'admin/users/ranks']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'User Ranks' => 'admin/users/ranks']) !!}
 
     <h1>
         User Ranks</h1>
@@ -51,7 +51,7 @@
 
     </table>
     <div>
-        {!! Form::open(['url' => 'admin/users/ranks/sort']) !!}
+        {!! Form::open(['route' => 'admin.users.ranks.sort.save']) !!}
         {!! Form::hidden('sort', '', ['id' => 'sortableOrder']) !!}
         {!! Form::submit('Save Order', ['class' => 'btn btn-primary']) !!}
         {!! add_help('This order is reflected in the sort order on the users list. Additionally, users with the Edit User Info power cannot edit users with a rank higher than their own.') !!}

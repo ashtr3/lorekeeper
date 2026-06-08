@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Raffle Index' => 'admin/raffles', 'Raffle Tickets for ' . $raffle->name => 'admin/raffles/view/' . $raffle->id]) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Raffle Index' => 'admin/raffles', 'Raffle Tickets for ' . $raffle->name => 'admin/raffles/view/' . $raffle->id]) !!}
 
     <h1>
         Raffle Tickets: {{ $raffle->name }}</h1>
@@ -97,7 +97,7 @@
                             </div>
                             @if ($raffle->is_active < 2)
                                 <div class="col-3">
-                                    <div class="logs-table-cell text-right">{!! Form::open(['url' => 'admin/raffles/view/ticket/delete/' . $ticket->id]) !!}{!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}{!! Form::close() !!}</div>
+                                    <div class="logs-table-cell text-right">{!! Form::open(['route' => ['admin.raffles.tickets.destroy', $ticket->id]]) !!}{!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}{!! Form::close() !!}</div>
                                 </div>
                             @endif
                         </div>
@@ -117,7 +117,7 @@
                 </div>
                 <div class="modal-body">
                     <p>Select an on-site user or enter an off-site username, as well as the number of tickets to create for them. Any created tickets are in addition to any pre-existing tickets for the user(s).</p>
-                    {!! Form::open(['url' => 'admin/raffles/view/ticket/' . $raffle->id]) !!}
+                    {!! Form::open(['route' => ['admin.raffles.tickets.store', $raffle->id]]) !!}
                     <div id="ticketList">
                     </div>
                     <div><a href="#" class="btn btn-primary" id="add-ticket">Add Ticket</a></div>

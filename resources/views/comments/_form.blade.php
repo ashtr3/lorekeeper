@@ -1,6 +1,6 @@
 <div class="{{ isset($compact) && !$compact ? 'card' : '' }} mt-3">
     <div class="{{ isset($compact) && !$compact ? 'card-body' : '' }}">
-        {!! Form::open(['url' => 'comments/make/' . base64_encode(urlencode(get_class($model))) . '/' . $model->getKey()]) !!}
+        {!! Form::open(['route' => ['comments.store', [base64_encode(urlencode(get_class($model))), $model->getKey()]]]) !!}
         <input type="hidden" name="type" value="{{ isset($type) ? $type : null }}" />
         <div class="form-group">
             {!! Form::label('message', 'Enter your message here:') !!}

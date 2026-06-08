@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Species' => 'admin/data/species']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Species' => 'admin/data/species']) !!}
 
     <h1>Species</h1>
 
@@ -47,7 +47,7 @@
 
         </table>
         <div class="mb-4">
-            {!! Form::open(['url' => 'admin/data/species/sort']) !!}
+            {!! Form::open(['route' => 'admin.data.species.sort.save']) !!}
             {!! Form::hidden('sort', '', ['id' => 'sortableOrder']) !!}
             {!! Form::submit('Save Order', ['class' => 'btn btn-primary']) !!}
             {!! Form::close() !!}

@@ -62,7 +62,7 @@
         <h3>
             Take/Give Currency
         </h3>
-        {!! Form::open(['url' => 'character/' . $character->slug . '/bank/transfer']) !!}
+        {!! Form::open(['route' => ['character.bank.transfer', $character->slug]]) !!}
         <div class="form-group">
             <div class="row">
                 <div class="col-md-6">
@@ -137,7 +137,7 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        {!! Form::open(['url' => 'admin/character/' . $character->slug . '/grant']) !!}
+                        {!! Form::open(['route' => ['admin.character.grants.currency', $character->slug]]) !!}
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">

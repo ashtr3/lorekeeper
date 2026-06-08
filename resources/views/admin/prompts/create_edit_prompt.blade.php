@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Prompts' => 'admin/data/prompts', ($prompt->id ? 'Edit' : 'Create') . ' Prompt' => $prompt->id ? 'admin/data/prompts/edit/' . $prompt->id : 'admin/data/prompts/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Prompts' => 'admin/data/prompts', ($prompt->id ? 'Edit' : 'Create') . ' Prompt' => $prompt->id ? 'admin/data/prompts/edit/' . $prompt->id : 'admin/data/prompts/create']) !!}
 
     <h1>{{ $prompt->id ? 'Edit' : 'Create' }} Prompt
         @if ($prompt->id)
@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open(['url' => $prompt->id ? 'admin/data/prompts/edit/' . $prompt->id : 'admin/data/prompts/create', 'files' => true]) !!}
+    {!! Form::open([$prompt->id ? route('admin.data.prompts.update', $prompt->id) : route('admin.data.prompts.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 

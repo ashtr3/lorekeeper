@@ -19,7 +19,7 @@
         <div class="alert alert-info">
             Allowed avatar image types: jpeg, jpg, gif, png, webp. Max upload size is 1 MB.
         </div>
-        {!! Form::open(['url' => route('account.avatar.update'), 'files' => true]) !!}
+        {!! Form::open(['route' => 'account.avatar.update', 'files' => true]) !!}
         <div class="custom-file mb-1">
             {!! Form::label('avatar', 'Update Profile Image', ['class' => 'custom-file-label']) !!}
             {!! Form::file('avatar', ['class' => 'custom-file-input']) !!}
@@ -48,7 +48,7 @@
                     </div>
                 @endif
             @endif
-            {!! Form::open(['url' => route('account.username.update')]) !!}
+            {!! Form::open(['route' => 'account.username.update']) !!}
             <div class="form-group row">
                 <label class="col-md-2 col-form-label">Username</label>
                 <div class="col-md-10">
@@ -64,7 +64,7 @@
 
     <div class="card p-3 mb-2">
         <h3>Profile</h3>
-        {!! Form::open(['url' => route('account.profile.update')]) !!}
+        {!! Form::open(['route' => 'account.profile.update']) !!}
         <div class="form-group">
             {!! Form::label('text', 'Profile Text') !!}
             {!! Form::textarea('text', Auth::user()->profile->text, ['class' => 'form-control wysiwyg']) !!}
@@ -77,7 +77,7 @@
 
     <div class="card p-3 mb-2">
         <h3>Birthday Publicity</h3>
-        {!! Form::open(['url' => route('account.birthday.update')]) !!}
+        {!! Form::open(['route' => 'account.birthday.update']) !!}
         <div class="form-group row">
             <label class="col-md-2 col-form-label">Setting</label>
             <div class="col-md-10">
@@ -98,7 +98,7 @@
     <div class="card p-3 mb-2">
         <h3>Email Address</h3>
         <p>Changing your email address will require you to re-verify your email address.</p>
-        {!! Form::open(['url' => route('account.email.update')]) !!}
+        {!! Form::open(['route' => 'account.email.update']) !!}
         <div class="form-group row">
             <label class="col-md-2 col-form-label">Email Address</label>
             <div class="col-md-10">
@@ -113,7 +113,7 @@
 
     <div class="card p-3 mb-2">
         <h3>Change Password</h3>
-        {!! Form::open(['url' => route('account.password.update')]) !!}
+        {!! Form::open(['route' => 'account.password.update']) !!}
         <div class="form-group row">
             <label class="col-md-2 col-form-label">Old Password</label>
             <div class="col-md-10">
@@ -151,7 +151,7 @@
         @if (!isset(Auth::user()->two_factor_secret))
             <p>In order to enable two-factor authentication, you will need to scan a QR code with an authenticator app on your phone. Two-factor authentication will not be enabled until you do so and confirm by entering one of the codes provided by your
                 authentication app.</p>
-            {!! Form::open(['url' => route('account.two-factor.enable')]) !!}
+            {!! Form::open(['route' => 'account.two-factor.enable']) !!}
             <div class="text-right">
                 {!! Form::submit('Enable', ['class' => 'btn btn-primary']) !!}
             </div>
@@ -161,7 +161,7 @@
 
             <h4>Disable Two-Factor Authentication</h4>
             <p>To disable two-factor authentication, you must enter a code from your authenticator app.</p>
-            {!! Form::open(['url' => route('account.two-factor.disable')]) !!}
+            {!! Form::open(['route' => 'account.two-factor.disable']) !!}
             <div class="form-group row">
                 <label class="col-md-2 col-form-label">Code</label>
                 <div class="col-md-10">

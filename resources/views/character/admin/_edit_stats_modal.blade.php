@@ -1,4 +1,4 @@
-{!! Form::open(['url' => $isMyo ? 'admin/myo/' . $character->id . '/stats' : 'admin/character/' . $character->slug . '/stats']) !!}
+{!! Form::open([$isMyo ? route('admin.myo.stats.update', $character->id) : route('admin.character.stats.update', $character->slug)]) !!}
 @if ($isMyo)
     <div class="form-group">
         {!! Form::label('Name') !!}

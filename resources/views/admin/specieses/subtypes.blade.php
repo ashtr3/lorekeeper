@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Subtypes' => 'admin/data/subtypes']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Subtypes' => 'admin/data/subtypes']) !!}
 
     <h1>Subtypes</h1>
 
@@ -38,7 +38,7 @@
 
         </table>
         <div class="mb-4">
-            {!! Form::open(['url' => 'admin/data/subtypes/sort']) !!}
+            {!! Form::open(['route' => 'admin.data.subtypes.sort.save']) !!}
             {!! Form::hidden('sort', '', ['id' => 'sortableOrder']) !!}
             {!! Form::submit('Save Order', ['class' => 'btn btn-primary']) !!}
             {!! Form::close() !!}

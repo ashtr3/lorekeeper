@@ -6,9 +6,9 @@
 
 @section('admin-content')
     @if ($isClaims)
-        {!! breadcrumbs(['Admin Panel' => 'admin', 'Claim Queue' => 'admin/claims/pending']) !!}
+        {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Claim Queue' => 'admin/claims/pending']) !!}
     @else
-        {!! breadcrumbs(['Admin Panel' => 'admin', 'Prompt Queue' => 'admin/submissions/pending']) !!}
+        {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Prompt Queue' => 'admin/submissions/pending']) !!}
     @endif
 
     <h1>

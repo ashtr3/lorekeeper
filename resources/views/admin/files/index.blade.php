@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Files' => 'admin/files'] + ($folder ? [$folder => 'admin/files/' . $folder] : [])) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Files' => 'admin/files'] + ($folder ? [$folder => 'admin/files/' . $folder] : [])) !!}
 
     <h1>File Manager / {!! $folder ? $folder . ' <a href="' . url('admin/files/') . '" class="btn btn-success float-right">Back to Root</a>' : 'Root' !!}</h1>
 
@@ -73,7 +73,7 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        {!! Form::open(['url' => 'admin/files/folder/rename', 'id' => 'renameFolderForm', 'class' => 'folder-form']) !!}
+                        {!! Form::open(['route' => 'admin.files.folder.rename', 'id' => 'renameFolderForm', 'class' => 'folder-form']) !!}
                         <p>This will rename the folder. Folders containing files cannot be renamed. Use alphanumeric characters and dashes/underscores only.</p>
                         <div class="form-group">
                             {!! Form::label('name', 'New Name') !!}
@@ -84,7 +84,7 @@
                         </div>
                         {!! Form::hidden('folder', $folder, ['class' => 'edit-folder']) !!}
                         {!! Form::close() !!}
-                        {!! Form::open(['url' => 'admin/files/folder/delete', 'id' => 'deleteFolderForm', 'class' => 'folder-form']) !!}
+                        {!! Form::open(['route' => 'admin.files.folder.delete', 'id' => 'deleteFolderForm', 'class' => 'folder-form']) !!}
                         <p>This will permanently delete <strong>{{ $folder }}</strong>. Are you sure?</p>
                         <div class="text-right">
                             {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
@@ -104,7 +104,7 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        {!! Form::open(['url' => 'admin/files/folder/create']) !!}
+                        {!! Form::open(['route' => 'admin.files.folder.create']) !!}
                         <p>This will create a new folder in the root folder. Use alphanumeric characters and dashes/underscores only.</p>
                         <div class="form-group">
                             {!! Form::label('name', 'Folder Name') !!}
@@ -129,7 +129,7 @@
                 </div>
                 <div class="modal-body">
                     {{-- Move a file --}}
-                    {!! Form::open(['url' => 'admin/files/move', 'id' => 'moveForm', 'class' => 'file-form']) !!}
+                    {!! Form::open(['route' => 'admin.files.move', 'id' => 'moveForm', 'class' => 'file-form']) !!}
                     <p>This will move the file. If a file exists in the destination folder with the same name, it will be overwritten.</p>
                     <div class="form-group">
                         {!! Form::label('folder', 'Destination Folder') !!}
@@ -149,7 +149,7 @@
                     {!! Form::close() !!}
 
                     {{-- Rename a file --}}
-                    {!! Form::open(['url' => 'admin/files/rename', 'id' => 'renameForm', 'class' => 'file-form']) !!}
+                    {!! Form::open(['route' => 'admin.files.rename', 'id' => 'renameForm', 'class' => 'file-form']) !!}
                     <p>This will rename the file. If a file exists in the same folder with the same name, it will be overwritten.</p>
                     <p>Use alphanumeric characters and dashes/underscores only. Include the file extension as well - you can change the file extension, but this is not recommended.</p>
                     <div class="form-group">
@@ -164,7 +164,7 @@
                     {!! Form::close() !!}
 
                     {{-- Delete a file --}}
-                    {!! Form::open(['url' => 'admin/files/delete', 'id' => 'deleteForm', 'class' => 'file-form']) !!}
+                    {!! Form::open(['route' => 'admin.files.delete', 'id' => 'deleteForm', 'class' => 'file-form']) !!}
                     <p>This will permanently delete <strong id="deleteFilename"></strong>. Are you sure?</p>
                     <div class="text-right">
                         {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
@@ -174,7 +174,7 @@
                     {!! Form::close() !!}
 
                     {{-- Upload a file --}}
-                    {!! Form::open(['url' => 'admin/files/upload', 'id' => 'uploadForm', 'class' => 'file-form', 'files' => true]) !!}
+                    {!! Form::open(['route' => 'admin.files.upload', 'id' => 'uploadForm', 'class' => 'file-form', 'files' => true]) !!}
                     <p>Select a file to upload. (Maximum size {{ min(ini_get('upload_max_filesize'), ini_get('post_max_size')) }}B.)</p>
                     <div id="fileList">
                         <div class="d-flex mb-2">

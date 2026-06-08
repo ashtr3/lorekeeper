@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Sales' => 'admin/sales']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Sales' => 'admin/sales']) !!}
 
     <h1>Sales</h1>
 

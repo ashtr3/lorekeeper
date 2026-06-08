@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'User Index' => 'admin/users', $user->name => 'admin/users/' . $user->name . '/edit', 'Ban User' => 'admin/users/' . $user->name . '/ban']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'User Index' => 'admin/users', $user->name => 'admin/users/' . $user->name . '/edit', 'Ban User' => 'admin/users/' . $user->name . '/ban']) !!}
 
     <h1>User: {!! $user->displayName !!}</h1>
     <ul class="nav nav-tabs mb-3">
@@ -26,7 +26,7 @@
     <h3>{{ $user->is_banned ? 'Edit ' : '' }}Ban</h3>
     <p>Banning the user will remove their rank, cancel all of their queued submissions and transfers, and prevent them from using any other site features. The ban reason will be displayed on the blacklist.</p>
 
-    {!! Form::open(['url' => 'admin/users/' . $user->name . '/ban', 'id' => 'banForm']) !!}
+    {!! Form::open(['route' => ['admin.users.ban.store', $user->name], 'id' => 'banForm']) !!}
     <div class="form-group">
         {!! Form::label('Reason (Optional; no HTML)') !!}
         {!! Form::textarea('ban_reason', $user->settings->ban_reason, ['class' => 'form-control']) !!}

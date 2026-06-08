@@ -34,7 +34,7 @@
                         This character is already in a transfer to {!! $transfer->recipient->displayName !!}.
                     </p>
                     <div class="text-right">
-                        {!! Form::open(['url' => 'characters/transfer/act/' . $transfer->id]) !!}
+                        {!! Form::open(['route' => ['characters.transfers.act', $transfer->id]]) !!}
                         {!! Form::submit('Cancel', ['class' => 'btn btn-danger', 'name' => 'action']) !!}
                         {!! Form::close() !!}
                     </div>
@@ -55,7 +55,7 @@
                     another person.
                 </p>
             @endif
-            {!! Form::open(['url' => $character->url . '/transfer']) !!}
+            {!! Form::open(['route' => ['character.transfer.store', $character->slug]]) !!}
             <div class="form-group">
                 {!! Form::label('recipient_id', 'Recipient') !!}
                 {!! Form::select('recipient_id', $userOptions, old('recipient_id'), ['class' => 'form-control selectize', 'placeholder' => 'Select User']) !!}
@@ -79,7 +79,7 @@
         <p>This will transfer the character automatically, without requiring the recipient to confirm the transfer. You may also transfer a character that is marked non-transferrable, or still under cooldown. Both the old and new owners will be notified
             of the transfer.</p>
         <p>Fill in either of the recipient fields - if transferring to an off-site user, leave the recipient field blank and vice versa.</p>
-        {!! Form::open(['url' => $character->is_myo_slot ? 'admin/myo/' . $character->id . '/transfer' : 'admin/character/' . $character->slug . '/transfer']) !!}
+        {!! Form::open([$character->is_myo_slot ? route('admin.myo.transfer.store', $character->id) : route('admin.character.transfer.store', $character->slug)]) !!}
         <div class="form-group">
             {!! Form::label('recipient_id', 'Recipient') !!}
             {!! Form::select('recipient_id', $userOptions, old('recipient_id'), ['class' => 'form-control selectize', 'placeholder' => 'Select User']) !!}

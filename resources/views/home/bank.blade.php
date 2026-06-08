@@ -44,7 +44,7 @@
 
     <h3>Transfer Currency</h3>
     <p>If you are transferring currency as part of a trade for on-site resources (items, currency, characters), using the <a href="{{ url('trades/open') }}">trade system</a> is recommended instead to protect yourself from being scammed.</p>
-    {!! Form::open(['url' => 'bank/transfer']) !!}
+    {!! Form::open(['route' => 'bank.transfer']) !!}
     <div class="form-group">
         {!! Form::label('user_id', 'Recipient') !!}
         {!! Form::select('user_id', $userOptions, null, ['class' => 'form-control']) !!}

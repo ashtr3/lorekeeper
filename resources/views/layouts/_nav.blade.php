@@ -138,7 +138,7 @@
                 @else
                     @if (Auth::user()->isStaff)
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('admin') }}"><i class="fas fa-crown"></i></a>
+                            <a class="nav-link" href="{{ route('admin.index') }}"><i class="fas fa-crown"></i></a>
                         </li>
                     @endif
                     @if (Auth::user()->notifications_unread)

@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Report Queue' => 'admin/reports/pending', 'Report (#' . $report->id . ')' => $report->viewUrl]) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Report Queue' => 'admin/reports/pending', 'Report (#' . $report->id . ')' => $report->viewUrl]) !!}
 
     @if ($report->status !== 'Closed')
         @if ($report->status == 'Assigned' && Auth::user()->id !== $report->staff_id)

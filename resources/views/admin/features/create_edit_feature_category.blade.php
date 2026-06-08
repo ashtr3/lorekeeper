@@ -6,7 +6,7 @@
 
 @section('admin-content')
     {!! breadcrumbs([
-        'Admin Panel' => 'admin',
+        'Admin Panel' => route('admin.index'),
         'Trait Categories' => 'admin/data/trait-categories',
         ($category->id ? 'Edit' : 'Create') . ' Category' => $category->id ? 'admin/data/trait-categories/edit/' . $category->id : 'admin/data/trait-categories/create',
     ]) !!}
@@ -17,7 +17,7 @@
         @endif
     </h1>
 
-    {!! Form::open(['url' => $category->id ? 'admin/data/trait-categories/edit/' . $category->id : 'admin/data/trait-categories/create', 'files' => true]) !!}
+    {!! Form::open(['route' => $category->id ? ['admin.data.trait-categories.update', $category->id] : 'admin.data.trait-categories.store', 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 

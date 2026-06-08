@@ -6,7 +6,7 @@
 
 @section('admin-content')
     {!! breadcrumbs([
-        'Admin Panel' => 'admin',
+        'Admin Panel' => route('admin.index'),
         'Prompt Categories' => 'admin/data/prompt-categories',
         ($category->id ? 'Edit' : 'Create') . ' Category' => $category->id ? 'admin/data/prompt-categories/edit/' . $category->id : 'admin/data/prompt-categories/create',
     ]) !!}
@@ -17,7 +17,7 @@
         @endif
     </h1>
 
-    {!! Form::open(['url' => $category->id ? 'admin/data/prompt-categories/edit/' . $category->id : 'admin/data/prompt-categories/create', 'files' => true]) !!}
+    {!! Form::open([$category->id ? route('admin.data.prompt-categories.update', $category->id) : route('admin.data.prompt-categories.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 

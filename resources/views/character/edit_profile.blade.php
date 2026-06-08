@@ -27,7 +27,7 @@
         </div>
     @endif
 
-    {!! Form::open(['url' => $character->url . '/profile/edit']) !!}
+    {!! Form::open(['route' => [$character->is_myo_slot ? 'myo.profile.update' : 'character.profile.update', $character->is_myo_slot ? $character->id : $character->slug]]) !!}
     @if (!$character->is_myo_slot)
         <div class="form-group">
             {!! Form::label('name', 'Name') !!}

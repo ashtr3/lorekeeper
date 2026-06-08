@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Currencies' => 'admin/data/currencies']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Currencies' => route('admin.data.currencies.index')]) !!}
 
     <h1>
         Currencies</h1>
@@ -13,9 +13,9 @@
     <p>This is a list of currencies that can be earned by users and/or characters. While they're collectively called "currencies", they can be used to track activity counts, event-only reward points, etc. and are not necessarily transferrable and/or can
         be spent. More information can be found on the creating/editing pages.</p>
 
-    <p>The order of currencies as displayed on user and character profiles can be edited from the <strong><a href="{{ url('admin/data/currencies/sort') }}">Sort Currencies</a></strong> page.</p>
+    <p>The order of currencies as displayed on user and character profiles can be edited from the <strong><a href="{{ route('admin.data.currencies.sort') }}">Sort Currencies</a></strong> page.</p>
 
-    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ url('admin/data/currencies/create') }}"><i class="fas fa-plus"></i> Create New Currency</a></div>
+    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ route('admin.data.currencies.create') }}"><i class="fas fa-plus"></i> Create New Currency</a></div>
     {!! $currencies->render() !!}
     <div class="mb-4 logs-table">
         <div class="logs-table-header">
@@ -48,7 +48,7 @@
                             <div class="logs-table-cell">{{ $currency->is_user_owned ? 'User' : '' }} {{ $currency->is_character_owned && $currency->is_user_owned ? '+' : '' }} {{ $currency->is_character_owned ? 'Character' : '' }}</div>
                         </div>
                         <div class="col-4 col-md-1">
-                            <div class="logs-table-cell"><a href="{{ url('admin/data/currencies/edit/' . $currency->id) }}" class="btn btn-primary">Edit</a></div>
+                            <div class="logs-table-cell"><a href="{{ route('admin.data.currencies.edit', $currency->id) }}" class="btn btn-primary">Edit</a></div>
                         </div>
                     </div>
                 </div>

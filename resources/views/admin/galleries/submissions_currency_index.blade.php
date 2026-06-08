@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', ($currency ? $currency->name : 'Gallery Currency') . ' Queue' => 'admin/gallery/currency/pending']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), ($currency ? $currency->name : 'Gallery Currency') . ' Queue' => 'admin/gallery/currency/pending']) !!}
 
     <h1>
         {!! $currency ? $currency->name : 'Gallery Currency' !!} Queue

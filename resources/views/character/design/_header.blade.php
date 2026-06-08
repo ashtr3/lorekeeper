@@ -35,13 +35,13 @@
                         <div class="row">
                             <div class="col-sm-6 text-center text-danger">
                                 {{ $rejectSum }}/{{ Settings::get('design_votes_needed') }}
-                                {!! Form::open(['url' => 'admin/designs/vote/' . $request->id . '/reject', 'id' => 'voteRejectForm']) !!}
+                                {!! Form::open(['route' => ['admin.designs.vote', [$request->id, 'reject']], 'id' => 'voteRejectForm']) !!}
                                 <button class="btn {{ $request->voteData->get(Auth::user()->id) == 1 ? 'btn-danger' : 'btn-outline-danger' }}" style="min-width:40px;" data-action="reject"><i class="fas fa-times"></i></button>
                                 {!! Form::close() !!}
                             </div>
                             <div class="col-sm-6 text-center text-success">
                                 {{ $approveSum }}/{{ Settings::get('design_votes_needed') }}
-                                {!! Form::open(['url' => 'admin/designs/vote/' . $request->id . '/approve', 'id' => 'voteApproveForm']) !!}
+                                {!! Form::open(['route' => ['admin.designs.vote', [$request->id, 'approve']], 'id' => 'voteApproveForm']) !!}
                                 <button class="btn {{ $request->voteData->get(Auth::user()->id) == 2 ? 'btn-success' : 'btn-outline-success' }}" style="min-width:40px;" data-action="approve"><i class="fas fa-check"></i></button>
                                 {!! Form::close() !!}
                             </div>

@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Currencies' => 'admin/data/currencies', 'Sort Currencies' => 'admin/data/currencies/sort']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Currencies' => route('admin.data.currencies.index'), 'Sort Currencies' => route('admin.data.currencies.sort')]) !!}
 
     <h1>Sort Currencies</h1>
 
@@ -32,7 +32,7 @@
 
         </table>
         <div class="mb-4">
-            {!! Form::open(['url' => 'admin/data/currencies/sort/user']) !!}
+            {!! Form::open(['route' => ['admin.data.currencies.sort.save', 'user']]) !!}
             {!! Form::hidden('sort', '', ['id' => 'userSortableOrder']) !!}
             {!! Form::submit('Save Order', ['class' => 'btn btn-primary']) !!}
             {!! Form::close() !!}
@@ -60,7 +60,7 @@
 
         </table>
         <div>
-            {!! Form::open(['url' => 'admin/data/currencies/sort/character']) !!}
+            {!! Form::open(['route' => ['admin.data.currencies.sort.save', 'character']]) !!}
             {!! Form::hidden('sort', '', ['id' => 'characterSortableOrder']) !!}
             {!! Form::submit('Save Order', ['class' => 'btn btn-primary']) !!}
             {!! Form::close() !!}

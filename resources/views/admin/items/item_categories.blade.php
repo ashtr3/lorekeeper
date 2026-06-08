@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Item Categories' => 'admin/data/item-categories']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Item Categories' => 'admin/data/item-categories']) !!}
 
     <h1>Item Categories</h1>
 
@@ -36,7 +36,7 @@
 
         </table>
         <div class="mb-4">
-            {!! Form::open(['url' => 'admin/data/item-categories/sort']) !!}
+            {!! Form::open(['route' => 'admin.data.item-categories.sort.save']) !!}
             {!! Form::hidden('sort', '', ['id' => 'sortableOrder']) !!}
             {!! Form::submit('Save Order', ['class' => 'btn btn-primary']) !!}
             {!! Form::close() !!}

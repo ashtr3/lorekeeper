@@ -1,5 +1,5 @@
 @if ($category)
-    {!! Form::open(['url' => 'admin/data/prompt-categories/delete/' . $category->id]) !!}
+    {!! Form::open(['route' => ['admin.data.prompt-categories.destroy', $category->id]]) !!}
 
     <p>You are about to delete the category <strong>{{ $category->name }}</strong>. This is not reversible. If prompts in this category exist, you will not be able to delete this category.</p>
     <p>Are you sure you want to delete <strong>{{ $category->name }}</strong>?</p>

@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Items' => 'admin/data/items', ($item->id ? 'Edit' : 'Create') . ' Item' => $item->id ? 'admin/data/items/edit/' . $item->id : 'admin/data/items/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Items' => 'admin/data/items', ($item->id ? 'Edit' : 'Create') . ' Item' => $item->id ? 'admin/data/items/edit/' . $item->id : 'admin/data/items/create']) !!}
 
     <h1>{{ $item->id ? 'Edit' : 'Create' }} Item
         @if ($item->id)
@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open(['url' => $item->id ? 'admin/data/items/edit/' . $item->id : 'admin/data/items/create', 'files' => true]) !!}
+    {!! Form::open([$item->id ? route('admin.data.items.update', $item->id) : route('admin.data.items.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 

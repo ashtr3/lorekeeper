@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'News' => 'admin/news', ($news->id ? 'Edit' : 'Create') . ' Post' => $news->id ? 'admin/news/edit/' . $news->id : 'admin/news/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'News' => 'admin/news', ($news->id ? 'Edit' : 'Create') . ' Post' => $news->id ? 'admin/news/edit/' . $news->id : 'admin/news/create']) !!}
 
     <h1>{{ $news->id ? 'Edit' : 'Create' }} News Post
         @if ($news->id)
@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open(['url' => $news->id ? 'admin/news/edit/' . $news->id : 'admin/news/create', 'files' => true]) !!}
+    {!! Form::open([$news->id ? route('admin.news.update', $news->id) : route('admin.news.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 

@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Items' => 'admin/data/items', 'Edit Item' => 'admin/data/items/edit/' . $item->id, 'Edit Tag Settings - ' . $tag->tag => 'admin/data/items/tag/' . $item->id . '/' . $tag->tag]) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Items' => 'admin/data/items', 'Edit Item' => 'admin/data/items/edit/' . $item->id, 'Edit Tag Settings - ' . $tag->tag => 'admin/data/items/tag/' . $item->id . '/' . $tag->tag]) !!}
 
     <h1>
         Edit Tag Settings - {!! $tag->displayTag !!}
@@ -18,7 +18,7 @@
     @if (View::exists('admin.items.tags.' . $tag->tag . '_pre'))
         @include('admin.items.tags.' . $tag->tag . '_pre', ['item' => $item, 'tag' => $tag])
     @endif
-    {!! Form::open(['url' => 'admin/data/items/tag/' . $item->id . '/' . $tag->tag]) !!}
+    {!! Form::open(['route' => ['admin.data.items.tag.update', [$item->id, $tag->tag]]]) !!}
 
     @if (View::exists('admin.items.tags.' . $tag->tag))
         @include('admin.items.tags.' . $tag->tag, ['item' => $item, 'tag' => $tag])

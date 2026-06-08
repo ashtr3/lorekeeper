@@ -1,7 +1,7 @@
 @if ($submission->status == 'Draft')
-    {!! Form::open(['url' => $isClaim ? 'claims/edit' : 'submissions/edit', 'id' => 'submissionForm']) !!}
+    {!! Form::open(['route' => $isClaim ? 'claims.draft.update' : 'submissions.draft.update', 'id' => 'submissionForm']) !!}
 @else
-    {!! Form::open(['url' => $isClaim ? 'claims/new' : 'submissions/new', 'id' => 'submissionForm']) !!}
+    {!! Form::open(['route' => $isClaim ? 'claims.store' : 'submissions.store', 'id' => 'submissionForm']) !!}
 @endif
 
 @if (Auth::check() && $submission->staff_comments && ($submission->user_id == Auth::user()->id || Auth::user()->hasPower('manage_submissions')))

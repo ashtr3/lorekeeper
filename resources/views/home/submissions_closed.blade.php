@@ -19,7 +19,7 @@
         @endif
     </h1>
 
-    {!! Form::open(['url' => $isClaim ? 'claims/new' : 'submissions/new', 'id' => 'submissionForm']) !!}
+    {!! Form::open(['route' => $isClaim ? 'claims.store' : 'submissions.store', 'id' => 'submissionForm']) !!}
     @if (!$isClaim)
         <div class="form-group">
             {!! Form::label('prompt_id', 'Prompt') !!}

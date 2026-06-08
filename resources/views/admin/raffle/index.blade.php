@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Raffle Index' => 'admin/raffles']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Raffle Index' => 'admin/raffles']) !!}
 
     <h1>Raffle Index</h1>
     <div class="text-right form-group">

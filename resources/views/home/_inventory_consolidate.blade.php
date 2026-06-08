@@ -6,6 +6,6 @@
     <li>It cannot consolidate stacks that are partially held in trades and submissions.</li>
     <li>This operation is not reversible. You can, however, run it multiple times if necessary.</li>
 </ul>
-{!! Form::open(['url' => 'inventory/consolidate', 'class' => 'text-right']) !!}
+{!! Form::open(['route' => 'inventory.consolidate.store', 'class' => 'text-right']) !!}
 {!! Form::submit('Consolidate', ['class' => 'btn btn-primary', 'name' => 'action']) !!}
 {!! Form::close() !!}

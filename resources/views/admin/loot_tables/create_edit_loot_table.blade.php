@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Loot Tables' => 'admin/data/loot-tables', ($table->id ? 'Edit' : 'Create') . ' Loot Table' => $table->id ? 'admin/data/loot-tables/edit/' . $table->id : 'admin/data/loot-tables/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Loot Tables' => 'admin/data/loot-tables', ($table->id ? 'Edit' : 'Create') . ' Loot Table' => $table->id ? 'admin/data/loot-tables/edit/' . $table->id : 'admin/data/loot-tables/create']) !!}
 
     <h1>
         {{ $table->id ? 'Edit' : 'Create' }} Loot Table
@@ -14,7 +14,7 @@
         @endif
     </h1>
 
-    {!! Form::open(['url' => $table->id ? 'admin/data/loot-tables/edit/' . $table->id : 'admin/data/loot-tables/create']) !!}
+    {!! Form::open([$table->id ? route('admin.data.loot-tables.update', $table->id) : route('admin.data.loot-tables.store')]) !!}
 
     <h3>Basic Information</h3>
 

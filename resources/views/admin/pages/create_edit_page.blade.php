@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Pages' => 'admin/pages', ($page->id ? 'Edit' : 'Create') . ' Page' => $page->id ? 'admin/pages/edit/' . $page->id : 'admin/pages/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Pages' => 'admin/pages', ($page->id ? 'Edit' : 'Create') . ' Page' => $page->id ? 'admin/pages/edit/' . $page->id : 'admin/pages/create']) !!}
 
     <h1>{{ $page->id ? 'Edit' : 'Create' }} Page
         @if ($page->id && !config('lorekeeper.text_pages.' . $page->key))
@@ -16,7 +16,7 @@
         @endif
     </h1>
 
-    {!! Form::open(['url' => $page->id ? 'admin/pages/edit/' . $page->id : 'admin/pages/create', 'files' => true]) !!}
+    {!! Form::open([$page->id ? route('admin.pages.update', $page->id) : route('admin.pages.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 

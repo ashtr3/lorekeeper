@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Sales' => 'admin/sales', ($sales->id ? 'Edit' : 'Create') . ' Post' => $sales->id ? 'admin/sales/edit/' . $sales->id : 'admin/sales/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Sales' => 'admin/sales', ($sales->id ? 'Edit' : 'Create') . ' Post' => $sales->id ? 'admin/sales/edit/' . $sales->id : 'admin/sales/create']) !!}
 
     <h1>{{ $sales->id ? 'Edit' : 'Create' }} Sales Post
         @if ($sales->id)
@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open(['url' => $sales->id ? 'admin/sales/edit/' . $sales->id : 'admin/sales/create', 'files' => true]) !!}
+    {!! Form::open([$sales->id ? route('admin.sales.update', $sales->id) : route('admin.sales.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 

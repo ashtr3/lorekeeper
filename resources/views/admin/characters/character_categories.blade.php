@@ -5,14 +5,14 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Character Categories' => 'admin/data/character-categories']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Character Categories' => route('admin.data.character-categories.index')]) !!}
 
     <h1>Character Categories</h1>
 
     <p>This is a list of character categories that will be used to classify characters. Creating character categories is entirely optional, but recommended for organisational purposes.</p>
     <p>The sorting order reflects the order in which the character categories will be displayed on the world pages.</p>
 
-    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ url('admin/data/character-categories/create') }}"><i class="fas fa-plus"></i> Create New Character Category</a></div>
+    <div class="text-right mb-3"><a class="btn btn-primary" href="{{ route('admin.data.character-categories.create') }}"><i class="fas fa-plus"></i> Create New Character Category</a></div>
     @if (!count($categories))
         <p>No character categories found.</p>
     @else
@@ -46,7 +46,7 @@
                             @endif
                         </td>
                         <td class="text-right">
-                            <a href="{{ url('admin/data/character-categories/edit/' . $category->id) }}" class="btn btn-primary">Edit</a>
+                            <a href="{{ route('admin.data.character-categories.edit', $category->id) }}" class="btn btn-primary">Edit</a>
                         </td>
                     </tr>
                 @endforeach
@@ -54,7 +54,7 @@
 
         </table>
         <div class="mb-4">
-            {!! Form::open(['url' => 'admin/data/character-categories/sort']) !!}
+            {!! Form::open(['route' => 'admin.data.character-categories.sort.save']) !!}
             {!! Form::hidden('sort', '', ['id' => 'sortableOrder']) !!}
             {!! Form::submit('Save Order', ['class' => 'btn btn-primary']) !!}
             {!! Form::close() !!}

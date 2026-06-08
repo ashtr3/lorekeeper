@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Subtypes' => 'admin/data/subtypes', ($subtype->id ? 'Edit' : 'Create') . ' Subtype' => $subtype->id ? 'admin/data/subtypes/edit/' . $subtype->id : 'admin/data/subtypes/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Subtypes' => 'admin/data/subtypes', ($subtype->id ? 'Edit' : 'Create') . ' Subtype' => $subtype->id ? 'admin/data/subtypes/edit/' . $subtype->id : 'admin/data/subtypes/create']) !!}
 
     <h1>{{ $subtype->id ? 'Edit' : 'Create' }} Subtype
         @if ($subtype->id)
@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open(['url' => $subtype->id ? 'admin/data/subtypes/edit/' . $subtype->id : 'admin/data/subtypes/create', 'files' => true]) !!}
+    {!! Form::open([$subtype->id ? route('admin.data.subtypes.update', $subtype->id) : route('admin.data.subtypes.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 

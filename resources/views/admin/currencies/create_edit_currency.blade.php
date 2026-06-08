@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Currencies' => 'admin/data/currencies', ($currency->id ? 'Edit' : 'Create') . ' Currency' => $currency->id ? 'admin/data/currencies/edit/' . $currency->id : 'admin/data/currencies/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Currencies' => route('admin.data.currencies.index'), ($currency->id ? 'Edit' : 'Create') . ' Currency' => $currency->id ? route('admin.data.currencies.edit', $currency->id) : route('admin.data.currencies.create')]) !!}
 
     <h1>{{ $currency->id ? 'Edit' : 'Create' }} Currency
         @if ($currency->id)
@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open(['url' => $currency->id ? 'admin/data/currencies/edit/' . $currency->id : 'admin/data/currencies/create', 'files' => true]) !!}
+    {!! Form::open(['route' => $currency->id ? ['admin.data.currencies.update', $currency->id] : 'admin.data.currencies.store', 'files' => true]) !!}
 
     <h3>Basic Information</h3>
     <div class="row">
@@ -175,11 +175,12 @@
             }
 
 
-
-            $('.delete-currency-button').on('click', function(e) {
-                e.preventDefault();
-                loadModal("{{ url('admin/data/currencies/delete') }}/{{ $currency->id }}", 'Delete Currency');
-            });
+            @if($currency->id)
+                $('.delete-currency-button').on('click', function(e) {
+                    e.preventDefault();
+                    loadModal("{{ route('admin.data.currencies.delete', $currency->id) }}", 'Delete Currency');
+                });
+            @endif
         });
     </script>
 @endsection

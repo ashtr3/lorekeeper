@@ -1,5 +1,5 @@
 @if ($sales)
-    {!! Form::open(['url' => 'admin/sales/delete/' . $sales->id]) !!}
+    {!! Form::open(['route' => ['admin.sales.destroy', $sales->id]]) !!}
 
     <p>You are about to delete the sales post <strong>{{ $sales->title }}</strong>. This is not reversible. If you would like to preserve the content while preventing users from accessing the post, you can use the viewable setting instead to hide
         the post.</p>

@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Gallery Submissions Queue' => 'admin/gallery/submissions/pending']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Gallery Submissions Queue' => 'admin/gallery/submissions/pending']) !!}
 
     <h1>
         Gallery Submission Queue

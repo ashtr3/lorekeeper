@@ -1,6 +1,6 @@
 <p>This will accept the approval request, creating an update for the character and consuming the items and/or currency attached to this request. You will not be able to edit the traits for the character, so if those require any corrections, please
     cancel the request and ask the user to make changes.</p>
-{!! Form::open(['url' => 'admin/designs/edit/' . $request->id . '/approve']) !!}
+{!! Form::open(['route' => ['admin.designs.update', $request->id, 'approve']]) !!}
 <h3>Basic Information</h3>
 <div class="form-group">
     {!! Form::label('Character Category') !!}

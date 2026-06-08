@@ -6,9 +6,9 @@
 
 @section('admin-content')
     @if ($submission->prompt_id)
-        {!! breadcrumbs(['Admin Panel' => 'admin', 'Prompt Queue' => 'admin/submissions/pending', 'Submission (#' . $submission->id . ')' => $submission->viewUrl]) !!}
+        {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Prompt Queue' => 'admin/submissions/pending', 'Submission (#' . $submission->id . ')' => $submission->viewUrl]) !!}
     @else
-        {!! breadcrumbs(['Admin Panel' => 'admin', 'Claim Queue' => 'admin/claims/pending', 'Claim (#' . $submission->id . ')' => $submission->viewUrl]) !!}
+        {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Claim Queue' => 'admin/claims/pending', 'Claim (#' . $submission->id . ')' => $submission->viewUrl]) !!}
     @endif
 
     @if ($submission->status == 'Pending')

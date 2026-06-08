@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'User Index' => 'admin/users', $user->name => 'admin/users/' . $user->name . '/edit', 'Account Updates' => 'admin/users/' . $user->name . '/updates']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'User Index' => 'admin/users', $user->name => 'admin/users/' . $user->name . '/edit', 'Account Updates' => 'admin/users/' . $user->name . '/updates']) !!}
 
     <h1>User: {!! $user->displayName !!}</h1>
     <ul class="nav nav-tabs mb-3">

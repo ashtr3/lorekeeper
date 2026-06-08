@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Traits' => 'admin/data/traits', ($feature->id ? 'Edit' : 'Create') . ' Trait' => $feature->id ? 'admin/data/traits/edit/' . $feature->id : 'admin/data/traits/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Traits' => 'admin/data/traits', ($feature->id ? 'Edit' : 'Create') . ' Trait' => $feature->id ? 'admin/data/traits/edit/' . $feature->id : 'admin/data/traits/create']) !!}
 
     <h1>{{ $feature->id ? 'Edit' : 'Create' }} Trait
         @if ($feature->id)
@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open(['url' => $feature->id ? 'admin/data/traits/edit/' . $feature->id : 'admin/data/traits/create', 'files' => true]) !!}
+    {!! Form::open(['route' => $feature->id ? ['admin.data.traits.update', $feature->id] : 'designs.traits.store', 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 

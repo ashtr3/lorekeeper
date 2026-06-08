@@ -5,11 +5,11 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Grant Currency' => 'admin/grants/user-currency']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Grant Currency' => 'admin/grants/user-currency']) !!}
 
     <h1>Grant User Currency</h1>
 
-    {!! Form::open(['url' => 'admin/grants/user-currency']) !!}
+    {!! Form::open(['route' => 'admin.grants.user-currency.store']) !!}
 
     <h3>Basic Information</h3>
 

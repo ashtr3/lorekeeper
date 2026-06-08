@@ -1,4 +1,4 @@
-{!! Form::open(['url' => 'admin/character/image/' . $image->id . '/credits']) !!}
+{!! Form::open(['route' => ['admin.character.image.credits.update', $image->id]]) !!}
 <div class="form-group">
     {!! Form::label('Designer(s)') !!}
     <div id="designerList">

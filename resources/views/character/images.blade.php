@@ -55,7 +55,7 @@
         @endforeach
     </ul>
     @if ($canManage)
-        {!! Form::open(['url' => 'admin/character/' . $character->slug . '/images/sort', 'class' => 'text-right']) !!}
+        {!! Form::open(['route' => ['admin.character.images.sort.save', $character->slug], 'class' => 'text-right']) !!}
         {!! Form::hidden('sort', '', ['id' => 'sortableOrder']) !!}
         {!! Form::submit('Save Order', ['class' => 'btn btn-primary']) !!}
         {!! Form::close() !!}

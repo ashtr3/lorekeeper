@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Shops' => 'admin/data/shops']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Shops' => 'admin/data/shops']) !!}
 
     <h1>Shops</h1>
 
@@ -33,7 +33,7 @@
 
         </table>
         <div class="mb-4">
-            {!! Form::open(['url' => 'admin/data/shops/sort']) !!}
+            {!! Form::open(['route' => 'admin.data.shops.sort.save']) !!}
             {!! Form::hidden('sort', '', ['id' => 'sortableOrder']) !!}
             {!! Form::submit('Save Order', ['class' => 'btn btn-primary']) !!}
             {!! Form::close() !!}

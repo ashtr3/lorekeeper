@@ -1,4 +1,4 @@
-{!! Form::open(['url' => 'admin/character/image/' . $image->id . '/notes']) !!}
+{!! Form::open(['route' => ['admin.character.image.notes.update', $image->id]]) !!}
 <div class="form-group">
     {!! Form::label('Image Notes') !!}
     {!! Form::textarea('description', $image->description, ['class' => 'form-control wysiwyg']) !!}

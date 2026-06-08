@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Shops' => 'admin/data/shops', ($shop->id ? 'Edit' : 'Create') . ' Shop' => $shop->id ? 'admin/data/shops/edit/' . $shop->id : 'admin/data/shops/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Shops' => 'admin/data/shops', ($shop->id ? 'Edit' : 'Create') . ' Shop' => $shop->id ? 'admin/data/shops/edit/' . $shop->id : 'admin/data/shops/create']) !!}
 
     <h1>{{ $shop->id ? 'Edit' : 'Create' }} Shop
         @if ($shop->id)
@@ -14,7 +14,7 @@
         @endif
     </h1>
 
-    {!! Form::open(['url' => $shop->id ? 'admin/data/shops/edit/' . $shop->id : 'admin/data/shops/create', 'files' => true]) !!}
+    {!! Form::open([$shop->id ? route('admin.data.shops.update', $shop->id) : route('admin.data.shops.store'), 'files' => true]) !!}
 
     <h3>Basic Information</h3>
 
@@ -56,7 +56,7 @@
 
     @if ($shop->id)
         <h3>Shop Stock</h3>
-        {!! Form::open(['url' => 'admin/data/shops/stock/' . $shop->id]) !!}
+        {!! Form::open(['route' => ['admin.data.shops.stock.update', $shop->id]]) !!}
         <div class="text-right mb-3">
             <a href="#" class="add-stock-button btn btn-outline-primary">Add Stock</a>
         </div>

@@ -16,7 +16,7 @@
         <p>Select the traits for the {{ $request->character->is_myo_slot ? 'created' : 'updated' }} character. @if ($request->character->is_myo_slot)
                 Some traits may have been restricted for you - you cannot change them.
             @endif Staff will not be able to modify these traits for you during approval, so if in doubt, please communicate with them beforehand to make sure that your design is acceptable.</p>
-        {!! Form::open(['url' => 'designs/' . $request->id . '/traits']) !!}
+        {!! Form::open(['route' => ['designs.traits.store', $request->id]]) !!}
         <div class="form-group">
             {!! Form::label('species_id', 'Species') !!}
             @if ($request->character->is_myo_slot && $request->character->image->species_id)

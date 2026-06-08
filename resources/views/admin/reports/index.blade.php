@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Report Queue' => 'admin/reports/pending']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Report Queue' => 'admin/reports/pending']) !!}
 
     <h1>
         Report Queue

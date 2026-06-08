@@ -3,7 +3,7 @@
         Raffle groups allow you to create sets of raffles that can be rolled in sequence. Users that have won something in a previous raffle will be removed from later raffles (so users will not be able to win more than once in a group).
     </p>
 @endif
-{!! Form::open(['url' => 'admin/raffles/edit/group/' . ($group->id ?: '')]) !!}
+{!! Form::open(['route' => ['admin.raffles.group.update', $group->id ?: '']]) !!}
 <div class="form-group">
     {!! Form::label('name', 'Group Name') !!} {!! add_help('This is the name of the raffle group (does not have to be unique), e.g. July Monthly Raffles, Event Guest Sales') !!}
     {!! Form::text('name', $group->name, ['class' => 'form-control']) !!}

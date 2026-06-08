@@ -3,7 +3,7 @@
         Enter basic information about this raffle. Tickets can be added after the raffle is created.
     </p>
 @endif
-{!! Form::open(['url' => 'admin/raffles/edit/raffle/' . ($raffle->id ?: '')]) !!}
+{!! Form::open(['route' => ['admin.raffles.update', $raffle->id ?: '']]) !!}
 <div class="form-group">
     {!! Form::label('name', 'Raffle Name') !!} {!! add_help('This is the name of the raffle. Naming it something after what is being raffled is suggested (does not have to be unique).') !!}
     {!! Form::text('name', $raffle->name, ['class' => 'form-control']) !!}

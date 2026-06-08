@@ -67,7 +67,7 @@
         @else
             <p>As a staff member, you may modify the thumbnail of the uploaded image and/or the credits, but not the image itself. If you have recropped the thumbnail, you may need to hard refresh to see the new one.</p>
         @endif
-        {!! Form::open(['url' => 'designs/' . $request->id . '/image', 'files' => true]) !!}
+        {!! Form::open(['route' => ['designs.image.store', $request->id], 'files' => true]) !!}
         @if ($request->status == 'Draft' && $request->user_id == Auth::user()->id)
             <div class="form-group">
                 {!! Form::label('Image') !!} {!! add_help('This is the image that will be used on the masterlist. Note that the image is not protected in any way, so take precautions to avoid art/design theft.') !!}

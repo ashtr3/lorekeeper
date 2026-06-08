@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Sub Masterlists' => 'admin/data/sublists']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Sub Masterlists' => 'admin/data/sublists']) !!}
 
     <h1>Sub Masterlists</h1>
 
@@ -43,7 +43,7 @@
             </tbody>
         </table>
         <div class="mb-4">
-            {!! Form::open(['url' => 'admin/data/sublists/sort']) !!}
+            {!! Form::open(['route' => 'admin.data.sublists.sort.save']) !!}
             {!! Form::hidden('sort', '', ['id' => 'sortableOrder']) !!}
             {!! Form::submit('Save Order', ['class' => 'btn btn-primary']) !!}
             {!! Form::close() !!}

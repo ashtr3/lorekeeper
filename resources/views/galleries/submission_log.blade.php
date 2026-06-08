@@ -28,7 +28,7 @@
                                     <p>Enter in the amount of {{ $currency->name }} that {{ $submission->collaborators->count() ? 'each collaborator' : 'the submitting user' }}{{ $submission->participants->count() ? ' and any participants' : '' }}
                                         should receive. The suggested amount has been pre-filled for you based on the provided form responses, but this is only a guideline based on user input and should be verified and any adjustments made as necessary.
                                     </p>
-                                    {!! Form::open(['url' => 'admin/gallery/edit/' . $submission->id . '/value']) !!}
+                                    {!! Form::open(['route' => ['admin.gallery.submissions.update', [$submission->id, 'value']]]) !!}
                                     @if (!$submission->collaborators->count() || $submission->collaborators->where('user_id', $submission->user_id)->first() == null)
                                         <div class="form-group">
                                             {!! Form::label($submission->user->name) !!}:

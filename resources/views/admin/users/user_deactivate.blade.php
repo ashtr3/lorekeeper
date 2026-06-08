@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'User Index' => 'admin/users', $user->name => 'admin/users/' . $user->name . '/edit', 'Deactivate User' => 'admin/users/' . $user->name . '/deactivate']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'User Index' => 'admin/users', $user->name => 'admin/users/' . $user->name . '/edit', 'Deactivate User' => 'admin/users/' . $user->name . '/deactivate']) !!}
 
     <h1>User: {!! $user->displayName !!}</h1>
     <ul class="nav nav-tabs mb-3">
@@ -26,7 +26,7 @@
     <h3>{{ $user->is_deactivated ? 'Edit Deactivation' : 'Deactivate' }}</h3>
     <p>Deactivating the user will remove their rank, cancel all of their queued submissions and transfers, and prevent them from using any other site features. The deactivate reason will be displayed on the blacklist.</p>
 
-    {!! Form::open(['url' => 'admin/users/' . $user->name . '/deactivate', 'id' => 'deactivateForm']) !!}
+    {!! Form::open(['route' => ['admin.users.deactivate.store', $user->name], 'id' => 'deactivateForm']) !!}
     <div class="form-group">
         {!! Form::label('Reason (Optional; no HTML)') !!}
         {!! Form::textarea('deactivate_reason', $user->settings->deactivate_reason, ['class' => 'form-control']) !!}

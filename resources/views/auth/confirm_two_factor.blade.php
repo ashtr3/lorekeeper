@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    {!! Form::open(['url' => 'account/two-factor/confirm']) !!}
+    {!! Form::open(['route' => 'account.two-factor.confirm.store']) !!}
     <div class="form-group">
         {!! Form::label('Confirm 2FA') !!}
         {!! Form::text('code', null, ['class' => 'form-control']) !!}

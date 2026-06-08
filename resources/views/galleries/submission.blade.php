@@ -17,7 +17,7 @@
         @endif {{ $submission->displayTitle }}
         <div class="float-right">
             @if (Auth::check())
-                {!! Form::open(['url' => '/gallery/favorite/' . $submission->id]) !!}
+                {!! Form::open(['route' => ['gallery.favorite', $submission->id]]) !!}
                 @if ($submission->user->id != Auth::user()->id && $submission->collaborators->where('user_id', Auth::user()->id)->first() == null && $submission->isVisible)
                     {!! Form::button('<i class="fas fa-star"></i> ', [
                         'class' => 'btn ' . ($submission->favorites->where('user_id', Auth::user()->id)->first() == null ? 'btn-outline-primary' : 'btn-primary'),
@@ -86,7 +86,7 @@
                             </h5>
                             <div class="float-right">
                                 @if (Auth::check() && ($submission->user->id != Auth::user()->id && $submission->collaborators->where('user_id', Auth::user()->id)->first() == null) && $submission->isVisible)
-                                    {!! Form::open(['url' => '/gallery/favorite/' . $submission->id]) !!}
+                                    {!! Form::open(['route' => ['gallery.favorite', $submission->id]]) !!}
                                     {{ $submission->favorites->count() }} {!! Form::button('<i class="fas fa-star"></i> ', [
                                         'style' => 'border:0; border-radius:.5em;',
                                         'class' => $submission->favorites->where('user_id', Auth::user()->id)->first() != null ? 'btn-success' : '',
@@ -136,7 +136,7 @@
                         @if ($submission->status == 'Pending' && Auth::check() && $submission->collaborators->where('user_id', Auth::user()->id)->first() != null)
                             <p>Check that your role in the collaboration is correct as listed, and if not, make any changes. You can also remove yourself from the collaborator list if necessary. When you are done, or if the record is already accurate,
                                 press "submit" to make any changes and mark yourself as having approved. You will be able to edit this until the submission is approved.</p>
-                            {!! Form::open(['url' => '/gallery/collaborator/' . $submission->id]) !!}
+                            {!! Form::open(['route' => ['gallery.collaborator.update', $submission->id]]) !!}
                             @foreach ($submission->collaborators as $collaborator)
                                 @if ($collaborator->user_id == Auth::user()->id)
                                     <div class="mb-2">

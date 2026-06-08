@@ -1,4 +1,4 @@
-{!! Form::open(['url' => 'admin/masterlist/transfer/' . $transfer->id]) !!}
+{!! Form::open(['route' => ['admin.masterlist.transfer.update', $transfer->id]]) !!}
 @if ($transfer->status == 'Accepted')
     <p>This will process the transfer of {!! $transfer->character->displayName !!} from {!! $transfer->sender->displayName !!} to {!! $transfer->recipient->displayName !!} immediately.</p>
 @else

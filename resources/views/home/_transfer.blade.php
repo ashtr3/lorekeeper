@@ -33,7 +33,7 @@
                     @if (Auth::user()->id == $transfer->recipient_id)
                         @if ($transfer->isActive)
                             @if ($transfer->status == 'Pending')
-                                {!! Form::open(['url' => 'characters/transfer/act/' . $transfer->id, 'class' => 'text-right']) !!}
+                                {!! Form::open(['route' => ['characters.transfers.act', $transfer->id], 'class' => 'text-right']) !!}
                                 {!! Form::submit('Accept', ['class' => 'btn btn-success', 'name' => 'action']) !!}
                                 {!! Form::submit('Reject', ['class' => 'btn btn-danger', 'name' => 'action']) !!}
                                 {!! Form::close() !!}
@@ -54,7 +54,7 @@
                     @else
                         @if ($transfer->isActive)
                             @if ($transfer->status == 'Pending')
-                                {!! Form::open(['url' => 'characters/transfer/act/' . $transfer->id, 'class' => 'text-right']) !!}
+                                {!! Form::open(['route' => ['characters.transfers.act', $transfer->id], 'class' => 'text-right']) !!}
                                 {!! Form::submit('Cancel', ['class' => 'btn btn-danger', 'name' => 'action']) !!}
                                 {!! Form::close() !!}
                             @endif

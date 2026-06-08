@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Site Settings' => 'admin/settings']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Site Settings' => 'admin/settings']) !!}
 
     <h1>Site Settings</h1>
 
@@ -42,7 +42,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="logs-table-cell">
-                                    {!! Form::open(['url' => 'admin/settings/' . $setting->key, 'class' => 'd-flex justify-content-end']) !!}
+                                    {!! Form::open(['route' => ['admin.settings.update', $setting->key], 'class' => 'd-flex justify-content-end']) !!}
                                     <div class="form-group mr-3 mb-3">
                                         {!! Form::text('value', $setting->value, ['class' => 'form-control']) !!}
                                     </div>

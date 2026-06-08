@@ -8,7 +8,7 @@
                     You will not be able to further edit the contents of this trade.
                 @endif
             </p>
-            {!! Form::open(['url' => 'trades/' . $trade->id . '/confirm-trade']) !!}
+            {!! Form::open(['route' => ['trades.confirm-trade.store', $trade->id]]) !!}
             <div class="text-right">
                 {!! Form::submit('Confirm', ['class' => 'btn btn-primary']) !!}
             </div>
@@ -29,7 +29,7 @@
                     You will not be able to further edit the contents of this trade.
                 @endif
             </p>
-            {!! Form::open(['url' => 'trades/' . $trade->id . '/confirm-trade']) !!}
+            {!! Form::open(['route' => ['trades.confirm-trade.store', $trade->id]]) !!}
             <div class="text-right">
                 {!! Form::submit('Confirm', ['class' => 'btn btn-primary']) !!}
             </div>

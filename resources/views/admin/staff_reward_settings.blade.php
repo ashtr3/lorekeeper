@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Staff Reward Settings' => 'admin/staff-reward-settings']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Staff Reward Settings' => 'admin/staff-reward-settings']) !!}
 
     @if (!config('lorekeeper.extensions.staff_rewards.enabled'))
         <div class="alert alert-danger">
@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-6 col-md-3">
                             <div class="logs-table-cell">
-                                {!! Form::open(['url' => 'admin/staff-reward-settings/' . $setting->key, 'class' => 'd-flex justify-content-end']) !!}
+                                {!! Form::open(['route' => ['admin.staff-reward-settings.update', $setting->key], 'class' => 'd-flex justify-content-end']) !!}
                                 <div class="form-group mr-3 mb-3">
                                     {!! Form::text('value', $setting->value, ['class' => 'form-control']) !!}
                                 </div>

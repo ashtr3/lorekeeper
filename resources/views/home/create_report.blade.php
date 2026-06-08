@@ -16,7 +16,7 @@
             The report queue is currently closed. You cannot make a new report at this time.
         </div>
     @else
-        {!! Form::open(['url' => 'reports/new', 'id' => 'submissionForm']) !!}
+        {!! Form::open(['route' => 'reports.store', 'id' => 'submissionForm']) !!}
         <div class="br-form-group alert alert-warning" style="display: none">
             <div class="form-check">
                 When submitting a bug report, please use the 'URL / Title' section to briefly summarise the bug. Include any links in the 'Comments' section. This is to allow an easy search.

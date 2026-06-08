@@ -153,7 +153,7 @@
                     <div class="modal-body">
                         <p>Note that granting items does not check against any category hold limits for characters.</p>
                         <div class="form-group">
-                            {!! Form::open(['url' => 'admin/character/' . $character->slug . '/grant-items']) !!}
+                            {!! Form::open(['route' => ['admin.character.grants.items', $character->slug]]) !!}
 
                             {!! Form::label('Item(s)') !!} {!! add_help('Must have at least 1 item and Quantity must be at least 1.') !!}
                             <div id="itemList">

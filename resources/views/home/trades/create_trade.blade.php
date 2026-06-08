@@ -16,7 +16,7 @@
         able to edit their attachments as well. Note that each person may only add up to <strong>{{ config('lorekeeper.settings.trade_asset_limit') }} things to one trade - if necessary, please create a new trade to add more.</strong>
     </p>
 
-    {!! Form::open(['url' => 'trades/create']) !!}
+    {!! Form::open(['route' => 'trades.store']) !!}
 
     <div class="form-group">
         {!! Form::label('recipient_id', 'Recipient') !!}

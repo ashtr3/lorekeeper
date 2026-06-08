@@ -11,7 +11,7 @@
 
     <p>This will add a new image to the character's gallery. The character's active image will be changed to the new one automatically. If the character is marked as visible, the owner of the character will be notified of the upload.</p>
 
-    {!! Form::open(['url' => 'admin/character/' . $character->slug . '/image', 'files' => true]) !!}
+    {!! Form::open(['route' => ['admin.character.image.store', $character->slug], 'files' => true]) !!}
 
     <h3>Validity</h3>
 

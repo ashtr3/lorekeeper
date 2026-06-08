@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Prompt Categories' => 'admin/data/prompt-categories']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Prompt Categories' => 'admin/data/prompt-categories']) !!}
 
     <h1>Prompt Categories</h1>
 
@@ -34,7 +34,7 @@
 
         </table>
         <div class="mb-4">
-            {!! Form::open(['url' => 'admin/data/prompt-categories/sort']) !!}
+            {!! Form::open(['route' => 'admin.data.prompt-categories.sort.save']) !!}
             {!! Form::hidden('sort', '', ['id' => 'sortableOrder']) !!}
             {!! Form::submit('Save Order', ['class' => 'btn btn-primary']) !!}
             {!! Form::close() !!}

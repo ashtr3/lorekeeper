@@ -1,7 +1,7 @@
 <p>
     All information entered into a bookmark is strictly private - the owner of the bookmarked character will not be notified, and will not know who/how many users have bookmarked their character.
 </p>
-{!! Form::open(['url' => $bookmark->id ? route('account.bookmarks.update', $bookmark->id) : route('account.bookmarks.store')]) !!}
+{!! Form::open(['route' => $bookmark->id ? ['account.bookmarks.update', $bookmark->id] : 'account.bookmarks.store']) !!}
 {!! Form::hidden('character_id', Request::get('character_id')) !!}
 <div class="form-group">
     {!! Form::label('notify', 'Notify me when...') !!} {!! add_help('This will notify you whenever the respective change occurs, and is entirely optional.') !!}

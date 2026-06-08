@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Rarities' => 'admin/data/rarities']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Rarities' => 'admin/data/rarities']) !!}
 
     <h1>Rarities</h1>
 
@@ -34,7 +34,7 @@
 
         </table>
         <div class="mb-4">
-            {!! Form::open(['url' => 'admin/data/rarities/sort']) !!}
+            {!! Form::open(['route' => 'admin.data.rarities.sort.save']) !!}
             {!! Form::hidden('sort', '', ['id' => 'sortableOrder']) !!}
             {!! Form::submit('Save Order', ['class' => 'btn btn-primary']) !!}
             {!! Form::close() !!}

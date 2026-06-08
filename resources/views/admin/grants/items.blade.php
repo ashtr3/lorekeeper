@@ -5,11 +5,11 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Grant Items' => 'admin/grants/items']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Grant Items' => 'admin/grants/items']) !!}
 
     <h1>Grant Items</h1>
 
-    {!! Form::open(['url' => 'admin/grants/items']) !!}
+    {!! Form::open(['route' => 'admin.grants.items.store']) !!}
 
     <h3>Basic Information</h3>
 

@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', ($isMyo ? 'MYO Approval' : 'Design Update') . ' Queue' => 'admin/designs/pending']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), ($isMyo ? 'MYO Approval' : 'Design Update') . ' Queue' => route('admin.designs.index', ['type' => $isMyo ? 'myo-approvals' : 'design-approvals', 'status' => 'pending'])]) !!}
 
     <h1>
         {{ $isMyo ? 'MYO Approval' : 'Design Update' }} Queue
@@ -13,13 +13,13 @@
 
     <ul class="nav nav-tabs mb-3">
         <li class="nav-item">
-            <a class="nav-link {{ set_active('admin/' . ($isMyo ? 'myo-approvals' : 'design-approvals') . '/pending*') }}" href="{{ url('admin/' . ($isMyo ? 'myo-approvals' : 'design-approvals') . '/pending') }}">Pending</a>
+            <a class="nav-link {{ set_active_route('admin.designs.index', 'active', ['status' => 'pending']) }}" href="{{ route('admin.designs.index', ['type' => $isMyo ? 'myo-approvals' : 'design-approvals', 'status' => 'pending']) }}">Pending</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ set_active('admin/' . ($isMyo ? 'myo-approvals' : 'design-approvals') . '/approved*') }}" href="{{ url('admin/' . ($isMyo ? 'myo-approvals' : 'design-approvals') . '/approved') }}">Approved</a>
+            <a class="nav-link {{ set_active_route('admin.designs.index', 'active', ['status' => 'approved']) }}" href="{{ route('admin.designs.index', ['type' => $isMyo ? 'myo-approvals' : 'design-approvals', 'status' => 'approved']) }}">Approved</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ set_active('admin/' . ($isMyo ? 'myo-approvals' : 'design-approvals') . '/rejected*') }}" href="{{ url('admin/' . ($isMyo ? 'myo-approvals' : 'design-approvals') . '/rejected') }}">Rejected</a>
+            <a class="nav-link {{ set_active_route('admin.designs.index', 'active', ['status' => 'rejected']) }}" href="{{ route('admin.designs.index', ['type' => $isMyo ? 'myo-approvals' : 'design-approvals', 'status' => 'rejected']) }}">Rejected</a>
         </li>
     </ul>
 

@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Character Trade Queue' => 'admin/masterlist/trades/incoming']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Character Trade Queue' => 'admin/masterlist/trades/incoming']) !!}
 
     <h1>
         Character Trades

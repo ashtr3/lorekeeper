@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Create ' . ($isMyo ? 'MYO Slot' : 'Character') => 'admin/masterlist/create-' . ($isMyo ? 'myo' : 'character')]) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Create ' . ($isMyo ? 'MYO Slot' : 'Character') => 'admin/masterlist/create-' . ($isMyo ? 'myo' : 'character')]) !!}
 
     <h1>Create {{ $isMyo ? 'MYO Slot' : 'Character' }}</h1>
 
@@ -13,7 +13,7 @@
 
         <div class="alert alert-danger">Creating characters requires at least one <a href="{{ url('admin/data/character-categories') }}">character category</a> to be created first, as character categories are used to generate the character code.</div>
     @else
-        {!! Form::open(['url' => 'admin/masterlist/create-' . ($isMyo ? 'myo' : 'character'), 'files' => true]) !!}
+        {!! Form::open([$isMyo ? route('admin.masterlist.myo.store') : route('admin.masterlist.character.store'), 'files' => true]) !!}
 
         <h3>Basic Information</h3>
 

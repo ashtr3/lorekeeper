@@ -12,7 +12,7 @@
     </p>
     <p><strong>Please make sure you enter the correct date.</strong></p>
 
-    {!! Form::open(['url' => '/birthday']) !!}
+    {!! Form::open(['route' => 'birthday.store']) !!}
     <div class="form-group row">
         {{ Form::label('dob', 'Date of Birth', ['class' => 'col-md-4 col-form-label text-md-right']) }}
         <div class="col-md-6">

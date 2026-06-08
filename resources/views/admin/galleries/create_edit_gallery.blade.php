@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'Galleries' => 'admin/data/galleries', ($gallery->id ? 'Edit' : 'Create') . ' Gallery' => $gallery->id ? 'admin/data/galleries/edit/' . $gallery->id : 'admin/data/galleries/create']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'Galleries' => 'admin/data/galleries', ($gallery->id ? 'Edit' : 'Create') . ' Gallery' => $gallery->id ? 'admin/data/galleries/edit/' . $gallery->id : 'admin/data/galleries/create']) !!}
 
     <h1>{{ $gallery->id ? 'Edit' : 'Create' }} Gallery
         @if ($gallery->id)
@@ -13,7 +13,7 @@
         @endif
     </h1>
 
-    {!! Form::open(['url' => $gallery->id ? 'admin/data/galleries/edit/' . $gallery->id : 'admin/data/galleries/create']) !!}
+    {!! Form::open(['route' => $gallery->id ? ['admin.data.galleries.update', $gallery->id] : 'admin.data.galleries.store']) !!}
 
     <h3>Basic Information</h3>
 

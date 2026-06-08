@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-    {!! breadcrumbs(['Admin Panel' => 'admin', 'User Index' => 'admin/users', $user->name => 'admin/users/' . $user->name . '/edit']) !!}
+    {!! breadcrumbs(['Admin Panel' => route('admin.index'), 'User Index' => 'admin/users', $user->name => 'admin/users/' . $user->name . '/edit']) !!}
 
     <h1>User: {!! $user->displayName !!}</h1>
     <ul class="nav nav-tabs mb-3">
@@ -25,7 +25,7 @@
 
     <div class="card p-3 mb-2">
         <h3>Basic Info</h3>
-        {!! Form::open(['url' => 'admin/users/' . $user->name . '/basic']) !!}
+        {!! Form::open(['route' => ['admin.users.basic.update', $user->name]]) !!}
         <div class="form-group row">
             <label class="col-md-2 col-form-label">Username</label>
             <div class="col-md-10">
@@ -56,7 +56,7 @@
 
     <div class="card p-3 mb-2">
         <h3>Account</h3>
-        {!! Form::open(['url' => 'admin/users/' . $user->name . '/account']) !!}
+        {!! Form::open(['route' => ['admin.users.account.update', $user->name]]) !!}
         <div class="form-group row">
             <label class="col-md-2 col-form-label">Email Address</label>
             <div class="col-md-10">
@@ -95,7 +95,7 @@
         @else
             <p class="text-danger">This user has not set their DOB.</p>
         @endif
-        {!! Form::open(['url' => 'admin/users/' . $user->name . '/birthday']) !!}
+        {!! Form::open(['route' => ['admin.users.birthday.update', $user->name]]) !!}
         <div class="form-group row">
             <label class="col-md-2 col-form-label">Date of Birth</label>
             <div class="col-md-10 row">
@@ -121,7 +121,7 @@
                     <div class="col-10">
                         <div class="d-flex">
                             {!! Form::text('alias', $alias->alias . '@' . $alias->siteDisplayName . (!$alias->is_visible ? ' (Hidden)' : ''), ['class' => 'form-control', 'disabled']) !!}
-                            {!! Form::open(['url' => 'admin/users/' . $user->name . '/alias/' . $alias->id]) !!}
+                            {!! Form::open(['route' => ['admin.users.alias.update', [$user->name, $alias->id]]]) !!}
                             <div class="text-right ml-2">{!! Form::submit('Clear Alias', ['class' => 'btn btn-danger']) !!}</div>
                         </div>
                     </div>
