@@ -64,6 +64,28 @@ return [
             'url'    => env('AWS_URL'),
         ],
 
+        'images' => [
+            'driver'     => env('IMAGES_DISK_DRIVER', 'local'),
+            'root'       => env('IMAGES_DISK_ROOT', env('IMAGES_DISK_DRIVER', 'local') === 's3' ? 'images' : public_path('images')),
+            'url'        => env('IMAGES_DISK_URL', env('IMAGES_DISK_DRIVER', 'local') === 's3' ? null : env('APP_URL').'/images'),
+            'key'        => env('AWS_ACCESS_KEY_ID'),
+            'secret'     => env('AWS_SECRET_ACCESS_KEY'),
+            'region'     => env('AWS_DEFAULT_REGION'),
+            'bucket'     => env('AWS_BUCKET'),
+            'visibility' => 'public',
+        ],
+
+        'files' => [
+            'driver'     => env('FILES_DISK_DRIVER', 'local'),
+            'root'       => env('FILES_DISK_ROOT', env('FILES_DISK_DRIVER', 'local') === 's3' ? 'files' : public_path('images')),
+            'url'        => env('FILES_DISK_URL', env('FILES_DISK_DRIVER', 'local') === 's3' ? null : env('APP_URL').'/files'),
+            'key'        => env('AWS_ACCESS_KEY_ID'),
+            'secret'     => env('AWS_SECRET_ACCESS_KEY'),
+            'region'     => env('AWS_DEFAULT_REGION'),
+            'bucket'     => env('AWS_BUCKET'),
+            'visibility' => 'public',
+        ],
+
     ],
 
 ];
