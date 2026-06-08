@@ -18,16 +18,17 @@ return [
         'power' => 'admin',
         'links' => [
             [
-                'name' => 'User Ranks',
-                'url'  => 'admin/users/ranks',
+                'name'   => 'User Ranks',
+                'route'  => 'admin.users.ranks.index',
+                'active' => 'admin.users.ranks.*',
             ],
             [
-                'name' => 'Admin Logs',
-                'url'  => 'admin/logs',
+                'name'   => 'Admin Logs',
+                'route'  => 'admin.logs',
             ],
             [
-                'name' => 'Staff Reward Settings',
-                'url'  => 'admin/staff-reward-settings',
+                'name'   => 'Staff Reward Settings',
+                'route'  => 'admin.staff-reward-settings',
             ],
         ],
     ],
@@ -35,8 +36,10 @@ return [
         'power' => 'manage_reports',
         'links' => [
             [
-                'name' => 'Report Queue',
-                'url'  => 'admin/reports/pending',
+                'name'   => 'Report Queue',
+                'route'  => 'admin.reports.index.status',
+                'active' => 'admin.reports.index.status',
+                'params' => ['status' => 'pending'],
             ],
         ],
     ],
@@ -44,8 +47,8 @@ return [
         'power' => 'manage_news',
         'links' => [
             [
-                'name' => 'News',
-                'url'  => 'admin/news',
+                'name'   => 'News',
+                'route'  => 'admin.news.index',
             ],
         ],
     ],
@@ -53,8 +56,8 @@ return [
         'power' => 'manage_sales',
         'links' => [
             [
-                'name' => 'Sales',
-                'url'  => 'admin/sales',
+                'name'   => 'Sales',
+                'route'  => 'admin.sales.index',
             ],
         ],
     ],
@@ -62,8 +65,8 @@ return [
         'power' => 'edit_pages',
         'links' => [
             [
-                'name' => 'Pages',
-                'url'  => 'admin/pages',
+                'name'   => 'Pages',
+                'route'  => 'admin.pages.index',
             ],
         ],
     ],
@@ -71,12 +74,12 @@ return [
         'power' => 'edit_user_info',
         'links' => [
             [
-                'name' => 'User Index',
-                'url'  => 'admin/users',
+                'name'   => 'User Index',
+                'route'  => 'admin.users.index',
             ],
             [
-                'name' => 'Invitation Keys',
-                'url'  => 'admin/invitations',
+                'name'   => 'Invitation Keys',
+                'route'  => 'admin.invitations.index',
             ],
         ],
     ],
@@ -84,20 +87,24 @@ return [
         'power' => 'manage_submissions',
         'links' => [
             [
-                'name' => 'Gallery Submissions',
-                'url'  => 'admin/gallery/submissions',
+                'name'   => 'Gallery Submissions',
+                'route'  => 'admin.gallery.submissions.index',
+                'active' => 'admin.gallery.submissions.*',
             ],
             [
-                'name' => 'Gallery Currency Awards',
-                'url'  => 'admin/gallery/currency',
+                'name'   => 'Gallery Currency Awards',
+                'route'  => 'admin.gallery.currency.index',
+                'active' => 'admin.gallery.currency.*',
             ],
             [
-                'name' => 'Prompt Submissions',
-                'url'  => 'admin/submissions',
+                'name'   => 'Prompt Submissions',
+                'route'  => 'admin.submissions.index',
+                'active' => 'admin.submissions.*',
             ],
             [
-                'name' => 'Claim Submissions',
-                'url'  => 'admin/claims',
+                'name'   => 'Claim Submissions',
+                'route'  => 'admin.claims.index',
+                'active' => 'admin.claims.*'
             ],
         ],
     ],
@@ -105,12 +112,12 @@ return [
         'power' => 'edit_inventories',
         'links' => [
             [
-                'name' => 'Currency Grants',
-                'url'  => 'admin/grants/user-currency',
+                'name'   => 'Currency Grants',
+                'route'  => 'admin.grants.user-currency',
             ],
             [
-                'name' => 'Item Grants',
-                'url'  => 'admin/grants/items',
+                'name'   => 'Item Grants',
+                'route'  => 'admin.grants.items',
             ],
         ],
     ],
@@ -118,28 +125,34 @@ return [
         'power' => 'manage_characters',
         'links' => [
             [
-                'name' => 'Create Character',
-                'url'  => 'admin/masterlist/create-character',
+                'name'   => 'Create Character',
+                'route'  => 'admin.masterlist.character.create',
             ],
             [
-                'name' => 'Create MYO Slot',
-                'url'  => 'admin/masterlist/create-myo',
+                'name'   => 'Create MYO Slot',
+                'route'  => 'admin.masterlist.myo.create',
             ],
             [
-                'name' => 'Character Transfers',
-                'url'  => 'admin/masterlist/transfers/incoming',
+                'name'   => 'Character Transfers',
+                'route'  => 'admin.masterlist.transfers.index',
+                'active' => 'admin.masterlist.transfers.*',
+                'params' => ['type' => 'incoming'],
             ],
             [
-                'name' => 'Character Trades',
-                'url'  => 'admin/masterlist/trades/incoming',
+                'name'   => 'Character Trades',
+                'route'  => 'admin.masterlist.trades.index',
+                'active' => 'admin.masterlist.trades.*',
+                'params' => ['type' => 'incoming'],
             ],
             [
-                'name' => 'Design Updates',
-                'url'  => 'admin/design-approvals/pending',
+                'name'   => 'Design Updates',
+                'route'  => 'admin.designs.index',
+                'params' => ['type' => 'design-approvals', 'status' => 'pending'],
             ],
             [
-                'name' => 'MYO Approvals',
-                'url'  => 'admin/myo-approvals/pending',
+                'name'   => 'MYO Approvals',
+                'route'  => 'admin.designs.index',
+                'params' => ['type' => 'myo-approvals', 'status' => 'pending'],
             ],
         ],
     ],
@@ -147,52 +160,64 @@ return [
         'power' => 'edit_data',
         'links' => [
             [
-                'name' => 'Galleries',
-                'url'  => 'admin/data/galleries',
+                'name'   => 'Galleries',
+                'route'  => 'admin.data.galleries.index',
+                'active' => 'admin.data.galleries.*',
             ],
             [
-                'name' => 'Character Categories',
-                'url'  => 'admin/data/character-categories',
+                'name'   => 'Character Categories',
+                'route'  => 'admin.data.character-categories.index',
+                'active' => 'admin.data.character-categories.*',
             ],
             [
-                'name' => 'Sub Masterlists',
-                'url'  => 'admin/data/sublists',
+                'name'   => 'Sub Masterlists',
+                'route'  => 'admin.data.sublists.index',
+                'active' => 'admin.data.sublists.*',
             ],
             [
-                'name' => 'Rarities',
-                'url'  => 'admin/data/rarities',
+                'name'   => 'Rarities',
+                'route'  => 'admin.data.rarities.index',
+                'active' => 'admin.data.rarities.*',
             ],
             [
-                'name' => 'Species',
-                'url'  => 'admin/data/species',
+                'name'   => 'Species',
+                'route'  => 'admin.data.species.index',
+                'active' => 'admin.data.species.*',
             ],
             [
-                'name' => 'Subtypes',
-                'url'  => 'admin/data/subtypes',
+                'name'   => 'Subtypes',
+                'route'  => 'admin.data.subtypes.index',
+                'active' => 'admin.data.subtypes.*',
             ],
             [
-                'name' => 'Traits',
-                'url'  => 'admin/data/traits',
+                'name'   => 'Traits',
+                'route'  => 'admin.data.traits.index',
+                'active' => 'admin.data.traits.*',
             ],
             [
-                'name' => 'Shops',
-                'url'  => 'admin/data/shops',
+                'name'   => 'Shops',
+                'route'  => 'admin.data.shops.index',
+                'active' => 'admin.data.shops.*',
             ],
             [
-                'name' => 'Currencies',
-                'url'  => 'admin/data/currencies',
+                'name'   => 'Currencies',
+                'route'  => 'admin.data.currencies.index',
+                'active' => 'admin.data.currencies.*',
             ],
             [
-                'name' => 'Prompts',
-                'url'  => 'admin/data/prompts',
+                'name'   => 'Prompts',
+                'route'  => 'admin.data.prompts.index',
+                'active' => 'admin.data.prompts.*',
             ],
             [
-                'name' => 'Loot Tables',
-                'url'  => 'admin/data/loot-tables',
+                'name'   => 'Loot Tables',
+                'route'  => 'admin.data.loot-tables.index',
+                'active' => 'admin.data.loot-tables.*',
             ],
             [
-                'name' => 'Items',
-                'url'  => 'admin/data/items',
+                'name'   => 'Items',
+                'route'  => 'admin.data.items.index',
+                'active' => 'admin.data.items.*',
             ],
         ],
     ],
@@ -200,8 +225,9 @@ return [
         'power' => 'manage_raffles',
         'links' => [
             [
-                'name' => 'Raffles',
-                'url'  => 'admin/raffles',
+                'name'   => 'Raffles',
+                'route'  => 'admin.raffles.index',
+                'active' => 'admin.raffles.*',
             ],
         ],
     ],
@@ -209,16 +235,19 @@ return [
         'power' => 'edit_site_settings',
         'links' => [
             [
-                'name' => 'Site Settings',
-                'url'  => 'admin/settings',
+                'name'   => 'Site Settings',
+                'route'  => 'admin.settings.index',
+                'active' => 'admin.settings.*',
             ],
             [
-                'name' => 'Site Images',
-                'url'  => 'admin/images',
+                'name'   => 'Site Images',
+                'route'  => 'admin.images.index',
+                'active' => 'admin.images.*',
             ],
             [
-                'name' => 'File Manager',
-                'url'  => 'admin/files',
+                'name'   => 'File Manager',
+                'route'  => 'admin.files.index',
+                'active' => 'admin.files.*',
             ],
         ],
     ],

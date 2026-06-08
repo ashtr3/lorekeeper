@@ -15,7 +15,7 @@
                     @endphp
                     @foreach ($section['links'] as $item)
                         <div class="sidebar-item">
-                            <a href="{{ url($item['url']) }}" class="collapse-link {{ set_active($item['url'] . '*') }}">{{ $item['name'] }}</a>
+                            <a href="{{ route($item['route'], $item['params'] ?? []) }}" class="collapse-link {{ set_active_route($item['active'] ?? $item['route'], 'active', !isset($item['active']) && isset($item['params']) ? $item['params'] : null) }}">{{ $item['name'] }}</a>
                         </div>
                     @endforeach
                 </div>
