@@ -95,7 +95,7 @@
             $('.inventory-stack').on('click', function(e) {
                 e.preventDefault();
                 var $parent = $(this).parent().parent();
-                loadModal("{{ route('browse.items.stack', '') }}/" + $parent.data('id'), $parent.data('name'));
+                loadModal("{{ route('browse.items.stack', ':id') }}".replace(':id', $parent.data('id')), $parent.data('name'));
             });
             $('.consolidate-inventory').on('click', function(e) {
                 e.preventDefault();

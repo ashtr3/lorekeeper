@@ -76,19 +76,19 @@
             <script>
                 $('.edit-group').on('click', function(e) {
                     e.preventDefault();
-                    loadModal("{{ route('admin.raffles.group.edit', '') }}/" + $(this).data('id'), 'Edit Raffle Group');
+                    loadModal("{{ route('admin.raffles.group.edit', ':id') }}".replace(':id', $(this).data('id')), 'Edit Raffle Group');
                 });
                 $('.edit-raffle').on('click', function(e) {
                     e.preventDefault();
-                    loadModal("{{ route('admin.raffles.edit', '') }}/" + $(this).data('id'), 'Edit Raffle');
+                    loadModal("{{ route('admin.raffles.edit', ':id') }}".replace(':id', $(this).data('id')), 'Edit Raffle');
                 });
                 $('.roll-raffle').on('click', function(e) {
                     e.preventDefault();
-                    loadModal("{{ route('admin.raffles.roll', '') }}/" + $(this).data('id'), 'Roll Raffle');
+                    loadModal("{{ route('admin.raffles.roll', ':id') }}".replace(':id', $(this).data('id')), 'Roll Raffle');
                 });
                 $('.roll-group').on('click', function(e) {
                     e.preventDefault();
-                    loadModal("{{ route('admin.raffles.group.roll', '') }}/" + $(this).data('id'), 'Roll Raffle Group');
+                    loadModal("{{ route('admin.raffles.group.roll', ':id') }}".replace(':id', $(this).data('id')), 'Roll Raffle Group');
                 });
             </script>
         @endsection

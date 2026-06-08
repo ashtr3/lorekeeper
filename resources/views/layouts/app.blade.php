@@ -187,7 +187,7 @@
 
                 $('.inventory-log-stack').on('click', function(e) {
                     e.preventDefault();
-                    loadModal("{{ route('browse.items.stack', '') }}/" + $(this).data('id') + "?read_only=1", $(this).data('name'));
+                    loadModal("{{ route('browse.items.stack', ':id') }}".replace(':id', $(this).data('id')) + "?read_only=1", $(this).data('name'));
                 });
 
                 $('.spoiler-text').hide();

@@ -84,7 +84,7 @@
             @if (Auth::user()->hasPower('manage_characters'))
                 $('.process-button').on('click', function(e) {
                     e.preventDefault();
-                    loadModal("{{ route('admin.designs.edit', [$request->id, '']) }}/" + $(this).data('action'), 'Confirm Action');
+                    loadModal("{{ route('admin.designs.edit', [$request->id, ':action']) }}".replace(':action', $(this).data('action')), 'Confirm Action');
                 });
             @endif
         });

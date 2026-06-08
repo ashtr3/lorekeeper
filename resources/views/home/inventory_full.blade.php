@@ -84,13 +84,13 @@
             $('.invuser').on('click', function(e) {
                 e.preventDefault();
                 var $parent = $(this);
-                loadModal("{{ route('browse.items.stack', '') }}/" + $parent.data('id'), $parent.data('name'));
+                loadModal("{{ route('browse.items.stack', ':id') }}".replace(':id', $parent.data('id')), $parent.data('name'));
             });
 
             $('.invchar').on('click', function(e) {
                 e.preventDefault();
                 var $parent = $(this);
-                loadModal("{{ route('browse.items.stack', '') }}/character/" + $parent.data('id'), $parent.data('name'));
+                loadModal("{{ route('browse.items.character.stack', ':id') }}".replace(':id', $parent.data('id')), $parent.data('name'));
             });
         });
     </script>

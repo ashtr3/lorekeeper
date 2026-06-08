@@ -69,11 +69,11 @@
             });
             $('.edit-rank-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ route('admin.users.ranks.edit', '') }}" + '/' + $(this).data('id'), 'Edit Rank');
+                loadModal("{{ route('admin.users.ranks.edit', ':id') }}".replace(':id', $(this).data('id')), 'Edit Rank');
             });
             $('.delete-rank-button').on('click', function(e) {
                 e.preventDefault();
-                loadModal("{{ route('admin.users.ranks.delete', '') }}" + '/' + $(this).data('id'), 'Delete Rank');
+                loadModal("{{ route('admin.users.ranks.delete', ':id') }}".replace(':id', $(this).data('id')), 'Delete Rank');
             });
             $('.handle').on('click', function(e) {
                 e.preventDefault();

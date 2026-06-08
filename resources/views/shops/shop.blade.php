@@ -73,7 +73,7 @@
             $('.inventory-item').on('click', function(e) {
                 e.preventDefault();
 
-                loadModal("{{ route('browse.shops.show', $shop->id) }}/" + $(this).data('id'), 'Purchase Item');
+                loadModal("{{ route('browse.shops.stock', [$shop->id, ':stockId']) }}".replace(':stockId', $(this).data('id')), 'Purchase Item');
             });
         });
     </script>

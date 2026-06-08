@@ -55,7 +55,7 @@
                 $('.modal-image').on('click', function(e) {
                     e.preventDefault();
 
-                    loadModal("{{ route('browse.world.species.trait', [$species->id, '']) }}/" + $(this).data('id'), 'Trait Detail');
+                    loadModal("{{ route('browse.world.species.trait', [$species->id, ':id']) }}".replace(':id', $(this).data('id')), 'Trait Detail');
                 });
             })
         </script>

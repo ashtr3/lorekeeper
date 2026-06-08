@@ -2,7 +2,7 @@
     $(document).ready(function() {
         $('.edit-features').on('click', function(e) {
             e.preventDefault();
-            loadModal("{{ url('admin/character/image') }}/" + $(this).data('id') + "/traits", 'Edit Traits');
+            loadModal("{{ route('admin.character.image.traits.edit', ':id') }}".replace(':id', $(this).data('id')), 'Edit Traits');
         });
         $('.edit-notes').on('click', function(e) {
             e.preventDefault();
@@ -32,23 +32,23 @@
         });
         $('.edit-credits').on('click', function(e) {
             e.preventDefault();
-            loadModal("{{ url('admin/character/image') }}/" + $(this).data('id') + "/credits", 'Edit Image Credits');
+            loadModal("{{ route('admin.character.image.credits.edit', ':id') }}".replace(':id', $(this).data('id')), 'Edit Image Credits');
         });
         $('.reupload-image').on('click', function(e) {
             e.preventDefault();
-            loadModal("{{ url('admin/character/image') }}/" + $(this).data('id') + "/reupload", 'Reupload Image');
+            loadModal("{{ route('admin.character.image.reupload', ':id') }}".replace(':id', $(this).data('id')), 'Reupload Image');
         });
         $('.active-image').on('click', function(e) {
             e.preventDefault();
-            loadModal("{{ url('admin/character/image') }}/" + $(this).data('id') + "/active", 'Set Active');
+            loadModal("{{ route('admin.character.image.active', ':id') }}".replace(':id', $(this).data('id')), 'Set Active');
         });
         $('.delete-image').on('click', function(e) {
             e.preventDefault();
-            loadModal("{{ url('admin/character/image') }}/" + $(this).data('id') + "/delete", 'Delete Image');
+            loadModal("{{ route('admin.character.image.delete, ':id') }}".replace(':id', $(this).data('id')), 'Delete Image');
         });
         $('.edit-stats').on('click', function(e) {
             e.preventDefault();
-            loadModal("{{ url($character->is_myo_slot ? 'admin/myo/' : 'admin/character/') }}/" + $(this).data('{{ $character->is_myo_slot ? 'id' : 'slug' }}') + "/stats", 'Edit Character Stats');
+            loadModal("{{ route($character->is_myo_slot ? 'admin.myo.stats.edit' : 'admin.character.stats.edit', ':id') }}".replace(':id', $(this).data('{{ $character->is_myo_slot ? 'id' : 'slug' }}')), 'Edit Character Stats');
         });
         $('.edit-description').on('click', function(e) {
             e.preventDefault();
@@ -78,7 +78,7 @@
         });
         $('.delete-character').on('click', function(e) {
             e.preventDefault();
-            loadModal("{{ url($character->is_myo_slot ? 'admin/myo/' : 'admin/character/') }}/" + $(this).data('{{ $character->is_myo_slot ? 'id' : 'slug' }}') + "/delete", 'Delete Character');
+            loadModal("{{ route($character->is_myo_slot ? 'admin.myo.delete' : 'admin.character.delete', ':id') }}".replace(':id', $(this).data('{{ $character->is_myo_slot ? 'id' : 'slug' }}')), 'Delete Character');
         });
 
     });
