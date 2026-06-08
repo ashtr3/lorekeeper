@@ -72,7 +72,7 @@ class Character extends Model {
      */
     public static $createRules = [
         'character_category_id' => 'required',
-        'rarity_id'             => 'required',
+        'rarity_id'             => 'nullable',
         'user_id'               => 'nullable',
         'number'                => 'required',
         'slug'                  => 'required|alpha_dash',
