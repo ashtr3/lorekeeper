@@ -72,7 +72,7 @@
                         <td>
                             <h5 class="mb-0">{!! $bookmark->character->displayName !!}</h5>
                             {!! $bookmark->character->image->species_id ? $bookmark->character->image->species->displayName : 'No Species' !!}
-                            {!! $bookmark->character->image->rarity_id ? '・ '.$bookmark->character->image->rarity->displayName : '' !!}
+                            {!! $bookmark->character->image->rarity_id ? '・ ' . $bookmark->character->image->rarity->displayName : '' !!}
                             ・ {!! $bookmark->character->displayOwner !!}
 
                             @if ($bookmark->character->is_gift_art_allowed > 0 && !$bookmark->character->is_myo_slot)
