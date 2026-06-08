@@ -154,13 +154,13 @@
 
                 $('#closalSubmit').on('click', function(e) {
                     e.preventDefault();
-                    $('#reportForm').attr('action', '{{ url()->current() }}/close');
+                    $('#reportForm').attr('action', "{{ route('admin.reports.update', [$report->id, 'close']) }}");
                     $('#reportForm').submit();
                 });
 
                 $('#assignSubmit').on('click', function(e) {
                     e.preventDefault();
-                    $('#reportForm').attr('action', '{{ url()->current() }}/assign');
+                    $('#reportForm').attr('action', "{{ route('admin.reports.update', [$report->id, 'assign']) }}");
                     $('#reportForm').submit();
                 });
             });

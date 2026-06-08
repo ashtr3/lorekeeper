@@ -124,7 +124,7 @@
 
                     $prompt.selectize();
                     $prompt.on('change', function(e) {
-                        $rewards.load('{{ route('submissions.new.prompt', '') }}/' + $(this).val());
+                        $rewards.load("{{ route('submissions.new.prompt', ':id') }}".replace(':id', $(this).val()));
                     });
                 @endif
 
@@ -138,7 +138,7 @@
 
                 $confirmSubmit.on('click', function(e) {
                     e.preventDefault();
-                    $submissionForm.attr('action', '{{ url()->current() }}/submit');
+                    $submissionForm.attr('action', "{{ route('submissions.draft.submit', [$submission->id, 'submit']) }}");
                     $submissionForm.submit();
                 });
 
@@ -166,7 +166,7 @@
 
                 $cancelSubmit.on('click', function(e) {
                     e.preventDefault();
-                    $submissionForm.attr('action', '{{ url()->current() }}/delete');
+                    $submissionForm.attr('action', "{{ route('submissions.draft.delete', $submission->id) }}");
                     $submissionForm.submit();
                 });
 

@@ -323,19 +323,19 @@
 
                 $approvalSubmit.on('click', function(e) {
                     e.preventDefault();
-                    $submissionForm.attr('action', '{{ url()->current() }}/approve');
+                    $submissionForm.attr('action', "{{ route('admin.submissions.update', [$submission->id, 'approve']) }}");
                     $submissionForm.submit();
                 });
 
                 $rejectionSubmit.on('click', function(e) {
                     e.preventDefault();
-                    $submissionForm.attr('action', '{{ url()->current() }}/reject');
+                    $submissionForm.attr('action', "{{ route('admin.submissions.update', [$submission->id, 'reject']) }}");
                     $submissionForm.submit();
                 });
 
                 $cancelSubmit.on('click', function(e) {
                     e.preventDefault();
-                    $submissionForm.attr('action', '{{ url()->current() }}/cancel');
+                    $submissionForm.attr('action', "{{ route('admin.submissions.update', [$submission->id, 'cancel']) }}");
                     $submissionForm.submit();
                 });
             });

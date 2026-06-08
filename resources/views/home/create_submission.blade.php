@@ -98,7 +98,7 @@
 
                     $prompt.selectize();
                     $prompt.on('change', function(e) {
-                        $rewards.load('{{ route('submissions.new.prompt', '') }}/' + $(this).val());
+                        $rewards.load("{{ route('submissions.new.prompt', ':id') }}".replace(':id', $(this).val()));
                     });
                 @endif
 
@@ -124,7 +124,7 @@
 
                 $draftSubmit.on('click', function(e) {
                     e.preventDefault();
-                    $submissionForm.attr('action', '{{ url()->current() }}/draft');
+                    $submissionForm.attr('action', "{{ route($isClaim ? 'claims.store.draft' : 'submissions.store.draft', 'draft') }}");
                     $submissionForm.submit();
                 });
             });

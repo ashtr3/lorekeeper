@@ -1,5 +1,5 @@
 @if ($submission->status == 'Draft')
-    {!! Form::open(['route' => $isClaim ? 'claims.draft.update' : 'submissions.draft.update', 'id' => 'submissionForm']) !!}
+    {!! Form::open(['route' => $isClaim ? ['claims.draft.update', $submission->id] : ['submissions.draft.update', $submission->id], 'id' => 'submissionForm']) !!}
 @else
     {!! Form::open(['route' => $isClaim ? 'claims.store' : 'submissions.store', 'id' => 'submissionForm']) !!}
 @endif

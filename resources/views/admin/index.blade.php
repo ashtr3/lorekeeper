@@ -68,7 +68,7 @@
                             @endif
                         </p>
                         <div class="text-right">
-                            <a href="{{ route('admin.designs.index', ['design-approvals', 'pending']') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
+                            <a href="{{ route('admin.designs.index', ['design-approvals', 'pending']) }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
                         </div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                             @endif
                         </p>
                         <div class="text-right">
-                            <a href="{{ route('admin.designs.index', ['myo-approvals', 'pending']') }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
+                            <a href="{{ route('admin.designs.index', ['myo-approvals', 'pending']) }}" class="card-link">View Queue <span class="fas fa-caret-right ml-1"></span></a>
                         </div>
                     </div>
                 </div>
