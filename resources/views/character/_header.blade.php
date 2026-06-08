@@ -20,7 +20,9 @@
 @endif
 <div class="character-masterlist-categories">
     @if (!$character->is_myo_slot)
-        @if ($character->character_category_id) {!! $character->category->displayName !!} ・ @endif
+        @if ($character->character_category_id)
+            {!! $character->category->displayName !!} ・
+        @endif
         {!! $character->image->species->displayName !!} ・ {!! $character->image->rarity->displayName !!}
     @else
         MYO Slot @if ($character->image->species_id)
