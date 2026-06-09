@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 
 class CopyDefaultImages extends Command {
     /**
@@ -17,7 +18,7 @@ class CopyDefaultImages extends Command {
      *
      * @var string
      */
-    protected $description = 'Copies default images (as defined in the image_files config file) from the data/images directory to the public/images directory.';
+    protected $description = 'Copies default images (as defined in the image_files config file) from the data/images directory to the images storage disk.';
 
     /**
      * Create a new command instance.
@@ -32,19 +33,18 @@ class CopyDefaultImages extends Command {
      * @return mixed
      */
     public function handle() {
-        //
         $this->info('***********************');
         $this->info('* COPY DEFAULT IMAGES *');
         $this->info('***********************'."\n");
 
         $images = config('lorekeeper.image_files');
-
         $sourceDir = base_path().'/data/images/';
-        $destDir = public_path().'/images/';
+        $disk = Storage::disk('images');
 
         foreach ($images as $image) {
             $this->line('Copying image: '.$image['filename']."\n");
-            copy($sourceDir.$image['filename'], $destDir.$image['filename']);
+            $content = file_get_contents($sourceDir.$image['filename']);
+            $disk->put($image['filename'], $content);
         }
         $this->line('Done!');
     }

@@ -5,8 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Services\FileManager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller {
+    /**
+     * Get the storage disk.
+     *
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     */
+    protected function disk() {
+        return Storage::disk('files');
+    }
+
     /**
      * Shows the files index.
      *
@@ -15,33 +25,27 @@ class FileController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getIndex($folder = null) {
-        $filesDirectory = public_path().'/files';
-
         // Create the files directory if it doesn't already exist.
-        if (!file_exists($filesDirectory)) {
+        if (!$this->disk()->exists('')) {
             // Create the directory.
-            if (!mkdir($filesDirectory, 0755, true)) {
-                $this->abort(500);
-
-                return false;
-            }
-            chmod($filesDirectory, 0755);
+            $this->disk()->makeDirectory('');
         }
-        if ($folder && !file_exists($filesDirectory.'/'.$folder)) {
+        if ($folder && !$this->disk()->exists($folder)) {
             abort(404);
         }
-        $dir = $filesDirectory.($folder ? '/'.$folder : '');
-        $files = scandir($dir);
+
+        $dir = $folder ?: '';
+        $allFiles = $this->disk()->files($dir);
         $fileList = [];
-        foreach ($files as $file) {
-            if (is_file($dir.'/'.$file)) {
-                $fileList[] = $file;
-            }
+        foreach ($allFiles as $file) {
+            $fileList[] = basename($file);
         }
+
+        $directories = $this->disk()->directories('');
 
         return view('admin.files.index', [
             'folder'  => $folder,
-            'folders' => glob(public_path().'/files/*', GLOB_ONLYDIR),
+            'folders' => $directories,
             'files'   => $fileList,
         ]);
     }
@@ -56,7 +60,7 @@ class FileController extends Controller {
     public function postCreateFolder(Request $request, FileManager $service) {
         $request->validate(['name' => 'required|alpha_dash']);
 
-        if ($service->createDirectory(public_path().'/files/'.$request->get('name'))) {
+        if ($service->createDirectory($request->get('name'))) {
             flash('Folder created successfully.')->success();
         } else {
             foreach ($service->errors()->getMessages()['error'] as $error) {
@@ -76,12 +80,12 @@ class FileController extends Controller {
      */
     public function postMoveFile(Request $request, FileManager $service) {
         $request->validate(['destination' => 'required']);
-        $oldDir = $request->get('folder');
-        $newDir = $request->get('destination');
+        $oldDir = $request->get('folder') ?: '';
+        $newDir = $request->get('destination') != 'root' ? $request->get('destination') : '';
 
         if ($service->moveFile(
-            public_path().'/files'.($oldDir ? '/'.$oldDir : ''),
-            public_path().'/files'.($newDir != 'root' ? '/'.$newDir : ''),
+            $oldDir,
+            $newDir,
             $request->get('filename')
         )) {
             flash('File moved successfully.')->success();
@@ -103,11 +107,11 @@ class FileController extends Controller {
      */
     public function postRenameFile(Request $request, FileManager $service) {
         $request->validate(['name' => 'required|regex:/^[a-z0-9\._-]+$/i']);
-        $dir = $request->get('folder');
+        $dir = $request->get('folder') ?: '';
         $oldName = $request->get('filename');
         $newName = $request->get('name');
 
-        if ($service->renameFile(public_path().'/files'.($dir ? '/'.$dir : ''), $oldName, $newName)) {
+        if ($service->renameFile($dir, $oldName, $newName)) {
             flash('File renamed successfully.')->success();
         } else {
             foreach ($service->errors()->getMessages()['error'] as $error) {
@@ -127,10 +131,11 @@ class FileController extends Controller {
      */
     public function postDeleteFile(Request $request, FileManager $service) {
         $request->validate(['filename' => 'required']);
-        $dir = $request->get('folder');
+        $dir = $request->get('folder') ?: '';
         $name = $request->get('filename');
+        $path = $dir ? $dir.'/'.$name : $name;
 
-        if ($service->deleteFile(public_path().'/files'.($dir ? '/'.$dir : '').'/'.$name)) {
+        if ($service->deleteFile($path)) {
             flash('File deleted successfully.')->success();
         } else {
             foreach ($service->errors()->getMessages()['error'] as $error) {
@@ -150,7 +155,7 @@ class FileController extends Controller {
      */
     public function postUploadFile(Request $request, FileManager $service) {
         $request->validate(['files.*' => 'file|required']);
-        $dir = $request->get('folder');
+        $dir = $request->get('folder') ?: '';
         $files = $request->file('files');
         foreach ($files as $file) {
             if ($service->uploadFile($file, $dir, $file->getClientOriginalName())) {
@@ -174,11 +179,10 @@ class FileController extends Controller {
      */
     public function postRenameFolder(Request $request, FileManager $service) {
         $request->validate(['name' => 'required|regex:/^[a-z0-9\._-]+$/i']);
-        $dir = public_path().'/files';
         $oldName = $request->get('folder');
         $newName = $request->get('name');
 
-        if ($service->renameDirectory($dir, $oldName, $newName)) {
+        if ($service->renameDirectory('', $oldName, $newName)) {
             flash('Folder renamed successfully.')->success();
         } else {
             foreach ($service->errors()->getMessages()['error'] as $error) {
@@ -202,7 +206,7 @@ class FileController extends Controller {
         $request->validate(['folder' => 'required']);
         $dir = $request->get('folder');
 
-        if ($service->deleteDirectory(public_path().'/files/'.$dir)) {
+        if ($service->deleteDirectory($dir)) {
             flash('Folder deleted successfully.')->success();
         } else {
             foreach ($service->errors()->getMessages()['error'] as $error) {
