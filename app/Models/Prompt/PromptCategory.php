@@ -3,6 +3,7 @@
 namespace App\Models\Prompt;
 
 use App\Models\Model;
+use Illuminate\Support\Facades\Storage;
 
 class PromptCategory extends Model {
     /**
@@ -63,7 +64,7 @@ class PromptCategory extends Model {
      * @return string
      */
     public function getImageDirectoryAttribute() {
-        return 'images/data/prompt-categories';
+        return 'data/prompt-categories';
     }
 
     /**
@@ -81,7 +82,7 @@ class PromptCategory extends Model {
      * @return string
      */
     public function getCategoryImagePathAttribute() {
-        return public_path($this->imageDirectory);
+        return $this->imageDirectory;
     }
 
     /**
@@ -94,7 +95,7 @@ class PromptCategory extends Model {
             return null;
         }
 
-        return asset($this->imageDirectory.'/'.$this->categoryImageFileName);
+        return Storage::disk('images')->url($this->imageDirectory.'/'.$this->categoryImageFileName);
     }
 
     /**

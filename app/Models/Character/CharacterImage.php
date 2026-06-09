@@ -8,6 +8,7 @@ use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class CharacterImage extends Model {
     use SoftDeletes;
@@ -175,7 +176,7 @@ class CharacterImage extends Model {
      * @return string
      */
     public function getImageDirectoryAttribute() {
-        return 'images/characters/'.floor($this->id / 1000);
+        return 'characters/'.floor($this->id / 1000);
     }
 
     /**
@@ -193,7 +194,7 @@ class CharacterImage extends Model {
      * @return string
      */
     public function getImagePathAttribute() {
-        return public_path($this->imageDirectory);
+        return $this->imageDirectory;
     }
 
     /**
@@ -202,7 +203,7 @@ class CharacterImage extends Model {
      * @return string
      */
     public function getImageUrlAttribute() {
-        return asset($this->imageDirectory.'/'.$this->imageFileName);
+        return Storage::disk('images')->url($this->imageDirectory.'/'.$this->imageFileName);
     }
 
     /**
@@ -221,7 +222,7 @@ class CharacterImage extends Model {
      * @return string
      */
     public function getFullsizeUrlAttribute() {
-        return asset($this->imageDirectory.'/'.$this->fullsizeFileName);
+        return Storage::disk('images')->url($this->imageDirectory.'/'.$this->fullsizeFileName);
     }
 
     /**
@@ -255,7 +256,7 @@ class CharacterImage extends Model {
      * @return string
      */
     public function getThumbnailPathAttribute() {
-        return $this->imagePath;
+        return $this->imageDirectory;
     }
 
     /**
@@ -264,6 +265,6 @@ class CharacterImage extends Model {
      * @return string
      */
     public function getThumbnailUrlAttribute() {
-        return asset($this->imageDirectory.'/'.$this->thumbnailFileName);
+        return Storage::disk('images')->url($this->imageDirectory.'/'.$this->thumbnailFileName);
     }
 }

@@ -17,8 +17,6 @@ use App\Models\User\UserItem;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Intervention\Image\Facades\Image;
 
 class DesignUpdateManager extends Service {
     /*
@@ -130,12 +128,12 @@ class DesignUpdateManager extends Service {
 
         try {
             // Require an image to be uploaded the first time, but if an image already exists, allow user to update the other details
-            if (!$isAdmin && !isset($data['image']) && !file_exists($request->imagePath.'/'.$request->imageFileName)) {
+            if (!$isAdmin && !isset($data['image']) && !$this->imageService()->exists($request->imageDirectory.'/'.$request->imageFileName)) {
                 throw new \Exception('Please upload a valid image.');
             }
 
             // Require a thumbnail to be uploaded the first time as well
-            if (!file_exists($request->thumbnailPath.'/'.$request->thumbnailFileName)) {
+            if (!$this->imageService()->exists($request->imageDirectory.'/'.$request->thumbnailFileName)) {
                 // If the crop dimensions are invalid...
                 // The crop function resizes the thumbnail to fit, so we only need to check that it's not null
                 if (!$isAdmin || ($isAdmin && isset($data['modify_thumbnail']))) {
@@ -594,23 +592,15 @@ class DesignUpdateManager extends Service {
             $request->rawFeatures()->update(['character_image_id' => $image->id, 'character_type' => 'Character']);
 
             // Make the image directory if it doesn't exist
-            if (!file_exists($image->imagePath)) {
-                // Create the directory.
-                if (!mkdir($image->imagePath, 0755, true)) {
-                    $this->setError('error', 'Failed to create image directory.');
-
-                    return false;
-                }
-                chmod($image->imagePath, 0755);
-            }
+            $this->imageService()->makeDirectory($image->imageDirectory);
 
             // Move the image file to the new image
-            File::move($request->imagePath.'/'.$request->imageFileName, $image->imagePath.'/'.$image->imageFileName);
+            $this->imageService()->move($request->imageDirectory.'/'.$request->imageFileName, $image->imageDirectory.'/'.$image->imageFileName);
             // Process and save the image
             (new CharacterManager)->processImage($image);
 
             // The thumbnail is already generated, so it can just be moved without processing
-            File::move($request->thumbnailPath.'/'.$request->thumbnailFileName, $image->thumbnailPath.'/'.$image->thumbnailFileName);
+            $this->imageService()->move($request->imageDirectory.'/'.$request->thumbnailFileName, $image->imageDirectory.'/'.$image->thumbnailFileName);
 
             // Set character data and other info such as cooldown time, resell cost and terms etc.
             // since those might be updated with the new design update
@@ -911,6 +901,10 @@ class DesignUpdateManager extends Service {
                     }
                 }
             }
+
+            // Delete associated image files
+            $this->imageService()->delete($request->imageDirectory.'/'.$request->imageFileName);
+            $this->imageService()->delete($request->imageDirectory.'/'.$request->thumbnailFileName);
 
             // Delete the request
             $request->delete();

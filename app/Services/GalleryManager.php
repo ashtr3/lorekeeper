@@ -15,7 +15,6 @@ use App\Models\Prompt\Prompt;
 use App\Models\User\User;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Intervention\Image\Facades\Image;
 
 class GalleryManager extends Service {
     /*
@@ -794,27 +793,27 @@ class GalleryManager extends Service {
      */
     private function processImage($data, $submission) {
         if (isset($submission->hash)) {
-            unlink($submission->imagePath.'/'.$submission->imageFileName);
-            unlink($submission->imagePath.'/'.$submission->thumbnailFileName);
+            $this->imageService()->delete($submission->imageDirectory.'/'.$submission->imageFileName);
+            $this->imageService()->delete($submission->imageDirectory.'/'.$submission->thumbnailFileName);
         }
+
         $submission->hash = randomString(10);
         $submission->extension = config('lorekeeper.settings.gallery_images_format') ?? $data['image']->getClientOriginalExtension();
 
         // Save image itself
-        $this->handleImage($data['image'], $submission->imagePath, $submission->imageFileName);
+        $this->handleImage($data['image'], $submission->imageDirectory, $submission->imageFileName);
 
-        $imageProperties = getimagesize($submission->imagePath.'/'.$submission->imageFileName);
-        if ($imageProperties[0] > 2000 || $imageProperties[1] > 2000) {
+        $image = $this->imageService()->makeImage($submission->imageDirectory.'/'.$submission->imageFileName);
+        if ($image->width() > 2000 || $image->height() > 2000) {
             // For large images (in terms of dimensions),
             // use imagick instead, as it's better at handling them
             Config::set('image.driver', 'imagick');
+            $image = $this->imageService()->makeImage($submission->imageDirectory.'/'.$submission->imageFileName);
         }
 
         if (config('lorekeeper.settings.gallery_images_cap') || config('lorekeeper.settings.gallery_images_format')) {
-            $image = Image::make($submission->imagePath.'/'.$submission->imageFileName);
-
             // Scale the image if desired/necessary
-            if (config('lorekeeper.settings.gallery_images_cap') && ($imageProperties[0] > config('lorekeeper.settings.gallery_images_cap') || $imageProperties[1] > config('lorekeeper.settings.gallery_images_cap'))) {
+            if (config('lorekeeper.settings.gallery_images_cap') && ($image->width() > config('lorekeeper.settings.gallery_images_cap') || $image->height() > config('lorekeeper.settings.gallery_images_cap'))) {
                 if ($image->width() > $image->height()) {
                     // Landscape
                     $image->resize(config('lorekeeper.settings.gallery_images_cap'), null, function ($constraint) {
@@ -831,16 +830,16 @@ class GalleryManager extends Service {
             }
 
             // Save the processed image
-            $image->save($submission->imagePath.'/'.$submission->imageFileName, 100, config('lorekeeper.settings.gallery_images_format'));
+            $this->imageService()->saveProcessedImage($image, $submission->imageDirectory.'/'.$submission->imageFileName, 100, config('lorekeeper.settings.gallery_images_format'));
         }
 
         // Process thumbnail
-        Image::make($submission->imagePath.'/'.$submission->imageFileName)
-            ->resize(null, config('lorekeeper.settings.masterlist_thumbnails.height'), function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            })
-            ->save($submission->thumbnailPath.'/'.$submission->thumbnailFileName);
+        $thumbnail = $this->imageService()->makeImage($submission->imageDirectory.'/'.$submission->imageFileName);
+        $thumbnail->resize(null, config('lorekeeper.settings.masterlist_thumbnails.height'), function ($contraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        $this->imageService()->saveProcessedImage($thumbnail, $submission->imageDirectory.'/'.$submission->thumbnailFileName);
 
         return $submission;
     }

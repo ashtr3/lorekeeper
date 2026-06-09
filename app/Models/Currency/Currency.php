@@ -3,6 +3,7 @@
 namespace App\Models\Currency;
 
 use App\Models\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Currency extends Model {
     /**
@@ -70,7 +71,7 @@ class Currency extends Model {
      * @return string
      */
     public function getImageDirectoryAttribute() {
-        return 'images/data/currencies';
+        return 'data/currencies';
     }
 
     /**
@@ -97,7 +98,7 @@ class Currency extends Model {
      * @return string
      */
     public function getCurrencyImagePathAttribute() {
-        return public_path($this->imageDirectory);
+        return $this->imageDirectory;
     }
 
     /**
@@ -106,7 +107,7 @@ class Currency extends Model {
      * @return string
      */
     public function getCurrencyIconPathAttribute() {
-        return public_path($this->imageDirectory);
+        return $this->imageDirectory;
     }
 
     /**
@@ -119,7 +120,7 @@ class Currency extends Model {
             return null;
         }
 
-        return asset($this->imageDirectory.'/'.$this->currencyImageFileName);
+        return Storage::disk('images')->url($this->imageDirectory.'/'.$this->currencyImageFileName);
     }
 
     /**
@@ -132,7 +133,7 @@ class Currency extends Model {
             return null;
         }
 
-        return asset($this->imageDirectory.'/'.$this->currencyIconFileName);
+        return Storage::disk('images')->url($this->imageDirectory.'/'.$this->currencyIconFileName);
     }
 
     /**********************************************************************************************

@@ -3,6 +3,7 @@
 namespace App\Models\Character;
 
 use App\Models\Model;
+use Illuminate\Support\Facades\Storage;
 
 class CharacterCategory extends Model {
     /**
@@ -101,7 +102,7 @@ class CharacterCategory extends Model {
      * @return string
      */
     public function getImageDirectoryAttribute() {
-        return 'images/data/character-categories';
+        return 'data/character-categories';
     }
 
     /**
@@ -119,7 +120,7 @@ class CharacterCategory extends Model {
      * @return string
      */
     public function getCategoryImagePathAttribute() {
-        return public_path($this->imageDirectory);
+        return $this->imageDirectory;
     }
 
     /**
@@ -128,11 +129,7 @@ class CharacterCategory extends Model {
      * @return string
      */
     public function getCategoryImageUrlAttribute() {
-        if (!$this->has_image) {
-            return null;
-        }
-
-        return asset($this->imageDirectory.'/'.$this->categoryImageFileName);
+        return Storage::disk('images')->url($this->imageDirectory.'/'.$this->categoryImageFileName);
     }
 
     /**

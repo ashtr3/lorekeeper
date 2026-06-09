@@ -4,6 +4,7 @@ namespace App\Models\Shop;
 
 use App\Models\Item\Item;
 use App\Models\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Shop extends Model {
     /**
@@ -84,7 +85,7 @@ class Shop extends Model {
      * @return string
      */
     public function getImageDirectoryAttribute() {
-        return 'images/data/shops';
+        return 'data/shops';
     }
 
     /**
@@ -102,7 +103,7 @@ class Shop extends Model {
      * @return string
      */
     public function getShopImagePathAttribute() {
-        return public_path($this->imageDirectory);
+        return $this->imageDirectory;
     }
 
     /**
@@ -115,7 +116,7 @@ class Shop extends Model {
             return null;
         }
 
-        return asset($this->imageDirectory.'/'.$this->shopImageFileName);
+        return Storage::disk('images')->url($this->imageDirectory.'/'.$this->shopImageFileName);
     }
 
     /**

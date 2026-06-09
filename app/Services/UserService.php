@@ -15,7 +15,6 @@ use App\Models\User\User;
 use App\Models\User\UserUpdateLog;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
@@ -289,28 +288,19 @@ class UserService extends Service {
             if (!$avatar) {
                 throw new \Exception('Please upload a file.');
             }
+
             $filename = $user->id.'.'.$avatar->getClientOriginalExtension();
 
             if ($user->avatar != 'default.jpg') {
-                $file = 'images/avatars/'.$user->avatar;
-                // $destinationPath = 'uploads/' . $id . '/';
-
-                if (File::exists($file)) {
-                    if (!unlink($file)) {
-                        throw new \Exception('Failed to unlink old avatar.');
-                    }
-                }
+                $this->imageService()->delete('avatars/'.$user->avatar);
             }
 
             // Checks if uploaded file is a GIF
             if ($avatar->getClientOriginalExtension() == 'gif') {
-                if (!$avatar->move(public_path('images/avatars'), $filename)) {
-                    throw new \Exception('Failed to move file.');
-                }
+                $this->imageService()->storeFieldAs('avatars', $avatar, $filename);
             } else {
-                if (!Image::make($avatar)->resize(150, 150)->save(public_path('images/avatars/'.$filename))) {
-                    throw new \Exception('Failed to process avatar.');
-                }
+                $processed = Image::make($avatar)->resize(150, 150)->encode();
+                $this->imageService()->store('avatars/'.$filename, (string) $processed);
             }
 
             $user->avatar = $filename;
