@@ -339,7 +339,7 @@ class CharacterManager extends Service {
     public function cropThumbnail($points, $characterImage, $isMyo = false) {
         $filePath = $characterImage->imageDirectory.'/'.$characterImage->imageFileName;
         $image = $this->imageService()->makeImage($filePath);
-        
+
         if ($image->width() > 2000 || $image->height() > 2000) {
             // For large images (in terms of dimensions),
             // use imagick instead, as it's better at handling them

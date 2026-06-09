@@ -71,14 +71,9 @@ function breadcrumbs($links) {
 
 /**
  * Returns the Storage-based URL for a static site image.
- * 
- * @param string $filename
- * 
- * @return string
  */
-function site_image_url(string $filename): string
-{
-    return \Illuminate\Support\Facades\Storage::disk('images')->url($filename);
+function site_image_url(string $filename): string {
+    return Illuminate\Support\Facades\Storage::disk('images')->url($filename);
 }
 
 /**

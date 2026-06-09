@@ -9,15 +9,6 @@ use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller {
     /**
-     * Get the storage disk.
-     *
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
-     */
-    protected function disk() {
-        return Storage::disk('files');
-    }
-
-    /**
      * Shows the files index.
      *
      * @param string $folder
@@ -274,5 +265,14 @@ class FileController extends Controller {
         }
 
         return redirect()->back();
+    }
+
+    /**
+     * Get the storage disk.
+     *
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     */
+    protected function disk() {
+        return Storage::disk('files');
     }
 }

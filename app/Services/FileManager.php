@@ -6,25 +6,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class FileManager extends Service {
-    /*
-    |--------------------------------------------------------------------------
-    | File Manager
-    |--------------------------------------------------------------------------
-    |
-    | Handles uploading and manipulation of files.
-    |
-    */
-
-    /**
-     * Get the Storage disk instance.
-     * 
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
-     */
-    protected function disk(): \Illuminate\Contracts\Filesystem\Filesystem
-    {
-        return Storage::disk('files');
-    }
-
     /**
      * Creates a directory.
      *
@@ -110,7 +91,7 @@ class FileManager extends Service {
     public function uploadFile($file, $dir, $name, $isFileManager = true) {
         $disk = $isFileManager ? $this->disk() : $this->imageService()->disk();
         $disk->putFileAs($dir ?: '', $file, $name);
-        
+
         return true;
     }
 
@@ -190,5 +171,20 @@ class FileManager extends Service {
         $this->disk()->move($from, $to);
 
         return true;
+    }
+    /*
+    |--------------------------------------------------------------------------
+    | File Manager
+    |--------------------------------------------------------------------------
+    |
+    | Handles uploading and manipulation of files.
+    |
+    */
+
+    /**
+     * Get the Storage disk instance.
+     */
+    protected function disk(): \Illuminate\Contracts\Filesystem\Filesystem {
+        return Storage::disk('files');
     }
 }

@@ -115,10 +115,6 @@ abstract class Service {
         return $this->user ? $this->user : Auth::user();
     }
 
-    protected function imageService(): ImageService {
-        return app(ImageService::class);
-    }
-
     // 1. Old image exists, want to move it to a new location.
     // 2. Given new image, want to upload it to new location.
     //    (old image may or may not exist)
@@ -227,6 +223,10 @@ abstract class Service {
         }
     }
 
+    protected function imageService(): ImageService {
+        return app(ImageService::class);
+    }
+
     /**
      * Calls a service method and injects the required dependencies.
      *
@@ -308,7 +308,7 @@ abstract class Service {
     // Moves an old image within the same directory.
     private function moveImage($dir, $name, $oldName, $copy = false) {
         $from = $dir.'/'.$oldName;
-        $to = $dir.'/'.$name;    
+        $to = $dir.'/'.$name;
 
         if ($copy) {
             $this->imageService()->copy($from, $to);
