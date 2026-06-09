@@ -7,7 +7,6 @@ use App\Models\AdminLog;
 use App\Models\Currency\Currency;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\MessageBag;
 
 abstract class Service {
@@ -116,6 +115,10 @@ abstract class Service {
         return $this->user ? $this->user : Auth::user();
     }
 
+    protected function imageService(): ImageService {
+        return app(ImageService::class);
+    }
+
     // 1. Old image exists, want to move it to a new location.
     // 2. Given new image, want to upload it to new location.
     //    (old image may or may not exist)
@@ -145,7 +148,7 @@ abstract class Service {
     }
 
     public function deleteImage($dir, $name) {
-        unlink($dir.'/'.$name);
+        $this->imageService()->delete($dir.'/'.$name);
     }
 
     /**
@@ -304,10 +307,13 @@ abstract class Service {
 
     // Moves an old image within the same directory.
     private function moveImage($dir, $name, $oldName, $copy = false) {
+        $from = $dir.'/'.$oldName;
+        $to = $dir.'/'.$name;    
+
         if ($copy) {
-            File::copy($dir.'/'.$oldName, $dir.'/'.$name);
+            $this->imageService()->copy($from, $to);
         } else {
-            File::move($dir.'/'.$oldName, $dir.'/'.$name);
+            $this->imageService()->move($from, $to);
         }
 
         return true;
@@ -315,21 +321,14 @@ abstract class Service {
 
     // Moves an uploaded image into a directory, checking if it exists.
     private function saveImage($image, $dir, $name, $copy = false) {
-        if (!file_exists($dir)) {
-            // Create the directory.
-            if (!mkdir($dir, 0755, true)) {
-                $this->setError('error', 'Failed to create image directory.');
+        $this->imageService()->makeDirectory($dir);
 
-                return false;
-            }
-            chmod($dir, 0755);
-        }
-        if ($copy) {
-            File::copy($image, $dir.'/'.$name);
+        if (is_string($image) && file_exists($image)) {
+            $content = file_get_contents($image);
+            $this->imageService()->store($dir.'/'.$name, $content);
         } else {
-            File::move($image, $dir.'/'.$name);
+            $this->imageService()->storeFileAs($dir, $image, $name);
         }
-        chmod($dir.'/'.$name, 0755);
 
         return true;
     }

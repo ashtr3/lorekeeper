@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class FileManager extends Service {
     /*
@@ -15,6 +16,16 @@ class FileManager extends Service {
     */
 
     /**
+     * Get the Storage disk instance.
+     * 
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     */
+    protected function disk(): \Illuminate\Contracts\Filesystem\Filesystem
+    {
+        return Storage::disk('files');
+    }
+
+    /**
      * Creates a directory.
      *
      * @param string $dir
@@ -22,17 +33,13 @@ class FileManager extends Service {
      * @return bool
      */
     public function createDirectory($dir) {
-        if (file_exists($dir)) {
-            $this->setError('Folder already exists.');
-        } else {
-            // Create the directory.
-            if (!mkdir($dir, 0755, true)) {
-                $this->setError('Failed to create folder.');
+        if ($this->disk()->exists($dir)) {
+            $this->setError('error', 'Folder already exists.');
 
-                return false;
-            }
-            chmod($dir, 0755);
+            return false;
         }
+        // Create the directory.
+        $this->disk()->makeDirectory($dir);
 
         return true;
     }
@@ -45,18 +52,17 @@ class FileManager extends Service {
      * @return bool
      */
     public function deleteDirectory($dir) {
-        if (!file_exists($dir)) {
+        if ($this->disk()->exists($dir)) {
             $this->setError('error', 'Directory does not exist.');
 
             return false;
         }
-        $files = array_diff(scandir($dir), ['.', '..']);
-        if (count($files)) {
+        if (count($this->disk()->files($dir)) > 0) {
             $this->setError('error', 'Cannot delete a folder that contains files.');
 
             return false;
         }
-        rmdir($dir);
+        $this->disk()->deleteDirectory($dir);
 
         return true;
     }
@@ -71,18 +77,22 @@ class FileManager extends Service {
      * @return bool
      */
     public function renameDirectory($dir, $oldName, $newName) {
-        if (!file_exists($dir.'/'.$oldName)) {
+        $oldPath = $dir ? $dir.'/'.$oldName : $oldName;
+        $newPath = $dir ? $dir.'/'.$newName : $newName;
+
+        if (!$this->disk()->exists($oldPath)) {
             $this->setError('error', 'Directory does not exist.');
 
             return false;
         }
-        $files = array_diff(scandir($dir.'/'.$oldName), ['.', '..']);
-        if (count($files)) {
-            $this->setError('error', 'Cannot delete a folder that contains files.');
+        if (count($this->disk()->files($oldPath)) > 0) {
+            $this->setError('error', 'Cannot rename a folder that contains files.');
 
             return false;
         }
-        rename($dir.'/'.$oldName, $dir.'/'.$newName);
+
+        $this->disk()->makeDirectory($newPath);
+        $this->disk()->deleteDirectory($oldPath);
 
         return true;
     }
@@ -98,13 +108,9 @@ class FileManager extends Service {
      * @return bool
      */
     public function uploadFile($file, $dir, $name, $isFileManager = true) {
-        $directory = public_path().($isFileManager ? '/files'.($dir ? '/'.$dir : '') : '/images');
-        if (!file_exists($directory)) {
-            $this->setError('error', 'Folder does not exist.');
-        }
-        File::move($file, $directory.'/'.$name);
-        chmod($directory.'/'.$name, 0755);
-
+        $disk = $isFileManager ? $this->disk() : $this->imageService()->disk();
+        $disk->putFileAs($dir ?: '', $file, $name);
+        
         return true;
     }
 
@@ -130,12 +136,12 @@ class FileManager extends Service {
      * @return bool
      */
     public function deleteFile($path) {
-        if (!file_exists($path)) {
+        if (!$this->disk()->exists($path)) {
             $this->setError('error', 'File does not exist.');
 
             return false;
         }
-        unlink($path);
+        $this->disk()->delete($path);
 
         return true;
     }
@@ -150,16 +156,15 @@ class FileManager extends Service {
      * @return bool
      */
     public function moveFile($oldDir, $newDir, $name) {
-        if (!file_exists($oldDir.'/'.$name)) {
+        $from = $oldDir ? $oldDir.'/'.$name : $name;
+        $to = $newDir ? $newDir.'/'.$name : $name;
+
+        if (!$this->disk()->exists($from)) {
             $this->setError('error', 'File does not exist.');
 
             return false;
-        } elseif (!file_exists($newDir)) {
-            $this->setError('error', 'Destination does not exist.');
-
-            return false;
         }
-        rename($oldDir.'/'.$name, $newDir.'/'.$name);
+        $this->disk()->move($from, $to);
 
         return true;
     }
@@ -174,12 +179,15 @@ class FileManager extends Service {
      * @return bool
      */
     public function renameFile($dir, $oldName, $newName) {
-        if (!file_exists($dir.'/'.$oldName)) {
+        $from = $dir ? $dir.'/'.$oldName : $oldName;
+        $to = $dir ? $dir.'/'.$newName : $newName;
+
+        if (!$this->disk()->exists($from)) {
             $this->setError('error', 'File does not exist.');
 
             return false;
         }
-        rename($dir.'/'.$oldName, $dir.'/'.$newName);
+        $this->disk()->move($from, $to);
 
         return true;
     }
