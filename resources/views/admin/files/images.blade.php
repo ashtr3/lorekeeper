@@ -15,15 +15,15 @@
         <div class="card mb-3">
             <div class="card-body">
                 <div class="d-flex flex-column flex-sm-row">
-                    @if (file_exists(public_path('images/' . $image['filename'])))
-                        <img src="{{ asset('images/' . $image['filename'] . '?v=' . filemtime(public_path('images/' . $image['filename']))) }}" class="mw-100" alt="Site image: {{ $image['name'] }}" />
+                    @if (Storage::disk('images')->exists($image['filename']))
+                        <img src="{{ site_image_url($image['filename']) . '?v=' . Storage::disk('images')->lastModified($image['filename']) }}" class="mw-100" alt="Site image: {{ $image['name'] }}" />
                     @else
                         No image found.
                         <br>
                         Please upload an image.
                     @endif
                     <div style="width: 100%;">
-                        <h3 class="card-heading">{{ $image['name'] }} <a href="{{ asset('images/' . $image['filename']) }}" class="btn btn-info btn-sm float-right">View Current</a></h3>
+                        <h3 class="card-heading">{{ $image['name'] }} <a href="{{ site_image_url($image['filename']) }}" class="btn btn-info btn-sm float-right">View Current</a></h3>
                         <p>{{ $image['description'] }}</p>
                         {!! Form::open(['url' => 'admin/images/upload', 'files' => true]) !!}
                         <div class="d-flex">
