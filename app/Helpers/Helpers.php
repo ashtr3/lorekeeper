@@ -71,23 +71,18 @@ function breadcrumbs($links) {
 
 /**
  * Get IANA timezone identifier from an abbreviation.
- * 
- * @param string $abbreviation
- * 
- * @return ?string
  */
-function resolve_timezone_abbreviation(string $abbreviation): ?string
-{
+function resolve_timezone_abbreviation(string $abbreviation): ?string {
     $abbreviation = strtoupper($abbreviation);
     $abbreviations = DateTimeZone::listAbbreviations();
-    
+
     foreach ($abbreviations as $abbr => $timezones) {
         if (strtoupper($abbr) === $abbreviation && !empty($timezones)) {
             // Returns the first matching timezone
             return $timezones[0]['timezone_id'];
         }
     }
-    
+
     return null;
 }
 
@@ -101,7 +96,7 @@ function resolve_timezone_abbreviation(string $abbreviation): ?string
  */
 function get_display_timezone(): string {
     $value = config('lorekeeper.settings.timezone_display');
-    
+
     if ($value === 'auto') {
         $cookie = request()->cookie('timezone');
         if ($cookie) {
@@ -113,6 +108,7 @@ function get_display_timezone(): string {
                 return $mapped;
             }
         }
+
         return 'UTC';
     }
 
