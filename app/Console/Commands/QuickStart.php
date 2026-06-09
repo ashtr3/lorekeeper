@@ -9,8 +9,7 @@ use App\Services\UserService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
-class QuickStart extends Command
-{
+class QuickStart extends Command {
     /**
      * The name and signature of the console command.
      *
@@ -28,8 +27,7 @@ class QuickStart extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
-    {
+    public function handle() {
         $this->info('');
         $this->info('=================================');
         $this->info(' Lorekeeper Quick Start');
@@ -133,8 +131,6 @@ class QuickStart extends Command
 
     /**
      * Generate an application key if one is not already set.
-     *
-     * @return bool
      */
     protected function generateKeyIfNeeded(): bool {
         if (config('app.key') !== null && config('app.key') !== '') {
@@ -154,8 +150,6 @@ class QuickStart extends Command
 
     /**
      * Run database migrations.
-     *
-     * @return bool
      */
     protected function runMigrations(): bool {
         $exitCode = $this->call('migrate', ['--force' => true]);
@@ -171,8 +165,6 @@ class QuickStart extends Command
      * Create the admin user with ranks and optional alias.
      *
      * @param array $credentials Array with keys: name, email, password, alias (nullable)
-     *
-     * @return bool
      */
     protected function createAdminUser(array $credentials): bool {
         // Check if ranks exist; if not, create default ranks
