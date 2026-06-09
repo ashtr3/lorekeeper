@@ -32,6 +32,6 @@ return [
      *
      * Comments will be soft deleted using laravels "softDeletes" trait.
      */
-    'soft_deletes' => true,
+    'soft_deletes' => env('COMMENT_ALLOW_SOFT_DELETES', true),
 
 ];

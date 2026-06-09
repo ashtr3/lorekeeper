@@ -24,7 +24,7 @@ return [
     | Do not change this value!
     |
     */
-    'version'                                           => '3.0.0',
+    'version'                                           => env('APP_VERSION', '3.0.0'),
 
     /*
     |--------------------------------------------------------------------------
@@ -36,7 +36,7 @@ return [
     | site wherever the name needs to be displayed.
     |
     */
-    'site_name'                                         => 'Lorekeeper',
+    'site_name'                                         => env('APP_NAME', 'Lorekeeper'),
 
     /*
     |--------------------------------------------------------------------------
@@ -48,7 +48,7 @@ return [
     | It is not, however, displayed on the site itself. This should be kept short and snappy!
     |
     */
-    'site_desc'                                         => 'A Lorekeeper ARPG',
+    'site_desc'                                         => env('APP_DESC', 'A Lorekeeper ARPG'),
 
     /*
     |--------------------------------------------------------------------------
@@ -63,7 +63,7 @@ return [
     | will still work provided users link the relevant alias(es).
     |
     */
-    'require_alias'                                     => 1,
+    'require_alias'                                     => env('REQUIRE_ALIAS', 1),
 
     /*
     |--------------------------------------------------------------------------
@@ -122,13 +122,13 @@ return [
     |       Default: 0/Disabled, 1 to enable.
     |
     */
-    'character_codes'                                   => '{category}-{number}',
-    'character_number_digits'                           => 3,
-    'character_pull_number'                             => 'all',
+    'character_codes'                                   => env('CHARACTER_CODE_FORMAT', '{category}-{number}'),
+    'character_number_digits'                           => env('CHARACTER_CODE_DIGIT_LEN', 3),
+    'character_pull_number'                             => env('CHARACTER_CODE_GROUPING', 'all'),
 
-    'reset_character_status_on_transfer'                => 0,
-    'reset_character_profile_on_transfer'               => 0,
-    'clear_myo_slot_name_on_approval'                   => 0,
+    'reset_character_status_on_transfer'                => env('RESET_CHARACTER_STATUS_ON_TRANSFER', 0),
+    'reset_character_profile_on_transfer'               => env('RESET_CHARACTER_PROFILE_ON_TRANSFER', 0),
+    'clear_myo_slot_name_on_approval'                   => env('RESET_MYO_NAME_ON_APPROVAL', 0),
 
     /*
     |--------------------------------------------------------------------------
@@ -154,13 +154,13 @@ return [
     | 'masterlist_image_background' => '#ffffff',
     |
     */
-    'watermark_masterlist_images'                       => 0,
+    'watermark_masterlist_images'                       => env('MASTERLIST_IMAGE_WATERMARK', 0),
 
-    'masterlist_image_dimension'                        => 0,
-    'masterlist_image_dimension_target'                 => 'shorter',
+    'masterlist_image_dimension'                        => env('MASTERLIST_IMAGE_DIMENSION', 0),
+    'masterlist_image_dimension_target'                 => env('MASTERLIST_IMAGE_DIMENSION_TARGET', 'shorter'),
 
-    'masterlist_image_format'                           => null,
-    'masterlist_image_background'                       => '#ffffff',
+    'masterlist_image_format'                           => env('MASTERLIST_IMAGE_FORMAT', null),
+    'masterlist_image_background'                       => env('MASTERLIST_IMAGE_BACKGROUND', '#ffffff'),
 
     /*
     |--------------------------------------------------------------------------
@@ -179,9 +179,9 @@ return [
     | 'masterlist_fullsizes_format' => null,
     |
     */
-    'store_masterlist_fullsizes'                        => 0,
-    'masterlist_fullsizes_cap'                          => 0,
-    'masterlist_fullsizes_format'                       => null,
+    'store_masterlist_fullsizes'                        => env('MASTERLIST_FULLSIZE_STORE', 0),
+    'masterlist_fullsizes_cap'                          => env('MASTERLIST_FULLSIZE_CAP', 0),
+    'masterlist_fullsizes_format'                       => env('MASTERLIST_FULLSIZE_FORMAT', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -197,11 +197,11 @@ return [
     |
     */
     'masterlist_thumbnails'                             => [
-        'width'  => 200,
-        'height' => 200,
+        'width'  => env('MASTERLIST_THUMBNAIL_WIDTH', 200),
+        'height' => env('MASTERLIST_THUMBNAIL_HEIGHT', 200),
     ],
 
-    'watermark_masterlist_thumbnails'                   => 0,
+    'watermark_masterlist_thumbnails'                   => env('MASTERLIST_THUMBNAIL_WATERMARK', 0),
 
     /*
     |--------------------------------------------------------------------------
@@ -224,9 +224,9 @@ return [
     |
     */
 
-    'watermark_resizing'                                => 0,
-    'watermark_percent'                                 => 0.9,
-    'watermark_resizing_thumb'                          => 0,
+    'watermark_resizing'                                => env('WATERMARK_RESIZE', 0),
+    'watermark_percent'                                 => env('WATERMARK_PERCENT', 0.9),
+    'watermark_resizing_thumb'                          => env('WATERMARK_RESIZE_THUMB', 0),
 
     /*
     |--------------------------------------------------------------------------
@@ -242,7 +242,7 @@ return [
     | Simply change to "1" to enable, or keep at "0" to disable.
     |
     */
-    'masterlist_image_automation'                       => 0,
+    'masterlist_image_automation'                       => env('MASTERLIST_THUMBNAIL_AUTOMATE', 0),
 
     /*
     |--------------------------------------------------------------------------
@@ -261,7 +261,7 @@ return [
     | 1: Hides the thumbnail upload for users.
     |
     */
-    'masterlist_image_automation_hide_manual_thumbnail' => 0,
+    'masterlist_image_automation_hide_manual_thumbnail' => env('MASTERLIST_THUMBNAIL_AUTOMATE_HIDE_MANUAL', 0),
 
     /*
     |--------------------------------------------------------------------------
@@ -279,8 +279,8 @@ return [
     | 'gallery_images_format' => null,
     |
     */
-    'gallery_images_cap'    => 0,
-    'gallery_images_format' => null,
+    'gallery_images_cap'    => env('GALLERY_IMAGE_CAP', 0),
+    'gallery_images_format' => env('GALLERY_IMAGE_FORMAT', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -292,7 +292,7 @@ return [
     | there are limits on data storage, so raising this is not recommended.
     |
     */
-    'trade_asset_limit'                                 => 20,
+    'trade_asset_limit'                                 => env('TRADE_ASSET_LIMIT', 20),
 
     /*
     |--------------------------------------------------------------------------
@@ -303,7 +303,7 @@ return [
     | single shop transaction.
     |
     */
-    'default_purchase_limit'                            => 99,
+    'default_purchase_limit'                            => env('DEFAULT_PURCHASE_LIMIT', 99),
 
     /*
     |--------------------------------------------------------------------------
@@ -313,7 +313,7 @@ return [
     | Symbol for the (real world) currency used for sales posts.
     |
     */
-    'currency_symbol'                                   => '$',
+    'currency_symbol'                                   => env('CURRENCY_SYMBOL', '$'),
 
     /*
     |--------------------------------------------------------------------------
@@ -328,8 +328,8 @@ return [
     |
     */
 
-    'allow_username_changes'                            => 0,
-    'username_change_cooldown'                          => 30,
+    'allow_username_changes'                            => env('ALLOW_USERNAME_CHANGES', 0),
+    'username_change_cooldown'                          => env('USERNAME_CHANGE_COOLDOWN', 30),
 
     /*
     |--------------------------------------------------------------------------
@@ -340,5 +340,26 @@ return [
     | 1: Use WYSIWYG editor. 0: Use markdown / plain text editor.
     |
     */
-    'wysiwyg_comments'                                  => 1,
+    'wysiwyg_comments'                                  => env('COMMENTS_WYSIWYG', 1),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Timezone Display
+    |--------------------------------------------------------------------------
+    |
+    | Controls how timestamps are displayed throughout the site.
+    | All timestamps are stored in UTC internally; this setting only affects
+    | how they are presented to users.
+    |
+    | Valid values:
+    |   "UTC"   - Display timestamps in UTC (default, preserves current behavior)
+    |   "auto"  - Detect the user's browser timezone via cookie and display
+    |             timestamps in their local time
+    |   Any valid IANA timezone identifier - Display timestamps in that fixed
+    |             timezone (e.g., "America/New_York", "Europe/London", "Asia/Tokyo")
+    |
+    | If an invalid value is provided, the system will fall back to UTC.
+    |
+    */
+    'timezone_display'                                  => env('APP_TIMEZONE', 'UTC'),
 ];
