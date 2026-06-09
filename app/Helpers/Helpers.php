@@ -70,6 +70,67 @@ function breadcrumbs($links) {
 }
 
 /**
+ * Get IANA timezone identifier from an abbreviation.
+ * 
+ * @param string $abbreviation
+ * 
+ * @return ?string
+ */
+function resolve_timezone_abbreviation(string $abbreviation): ?string
+{
+    $abbreviation = strtoupper($abbreviation);
+    $abbreviations = DateTimeZone::listAbbreviations();
+    
+    foreach ($abbreviations as $abbr => $timezones) {
+        if (strtoupper($abbr) === $abbreviation && !empty($timezones)) {
+            // Returns the first matching timezone
+            return $timezones[0]['timezone_id'];
+        }
+    }
+    
+    return null;
+}
+
+/**
+ * Resolves the display timezone based on configuration.
+ *
+ * Reads the 'lorekeeper.settings.timezone_display' config value and returns
+ * a valid IANA timezone identifier for use in timestamp display.
+ *
+ * @return string A valid IANA timezone identifier
+ */
+function get_display_timezone(): string {
+    $value = config('lorekeeper.settings.timezone_display');
+    
+    if ($value === 'auto') {
+        $cookie = request()->cookie('timezone');
+        if ($cookie) {
+            if (in_array($cookie, timezone_identifiers_list())) {
+                return $cookie;
+            }
+            $mapped = resolve_timezone_abbreviation($cookie);
+            if ($mapped) {
+                return $mapped;
+            }
+        }
+        return 'UTC';
+    }
+
+    if ($value && in_array($value, timezone_identifiers_list())) {
+        return $value;
+    }
+
+    if ($value) {
+        $mapped = resolve_timezone_abbreviation($value);
+        if ($mapped) {
+            return $mapped;
+        }
+    }
+
+    return 'UTC';
+}
+
+/**
  * Formats the timestamp to a standard format.
  *
  * @param Illuminate\Support\Carbon\Carbon $timestamp
@@ -78,11 +139,17 @@ function breadcrumbs($links) {
  * @return string
  */
 function format_date($timestamp, $showTime = true) {
-    return $timestamp->format('j F Y'.($showTime ? ', H:i:s' : '')).($showTime ? ' <abbr data-toggle="tooltip" title="UTC'.$timestamp->timezone->toOffsetName().'">'.strtoupper($timestamp->timezone->getAbbreviatedName($timestamp->isDST())).'</abbr>' : '');
+    $displayTimezone = get_display_timezone();
+    $display = (clone $timestamp)->setTimezone($displayTimezone);
+
+    return $display->format('j F Y'.($showTime ? ', H:i:s' : '')).($showTime ? ' <abbr data-toggle="tooltip" title="UTC'.$display->timezone->toOffsetName().'">'.strtoupper($display->timezone->getAbbreviatedName($display->isDST())).'</abbr>' : '');
 }
 
 function pretty_date($timestamp, $showTime = true) {
-    return '<abbr data-toggle="tooltip" title="'.$timestamp->format('F j Y'.($showTime ? ', H:i:s' : '')).' '.strtoupper($timestamp->timezone->getAbbreviatedName($timestamp->isDST())).'">'.$timestamp->diffForHumans().'</abbr>';
+    $displayTimezone = get_display_timezone();
+    $display = (clone $timestamp)->setTimezone($displayTimezone);
+
+    return '<abbr data-toggle="tooltip" title="'.$display->format('F j Y'.($showTime ? ', H:i:s' : '')).' '.strtoupper($display->timezone->getAbbreviatedName($display->isDST())).'">'.$timestamp->diffForHumans().'</abbr>';
 }
 
 /**

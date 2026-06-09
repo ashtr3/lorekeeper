@@ -82,6 +82,18 @@
         <link href="{{ asset('css/custom.css') . '?v=' . filemtime(public_path('css/custom.css')) }}" rel="stylesheet">
     @endif
 
+    @if (config('lorekeeper.settings.timezone_display') === 'auto')
+        <script>
+            if (!document.cookie.match(/(?:^|;\s*)timezone=/)) {
+                const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                if (tz) {
+                    document.cookie = `timezone=${tz};path=/;max-age=31536000;SameSite=Lax`;
+                    location.reload();
+                }
+            }
+        </script>
+    @endif
+
     @include('feed::links')
 </head>
 
